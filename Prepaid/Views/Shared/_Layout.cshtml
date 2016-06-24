@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>系统首页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+</head>
+<body>
+    @RenderBody()
+    @*消息确认框*@
+    <div class="modal fade" id="commontipConfirmModal">
+        <div class="modal-dialog" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-exclamation-triangle"></i><span style="margin-left: 2px;">警告</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p id="showConfirmTitle"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" style="height: 36px;"
+                            data-dismiss="modal" id="cancelConfirmPop">
+                        取消
+                    </button>
+                    <button type="button" class="btn  btn-primary" style="height: 36px;" id="confirmPop">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*消息提示框*@
+    <div class="modal fade" id="commontiperrModal">
+        <div class="modal-dialog" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="model-msg-title"><i class="fa fa-times-circle"></i><span style="margin-left: 2px;">错误提示</span></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="showerrTitle" style="font-size: 16px;"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="modelClose" style="height: 36px;"
+                            data-dismiss="modal">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
