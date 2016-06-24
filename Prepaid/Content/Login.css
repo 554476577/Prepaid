@@ -1,0 +1,45 @@
+﻿body {
+    background-color:#6dc1e6;
+}
+.container {
+    width:400px;
+    position:relative;
+    margin-top:200px;
+    background-color:#eee;
+    border-radius:10px;
+}
+h2 {
+    margin-left:60px;
+    color:#999;
+}
+input.relative {
+    padding:5px 10px 5px 50px;
+    font-size:13px;
+    background-color: transparent;
+    border-radius:10px;
+    height:40px;
+    margin-bottom:20px;
+}
+.icons-log {
+    position:absolute;
+    top:70px;
+    left:30px;
+    color:#6da38c;
+}
+.icons-pwd {
+    position:absolute;
+    top:132px;
+    left:30px;
+    color:#6da38c;
+}
+.btn.btn-log {
+    width:370px;
+    font-size:16px;
+    border-radius:10px;
+    color:#28a9e9;
+    font-weight:bold;
+    letter-spacing:15px;
+    height:40px;
+    padding-top:7px;
+    margin-bottom:20px;
+}
