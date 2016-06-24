@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BdlIBMS.Repositories
+namespace Prepaid.Repositories
 {
     /// <summary>
     /// 仓库接口。提供对模型数据的增删改查。

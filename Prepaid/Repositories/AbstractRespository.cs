@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace BdlIBMS.Repositories
+namespace Prepaid.Repositories
 {
     /// <summary>
     /// 仓库抽象类。对模型数据的增删改查作了一个默认的实现。
