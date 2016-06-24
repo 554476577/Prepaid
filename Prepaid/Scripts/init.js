@@ -1,4 +1,4 @@
-var rootUrl = "http://localhost:3893/";
+var rootUrl = "http://localhost:3567/";
 var app = angular.module('app', [], function ($httpProvider) {
     //for (var index in activeIndexs) {
     //    $("#" + activeIndexs[index]).addClass("active");
