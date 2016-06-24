@@ -1,0 +1,100 @@
+﻿thead, label {
+    font-size: 13px;
+    font-weight: bold;
+}
+tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown-menu>li>a {
+    font-size: 13px;
+}
+/*点位信息与联动信息*/
+.group-style {
+    float:left;
+    width:46%;
+    margin-left:10px;
+    margin-bottom:8px;
+}
+.div-three {
+    float:left;
+}
+.form-div {
+    height:484px;
+    margin-bottom:0;
+}
+.group-style.group-select {
+    margin-top:25px;
+}
+.btn-special {
+    margin-right:30px;
+}
+.btn-special2 {
+    margin-right:30px;
+}
+.form-group.checkbox {
+    margin-top:25px;
+}
+.content-div {
+    padding: 10px 15px;
+    font-size: 13px;
+}
+
+.btn.btn-style {
+    padding: 3px 6px;
+    font-size: 13px;
+}
+
+.btn.btn-add {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.btn.btn-four {
+    padding: 3px 6px;
+    font-size: 13px;
+}
+
+.btn-default.btn-style {
+    background-color: #5cb85c;
+    color: #FFF;
+}
+
+.btn.btn-top {
+    float: right;
+}
+
+.m-pagination.m-center {
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.big{
+    font-weight:bold;
+}
+.point-table {
+    background-color: #FFF;
+    border: none;
+    color: #565;
+    font: 13px arial;
+}
+
+.point-table caption {
+    border-bottom: 2px solid #B3DE94;
+}
+.point-table tr.even td {
+    background-color:#fff;
+}
+.point-table tbody td {
+    background-color:#f1f1f1;
+    border-bottom: 2px solid #fff;
+    border-top: 3px solid #FFFFFF;
+    padding: 5px;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-size:13px;
+}
+input:-ms-input-placeholder,textarea:-ms-input-placeholder {
+    font-size:13px;
+}
+
+input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
+    font-size:13px;
+}
+

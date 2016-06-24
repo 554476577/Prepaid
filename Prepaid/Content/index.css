@@ -1,0 +1,35 @@
+﻿body {
+    background-color: #E0FBC4;
+}
+.manager {
+    float:left;
+    width: 150px;
+    padding-top:0;
+    min-height: 800px;
+    border-top:2px solid #BBCD9B;
+    border-right:2px solid #BBCD9B;
+    box-shadow:2px 0 #BBCD9B;
+}
+
+.manager >ul > li {
+    width:150px;
+    text-align:center;
+    background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fff), to(#aad078));
+    font-size:16px;
+    font-weight:bold;
+    padding:15px 0;
+    border-bottom:2px solid #88c448;
+}
+.manager a {
+    display:block;
+    width:150px;
+    color:#000;
+}
+.manager a:hover {
+    color:#fff;
+    text-decoration:none;
+}
+.content-show {
+    float:left;
+    width:100%-150px;
+}
