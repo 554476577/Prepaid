@@ -16,9 +16,9 @@ namespace Prepaid.Controllers
 {
     public class AdminsController : ApiController
     {
-        IRepository<string, Admin> repository;
+        IAdminRepository repository;
 
-        public AdminsController(IRepository<string, Admin> repository)
+        public AdminsController(IAdminRepository repository)
         {
             this.repository = repository;
         }
@@ -157,6 +157,45 @@ namespace Prepaid.Controllers
 
             await this.repository.DeleteAsync(admin);
 
+            return Ok();
+        }
+
+        [Route("api/admin")]
+        [HttpGet]
+        [ResponseType(typeof(AdminSession))]
+        public IHttpActionResult GetAdminSession()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            AdminSession session = HttpContext.Current.Session["mySession"] as AdminSession;
+            return Ok(session);
+        }
+
+        [Route("api/admins/login")]
+        [HttpGet]
+        public IHttpActionResult Login(string userName, string password)
+        {
+            Admin admin = this.repository.FindByUserNameAndPassword(userName, password);
+            if (admin == null)
+                return NotFound();
+
+            AdminSession session = new AdminSession();
+            session.UUID = admin.UUID;
+            session.UserName = admin.UserName;
+            session.RealName = admin.RealName;
+            session.Phone = admin.Phone;
+            HttpContext.Current.Session["mySession"] = session;
+
+            return Ok();
+        }
+
+        [Route("api/admins/logout")]
+        [HttpPost]
+        public IHttpActionResult Logout()
+        {
+            HttpContext.Current.Session["mySession"] = null;
             return Ok();
         }
     }

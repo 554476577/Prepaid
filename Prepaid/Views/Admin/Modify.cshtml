@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('AdminCtrl', function ($scope, $http) {
+        getInfo();
+        
+        function getInfo() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/admins/" + getQueryString("id")
+            }).success(function (data, status, headers, config) {
+                $scope.Item = data;
+                $("#HasControl").attr("checked", $scope.Item.HasControl);
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.modify = function () {
+            var params = {
+                "UserName": $("#UserName").val(),
+                "Password": $("#Password").val(),
+                "RealName": $("#RealName").val(),
+                "Phone": $("#Phone").val(),
+                "HasControl": $("#HasControl").is(":checked"),
+                "Remark": $("#Remark").val()
+            };
+            $http({
+                method: "put",
+                withCredentials: true,
+                url: "../api/admins/" + getQueryString("id"),
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("账号信息修改成功！", function () {
+                    window.location.href = "../admin/list";
+                });
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+    });
+</script>
+<div ng-controller="AdminCtrl" class="content-div">
+    <form role="form">
+        <div class="form-group">
+            <label for="UserName">账号名称</label>
+            <input type="text" class="form-control input-text" id="UserName" name="UserName" value="{{Item.UserName}}" placeholder="请输入账号名称！">
+        </div>
+        <div class="form-group">
+            <label for="Password">账号密码</label>
+            <input type="password" class="form-control input-text" id="Password" name="Password" value="{{Item.Password}}" placeholder="请输入账号密码！">
+        </div>
+        <div class="form-group">
+            <label for="RealName">真实姓名</label>
+            <input type="text" class="form-control input-text" id="RealName" name="RealName" value="{{Item.RealName}}" placeholder="请输入真实姓名！">
+        </div>
+        <div class="form-group">
+            <label for="Phone">电话号码</label>
+            <input type="text" class="form-control input-text" id="Phone" name="Phone" value="{{Item.Phone}}" pl placeholder="请输入电话号码！">
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" id="HasControl"> 是否具有充值权限</label>
+        </div>
+        <div class="form-group">
+            <label for="Remark">备注</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" p placeholder="请输入备注！"></textarea>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top" ng-click="modify()">修改</button><br />
+</div>

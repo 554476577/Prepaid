@@ -1,0 +1,132 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>欢迎登陆</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/utils.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnLogin").click(function () {
+                var params = {
+                    "UserName": $("#UserName").val(),
+                    "Password": $("#Password").val()
+                };
+                $.ajax({
+                    cache: false,
+                    type: "get",
+                    url: "../api/admins/login",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: params,
+                    success: function (data, textStatus, jqXHR) {
+                        if (textStatus == "success")
+                            window.location.href = "../home/index";
+                        else
+                            ShowTipsModel("用户名或密码错误！");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        ShowTipsModel("用户名或密码错误！");
+                    }
+                });
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-color: #6dc1e6;
+        }
+
+        .container {
+            width: 400px;
+            position: relative;
+            margin-top: 200px;
+            background-color: #eee;
+            border-radius: 10px;
+        }
+
+        h2 {
+            margin-left: 60px;
+            color: #999;
+        }
+
+        input.relative {
+            padding: 5px 10px 5px 50px;
+            font-size: 13px;
+            background-color: transparent;
+            border-radius: 10px;
+            height: 40px;
+            margin-bottom: 20px;
+        }
+
+        .icons-log {
+            position: absolute;
+            top: 70px;
+            left: 30px;
+            color: #6da38c;
+        }
+
+        .icons-pwd {
+            position: absolute;
+            top: 132px;
+            left: 30px;
+            color: #6da38c;
+        }
+
+        .btn.btn-log {
+            width: 370px;
+            font-size: 16px;
+            color: #28a9e9;
+            font-weight: bold;
+            letter-spacing: 15px;
+            height: 40px;
+            padding-top: 7px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>欢迎登录能耗预付费系统</h2>
+        <form role="form">
+            <div class="form-group">
+                <input type="text" class="form-control relative" id="UserName" value="admin" placeholder="请输入用户名">
+                <i class="fa fa-user fa-2x icons-log" aria-hidden="true"></i>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control relative" id="Password" value="admin" placeholder="请输入密码">
+                <i class="fa fa-unlock-alt fa-2x icons-pwd" aria-hidden="true"></i>
+            </div>
+        </form>
+        <button class="btn btn-default btn-log" id="btnLogin">登录</button>
+        @*消息提示框*@
+        <div class="modal fade" id="commontiperrModal">
+            <div class="modal-dialog" style="width:400px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="model-msg-title"><i class="fa fa-times-circle"></i><span style="margin-left: 2px;">错误提示</span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="showerrTitle" style="font-size: 16px;"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="modelClose" style="height: 36px;"
+                                data-dismiss="modal">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -11,4 +11,15 @@ namespace Prepaid.Controllers
         // 系统首页
         public ActionResult Index() { return View(); }
     }
+
+    public class AdminController : Controller
+    {
+        public ActionResult List() { return View(); }
+
+        public ActionResult Add() { return View(); }
+
+        public ActionResult Modify() { return View(); }
+
+        public ActionResult Login() { return View(); }
+    }
 }

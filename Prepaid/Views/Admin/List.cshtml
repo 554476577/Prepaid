@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    app.controller('AdminCtrl', function ($scope, $http) {
+        getInfos();
+
+        function getInfos() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/admins"
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.delete = function (id) {
+            ShowConfirmModal("确定要删除该账号吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/admins/" + id
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("账号删除成功！");
+                    getInfos();
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+    });
+</script>
+
+<div ng-controller="AdminCtrl" class="content-div">
+    <table class="table table-hover">
+        <caption>
+            <a href="#" title="添加账号" class="btn btn-success btn-top" onclick="popDefaultWnd('添加账号','admin/add')">
+                <i class=" fa fa-plus" aria-hidden="true"></i>
+            </a>
+        </caption>
+        <thead>
+            <tr>
+                <th width="5%">UUID</th>
+                <th width="10%">用户名</th>
+                <th width="8%">真实姓名</th>
+                <th width="15%">手机号码</th>
+                <th width="15%">是否可控</th>
+                <th width="25%">时间</th>
+                <th width="8%">备注</th>
+                <th width="14%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-cloak ng-repeat="item in Items">
+                <td>{{item.UUID}}</td>
+                <td>{{item.UserName}}</td>
+                <td>{{item.RealName}}</td>
+                <td>{{item.Phone}}</td>
+                <td>{{item.HasControl}}</td>
+                <td>{{item.CreateTime}}</td>
+                <td>{{item.Remark}}</td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-style" onclick="popDefaultWnd('修改账号信息', 'admin/modify')">修改</button>
+                    <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.ID)">UUID</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -13,6 +13,8 @@ namespace Prepaid.Models
 
         public int DeviceLinkID { get; set; }
 
+        public double TotolValue { get; set; }
+
         public double Value { get; set; }
 
         public int? Money { get; set; }

@@ -46,7 +46,7 @@ namespace Prepaid.Utils
         /// <returns></returns>
         public static bool IsSignin()
         {
-            var userInfo = HttpContext.Current.Session["mySession"] as Prepaid.Models.UserSession;
+            var userInfo = HttpContext.Current.Session["mySession"] as Prepaid.Models.AdminSession;
             return userInfo == null ? false : true;
         }
 

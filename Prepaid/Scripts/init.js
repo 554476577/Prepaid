@@ -66,28 +66,14 @@ app.directive('onFinishRenderFilters', function ($timeout) {
 
 // 该控制器针对布局页面
 app.controller('layoutCtrl', function ($scope, $http) {
-    getModules();
     getUserSession();
-
-    // 获取系统所有模块
-    function getModules() {
-        $http({
-            method: "get",
-            withCredentials: true,
-            url: "../api/modules"
-        }).success(function (data, status, headers, config) {
-            $scope.LayoutModules = data.Items;
-        }).error(function (data, status, headers, config) {
-            ShowErrModal(data, status);
-        });
-    }
 
     // 获取用户信息
     function getUserSession() {
         $http({
             method: "get",
             withCredentials: true,
-            url: "../api/user"
+            url: "../api/admin"
         }).success(function (data, status, headers, config) {
             $scope.UserSession = data;
         }).error(function (data, status, headers, config) {
@@ -101,143 +87,12 @@ app.controller('layoutCtrl', function ($scope, $http) {
             $http({
                 method: "post",
                 withCredentials: true,
-                url: "../api/users/logout"
+                url: "../api/admins/logout"
             }).success(function (data, status, headers, config) {
-                window.location.href = "../user/login";
+                window.location.href = "../admin/login";
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
         });
     };
-
-    // 检测该登录用户是否有访问当前点击模块系统的权限
-    $scope.chkAccess = function (moduleUUID) {
-        $http({
-            method: "get",
-            withCredentials: true,
-            url: "../api/users/access/" + moduleUUID
-        }).success(function (data, status, headers, config) {
-            $scope.Access = data;
-            if (!$scope.Access.CanRead) {
-                ShowModal(1, "你没有该系统的访问权限！");
-                return;
-            } else {
-                // 重置系统导航图片为非高亮状态
-                resetModuleImg();
-                // 让选中图片高亮显示
-                highLightModuleImg(moduleUUID);
-                // 根据UUID获取模块信息
-                getModule(moduleUUID);
-                $('#pointContainer').removeClass('nav-right');
-                $('#pointContainer').addClass('nav-right-tog');
-                $('.nav-left').css("display", 'block');
-                $(".menu_body a").each(function () {
-                    $(this).removeClass("a-highLight");
-                });
-            }
-        }).error(function (data, status, headers, config) {
-            ShowErrModal(data, status);
-        });
-    }
-
-    // 重置系统导航图片为非高亮状态
-    function resetModuleImg() {
-        $(".system").find("img").each(function () {
-            var img = $(this);
-            var imgSrc = img.attr("src");
-            imgSrc = imgSrc.replace(/on/, "off");
-            img.attr("src", imgSrc);
-        });
-    }
-
-    // 高亮显示图片
-    function highLightModuleImg(uuid) {
-        var img = $("#" + uuid).find("img");
-        var imgSrc = img.attr("src");
-        imgSrc = imgSrc.replace(/off/, "on");
-        img.attr("src", imgSrc);
-    }
-
-    // 根据UUID获取模块信息
-    function getModule(uuid) {
-        $http({
-            method: "get",
-            withCredentials: true,
-            url: "../api/modules/" + uuid
-        }).success(function (data, status, headers, config) {
-            $scope.ModuleItem = data;
-        }).error(function (data, status, headers, config) {
-            ShowErrModal(data, status);
-        });
-    }
-
-    // 在页面显示点位信息
-    $scope.displayPoints = function (ModuleID, Floor, GroupName, index) {
-        $scope.ModuleID = ModuleID;
-        $scope.Floor = Floor;
-        $("#floor" + GroupName + index).siblings("a").removeClass("a-highLight");
-        console.log($("#floor" + GroupName + index));
-        $("#floor" + GroupName + index).addClass("a-highLight");
-        getSysSetting();
-    }
-
-    //左侧楼层组的样式控制
-    $scope.displayGroup = function (index) {
-        console.log(index);
-        if ($("#group" + index).next("div").css("display")== "none") {
-            $("#group" + index).next("div").css("display","block");
-            $("#group" + index).removeClass("current");
-            $("#group" + index).addClass("h3_highLight");   
-        } else {      
-            $("#group" + index).next("div").css("display","none");
-            $("#group" + index).addClass("current");
-        }
-        $("#group" + index).parent().siblings("div").children("h3").removeClass("h3_highLight");
-        $("#group" + index).parent().siblings("div").children("h3").addClass("current");
-        $("#group" + index).parent().siblings("div").children("div").css("display", "none");
-        $("#group" + index).parent().siblings("div").children("div").children("a").removeClass("a-highLight");
-    }
-
-    // 获取系统设置信息
-    function getSysSetting() {
-        var params = {
-            "ModuleID": $scope.ModuleID
-        };
-        $http({
-            method: "get",
-            withCredentials: true,
-            url: "../api/settings/system",
-            params: params
-        }).success(function (data, status, headers, config) {
-            var timeInterval = data.RefreshInterval;
-            draggable = data.IsDraggable;
-            getPoints();
-            if (data.IsRefresh) {
-                setInterval(getPoints, timeInterval);
-            }
-        }).error(function (data, status, headers, config) {
-            ShowErrModal(data, status);
-        });
-    }
-
-    // 获取指定模块系统的相关点位
-    function getPoints() {
-        var params = {
-            "ModuleID": $scope.ModuleID,
-            "Floor": $scope.Floor
-        };
-
-        $http({
-            method: "get",
-            withCredentials: true,
-            url: "../api/points/factors",
-            params: params
-        }).success(function (data, status, headers, config) {
-            var context = { floor: $scope.Floor, data: data };
-            var myTemplate = Handlebars.compile($("#template").html());
-            $('#pointContainer').html(myTemplate(context));
-        }).error(function (data, status, headers, config) {
-            ShowErrModal(data, status);
-        });
-    }
 });

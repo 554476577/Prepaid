@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Prepaid.ExceptionHandling;
 using Prepaid.Filters;
+using Prepaid.Repositories;
 using Prepaid.Resolver;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Prepaid
             config.Filters.Add(new ValidateModelAttribute()); // 添加模型验证过滤器
 
             var container = new UnityContainer();
-            //container.RegisterType<IRepository<string, Module>, ModuleRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IAdminRepository, AdminRespository>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             // Web API 路由
