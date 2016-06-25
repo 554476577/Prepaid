@@ -19,7 +19,11 @@
                 params: params
             }).success(function (data, status, headers, config) {
                 ShowTipsModel("新账号添加成功！", function () {
-                    window.location.href = "../admin/list";
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../admin/list";
+                    } else {
+                        window.location.href = "../admin/list";
+                    }
                 });
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);

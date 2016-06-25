@@ -160,7 +160,6 @@
     <Content Include="Content\jquery.pagination.css" />
     <Content Include="Content\kendo.common.min.css" />
     <Content Include="Content\kendo.default.min.css" />
-    <Content Include="Content\Login.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -238,7 +237,7 @@
     <Content Include="Views\Admin\List.cshtml" />
     <Content Include="Views\Admin\Add.cshtml" />
     <Content Include="Views\Admin\Modify.cshtml" />
-    <Content Include="Views\Admin\login.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

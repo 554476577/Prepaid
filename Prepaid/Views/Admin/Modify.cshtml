@@ -9,7 +9,7 @@
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/admins/" + getQueryString("id")
+                url: "../api/admins/" + getQueryString("uuid")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
                 $("#HasControl").attr("checked", $scope.Item.HasControl);
@@ -30,11 +30,15 @@
             $http({
                 method: "put",
                 withCredentials: true,
-                url: "../api/admins/" + getQueryString("id"),
+                url: "../api/admins/" + getQueryString("uuid"),
                 params: params
             }).success(function (data, status, headers, config) {
                 ShowTipsModel("账号信息修改成功！", function () {
-                    window.location.href = "../admin/list";
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../admin/list";
+                    } else {
+                        window.location.href = "../admin/list";
+                    }
                 });
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
@@ -50,7 +54,7 @@
         </div>
         <div class="form-group">
             <label for="Password">账号密码</label>
-            <input type="password" class="form-control input-text" id="Password" name="Password" value="{{Item.Password}}" placeholder="请输入账号密码！">
+            <input type="password" class="form-control input-text" id="Password" name="Password" placeholder="请输入账号密码！">
         </div>
         <div class="form-group">
             <label for="RealName">真实姓名</label>

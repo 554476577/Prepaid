@@ -67,12 +67,13 @@ function ShowConfirmModal(title, callback) {
 }
 
 // 弹出默认大小的窗口
-function popDefaultWnd(title, url) {
-    popWnd(title, url, 800, 600);
+function popDefaultWnd(id,title) {
+    popWnd(id, title, 800, 600);
 }
 
 // 弹出窗口
-function popWnd(title, url, width, height) {
+function popWnd(id, title, width, height) {
+    var url = $("#" + id).attr("url");
     var wnd = $("#wnd").data("kendoWindow");
     if (!wnd || wnd._closing) {
         $("#wnd").css("width", width + "px");

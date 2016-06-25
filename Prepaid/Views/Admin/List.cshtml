@@ -37,9 +37,9 @@
 <div ng-controller="AdminCtrl" class="content-div">
     <table class="table table-hover">
         <caption>
-            <a href="#" title="添加账号" class="btn btn-success btn-top" onclick="popDefaultWnd('添加账号','admin/add')">
+            <button id="btnAdd" title="添加账号" url="admin/add" class="btn btn-success btn-top" onclick="popDefaultWnd(this.id,'添加账号')">
                 <i class=" fa fa-plus" aria-hidden="true"></i>
-            </a>
+            </button>
         </caption>
         <thead>
             <tr>
@@ -63,8 +63,9 @@
                 <td>{{item.CreateTime}}</td>
                 <td>{{item.Remark}}</td>
                 <td>
-                    <button type="button" class="btn btn-warning btn-style" onclick="popDefaultWnd('修改账号信息', 'admin/modify')">修改</button>
-                    <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.ID)">删除</button>
+                    <button type="button" id="btnModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style" 
+                            onclick="popDefaultWnd(this.id,'修改账号信息')">修改</button>
+                    <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.UUID)">删除</button>
                 </td>
             </tr>
         </tbody>
