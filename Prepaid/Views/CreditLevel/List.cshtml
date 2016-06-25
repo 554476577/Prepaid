@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    app.controller('CreditLevelCtrl', function ($scope, $http) {
+        getInfos();
+
+        function getInfos() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/creditlevels"
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.delete = function (id) {
+            ShowConfirmModal("确定要删除该信用等级吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/creditlevels/" + id
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("信用等级删除成功！");
+                    getInfos();
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+    });
+</script>
+
+<div ng-controller="CreditLevelCtrl" class="content-div">
+    <table class="table table-hover">
+        <caption>
+            <button id="btnAdd" title="添加信用等级" url="creditlevel/add" class="btn btn-success btn-top" onclick="popDefaultWnd(this.id, '添加信用等级')">
+                <i class=" fa fa-plus" aria-hidden="true"></i>
+            </button>
+        </caption>
+        <thead>
+            <tr>
+                <th width="10%">UUID</th>
+                <th width="10%">等级名称</th>
+                <th width="10%">等级描述</th>
+                <th width="10%">最低积分</th>
+                <th width="10%">最高积分</th>
+                <th width="10%">可欠费金额</th>
+                <th width="10%">时间</th>
+                <th width="10%">备注</th>
+                <th width="20%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-cloak ng-repeat="item in Items">
+                <td>{{item.UUID}}</td>
+                <td>{{item.Name}}</td>
+                <td>{{item.Description}}</td>
+                <td>{{item.MinScore}}</td>
+                <td>{{item.MaxScore}}</td>
+                <td>{{item.Arrears}}</td>
+                <td>{{item.CreateTime}}</td>
+                <td>{{item.Remark}}</td>
+                <td>
+                    <button type="button" id="btnModify{{$index+1}}" url="creditlevel/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
+                            onclick="popDefaultWnd(this.id,'修改信用等级信息')">修改</button>
+                    <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.UUID)">删除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

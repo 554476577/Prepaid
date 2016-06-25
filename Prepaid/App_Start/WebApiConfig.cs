@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Prepaid.ExceptionHandling;
 using Prepaid.Filters;
+using Prepaid.Models;
 using Prepaid.Repositories;
 using Prepaid.Resolver;
 using System;
@@ -20,6 +21,9 @@ namespace Prepaid
 
             var container = new UnityContainer();
             container.RegisterType<IAdminRepository, AdminRespository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPointRepository, PointRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<string, CreditLevel>, CreditLevelRespository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<string, Recharge>, RechargeRespository>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             // Web API 路由

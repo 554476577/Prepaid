@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    app.controller('RechargeCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+
+        var params = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+
+        getInfos(params, true);
+
+        function getInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/recharges",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+    });
+</script>
+
+<div ng-controller="RechargeCtrl" class="content-div">
+    <table class="table table-hover">
+        <caption></caption>
+        <thead>
+            <tr>
+                <th width="20%">UUID</th>
+                <th width="20%">业主姓名</th>
+                <th width="20%">充值金额</th>
+                <th width="20%">时间</th>
+                <th width="20%">备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-cloak ng-repeat="item in Items">
+                <td>{{item.UUID}}</td>
+                <td>{{item.RealName}}</td>
+                <td>{{item.Money}}</td>
+                <td>{{item.DateTime}}</td>
+                <td>{{item.Remark}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

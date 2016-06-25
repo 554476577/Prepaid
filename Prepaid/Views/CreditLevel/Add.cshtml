@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('CreditLevelCtrl', function ($scope, $http) {
+        $scope.add = function () {
+            var params = {
+                "Name": $("#Name").val(),
+                "Description": $("#Description").val(),
+                "MinScore": $("#MinScore").val(),
+                "MaxScore": $("#MaxScore").val(),
+                "Arrears": $("#Arrears").val(),
+                "Remark": $("#Remark").val()
+            };
+            $http({
+                method: "post",
+                withCredentials: true,
+                url: "../api/creditlevels",
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("信用等级添加成功！", function () {
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../creditlevel/list";
+                    } else {
+                        window.location.href = "../creditlevel/list";
+                    }
+                });
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+    });
+</script>
+<div ng-controller="CreditLevelCtrl" class="content-div">
+    <form role="form">
+        <div class="form-group">
+            <label for="Name">等级名称</label>
+            <input type="text" class="form-control input-text" id="Name" name="Name" placeholder="请输入等级名称！">
+        </div>
+        <div class="form-group">
+            <label for="Description">等级描述</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Description" name="Description" placeholder="请输入等级描述！"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="MinScore">最小积分</label>
+            <input type="text" class="form-control input-text" id="MinScore" name="MinScore" placeholder="请输入最小积分！">
+        </div>
+        <div class="form-group">
+            <label for="MaxScore">最大积分</label>
+            <input type="text" class="form-control input-text" id="MaxScore" name="MaxScore" placeholder="请输入最大积分！">
+        </div>
+        <div class="form-group">
+            <label for="Arrears">可欠费金额</label>
+            <input type="text" class="form-control input-text" id="Arrears" name="Arrears" placeholder="请输入可欠费金额！">
+        </div>
+        <div class="form-group">
+            <label for="Remark">备注</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top" ng-click="add()">添加</button><br />
+</div>

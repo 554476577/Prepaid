@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('PointCtrl', function ($scope, $http) {
+        getInfo();
+
+        // 获取点位信息
+        function getInfo() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/points/" + getQueryString("id")
+            }).success(function (data, status, headers, config) {
+                $scope.Item = data;
+                if ($scope.Item.IsArchive) {
+                    $("#IsArchive").attr("checked", "true");
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+    });
+</script>
+<div ng-controller="PointCtrl" class="content-div">
+    <form role="form">
+        <table class="point-table">
+            <caption></caption>
+            <thead>
+                <tr>
+                    <th width="15%"></th>
+                    <th width="25%"></th>
+                    <th width="20%"></th>
+                    <th width="40%"></th>
+                </tr>
+            </thead>
+            <tbody class="body">
+                <tr class="even">
+                    <td>点位ID</td>
+                    <td class="big">{{Item.PointID}}</td>
+                    <td>采集协议</td>
+                    <td class="big">{{Item.Protocol}}</td>
+                </tr>
+                <tr>
+                    <td>归属设备域</td>
+                    <td class="big">{{Item.Scope}}</td>
+                    <td>仪器名称</td>
+                    <td class="big">{{Item.DeviceName}}</td>
+                </tr>
+                <tr class="even">
+                    <td>物理地址</td>
+                    <td class="big">{{Item.PhyAddr}}</td>
+                    <td>组ID</td>
+                    <td class="big">{{Item.ItemID}}</td>
+                </tr>
+                <tr>
+                    <td>组名称</td>
+                    <td class="big">{{Item.ValueFunc}}</td>
+                    <td>点位描述</td>
+                    <td class="big">{{Item.ItemDescription}}</td>
+                </tr>
+                <tr class="even">
+                    <td>值转换函数</td>
+                    <td class="big">{{Item.ItemName}}</td>
+                    <td>安全最小值</td>
+                    <td class="big">{{Item.MinValue}}</td>
+                </tr>
+                <tr>
+                    <td>安全最大值</td>
+                    <td class="big">{{Item.MaxValue}}</td>
+                    <td>类别</td>
+                    <td class="big">{{Item.Type}}</td>
+                </tr>
+                <tr class="even">
+                    <td>单位</td>
+                    <td class="big">{{Item.Unit}}</td>
+                    <td>归档时间间隔</td>
+                    <td class="big">{{Item.ArchiveInterval}}</td>
+                </tr>
+                <tr>
+                    <td>父点位ID</td>
+                    <td class="big">{{Item.ParentID}}</td>
+                    <td><input type="checkbox" id="IsArchive" name="IsArchive" readonly>是否归档</td>
+                    <td></td>
+                </tr>
+            <tbody>
+        </table>
+    </form>
+</div>

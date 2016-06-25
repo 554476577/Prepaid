@@ -1,0 +1,118 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('PointCtrl', function ($scope, $http) {
+        // 添加点位
+        $scope.add = function () {
+            var params = {
+                "PointID": $("#PointID").val(),
+                "Protocol": $("#Protocol").val(),
+                "Floor": $("#Floor").val(),
+                "Scope": $("#Scope").val(),
+                "DeviceName": $("#DeviceName").val(),
+                "PhyAddr": $("#PhyAddr").val(),
+                "ItemID": $("#ItemID").val(),
+                "ItemName": $("#ItemName").val(),
+                "ItemDescription": $("#ItemDescription").val(),
+                "ValueFunc": $("#ValueFunc").val(),
+                "MinValue": $("#MinValue").val(),
+                "MaxValue": $("#MaxValue").val(),
+                "Type": $("#Type").val(),
+                "Unit": $("#Unit").val(),
+                "IsArchive": $("#IsArchive").is(":checked"),
+                "ArchiveInterval": $("#ArchiveInterval").val(),
+                "ParentID": $("#ParentID").val()
+            };
+            $http({
+                method: "post",
+                withCredentials: true,
+                url: "../api/points",
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("点位信息添加成功！", function () {
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../point/list";
+                    } else {
+                        window.location.href = "../point/list";
+                    }
+                });
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+    });
+</script>
+<div ng-controller="PointCtrl" class="content-div">
+    <form role="form" class="form-div">
+        <div class="form-group group-style">
+            <label for="PointID">点位ID</label>
+            <input type="text" class="form-control input-text" id="PointID" name="PointID" placeholder="请输入点位ID！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Protocol">采集协议</label>
+            <input type="text" class="form-control input-text" id="Protocol" name="Protocol" placeholder="请输入采集协议！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Floor">楼层</label>
+            <input type="text" class="form-control input-text" id="Floor" name="Floor" placeholder="请输入楼层！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Scope">归属设备域</label>
+            <input type="text" class="form-control input-text" id="Scope" name="Scope" placeholder="请输入归属设备域！">
+        </div>
+        <div class="form-group group-style">
+            <label for="DeviceName">仪器名称</label>
+            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" placeholder="请输入仪器名称！">
+        </div>
+        <div class="form-group group-style">
+            <label for="PhyAddr">物理地址</label>
+            <input type="text" class="form-control input-text" id="PhyAddr" name="PhyAddr" placeholder="请输入物理地址！">
+        </div>
+        <div class="form-group group-style">
+            <label for="ItemID">组ID</label>
+            <input type="text" class="form-control input-text" id="ItemID" name="ItemID" placeholder="请输入组ID！">
+        </div>
+        <div class="form-group group-style">
+            <label for="ItemName">组名称</label>
+            <input type="text" class="form-control input-text" id="ItemName" name="ItemName" placeholder="请输入组名称！">
+        </div>
+        <div class="form-group group-style">
+            <label for="ItemDescription">组描述</label>
+            <input type="text" class="form-control input-text" id="ItemDescription" name="ItemDescription" placeholder="请输入组描述！">
+        </div>
+        <div class="form-group group-style">
+            <label for="ValueFunc">值转换函数</label>
+            <input type="text" class="form-control input-text" id="ValueFunc" name="ValueFunc" placeholder="请输入值的转换函数！">
+        </div>
+        <div class="form-group group-style">
+            <label for="MinValue">安全最小值</label>
+            <input type="text" class="form-control input-text" id="MinValue" name="MinValue" placeholder="请输入安全最小值！">
+        </div>
+        <div class="form-group group-style">
+            <label for="MaxValue">安全最大值</label>
+            <input type="text" class="form-control input-text" id="MaxValue" name="MaxValue" placeholder="请输入安全最大值！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Type">类别</label>
+            <input type="text" class="form-control input-text" id="Type" name="Type" placeholder="请输入类别！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Unit">单位</label>
+            <input type="text" class="form-control input-text" id="Unit" name="Unit" placeholder="请输入单位！">
+        </div>
+        <div class="form-group group-style">
+            <label for="ArchiveInterval">归档时间间隔</label>
+            <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" placeholder="请输入归档时间间隔！">
+        </div>
+        <div class="form-group group-style">
+            <label for="ParentID">父点位ID</label>
+            <input type="text" class="form-control input-text" id="ParentID" name="ParentID" placeholder="请输入父点位ID！">
+        </div>
+        <div class="form-group group-style checkbox">
+            <label for="IsArchive"><input type="checkbox" id="IsArchive" name="IsArchive">是否归档</label>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top btn-special2" ng-click="add()">添加</button><br />
+</div>
+    

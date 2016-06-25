@@ -8,7 +8,6 @@ namespace Prepaid.Controllers
 {
     public class HomeController : Controller
     {
-        // 系统首页
         public ActionResult Index() { return View(); }
     }
 
@@ -21,5 +20,30 @@ namespace Prepaid.Controllers
         public ActionResult Modify() { return View(); }
 
         public ActionResult Login() { return View(); }
+    }
+
+    public class PointController : Controller
+    {
+        public ActionResult List() { return View(); }
+
+        public ActionResult Add() { return View(); }
+
+        public ActionResult Modify() { return View(); }
+
+        public ActionResult Details() { return View(); }
+    }
+
+    public class CreditLevelController : Controller
+    {
+        public ActionResult List() { return View(); }
+
+        public ActionResult Add() { return View(); }
+
+        public ActionResult Modify() { return View(); }
+    }
+
+    public class RechargeController : Controller
+    {
+        public ActionResult List() { return View(); }
     }
 }

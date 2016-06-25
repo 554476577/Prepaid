@@ -202,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\RechargesController.cs" />
+    <Compile Include="Controllers\CreditLevelsController.cs" />
+    <Compile Include="Controllers\PointsController.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -222,9 +225,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Recharge.cs" />
     <Compile Include="Repositories\AbstractRespository.cs" />
+    <Compile Include="Repositories\RechargeRespository.cs" />
+    <Compile Include="Repositories\CreditLevelRespository.cs" />
     <Compile Include="Repositories\AdminRespository.cs" />
     <Compile Include="Repositories\IAdminRepository.cs" />
+    <Compile Include="Repositories\IPointRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\PointRepository.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Results\InternalServerErrorTextPlainResult.cs" />
     <Compile Include="Models\User.cs" />
@@ -238,6 +245,14 @@
     <Content Include="Views\Admin\Add.cshtml" />
     <Content Include="Views\Admin\Modify.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Point\Add.cshtml" />
+    <Content Include="Views\Point\Details.cshtml" />
+    <Content Include="Views\Point\List.cshtml" />
+    <Content Include="Views\Point\Modify.cshtml" />
+    <Content Include="Views\CreditLevel\Add.cshtml" />
+    <Content Include="Views\CreditLevel\List.cshtml" />
+    <Content Include="Views\CreditLevel\Modify.cshtml" />
+    <Content Include="Views\Recharge\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -247,9 +262,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CreditLevel\" />
     <Folder Include="Views\DeviceLink\" />
-    <Folder Include="Views\Point\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
