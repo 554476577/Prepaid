@@ -202,6 +202,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\DeviceLinksController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\RechargesController.cs" />
     <Compile Include="Controllers\CreditLevelsController.cs" />
     <Compile Include="Controllers\PointsController.cs" />
@@ -225,6 +227,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Recharge.cs" />
     <Compile Include="Repositories\AbstractRespository.cs" />
+    <Compile Include="Repositories\DeviceLinkRespository.cs" />
+    <Compile Include="Repositories\UserRespository.cs" />
     <Compile Include="Repositories\RechargeRespository.cs" />
     <Compile Include="Repositories\CreditLevelRespository.cs" />
     <Compile Include="Repositories\AdminRespository.cs" />
@@ -253,6 +257,12 @@
     <Content Include="Views\CreditLevel\List.cshtml" />
     <Content Include="Views\CreditLevel\Modify.cshtml" />
     <Content Include="Views\Recharge\List.cshtml" />
+    <Content Include="Views\User\Add.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\User\Modify.cshtml" />
+    <Content Include="Views\DeviceLink\Add.cshtml" />
+    <Content Include="Views\DeviceLink\Modify.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -262,8 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DeviceLink\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

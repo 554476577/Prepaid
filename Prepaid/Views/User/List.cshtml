@@ -1,0 +1,213 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    app.controller('UserCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+
+        var params = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+
+        getUserInfos(params, true);
+
+        function getUserInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/users",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items1 = data.Items;
+                $scope.RecordCount1 = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page1").page('destroy');
+                    $("#page1").page({
+                        total: $scope.RecordCount1,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getUserInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getUserInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.deleteUser = function (uuid) {
+            ShowConfirmModal("确定要删除该业主吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/users/" + uuid
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("业主删除成功！");
+                    getUserInfos(params, false);
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+
+        var params1 = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+
+        getDeviceLinkInfos(params1, true);
+
+        function getDeviceLinkInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/devicelinks",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items2 = data.Items;
+                $scope.RecordCount2 = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page2").page('destroy');
+                    $("#page2").page({
+                        total: $scope.RecordCount2,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getDeviceLinkInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getDeviceLinkInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.deleteDeviceLink = function (uuid) {
+            ShowConfirmModal("确定要删除该设备联动信息吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/devicelinks/" + uuid
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("设备联动信息删除成功！");
+                    getDeviceLinkInfos(params1, false);
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+    });
+</script>
+
+<div ng-controller="UserCtrl" class="content-div">
+    <div>
+        <table class="table table-hover">
+            <caption>
+                <button title="添加业主" id="btnAdd" url="user/add" onclick="popDefaultWnd(this.id,'添加业主')" class="btn btn-success btn-top">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+            </caption>
+            <thead>
+                <tr>
+                    <th width="5%">UUID</th>
+                    <th width="8%">业主姓名</th>
+                    <th width="8%">电话</th>
+                    <th width="8%">建筑物名称</th>
+                    <th width="10%">房号</th>
+                    <th width="8%">账户余额</th>
+                    <th width="10%">账户报警余额</th>
+                    <th width="14%">积分</th>
+                    <th width="8%">时间</th>
+                    <th width="21%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-cloak ng-repeat="item in Items1">
+                    <td>{{item.UUID}}</td>
+                    <td>{{item.RealName}}</td>
+                    <td>{{item.Phone}}</td>
+                    <td>{{item.BuildingName}}</td>
+                    <td>{{item.RoomNo}}</td>
+                    <td>{{item.AccountBalance}}</td>
+                    <td>{{item.AccountWarnLimit}}</td>
+                    <td>{{item.CreditScore}}</td>
+                    <td>{{item.CreateTime}}</td>
+                    <td>
+                        <button id="btnModify{{$index+1}}" url="user/modify?uuid={{item.UUID}}" onclick="popDefaultWnd(this.id, '修改业主信息')"
+                                class="btn btn-warning btn-style">
+                            修改
+                        </button>
+                        <button id="btnDetails{{$index+1}}" url="/user/details?uuid={{item.UUID}}" onclick="popDefaultWnd(this.id, '业主详情')"
+                                class="btn btn-info btn-style">
+                            详情
+                        </button>
+                        <button type="button" class="btn btn-danger btn-style" ng-click="deleteUser(item.UUID)">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="width center">
+            <div id="page1" class="m-pagination m-center"></div>
+        </div>
+    </div>
+    <div>
+        <table class="table table-hover">
+            <caption>
+                <button title="添加设备联动" id="btnAdd1" url="devicelink/add" onclick="popDefaultWnd(this.id, '添加设备联动')" class="btn btn-success btn-top">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+            </caption>
+            <thead>
+                <tr>
+                    <th width="15%">ID</th>
+                    <th width="15%">业主姓名</th>
+                    <th width="15%">仪器名称</th>
+                    <th width="15%">时间</th>
+                    <th width="15%">备注</th>
+                    <th width="25%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-cloak ng-repeat="item in Items2">
+                    <td>{{item.ID}}</td>
+                    <td>{{item.RealName}}</td>
+                    <td>{{item.DeviceName}}</td>
+                    <td>{{item.CreateTime}}</td>
+                    <td>{{item.Remark}}</td>
+                    <td>
+                        <button id="btnModify1{{$index+1}}" url="devicelink/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改设备联动信息')"
+                                class="btn btn-warning btn-style">
+                            修改
+                        </button>
+                        <button type="button" class="btn btn-danger btn-style" ng-click="deleteDeviceLink(item.ID)">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="width center">
+            <div id="page2" class="m-pagination m-center"></div>
+        </div>
+    </div>
+</div>

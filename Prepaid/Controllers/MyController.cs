@@ -46,4 +46,22 @@ namespace Prepaid.Controllers
     {
         public ActionResult List() { return View(); }
     }
+
+    public class UserController : Controller
+    {
+        public ActionResult List() { return View(); }
+
+        public ActionResult Add() { return View(); }
+
+        public ActionResult Modify() { return View(); }
+
+        public ActionResult Details() { return View(); }
+    }
+
+    public class DeviceLinkController : Controller
+    {
+        public ActionResult Add() { return View(); }
+
+        public ActionResult Modify() { return View(); }
+    }
 }

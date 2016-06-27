@@ -1,0 +1,108 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('UserCtrl', function ($scope, $http) {
+        $scope.add = function () {
+            var params = {
+                "RealName": $("#RealName").val(),
+                "Phone": $("#Phone").val(),
+                "Address": $("#Address").val(),
+                "BuildingNo": $("#BuildingNo").val(),
+                "BuildingName": $("#BuildingName").val(),
+                "FloorCount": $("#FloorCount").val(),
+                "Floor": $("#Floor").val(),
+                "RoomNo": $("#RoomNo").val(),
+                "AccountBalance": $("#AccountBalance").val(),
+                "AccountWarnLimit": $("#ValueFunc").val(),
+                "CreditScore": $("#CreditScore").val(),
+                "AlipayAccount": $("#AlipayAccount").val(),
+                "WechatAccount": $("#WechatAccount").val(),
+                "BankAccount": $("#BankAccount").val(),
+                "Remark": $("#Remark").val()
+            };
+            $http({
+                method: "post",
+                withCredentials: true,
+                url: "../api/users",
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("业主信息添加成功！", function () {
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../user/list";
+                    } else {
+                        window.location.href = "../user/list";
+                    }
+                });
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+    });
+</script>
+<div ng-controller="UserCtrl" class="content-div">
+    <form role="form" class="form-div">
+        <div class="form-group group-style">
+            <label for="RealName">业主姓名</label>
+            <input type="text" class="form-control input-text" id="RealName" name="RealName" placeholder="请输入业主姓名！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Phone">电话号码</label>
+            <input type="text" class="form-control input-text" id="Phone" name="Phone" placeholder="请输入电话号码！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Address">地址</label>
+            <input type="text" class="form-control input-text" id="Address" name="Address" placeholder="请输入地址！">
+        </div>
+        <div class="form-group group-style">
+            <label for="BuildingNo">建筑编号</label>
+            <input type="text" class="form-control input-text" id="BuildingNo" name="BuildingNo" placeholder="请输入建筑编号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="BuildingName">建筑名称</label>
+            <input type="text" class="form-control input-text" id="BuildingName" name="BuildingName" placeholder="请输入建筑名称！">
+        </div>
+        <div class="form-group group-style">
+            <label for="FloorCount">楼层总数</label>
+            <input type="text" class="form-control input-text" id="FloorCount" name="FloorCount" placeholder="请输入楼层总数！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Floor">楼层</label>
+            <input type="text" class="form-control input-text" id="Floor" name="Floor" placeholder="请输入楼层！">
+        </div>
+        <div class="form-group group-style">
+            <label for="RoomNo">房号</label>
+            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" placeholder="请输入房号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="AccountBalance">账户余额</label>
+            <input type="text" class="form-control input-text" id="AccountBalance" name="AccountBalance" placeholder="请输入账户余额！">
+        </div>
+        <div class="form-group group-style">
+            <label for="AccountWarnLimit">账户报警余额</label>
+            <input type="text" class="form-control input-text" id="AccountWarnLimit" name="AccountWarnLimit" placeholder="请输入账户报警余额！">
+        </div>
+        <div class="form-group group-style">
+            <label for="CreditScore">用户积分</label>
+            <input type="text" class="form-control input-text" id="CreditScore" name="CreditScore" placeholder="请输入用户积分！">
+        </div>
+        <div class="form-group group-style">
+            <label for="AlipayAccount">支付宝账号</label>
+            <input type="text" class="form-control input-text" id="AlipayAccount" name="AlipayAccount" placeholder="请输入支付宝账号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="WechatAccount">微信账号</label>
+            <input type="text" class="form-control input-text" id="WechatAccount" name="WechatAccount" placeholder="请输入微信账号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="BankAccount">银行账号</label>
+            <input type="text" class="form-control input-text" id="BankAccount" name="BankAccount" placeholder="请输入银行账号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Remark">备注</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top btn-special2" ng-click="add()">添加</button><br />
+</div>
+    

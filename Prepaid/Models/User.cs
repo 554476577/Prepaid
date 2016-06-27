@@ -20,10 +20,10 @@ namespace Prepaid.Models
         public string UUID { get; set; }
 
         [StringLength(50)]
-        public string Phone { get; set; }
+        public string RealName { get; set; }
 
         [StringLength(50)]
-        public string RealName { get; set; }
+        public string Phone { get; set; }
 
         [StringLength(200)]
         public string Address { get; set; }

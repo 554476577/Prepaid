@@ -1,0 +1,121 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('UserCtrl', function ($scope, $http) {
+        getInfo();
+
+        function getInfo() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/users/" + getQueryString("uuid")
+            }).success(function (data, status, headers, config) {
+                $scope.Item = data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.modify = function () {
+            var params = {
+                "RealName": $("#RealName").val(),
+                "Phone": $("#Phone").val(),
+                "Address": $("#Address").val(),
+                "BuildingNo": $("#BuildingNo").val(),
+                "BuildingName": $("#BuildingName").val(),
+                "FloorCount": $("#FloorCount").val(),
+                "Floor": $("#Floor").val(),
+                "RoomNo": $("#RoomNo").val(),
+                "AccountBalance": $("#AccountBalance").val(),
+                "AccountWarnLimit": $("#AccountWarnLimit").val(),
+                "CreditScore": $("#CreditScore").val(),
+                "AlipayAccount": $("#AlipayAccount").val(),
+                "WechatAccount": $("#WechatAccount").val(),
+                "BankAccount": $("#BankAccount").val(),
+                "Remark": $("#Remark").val()
+            };
+            $http({
+                method: "put",
+                withCredentials: true,
+                url: "../api/users/" + getQueryString("uuid"),
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("业主信息修改成功！", function () {
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../user/list";
+                    } else {
+                        window.location.href = "../user/list";
+                    }
+                });
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+    });
+</script>
+<div ng-controller="UserCtrl" class="content-div">
+    <form role="form" class="form-div">
+        <div class="form-group group-style">
+            <label for="RealName">业主姓名</label>
+            <input type="text" class="form-control input-text" id="RealName" name="RealName" value="{{Item.RealName}}" placeholder="请输入业主姓名！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Phone">电话号码</label>
+            <input type="text" class="form-control input-text" id="Phone" name="Phone" value="{{Item.Phone}}" placeholder="请输入电话号码！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Address">地址</label>
+            <input type="text" class="form-control input-text" id="Address" name="Address" value="{{Item.Address}}" placeholder="请输入地址！">
+        </div>
+        <div class="form-group group-style">
+            <label for="BuildingNo">建筑编号</label>
+            <input type="text" class="form-control input-text" id="BuildingNo" name="BuildingNo" value="{{Item.BuildingNo}}" placeholder="请输入建筑编号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="BuildingName">建筑名称</label>
+            <input type="text" class="form-control input-text" id="BuildingName" name="BuildingName" value="{{Item.BuildingName}}" placeholder="请输入建筑名称！">
+        </div>
+        <div class="form-group group-style">
+            <label for="FloorCount">楼层总数</label>
+            <input type="text" class="form-control input-text" id="FloorCount" name="FloorCount" value="{{Item.FloorCount}}" placeholder="请输入楼层总数！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Floor">楼层</label>
+            <input type="text" class="form-control input-text" id="Floor" name="Floor" value="{{Item.Floor}}" placeholder="请输入楼层！">
+        </div>
+        <div class="form-group group-style">
+            <label for="RoomNo">房号</label>
+            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" value="{{Item.RoomNo}}" placeholder="请输入房号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="AccountBalance">账户余额</label>
+            <input type="text" class="form-control input-text" id="AccountBalance" name="AccountBalance" value="{{Item.AccountBalance}}" placeholder="请输入账户余额！">
+        </div>
+        <div class="form-group group-style">
+            <label for="AccountWarnLimit">账户报警余额</label>
+            <input type="text" class="form-control input-text" id="AccountWarnLimit" name="AccountWarnLimit" value="{{Item.AccountWarnLimit}}" placeholder="请输入账户报警余额！">
+        </div>
+        <div class="form-group group-style">
+            <label for="CreditScore">用户积分</label>
+            <input type="text" class="form-control input-text" id="CreditScore" name="CreditScore" value="{{Item.CreditScore}}" placeholder="请输入用户积分！">
+        </div>
+        <div class="form-group group-style">
+            <label for="AlipayAccount">支付宝账号</label>
+            <input type="text" class="form-control input-text" id="AlipayAccount" name="AlipayAccount" value="{{Item.AlipayAccount}}" placeholder="请输入支付宝账号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="WechatAccount">微信账号</label>
+            <input type="text" class="form-control input-text" id="WechatAccount" name="WechatAccount" value="{{Item.WechatAccount}}" placeholder="请输入微信账号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="BankAccount">银行账号</label>
+            <input type="text" class="form-control input-text" id="BankAccount" name="BankAccount" value="{{Item.BankAccount}}" placeholder="请输入银行账号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Remark">备注</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" placeholder="请输入备注！"></textarea>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top btn-special" ng-click="modify()">修改</button><br />
+</div>
