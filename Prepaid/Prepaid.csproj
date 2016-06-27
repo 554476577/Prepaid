@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\EnergyBillsController.cs" />
     <Compile Include="Controllers\DeviceLinksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\RechargesController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Recharge.cs" />
     <Compile Include="Repositories\AbstractRespository.cs" />
+    <Compile Include="Repositories\EnergyBillRespository.cs" />
     <Compile Include="Repositories\DeviceLinkRespository.cs" />
     <Compile Include="Repositories\UserRespository.cs" />
     <Compile Include="Repositories\RechargeRespository.cs" />
@@ -263,6 +265,7 @@
     <Content Include="Views\User\Modify.cshtml" />
     <Content Include="Views\DeviceLink\Add.cshtml" />
     <Content Include="Views\DeviceLink\Modify.cshtml" />
+    <Content Include="Views\EnergyBill\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

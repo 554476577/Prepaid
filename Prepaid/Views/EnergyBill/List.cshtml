@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    app.controller('EnergyBillCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+
+        var params = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+
+        getInfos(params, true);
+
+        function getInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/energybills",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+    });
+</script>
+
+<div ng-controller="EnergyBillCtrl" class="content-div">
+    <table class="table table-hover">
+        <caption></caption>
+        <thead>
+            <tr>
+                <th width="10%">ID</th>
+                <th width="10%">业主姓名</th>
+                <th width="10%">时间</th>
+                <th width="20%">设备名称</th>
+                <th width="10%">总读数</th>
+                <th width="10%">最近结算能耗</th>
+                <th width="10%">最近结算价格</th>
+                <th width="20%">备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-cloak ng-repeat="item in Items">
+                <td>{{item.ID}}</td>
+                <td>{{item.RealName}}</td>
+                <td>{{item.DateTime}}</td>
+                <td>{{item.DeviceName}}</td>
+                <td>{{item.TotolValue}}</td>
+                <td>{{item.Value}}</td>
+                <td>{{item.Money}}</td>
+                <td>{{item.Remark}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
