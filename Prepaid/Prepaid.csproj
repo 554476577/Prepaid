@@ -213,6 +213,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MyController.cs" />
     <Compile Include="Models\CreditLevel.cs" />
+    <Compile Include="Models\DeviceEnergy.cs" />
     <Compile Include="Models\DeviceLink.cs" />
     <Compile Include="Models\EnergyBill.cs" />
     <Compile Include="ExceptionHandling\ElmahExceptionLogger.cs" />
@@ -225,11 +226,13 @@
     <Compile Include="Models\AdminSession.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\PrepaidContext.cs" />
+    <Compile Include="Models\UserEnergy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Recharge.cs" />
     <Compile Include="Repositories\AbstractRespository.cs" />
     <Compile Include="Repositories\EnergyBillRespository.cs" />
     <Compile Include="Repositories\DeviceLinkRespository.cs" />
+    <Compile Include="Repositories\IEnergyBillRespository.cs" />
     <Compile Include="Repositories\UserRespository.cs" />
     <Compile Include="Repositories\RechargeRespository.cs" />
     <Compile Include="Repositories\CreditLevelRespository.cs" />
@@ -266,6 +269,7 @@
     <Content Include="Views\DeviceLink\Add.cshtml" />
     <Content Include="Views\DeviceLink\Modify.cshtml" />
     <Content Include="Views\EnergyBill\List.cshtml" />
+    <Content Include="Views\Prepaid\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

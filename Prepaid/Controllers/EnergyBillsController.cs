@@ -16,9 +16,9 @@ namespace Prepaid.Controllers
 {
     public class EnergyBillsController : ApiController
     {
-        IRepository<int, EnergyBill> repository;
+        IEnergyBillRespository repository;
 
-        public EnergyBillsController(IRepository<int, EnergyBill> repository)
+        public EnergyBillsController(IEnergyBillRespository repository)
         {
             this.repository = repository;
         }
@@ -65,6 +65,38 @@ namespace Prepaid.Controllers
                             Remark = item.Remark
                         };
             pager.Items = items;
+
+            return Ok(pager);
+        }
+
+        // GET: api/userenergybills
+        [HttpGet]
+        [Route("api/userenergybills")]
+        public IHttpActionResult GetUserEnergyBills()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            Pager pager = null;
+            string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
+            string strPageSize = HttpContext.Current.Request.Params["PageSize"];
+            IEnumerable<UserEnergy> userEnergies;
+
+            if (strPageIndex == null || strPageSize == null)
+            {
+                pager = new Pager();
+                userEnergies = this.repository.GetUserEnergies();
+            }
+            else
+            {
+                // 获取分页数据
+                int pageIndex = Convert.ToInt32(strPageIndex);
+                int pageSize = Convert.ToInt32(strPageSize);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
+                userEnergies = this.repository.GetUserPagerEnergies(pageIndex, pageSize, u => u.UserID);
+            }
+            pager.Items = userEnergies;
 
             return Ok(pager);
         }

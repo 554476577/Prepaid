@@ -69,4 +69,9 @@ namespace Prepaid.Controllers
     {
         public ActionResult List() { return View(); }
     }
+
+    public class PrepaidController : Controller
+    {
+        public ActionResult List() { return View(); }
+    }
 }

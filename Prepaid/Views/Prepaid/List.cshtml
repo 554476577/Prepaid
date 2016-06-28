@@ -16,7 +16,7 @@
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/userenergybills",
+                url: "../api/energybills",
                 params: params
             }).success(function (data, status, headers, config) {
                 $scope.Items = data.Items;
@@ -54,36 +54,26 @@
         <caption></caption>
         <thead>
             <tr>
-                <th width="10%">用户UUID</th>
+                <th width="10%">ID</th>
                 <th width="10%">业主姓名</th>
                 <th width="10%">时间</th>
-                <th width="10%">设备名称</th>
-                <th width="10%">设备总读数</th>
-                <th width="10%">设备结算能耗</th>
-                <th width="10%">设备结算价格</th>
+                <th width="20%">设备名称</th>
                 <th width="10%">总读数</th>
-                <th width="10%">最近结算总能耗</th>
-                <th width="10%">最近结算总价格</th>
+                <th width="10%">最近结算能耗</th>
+                <th width="10%">最近结算价格</th>
+                <th width="20%">备注</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-cloak ng-repeat="item in Items">
-                <td rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</td>
-                <td rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</td>
-                <td rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</td>
-                <td rowspan="{{item.DeviceEnergies.length}}" colspan="4">
-                    <table class="table table-hover">
-                        <tr ng-cloak ng-repeat="device in item.DeviceEnergies">
-                            <td>{{device.DeviceName}}</td>
-                            <td>{{device.TotolValue}}</td>
-                            <td>{{device.Value}}</td>
-                            <td>{{device.Money}}</td>
-                        </tr>
-                    </table>
-                </td>
-                <td rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</td>
-                <td rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</td>
-                <td rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</td>
+                <td>{{item.ID}}</td>
+                <td>{{item.RealName}}</td>
+                <td>{{item.DateTime}}</td>
+                <td>{{item.DeviceName}}</td>
+                <td>{{item.TotolValue}}</td>
+                <td>{{item.Value}}</td>
+                <td>{{item.Money}}</td>
+                <td>{{item.Remark}}</td>
             </tr>
         </tbody>
     </table>
