@@ -22,7 +22,7 @@ body {
 .nav-top {
     background:#88C448;
     width:100%;
-    height:50px;
+    height:80px;
     position:relative;
 }
 
@@ -33,22 +33,20 @@ body {
     left: 10px;
     /*background-color:#8B4513;*/
 }
-
-.logo h3 {
-    margin-top: 15px;
+.logo > a > h3 {
+    margin-top:27px;
 }
-
 .user-identity {
     float: right;
     margin-right: 10px;
     height: 100%;
     width: 90px;
-    padding-top: 15px;
+    padding-top: 27px;
 }
 
 .main {
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 80px);
     position: relative;
 }
 
@@ -58,11 +56,10 @@ body {
     padding-top:0;
     min-height: 800px;
     border-top:2px solid #BBCD9B;
-    border-right:2px solid #BBCD9B;
+    /*border-right:2px solid #BBCD9B;*/
     box-shadow:-2px 0 #BBCD9B;
 }
-
-.manager >ul > li {
+.manager li.li-list {
     width:100%;
     text-align:center;
     background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fff), to(#aad078));
@@ -71,18 +68,28 @@ body {
     padding:15px 0;
     border-bottom:2px solid #88c448;
 }
+.manager li.li-active {
+    width:100%;
+    text-align:center;
+    background-color:#14b555;
+    font-size:16px;
+    font-weight:bold;
+    padding:15px 0;
+    border-bottom:2px solid #88c448;
+    color:#274989;
+}
 .manager a {
     display:block;
     width:100%;
-    color:#000;
 }
 .manager a:hover {
-    color:#fff;
+    color:#B7B7B7;
     text-decoration:none;
 }
-
 .content-show {
     float:left;
     width: calc(100% - 150px);
     height: 100%;
+    border:2px solid #b7b7b7;
+    border-bottom:2px solid transparent;
 }

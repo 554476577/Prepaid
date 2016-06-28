@@ -18,62 +18,61 @@
         }
     });
 </script>
-<div ng-controller="UserCtrl" class="content-div">
+<div ng-controller="UserCtrl" class="content-div" style="margin:50px 80px;">
     <form role="form">
         <table class="point-table">
-            <caption></caption>
-            <thead>
+            <thead style="height:0;">
                 <tr>
-                    <th width="15%"></th>
-                    <th width="25%"></th>
                     <th width="20%"></th>
-                    <th width="40%"></th>
+                    <th width="20%"></th>
+                    <th width="25%"></th>
+                    <th width="35%"></th>
                 </tr>
             </thead>
             <tbody class="body">
-                <tr class="even">
+                <tr>
                     <td>业主姓名</td>
                     <td class="big">{{Item.RealName}}</td>
                     <td>电话号码</td>
                     <td class="big">{{Item.Phone}}</td>
                 </tr>
-                <tr>
+                <tr class="even">
                     <td>地址</td>
                     <td class="big">{{Item.Address}}</td>
                     <td>建筑编号</td>
                     <td class="big">{{Item.BuildingNo}}</td>
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>建筑名称</td>
                     <td class="big">{{Item.BuildingName}}</td>
                     <td>楼层总数</td>
                     <td class="big">{{Item.FloorCount}}</td>
                 </tr>
-                <tr>
+                <tr class="even">
                     <td>楼层</td>
                     <td class="big">{{Item.Floor}}</td>
                     <td>房号</td>
                     <td class="big">{{Item.RoomNo}}</td>
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>账户余额</td>
                     <td class="big">{{Item.AccountBalance}}</td>
                     <td>账户报警余额</td>
                     <td class="big">{{Item.AccountWarnLimit}}</td>
                 </tr>
-                <tr>
+                <tr class="even">
                     <td>用户积分</td>
                     <td class="big">{{Item.CreditScore}}</td>
                     <td>支付宝账号</td>
                     <td class="big">{{Item.AlipayAccount}}</td>
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>微信账号</td>
                     <td class="big">{{Item.WechatAccount}}</td>
                     <td>银行账号</td>
                     <td class="big">{{Item.BankAccount}}</td>
                 </tr>
-                <tr>
+                <tr class="even">
                     <td>备注</td>
                     <td class="big">{{Item.Remark}}</td>
                 </tr>

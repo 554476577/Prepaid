@@ -24,6 +24,17 @@
     <script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="~/Scripts/utils.js"></script>
     <script src="~/Scripts/init.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".manager li a").each(function () {
+                var curr = $(this).data("curr");
+                if (window.location.href.indexOf(curr) != -1) {
+                    $(this).parent().removeClass("li-list");
+                    $(this).parent().addClass("li-active");
+                }
+            });
+        });     
+    </script>
 </head>
 <body ng-app="app" ng-controller="layoutCtrl">
     <div class="content">
@@ -47,13 +58,13 @@
         <div class="main">
             <div class="manager">
                 <ul>
-                    <li><a href="#">预付费管理</a></li>
-                    <li><a href="#">能耗管理</a></li>
-                    <li><a href="#">用户管理</a></li>
-                    <li><a href="~/point/list">设备管理</a></li>
-                    <li><a href="~/creditlevel/list">信用等级</a></li>
-                    <li><a href="~/recharge/list">充值记录</a></li>
-                    <li><a href="~/admin/list">登录账号</a></li>
+                    <li class="li-list li-active"><a href="#">预付费管理</a></li>
+                    <li class="li-list"><a href="#">能耗管理</a></li>
+                    <li class="li-list"><a data-curr="user" href="~/user/list">用户管理</a></li>
+                    <li class="li-list"><a data-curr="point" href="~/point/list">设备管理</a></li>
+                    <li class="li-list"><a data-curr="creditlevel" href="~/creditlevel/list">信用等级</a></li>
+                    <li class="li-list"><a data-curr="recharge" href="~/recharge/list">充值记录</a></li>
+                    <li class="li-list"><a data-curr="admin" href="~/admin/list">登录账号</a></li>
                 </ul>
             </div>
             <div class="content-show">

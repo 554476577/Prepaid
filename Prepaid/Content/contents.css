@@ -23,13 +23,13 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-top:25px;
 }
 .btn-special {
-    margin-right:30px;
+    margin-right:43px;
 }
 .btn-special2 {
-    margin-right:30px;
+    margin-right:43px;
 }
 .form-group.checkbox {
-    margin-top:25px;
+    margin-top:0;
 }
 .content-div {
     padding: 10px 15px;
@@ -72,7 +72,8 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     background-color: #FFF;
     border: none;
     color: #565;
-    font: 13px arial;
+    font: 15px arial;
+    width: 600px;
 }
 
 .point-table caption {
@@ -82,10 +83,8 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     background-color:#fff;
 }
 .point-table tbody td {
-    background-color:#f1f1f1;
-    border-bottom: 2px solid #fff;
-    border-top: 3px solid #FFFFFF;
-    padding: 5px;
+    background-color: #88C448;
+    padding:12px;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
     font-size:13px;
@@ -97,4 +96,7 @@ input:-ms-input-placeholder,textarea:-ms-input-placeholder {
 input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     font-size:13px;
 }
-
+.caption-style > h3 {
+    margin:0;
+    color:#274989;
+}
