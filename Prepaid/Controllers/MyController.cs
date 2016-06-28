@@ -64,4 +64,14 @@ namespace Prepaid.Controllers
 
         public ActionResult Modify() { return View(); }
     }
+
+    public class EnergyBillController : Controller
+    {
+        public ActionResult List() { return View(); }
+    }
+
+    public class PrepaidController : Controller
+    {
+        public ActionResult List() { return View(); }
+    }
 }

@@ -26,6 +26,7 @@ namespace Prepaid
             container.RegisterType<IRepository<string, Recharge>, RechargeRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<string, User>, UserRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<int, DeviceLink>, DeviceLinkRespository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEnergyBillRespository, EnergyBillRespository>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             // Web API 路由
