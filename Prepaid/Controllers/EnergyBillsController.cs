@@ -101,6 +101,38 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
+        // GET: api/userprepaidbills
+        [HttpGet]
+        [Route("api/userprepaidbills")]
+        public IHttpActionResult GetUserPrepaidBills()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            Pager pager = null;
+            string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
+            string strPageSize = HttpContext.Current.Request.Params["PageSize"];
+            IEnumerable<PrepaidEnergy> prepaidEnergies;
+
+            if (strPageIndex == null || strPageSize == null)
+            {
+                pager = new Pager();
+                prepaidEnergies = this.repository.GetPrepaidEnergies();
+            }
+            else
+            {
+                // 获取分页数据
+                int pageIndex = Convert.ToInt32(strPageIndex);
+                int pageSize = Convert.ToInt32(strPageSize);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
+                prepaidEnergies = this.repository.GetPrepaidPagerEnergies(pageIndex, pageSize, u => u.UserID);
+            }
+            pager.Items = prepaidEnergies;
+
+            return Ok(pager);
+        }
+
         // GET: api/energybills/1
         [ResponseType(typeof(EnergyBill))]
         public async Task<IHttpActionResult> GetEnergyBill(int uuid)

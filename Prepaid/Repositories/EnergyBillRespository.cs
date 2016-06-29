@@ -72,5 +72,65 @@ namespace Prepaid.Repositories
             else
                 return GetUserEnergies().OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
+
+
+        public IEnumerable<PrepaidEnergy> GetPrepaidEnergies()
+        {
+            List<PrepaidEnergy> prepaidEnergies = new List<PrepaidEnergy>();
+            foreach (var item in db.Users)
+            {
+                PrepaidEnergy prepaidEnergy = new PrepaidEnergy();
+                prepaidEnergy.UserID = item.UUID;
+                prepaidEnergy.RealName = item.RealName;
+                prepaidEnergy.BuildingName = item.BuildingName;
+                prepaidEnergy.RoomNo = item.RoomNo;
+                prepaidEnergy.AccountBalance = item.AccountBalance;
+                prepaidEnergy.AccountWarnLimit = item.AccountWarnLimit;
+                prepaidEnergy.CreditScore = item.CreditScore;
+                prepaidEnergy.InstantDeviceEnergies = GetInstantDeviceEnergies(item.UUID);
+                prepaidEnergy.CurrentSumValue = prepaidEnergy.InstantDeviceEnergies.Sum(o => o.IntervalValue);
+                prepaidEnergy.CurrentSumMoney = prepaidEnergy.InstantDeviceEnergies.Sum(o => o.IntervalMoney);
+                prepaidEnergy.CurrentAccountBalance = prepaidEnergy.AccountBalance - prepaidEnergy.CurrentSumMoney;
+                prepaidEnergies.Add(prepaidEnergy);
+            }
+
+            return prepaidEnergies;
+        }
+
+        private IEnumerable<InstantDeviceEnergy> GetInstantDeviceEnergies(string userID)
+        {
+            List<InstantDeviceEnergy> deviceEnergies = new List<InstantDeviceEnergy>();
+            var devices = from item in db.DeviceLinks where item.User.UUID == userID select item;
+            foreach (var item in devices)
+            {
+                InstantDeviceEnergy deviceEnergy = new InstantDeviceEnergy();
+                deviceEnergy.PointID = item.Point.ID;
+                deviceEnergy.DeviceName = item.Point.DeviceName;
+                var preEnergy = (from p in db.EnergyBills
+                                 where p.DeviceLinkID == item.ID
+                                 orderby p.DateTime descending
+                                 select p).FirstOrDefault();
+                if (preEnergy != null)
+                {
+                    deviceEnergy.PreDateTime = preEnergy.DateTime;
+                    deviceEnergy.PreValue = preEnergy.TotolValue;
+                    deviceEnergy.CurrentValue = Convert.ToDouble(item.Point.Value);
+                    deviceEnergy.IntervalValue = deviceEnergy.CurrentValue - deviceEnergy.PreValue;
+                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * 100);
+                }
+                deviceEnergies.Add(deviceEnergy);
+            }
+
+            return deviceEnergies;
+        }
+
+        public IEnumerable<PrepaidEnergy> GetPrepaidPagerEnergies(int pageIndex, int pageSize, Func<PrepaidEnergy, string> func, bool isDesc = false)
+        {
+            int recordStart = (pageIndex - 1) * pageSize;
+            if (!isDesc)
+                return GetPrepaidEnergies().OrderBy(func).Skip(recordStart).Take(pageSize);
+            else
+                return GetPrepaidEnergies().OrderByDescending(func).Skip(recordStart).Take(pageSize);
+        }
     }
 }

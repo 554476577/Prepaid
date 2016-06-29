@@ -12,5 +12,9 @@ namespace Prepaid.Repositories
         IEnumerable<UserEnergy> GetUserEnergies();
 
         IEnumerable<UserEnergy> GetUserPagerEnergies(int pageIndex, int pageSize, Func<UserEnergy, string> func, bool isDesc = false);
+
+        IEnumerable<PrepaidEnergy> GetPrepaidEnergies();
+
+        IEnumerable<PrepaidEnergy> GetPrepaidPagerEnergies(int pageIndex, int pageSize, Func<PrepaidEnergy, string> func, bool isDesc = false);
     }
 }

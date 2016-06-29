@@ -222,10 +222,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InstantDeviceEnergy.cs" />
     <Compile Include="Models\Pager.cs" />
     <Compile Include="Models\AdminSession.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\PrepaidContext.cs" />
+    <Compile Include="Models\PrepaidEnergy.cs" />
     <Compile Include="Models\UserEnergy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Recharge.cs" />

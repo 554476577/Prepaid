@@ -16,7 +16,7 @@
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/energybills",
+                url: "../api/userprepaidbills",
                 params: params
             }).success(function (data, status, headers, config) {
                 $scope.Items = data.Items;
@@ -48,31 +48,51 @@
         }
     });
 </script>
-
 <div ng-controller="EnergyBillCtrl" class="content-div">
     <table class="table table-hover">
-        <thead>
-            <tr>
-                <th width="10%">ID</th>
-                <th width="10%">业主姓名</th>
-                <th width="20%">时间</th>
-                <th width="10%">设备名称</th>
-                <th width="10%">总读数</th>
-                <th width="10%">最近结算能耗</th>
-                <th width="10%">最近结算价格</th>
-                <th width="20%">备注</th>
+        <thead class="energy-th">
+            <tr style="display:block;">
+                <th class="th-first">业主姓名</th>
+                <th>建筑名称</th>
+                <th>房间编号</th>
+                <th>设备名称</th>
+                <th>上次抄表读数</th>
+                <th>当前抄表读数</th>
+                <th>当前用能</th>
+                <th>当前能耗价格</th>
+                <th>当前总能耗</th>
+                <th>当前结算总价</th>
+                <th>账户余额</th>
+                <th>结算后账户余额</th>
+                <th>账户报警金额</th>
+                <th>账户可透支金额</th>
+                <th>操作</th>
             </tr>
         </thead>
-        <tbody>
-            <tr ng-cloak ng-repeat="item in Items">
-                <td>{{item.ID}}</td>
-                <td>{{item.RealName}}</td>
-                <td>{{item.DateTime}}</td>
-                <td>{{item.DeviceName}}</td>
-                <td>{{item.TotolValue}}</td>
-                <td>{{item.Value}}</td>
-                <td>{{item.Money}}</td>
-                <td>{{item.Remark}}</td>
+        <tbody class="energy-tbody">
+            <tr ng-cloak ng-repeat="item in Items" style="display:block;">
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}" colspan="5" class="td-style">
+                    <table class="table table-hover tab2">
+                        <tr ng-cloak ng-repeat="device in item.InstantDeviceEnergies">
+                            <td>{{device.DeviceName}}</td>
+                            <td>{{device.PreValue}}</td>
+                            <td>{{device.CurrentValue}}</td>
+                            <td>{{device.IntervalValue}}</td>
+                            <td>{{device.IntervalMoney}}</td>
+                        </tr>
+                    </table>
+                </td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.CurrentSumValue}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.CurrentSumMoney}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}">
+                    <button type="button" class="btn btn-success">充值</button>
+                </td>
             </tr>
         </tbody>
     </table>
