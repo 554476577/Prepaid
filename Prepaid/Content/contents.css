@@ -112,7 +112,7 @@ tbody tr td {
     width:160px;
     text-align:center;
 }
-.energy-th tr .th-first {
+.energy-th tr .thead-th {
     width:240px;
 }
 .table .energy-tbody tr td {
@@ -130,4 +130,30 @@ tbody tr td {
 }
 .table.tab2 tr td {
     width:160px;
+}
+/*预付费的table样式*/
+.paid-th tr th {
+    width:117px;
+    text-align:center;
+}
+.paid-th tr .first-th {
+    width:90px;
+}
+.table .paid-tbody tr td {
+    width:117px;
+    border-top:1px solid transparent;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+    vertical-align:middle;
+}
+.table .paid-tbody tr .td-style {
+    width:585px;
+    padding:8px 0;
+}
+.table .paid-tab2 {
+    margin-bottom:0;
+}
+.table.paid-tab2 tr td {
+    width:117px;
+    padding:8px 0;
 }

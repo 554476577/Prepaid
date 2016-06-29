@@ -50,9 +50,9 @@
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div">
     <table class="table table-hover">
-        <thead class="energy-th">
+        <thead class="paid-th">
             <tr style="display:block;">
-                <th class="th-first">业主姓名</th>
+                <th class="first-th">业主姓名</th>
                 <th>建筑名称</th>
                 <th>房间编号</th>
                 <th>设备名称</th>
@@ -69,14 +69,14 @@
                 <th>操作</th>
             </tr>
         </thead>
-        <tbody class="energy-tbody">
+        <tbody class="paid-tbody">
             <tr ng-cloak ng-repeat="item in Items" style="display:block;">
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="width:90px;">{{item.RealName}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}" colspan="5" class="td-style">
-                    <table class="table table-hover tab2">
-                        <tr ng-cloak ng-repeat="device in item.InstantDeviceEnergies">
+                    <table class="table table-hover paid-tab2">
+                        <tr ng-cloak ng-repeat="device in item.InstantDeviceEnergies" class="success">
                             <td>{{device.DeviceName}}</td>
                             <td>{{device.PreValue}}</td>
                             <td>{{device.CurrentValue}}</td>
@@ -85,11 +85,12 @@
                         </tr>
                     </table>
                 </td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.CurrentSumValue}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.CurrentSumMoney}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumValue}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumMoney}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
+                <td></td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">
                     <button type="button" class="btn btn-success">充值</button>
                 </td>

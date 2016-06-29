@@ -52,7 +52,7 @@
     <table class="table table-hover">
         <thead class="energy-th">
             <tr style="display:block;">
-                <th class="th-first">用户UUID</th>
+                <th class="thead-th">用户UUID</th>
                 <th>业主姓名</th>
                 <th>时间</th>
                 <th>设备名称</th>
@@ -71,7 +71,7 @@
                 <td rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</td>
                 <td rowspan="{{item.DeviceEnergies.length}}" colspan="4" class="td-style">
                     <table class="table table-hover tab2">
-                        <tr ng-cloak ng-repeat="device in item.DeviceEnergies">
+                        <tr ng-cloak ng-repeat="device in item.DeviceEnergies" class="success">
                             <td>{{device.DeviceName}}</td>
                             <td>{{device.TotolValue}}</td>
                             <td>{{device.Value}}</td>

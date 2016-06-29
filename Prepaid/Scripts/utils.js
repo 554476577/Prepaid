@@ -88,7 +88,7 @@ function popWnd(id, title, width, height) {
             modal: true,
             visible: false,
             resizable: false,
-            draggable: false
+            draggable: true
         }).data("kendoWindow");
         wnd.open().center();
     }
