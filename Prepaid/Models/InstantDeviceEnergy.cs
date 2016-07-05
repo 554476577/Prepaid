@@ -13,6 +13,11 @@ namespace Prepaid.Models
         public int PointID { get; set; }
 
         /// <summary>
+        /// 设备联动ID
+        /// </summary>
+        public int DeviceLinkID { get; set; }
+
+        /// <summary>
         /// 设备名称
         /// </summary>
         public string DeviceName { get; set; }

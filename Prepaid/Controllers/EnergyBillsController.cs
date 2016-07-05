@@ -1,4 +1,5 @@
-﻿using Prepaid.Models;
+﻿using Newtonsoft.Json;
+using Prepaid.Models;
 using Prepaid.Repositories;
 using Prepaid.Utils;
 using System;
@@ -208,6 +209,34 @@ namespace Prepaid.Controllers
                     return Conflict();
                 else
                     throw;
+            }
+
+            return Ok();
+        }
+
+        // POST: api/userenergybills
+        [HttpPost]
+        [Route("api/userenergybills")]
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PostUserEnergyBills()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            string strDeviceEnergies = HttpContext.Current.Request.Params["DeviceEnergies"];
+            strDeviceEnergies = string.Format("[{0}]", strDeviceEnergies); // 格式化为json数组
+            List<InstantDeviceEnergy> deviceEnergies = JsonConvert.DeserializeObject<List<InstantDeviceEnergy>>(strDeviceEnergies);
+            DateTime now = DateTime.Now;
+            foreach (InstantDeviceEnergy item in deviceEnergies)
+            {
+                EnergyBill energyBill = new EnergyBill();
+                energyBill.DeviceLinkID = item.DeviceLinkID;
+                energyBill.TotolValue = item.CurrentValue;
+                energyBill.Value = item.IntervalValue;
+                energyBill.Money = item.IntervalMoney;
+                energyBill.DateTime = now;
+                await this.repository.AddAsync(energyBill);
             }
 
             return Ok();

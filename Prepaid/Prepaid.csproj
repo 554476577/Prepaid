@@ -272,6 +272,7 @@
     <Content Include="Views\DeviceLink\Modify.cshtml" />
     <Content Include="Views\EnergyBill\List.cshtml" />
     <Content Include="Views\Prepaid\List.cshtml" />
+    <Content Include="Views\Recharge\Add.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -45,6 +45,8 @@ namespace Prepaid.Controllers
     public class RechargeController : Controller
     {
         public ActionResult List() { return View(); }
+
+        public ActionResult Add() { return View(); }
     }
 
     public class UserController : Controller

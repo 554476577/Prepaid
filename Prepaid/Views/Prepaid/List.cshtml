@@ -46,6 +46,22 @@
                 ShowErrModal(data, status);
             });
         }
+
+        // 结算
+        $scope.settleBill = function (deviceEnergies) {
+            ShowConfirmModal("确定要结算该业主的能耗费用吗?", function () {
+                $http({
+                    method: "post",
+                    withCredentials: true,
+                    url: "../api/userenergybills",
+                    params: { "DeviceEnergies": deviceEnergies }
+                }).success(function (data, status, headers, config) {
+                    window.parent.location.href = "../prepaid/list";
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div">
@@ -88,11 +104,15 @@
                 <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumValue}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumMoney}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentAccountBalance}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
-                <td></td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">
-                    <button type="button" class="btn btn-success">充值</button>
+                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success" url="recharge/add?userid={{item.UserID}}"
+                            onclick="popDefaultWnd(this.id,'能耗充值')">
+                        充值
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="settleBill(item.InstantDeviceEnergies)">结算</button>
                 </td>
             </tr>
         </tbody>

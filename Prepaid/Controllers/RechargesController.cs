@@ -16,11 +16,15 @@ namespace Prepaid.Controllers
 {
     public class RechargesController : ApiController
     {
-        IRepository<string, Recharge> repository;
+        IRepository<string, Recharge> rechargeRepository;
+        IRepository<string, User> userRepository;
 
-        public RechargesController(IRepository<string, Recharge> repository)
+        public RechargesController(
+            IRepository<string, Recharge> rechargeRepository,
+            IRepository<string, User> userRepository)
         {
-            this.repository = repository;
+            this.rechargeRepository = rechargeRepository;
+            this.userRepository = userRepository;
         }
 
         // GET: api/recharges
@@ -38,15 +42,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                recharges = this.repository.GetAll();
+                recharges = this.rechargeRepository.GetAll();
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                recharges = this.repository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
+                pager = new Pager(pageIndex, pageSize, this.rechargeRepository.GetCount());
+                recharges = this.rechargeRepository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
             }
 
             var items = from item in recharges
@@ -72,7 +76,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Recharge item = await this.repository.GetByIdAsync(uuid);
+            Recharge item = await this.rechargeRepository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
@@ -102,11 +106,11 @@ namespace Prepaid.Controllers
 
             try
             {
-                await this.repository.PutAsync(recharge);
+                await this.rechargeRepository.PutAsync(recharge);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.repository.IsExist(uuid))
+                if (!this.rechargeRepository.IsExist(uuid))
                     return NotFound();
                 else
                     throw;
@@ -125,13 +129,18 @@ namespace Prepaid.Controllers
 
             try
             {
+                string UserID = recharge.UserID;
+                User user = this.userRepository.GetByID(UserID);
+                user.AccountBalance += recharge.Money;
+                await this.userRepository.PutAsync(user);
+
                 recharge.UUID = TextHelper.GenerateUUID();
                 recharge.DateTime = DateTime.Now;
-                await this.repository.AddAsync(recharge);
+                await this.rechargeRepository.AddAsync(recharge);
             }
             catch (DbUpdateException)
             {
-                if (this.repository.IsExist(recharge.UUID))
+                if (this.rechargeRepository.IsExist(recharge.UUID))
                     return Conflict();
                 else
                     throw;
@@ -147,11 +156,11 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Recharge recharge = await this.repository.GetByIdAsync(uuid);
+            Recharge recharge = await this.rechargeRepository.GetByIdAsync(uuid);
             if (recharge == null)
                 return NotFound();
 
-            await this.repository.DeleteAsync(recharge);
+            await this.rechargeRepository.DeleteAsync(recharge);
 
             return Ok();
         }

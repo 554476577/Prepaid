@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('RechargeCtrl', function ($scope, $http) {
+        $scope.add = function () {
+            var params = {
+                "UserID":getQueryString("userid"),
+                "Money": $("#Money").val(),
+                "Remark": $("#Remark").val()
+            };
+            $http({
+                method: "post",
+                withCredentials: true,
+                url: "../api/recharges",
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("业主能耗金额充值成功！", function () {
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../prepaid/list";
+                    } else {
+                        window.location.href = "../prepaid/list";
+                    }
+                });
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+    });
+</script>
+<div ng-controller="RechargeCtrl" class="content-div">
+    <form role="form">
+        <div class="form-group">
+            <label for="Money">充值金额</label>
+            <input type="text" class="form-control input-text" id="Money" name="Money" placeholder="请输入充值金额！">
+        </div>
+        <div class="form-group">
+            <label for="Remark">备注</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top" ng-click="add()">充值</button><br />
+</div>

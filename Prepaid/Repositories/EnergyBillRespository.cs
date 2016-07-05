@@ -38,6 +38,7 @@ namespace Prepaid.Repositories
                              SumValue = g.Sum(p => p.Value),
                              SumMoney = g.Sum(p => p.Money)
                          };
+            result = from item in result orderby item.DateTime descending select item;
             foreach (var item in result)
             {
                 UserEnergy userEnergy = new UserEnergy();
@@ -48,7 +49,7 @@ namespace Prepaid.Repositories
                 userEnergy.SumValue = item.SumValue;
                 userEnergy.SumMoney = item.SumMoney;
                 userEnergy.DeviceEnergies = from p in GetAll()
-                                            where p.DeviceLink.UserID == item.UserID
+                                            where p.DeviceLink.UserID == item.UserID && p.DateTime==item.DateTime
                                             select new DeviceEnergy
                                             {
                                                 PointID = p.DeviceLink.Point.ID,
@@ -104,6 +105,7 @@ namespace Prepaid.Repositories
             foreach (var item in devices)
             {
                 InstantDeviceEnergy deviceEnergy = new InstantDeviceEnergy();
+                deviceEnergy.DeviceLinkID = item.ID;
                 deviceEnergy.PointID = item.Point.ID;
                 deviceEnergy.DeviceName = item.Point.DeviceName;
                 var preEnergy = (from p in db.EnergyBills
@@ -116,7 +118,7 @@ namespace Prepaid.Repositories
                     deviceEnergy.PreValue = preEnergy.TotolValue;
                     deviceEnergy.CurrentValue = Convert.ToDouble(item.Point.Value);
                     deviceEnergy.IntervalValue = deviceEnergy.CurrentValue - deviceEnergy.PreValue;
-                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * 100);
+                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * 1.05);
                 }
                 deviceEnergies.Add(deviceEnergy);
             }
