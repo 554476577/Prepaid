@@ -71,6 +71,11 @@ function popDefaultWnd(id,title) {
     popWnd(id, title, 800, 600);
 }
 
+//弹出自定义窗口
+function popFirstWnd(id, title,width,height) {
+    popWnd(id, title, width,height);
+}
+
 // 弹出窗口
 function popWnd(id, title, width, height) {
     var url = $("#" + id).attr("url");

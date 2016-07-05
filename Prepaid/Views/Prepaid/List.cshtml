@@ -108,11 +108,11 @@
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">
-                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success" url="recharge/add?userid={{item.UserID}}"
-                            onclick="popDefaultWnd(this.id,'能耗充值')">
+                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style" url="recharge/add?userid={{item.UserID}}"
+                            onclick="popFirstWnd(this.id, '能耗充值','400','400')">
                         充值
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="settleBill(item.InstantDeviceEnergies)">结算</button>
+                    <button type="button" class="btn btn-danger btn-style" ng-click="settleBill(item.InstantDeviceEnergies)">结算</button>
                 </td>
             </tr>
         </tbody>
