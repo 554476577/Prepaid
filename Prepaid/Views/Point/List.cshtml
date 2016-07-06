@@ -67,9 +67,18 @@
     <table class="table table-hover">
         <caption class="caption-style">
             <h3>设备管理</h3>
-            <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-            </button>
+            <div class="search-top">
+                <ul>
+                    <li class="search-li">点位ID:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li">协议名称:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li">仪器名称:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li">组ID:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li"><button class="search-btn" type="submit" title="搜索">搜索</button></li>
+                </ul>
+                <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+            </div>
         </caption>
         <thead>
             <tr>

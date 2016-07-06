@@ -126,9 +126,18 @@
         <table class="table table-hover">
             <caption class="caption-style">
                 <h3>用户管理</h3>
-                <button title="添加业主" id="btnAdd" url="user/add" onclick="popDefaultWnd(this.id,'添加业主')" class="btn btn-success btn-top">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
+                <div class="search-top">
+                    <ul>
+                        <li class="search-li">UUID:<input type="text" class="form-control input-md input-search"></li>
+                        <li class="search-li">业主姓名:<input type="text" class="form-control input-md input-search"></li>
+                        <li class="search-li">建筑物名称:<input type="text" class="form-control input-md input-search"></li>
+                        <li class="search-li">房号:<input type="text" class="form-control input-md input-search"></li>
+                        <li class="search-li"><button class="search-btn" type="submit" title="搜索">搜索</button></li>
+                    </ul>
+                    <button title="添加业主" id="btnAdd" url="user/add" onclick="popDefaultWnd(this.id,'添加业主')" class="btn btn-success btn-top">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+              </div>
             </caption>
             <thead>
                 <tr>

@@ -2,6 +2,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
+    $(function () {
+        $(".form_datetime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            language: 'zh-CN',/*加载日历语言包，可自定义*/
+            weekStart: 1,
+            todayBtn: 1,
+            todayHighlight: 1,
+            pickerPosition: "bottom-left",
+            startView: 2,
+            minView: 1,
+            maxView: 4,
+            forceParse: 0
+        });
+
+        // 保证结束日期不能小于开始日期
+        $("#endTime input").focus(function () {
+            $('#endTime').datetimepicker('setStartDate', $("#startTime input").val());
+        });
+    });
     app.controller('EnergyBillCtrl', function ($scope, $http) {
         $scope.PageSize = 10;
 
@@ -50,6 +69,31 @@
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div">
     <table class="table table-hover">
+        <caption class="caption-style">
+            <h3>能耗管理</h3>
+            <div class="search-top">
+                <ul>
+                    <li class="search-li">用户UUID:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li">业主姓名:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li">设备名称:<input type="text" class="form-control input-md input-search"></li>
+                </ul>
+                <div class="col-lg-3 search-lg-div">
+                    <div class="input-group date form_datetime search-data">
+                        <input class="form-control" id="startTime" ng-model="StartTime" data-date-format="yyyy-mm-dd hh:ii" placeholder="请输入开始日期">
+                        <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 search-lg-div">
+                    <div class="input-group date form_datetime search-data">
+                        <input class="form-control" id="endTime" ng-model="EndTime" data-date-format="yyyy-mm-dd hh:ii" placeholder="请输入结束日期">
+                        <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                </div>
+                <div class="input-group search-div">
+                    <button class="search-btn" type="submit" title="搜索">搜索</button>
+                </div>
+            </div>
+        </caption>
         <thead class="energy-th">
             <tr style="display:block;">
                 <th class="thead-th">用户UUID</th>

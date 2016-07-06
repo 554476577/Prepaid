@@ -157,3 +157,41 @@ tbody tr td {
     width:117px;
     padding:8px 0;
 }
+/*搜索框的样式*/
+.search-top {
+    height:40px;
+    margin-left:20px;
+    margin-top:10px;
+}
+.search-li {
+    display:inline-table;
+    float:left;
+    font-weight:bold;
+}
+.search-btn {
+    line-height:26px;
+    margin-left:15px;
+    border:2px solid #cbc1c1;
+    border-radius:3px;
+}
+.input-search {
+    display:inline-table;
+    width:150px;
+    margin:0 15px;
+}
+.search-div {
+    display:inline-table;
+    float:left;
+    width:300px;
+    margin-left:15px;
+}
+/*搜索框的时间控件的样式*/
+.search-lg-div {
+    display:inline-table;
+    float:left;
+    width:230px;
+    margin-left:15px;
+}
+.search-lg-div > .search-data {
+    width:230px;
+}
