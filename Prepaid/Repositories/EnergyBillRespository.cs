@@ -49,7 +49,7 @@ namespace Prepaid.Repositories
                 userEnergy.SumValue = item.SumValue;
                 userEnergy.SumMoney = item.SumMoney;
                 userEnergy.DeviceEnergies = from p in GetAll()
-                                            where p.DeviceLink.UserID == item.UserID && p.DateTime==item.DateTime
+                                            where p.DeviceLink.UserID == item.UserID && p.DateTime == item.DateTime
                                             select new DeviceEnergy
                                             {
                                                 PointID = p.DeviceLink.Point.ID,
@@ -74,6 +74,36 @@ namespace Prepaid.Repositories
                 return GetUserEnergies().OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
 
+        public IEnumerable<UserEnergy> GetUserEnergies(string userID, string realName, string startTime, string endTime)
+        {
+            var result = GetUserEnergies();
+            if (!string.IsNullOrEmpty(userID))
+                result = result.Where(u => u.UserID.Contains(userID));
+            if (!string.IsNullOrEmpty(realName))
+                result = result.Where(u => u.RealName != null && u.RealName.Contains(realName));
+            if (!string.IsNullOrEmpty(startTime))
+            {
+                DateTime dateTime = Convert.ToDateTime(startTime);
+                result = result.Where(u => u.DateTime != null && u.DateTime >= dateTime);
+            }
+            if (!string.IsNullOrEmpty(endTime))
+            {
+                DateTime dateTime = Convert.ToDateTime(endTime);
+                result = result.Where(u => u.DateTime != null && u.DateTime <= dateTime);
+            }
+            return result;
+        }
+
+        public IEnumerable<UserEnergy> GetUserPagerEnergies(string userID, string realName, string startTime, string endTime,
+            int pageIndex, int pageSize, Func<UserEnergy, string> func, bool isDesc = false)
+        {
+            var result = GetUserEnergies(userID, realName, startTime, endTime);
+            int recordStart = (pageIndex - 1) * pageSize;
+            if (!isDesc)
+                return result.OrderBy(func).Skip(recordStart).Take(pageSize);
+            else
+                return result.OrderByDescending(func).Skip(recordStart).Take(pageSize);
+        }
 
         public IEnumerable<PrepaidEnergy> GetPrepaidEnergies()
         {
@@ -133,6 +163,31 @@ namespace Prepaid.Repositories
                 return GetPrepaidEnergies().OrderBy(func).Skip(recordStart).Take(pageSize);
             else
                 return GetPrepaidEnergies().OrderByDescending(func).Skip(recordStart).Take(pageSize);
+        }
+
+        public IEnumerable<PrepaidEnergy> GetPrepaidEnergies(string userID, string realName, string buildingName, string roomNo)
+        {
+            var result = GetPrepaidEnergies();
+            if (!string.IsNullOrEmpty(userID))
+                result = result.Where(u => u.UserID.Contains(userID));
+            if (!string.IsNullOrEmpty(realName))
+                result = result.Where(u => u.RealName != null && u.RealName.Contains(realName));
+            if (!string.IsNullOrEmpty(buildingName))
+                result = result.Where(u => u.BuildingName != null && u.BuildingName.Contains(buildingName));
+            if (!string.IsNullOrEmpty(roomNo))
+                result = result.Where(u => u.RoomNo != null && u.RoomNo.Contains(roomNo));
+            return result;
+        }
+
+        public IEnumerable<PrepaidEnergy> GetPrepaidPagerEnergies(string userID, string realName, string buildingName, string roomNo,
+            int pageIndex, int pageSize, Func<PrepaidEnergy, string> func, bool isDesc = false)
+        {
+            var result = GetPrepaidEnergies(userID, realName, buildingName, roomNo);
+            int recordStart = (pageIndex - 1) * pageSize;
+            if (!isDesc)
+                return result.OrderBy(func).Skip(recordStart).Take(pageSize);
+            else
+                return result.OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
     }
 }

@@ -80,14 +80,18 @@ namespace Prepaid.Controllers
                 return errResult;
 
             Pager pager = null;
+            IEnumerable<UserEnergy> userEnergies;
+            string UserID = HttpContext.Current.Request.Params["UserID"];
+            string RealName = HttpContext.Current.Request.Params["RealName"];
+            string StartTime = HttpContext.Current.Request.Params["StartTime"];
+            string EndTime = HttpContext.Current.Request.Params["EndTime"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<UserEnergy> userEnergies;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                userEnergies = this.repository.GetUserEnergies();
+                userEnergies = this.repository.GetUserEnergies(UserID, RealName, StartTime, EndTime);
             }
             else
             {
@@ -95,7 +99,7 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                userEnergies = this.repository.GetUserPagerEnergies(pageIndex, pageSize, u => u.UserID);
+                userEnergies = this.repository.GetUserPagerEnergies(UserID, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.UserID);
             }
             pager.Items = userEnergies;
 
@@ -112,14 +116,18 @@ namespace Prepaid.Controllers
                 return errResult;
 
             Pager pager = null;
+            IEnumerable<PrepaidEnergy> prepaidEnergies;
+            string UserID = HttpContext.Current.Request.Params["UserID"];
+            string RealName = HttpContext.Current.Request.Params["RealName"];
+            string BuildingName = HttpContext.Current.Request.Params["BuildingName"];
+            string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<PrepaidEnergy> prepaidEnergies;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                prepaidEnergies = this.repository.GetPrepaidEnergies();
+                prepaidEnergies = this.repository.GetPrepaidEnergies(UserID, RealName, BuildingName, RoomNo);
             }
             else
             {
@@ -127,7 +135,7 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                prepaidEnergies = this.repository.GetPrepaidPagerEnergies(pageIndex, pageSize, u => u.UserID);
+                prepaidEnergies = this.repository.GetPrepaidPagerEnergies(UserID, RealName, BuildingName, RoomNo, pageIndex, pageSize, u => u.UserID);
             }
             pager.Items = prepaidEnergies;
 

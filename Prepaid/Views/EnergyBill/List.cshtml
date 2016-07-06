@@ -4,14 +4,14 @@
 <script type="text/javascript">
     $(function () {
         $(".form_datetime").datetimepicker({
-            format: "yyyy-mm-dd hh:ii",
+            format: "yyyy-mm-dd",
             language: 'zh-CN',/*加载日历语言包，可自定义*/
             weekStart: 1,
             todayBtn: 1,
             todayHighlight: 1,
             pickerPosition: "bottom-left",
             startView: 2,
-            minView: 1,
+            minView: 2,
             maxView: 4,
             forceParse: 0
         });
@@ -21,10 +21,15 @@
             $('#endTime').datetimepicker('setStartDate', $("#startTime input").val());
         });
     });
+
     app.controller('EnergyBillCtrl', function ($scope, $http) {
         $scope.PageSize = 10;
 
         var params = {
+            "UserID": "",
+            "RealName": "",
+            "StartTime": "",
+            "EndTime": "",
             "PageIndex": 1,
             "PageSize": $scope.PageSize
         };
@@ -65,6 +70,16 @@
                 ShowErrModal(data, status);
             });
         }
+
+        // 搜索
+        $scope.search = function () {
+            params.UserID = $("#UserID").val();
+            params.RealName = $("#RealName").val();
+            params.StartTime = $scope.StartTime;
+            params.EndTime = $scope.EndTime;
+            params.PageIndex = 1;
+            getInfos(params, false);
+        };
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div">
@@ -73,24 +88,23 @@
             <h3>能耗管理</h3>
             <div class="search-top">
                 <ul>
-                    <li class="search-li">用户UUID:<input type="text" class="form-control input-md input-search"></li>
-                    <li class="search-li">业主姓名:<input type="text" class="form-control input-md input-search"></li>
-                    <li class="search-li">设备名称:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li">用户UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
+                    <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
                 </ul>
                 <div class="col-lg-3 search-lg-div">
-                    <div class="input-group date form_datetime search-data">
-                        <input class="form-control" id="startTime" ng-model="StartTime" data-date-format="yyyy-mm-dd hh:ii" placeholder="请输入开始日期">
+                    <div class="input-group date form_datetime search-data" id="startTime">
+                        <input class="form-control" ng-model="StartTime" data-date-format="yyyy-mm-dd" placeholder="请输入开始日期">
                         <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
                 </div>
                 <div class="col-lg-3 search-lg-div">
-                    <div class="input-group date form_datetime search-data">
-                        <input class="form-control" id="endTime" ng-model="EndTime" data-date-format="yyyy-mm-dd hh:ii" placeholder="请输入结束日期">
+                    <div class="input-group date form_datetime search-data" id="endTime">
+                        <input class="form-control" ng-model="EndTime" data-date-format="yyyy-mm-dd" placeholder="请输入结束日期">
                         <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
                 </div>
                 <div class="input-group search-div">
-                    <button class="search-btn" type="submit" title="搜索">搜索</button>
+                    <button class="search-btn" title="搜索" ng-click="search()">搜索</button>
                 </div>
             </div>
         </caption>
