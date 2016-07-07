@@ -46,5 +46,33 @@ namespace Prepaid.Repositories
         {
             return GetOriginalAll().Count();
         }
+
+        public IEnumerable<Point> GetOriginalAll(string pointID, string deviceName, string itemID)
+        {
+            var result = GetOriginalAll();
+            if (!string.IsNullOrEmpty(pointID))
+                result = result.Where(u => u.PointID.Contains(pointID));
+            if (!string.IsNullOrEmpty(deviceName))
+                result = result.Where(u => u.DeviceName != null && u.DeviceName.Contains(deviceName));
+            if (!string.IsNullOrEmpty(itemID))
+                result = result.Where(u => u.ItemID.Contains(itemID));
+            return result;
+        }
+
+        public int GetOriginalCount(string pointID, string deviceName, string itemID)
+        {
+            return GetOriginalAll(pointID, deviceName, itemID).Count();
+        }
+
+        public IEnumerable<Point> GetOriginalPagerItems(string pointID, string deviceName, string itemID,
+            int pageIndex, int pageSize, Func<Point, string> func, bool isDesc = false)
+        {
+            var result = GetOriginalAll(pointID, deviceName, itemID);
+            int recordStart = (pageIndex - 1) * pageSize;
+            if (!isDesc)
+                return result.OrderBy(func).Skip(recordStart).Take(pageSize);
+            else
+                return result.OrderByDescending(func).Skip(recordStart).Take(pageSize);
+        }
     }
 }

@@ -98,7 +98,7 @@ namespace Prepaid.Controllers
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
+                pager = new Pager(pageIndex, pageSize, this.repository.GetUserEnergiesCount(UserID, RealName, StartTime, EndTime));
                 userEnergies = this.repository.GetUserPagerEnergies(UserID, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.UserID);
             }
             pager.Items = userEnergies;
@@ -134,7 +134,7 @@ namespace Prepaid.Controllers
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
+                pager = new Pager(pageIndex, pageSize, this.repository.GetPrepaidEnergiesCount(UserID, RealName, BuildingName, RoomNo));
                 prepaidEnergies = this.repository.GetPrepaidPagerEnergies(UserID, RealName, BuildingName, RoomNo, pageIndex, pageSize, u => u.UserID);
             }
             pager.Items = prepaidEnergies;

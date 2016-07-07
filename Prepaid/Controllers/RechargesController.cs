@@ -16,12 +16,10 @@ namespace Prepaid.Controllers
 {
     public class RechargesController : ApiController
     {
-        IRepository<string, Recharge> rechargeRepository;
-        IRepository<string, User> userRepository;
+        IRechargeRespository rechargeRepository;
+        IUserRespository userRepository;
 
-        public RechargesController(
-            IRepository<string, Recharge> rechargeRepository,
-            IRepository<string, User> userRepository)
+        public RechargesController(IRechargeRespository rechargeRepository, IUserRespository userRepository)
         {
             this.rechargeRepository = rechargeRepository;
             this.userRepository = userRepository;
@@ -35,22 +33,24 @@ namespace Prepaid.Controllers
                 return errResult;
 
             Pager pager = null;
+            IEnumerable<Recharge> recharges;
+            string UserID = HttpContext.Current.Request.Params["UserID"];
+            string RealName = HttpContext.Current.Request.Params["RealName"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<Recharge> recharges;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                recharges = this.rechargeRepository.GetAll();
+                recharges = this.rechargeRepository.GetAll(UserID, RealName);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.rechargeRepository.GetCount());
-                recharges = this.rechargeRepository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
+                pager = new Pager(pageIndex, pageSize, this.rechargeRepository.GetCount(UserID, RealName));
+                recharges = this.rechargeRepository.GetPagerItems(UserID, RealName, pageIndex, pageSize, u => u.UUID);
             }
 
             var items = from item in recharges

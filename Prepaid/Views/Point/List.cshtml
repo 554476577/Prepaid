@@ -7,9 +7,8 @@
 
             var params = {
                 "PointID": "",
-                "AgreementName": "",
-                "InstrumentName": "",
-                "GroupID": "",
+                "DeviceName": "",
+                "ItemID": "",
                 "PageIndex": 1,
                 "PageSize": $scope.PageSize
             };
@@ -69,11 +68,10 @@
             // 搜索
             $scope.search = function () {
                 params.PageIndex = 1;
-                params.UserID = $("#PointID").val();
-                params.RealName = $("#AgreementName").val();
-                params.BuildingName = $("#InstrumentName").val();
-                params.RoomNo = $("#GroupID").val();
-                getInfos(params, false);
+                params.PointID = $("#PointID").val();
+                params.DeviceName = $("#DeviceName").val();
+                params.ItemID = $("#ItemID").val();
+                getInfos(params, true);
             };
         });
 </script>
@@ -84,10 +82,9 @@
             <div class="search-top">
                 <ul>
                     <li class="search-li">点位ID:<input type="text" id="PointID" class="form-control input-md input-search"></li>
-                    <li class="search-li">协议名称:<input type="text" id="AgreementName" class="form-control input-md input-search"></li>
-                    <li class="search-li">仪器名称:<input type="text" id="InstrumentName" class="form-control input-md input-search"></li>
-                    <li class="search-li">组ID:<input type="text" id="GroupID" class="form-control input-md input-search"></li>
-                    <li class="search-li"><button class="search-btn" type="submit" title="搜索">搜索</button></li>
+                    <li class="search-li">仪器名称:<input type="text" id="DeviceName" class="form-control input-md input-search"></li>
+                    <li class="search-li">组ID:<input type="text" id="ItemID" class="form-control input-md input-search"></li>
+                    <li class="search-li"><button class="search-btn" title="搜索" ng-click="search()">搜索</button></li>
                 </ul>
                 <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>

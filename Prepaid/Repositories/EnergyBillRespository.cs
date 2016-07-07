@@ -94,6 +94,11 @@ namespace Prepaid.Repositories
             return result;
         }
 
+        public int GetUserEnergiesCount(string userID, string realName, string startTime, string endTime)
+        {
+            return GetUserEnergies(userID, realName, startTime, endTime).Count();
+        }
+
         public IEnumerable<UserEnergy> GetUserPagerEnergies(string userID, string realName, string startTime, string endTime,
             int pageIndex, int pageSize, Func<UserEnergy, string> func, bool isDesc = false)
         {
@@ -177,6 +182,11 @@ namespace Prepaid.Repositories
             if (!string.IsNullOrEmpty(roomNo))
                 result = result.Where(u => u.RoomNo != null && u.RoomNo.Contains(roomNo));
             return result;
+        }
+
+        public int GetPrepaidEnergiesCount(string userID, string realName, string buildingName, string roomNo)
+        {
+            return GetPrepaidEnergies(userID, realName, buildingName, roomNo).Count();
         }
 
         public IEnumerable<PrepaidEnergy> GetPrepaidPagerEnergies(string userID, string realName, string buildingName, string roomNo,

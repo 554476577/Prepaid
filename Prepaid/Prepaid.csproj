@@ -235,6 +235,8 @@
     <Compile Include="Repositories\EnergyBillRespository.cs" />
     <Compile Include="Repositories\DeviceLinkRespository.cs" />
     <Compile Include="Repositories\IEnergyBillRespository.cs" />
+    <Compile Include="Repositories\IRechargeRespository.cs" />
+    <Compile Include="Repositories\IUserRespository.cs" />
     <Compile Include="Repositories\UserRespository.cs" />
     <Compile Include="Repositories\RechargeRespository.cs" />
     <Compile Include="Repositories\CreditLevelRespository.cs" />

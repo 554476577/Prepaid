@@ -31,22 +31,25 @@ namespace Prepaid.Controllers
                 return errResult;
 
             Pager pager = null;
+            IEnumerable<Point> points;
+            string PointID = HttpContext.Current.Request.Params["PointID"];
+            string DeviceName = HttpContext.Current.Request.Params["DeviceName"];
+            string ItemID = HttpContext.Current.Request.Params["ItemID"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<Point> points;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                points = this.repository.GetOriginalAll();
+                points = this.repository.GetOriginalAll(PointID, DeviceName, ItemID);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetOriginalCount());
-                points = this.repository.GetPagerItems(pageIndex, pageSize, u => u.PointID);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetOriginalCount(PointID, DeviceName, ItemID));
+                points = this.repository.GetOriginalPagerItems(PointID, DeviceName, ItemID, pageIndex, pageSize, u => u.PointID);
             }
 
             var items = from item in points

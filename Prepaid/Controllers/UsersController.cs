@@ -16,9 +16,9 @@ namespace Prepaid.Controllers
 {
     public class UsersController : ApiController
     {
-        IRepository<string, User> repository;
+        IUserRespository repository;
 
-        public UsersController(IRepository<string, User> repository)
+        public UsersController(IUserRespository repository)
         {
             this.repository = repository;
         }
@@ -31,22 +31,26 @@ namespace Prepaid.Controllers
                 return errResult;
 
             Pager pager = null;
+            IEnumerable<User> users;
+            string UserID = HttpContext.Current.Request.Params["UserID"];
+            string RealName = HttpContext.Current.Request.Params["RealName"];
+            string BuildingName = HttpContext.Current.Request.Params["BuildingName"];
+            string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<User> users;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                users = this.repository.GetAll();
+                users = this.repository.GetAll(UserID, RealName, BuildingName, RoomNo);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                users = this.repository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetCount(UserID, RealName, BuildingName, RoomNo));
+                users = this.repository.GetPagerItems(UserID, RealName, BuildingName, RoomNo, pageIndex, pageSize, u => u.UUID);
             }
 
             var items = from item in users

@@ -54,7 +54,7 @@
             params.PageIndex = 1;
             params.UserID = $("#UserID").val();
             params.RealName = $("#RealName").val();
-            getInfos(params, false);
+            getInfos(params, true);
         };
     });
 </script>
@@ -67,7 +67,7 @@
                 <ul>
                     <li class="search-li">UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
                     <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
-                    <li class="search-li"><button class="search-btn" type="submit" title="搜索">搜索</button></li>
+                    <li class="search-li"><button class="search-btn" title="搜索" ng-click="search()">搜索</button></li>
                 </ul>
             </div>
         </caption>

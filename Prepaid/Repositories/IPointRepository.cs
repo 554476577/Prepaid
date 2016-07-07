@@ -15,5 +15,12 @@ namespace Prepaid.Repositories
         IEnumerable<Point> GetOriginalAll();
 
         int GetOriginalCount();
+
+        IEnumerable<Point> GetOriginalAll(string pointID, string deviceName, string itemID);
+
+        int GetOriginalCount(string pointID, string deviceName, string itemID);
+
+        IEnumerable<Point> GetOriginalPagerItems(string pointID, string deviceName, string itemID,
+            int pageIndex, int pageSize, Func<Point, string> func, bool isDesc = false);
     }
 }
