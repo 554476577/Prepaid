@@ -6,6 +6,8 @@
         $scope.PageSize = 10;
 
         var params = {
+            "UserID": "",
+            "RealName":"",
             "PageIndex": 1,
             "PageSize": $scope.PageSize
         };
@@ -45,7 +47,15 @@
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
-        }
+        };
+
+        // 搜索
+        $scope.search = function () {
+            params.PageIndex = 1;
+            params.UserID = $("#UserID").val();
+            params.RealName = $("#RealName").val();
+            getInfos(params, false);
+        };
     });
 </script>
 
@@ -55,8 +65,8 @@
             <h3>充值记录</h3>
             <div class="search-top">
                 <ul>
-                    <li class="search-li">UUID:<input type="text" class="form-control input-md input-search"></li>
-                    <li class="search-li">业主姓名:<input type="text" class="form-control input-md input-search"></li>
+                    <li class="search-li">UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
+                    <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
                     <li class="search-li"><button class="search-btn" type="submit" title="搜索">搜索</button></li>
                 </ul>
             </div>

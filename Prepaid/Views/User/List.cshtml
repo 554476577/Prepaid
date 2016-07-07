@@ -6,6 +6,10 @@
         $scope.PageSize = 10;
 
         var params = {
+            "UserID": "",
+            "RealName": "",
+            "BuildingName": "",
+            "RoomNo": "",
             "PageIndex": 1,
             "PageSize": $scope.PageSize
         };
@@ -118,6 +122,16 @@
                 });
             });
         };
+
+        // 搜索
+        $scope.search = function () {
+            params.PageIndex = 1;
+            params.UserID = $("#UserID").val();
+            params.RealName = $("#RealName").val();
+            params.BuildingName = $("#BuildingName").val();
+            params.RoomNo = $("#RoomNo").val();
+            getInfos(params, false);
+        };
     });
 </script>
 
@@ -128,10 +142,10 @@
                 <h3>用户管理</h3>
                 <div class="search-top">
                     <ul>
-                        <li class="search-li">UUID:<input type="text" class="form-control input-md input-search"></li>
-                        <li class="search-li">业主姓名:<input type="text" class="form-control input-md input-search"></li>
-                        <li class="search-li">建筑物名称:<input type="text" class="form-control input-md input-search"></li>
-                        <li class="search-li">房号:<input type="text" class="form-control input-md input-search"></li>
+                        <li class="search-li">UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
+                        <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
+                        <li class="search-li">建筑物名称:<input type="text" id="BuildingName" class="form-control input-md input-search"></li>
+                        <li class="search-li">房号:<input type="text" id="RoomNo" class="form-control input-md input-search"></li>
                         <li class="search-li"><button class="search-btn" type="submit" title="搜索">搜索</button></li>
                     </ul>
                     <button title="添加业主" id="btnAdd" url="user/add" onclick="popDefaultWnd(this.id,'添加业主')" class="btn btn-success btn-top">
