@@ -114,10 +114,13 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
+            string fileName = "业主能耗缴费历史账单.xls";
+            string[] titles = { "用户UUID", "业主姓名", "结算时间", "设备名称", "设备累计读数", "设备结算能耗", 
+                                  "设备结算价格", "总读数", "结算总能耗","结算总价格" };
             IEnumerable<UserEnergy> userEnergies = this.repository.GetUserEnergies();
-            string path = ReportHelper.ExportUserEnergies(userEnergies);
+            ReportHelper.ExportUserEnergies(userEnergies,titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
-            HttpContext.Current.Response.Write(path);
+            HttpContext.Current.Response.Write(fileName);
 
             return Ok();
         }
@@ -156,6 +159,25 @@ namespace Prepaid.Controllers
             pager.Items = prepaidEnergies;
 
             return Ok(pager);
+        }
+
+        [HttpGet]
+        [Route("api/export/userprepaidbills")]
+        public IHttpActionResult ExportUserPrepaidBills()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            string fileName = "业主能耗缴费实时账单.xls";
+            string[] titles = { "业主UUID", "业主姓名", "建筑名称", "房间编号", "设备名称", "上次抄表读数", "当前抄表读数", "当前用能", 
+                                  "当前能耗价格","当前总能耗","当前结算总价","账户余额","结算后账户余额","账户报警金额","账户可透支金额" };
+            IEnumerable<PrepaidEnergy> prepaidEnergies = this.repository.GetPrepaidEnergies();
+            ReportHelper.ExportPrepaidEnergies(prepaidEnergies,titles, fileName);
+            HttpContext.Current.Response.ContentType = "text/plain";
+            HttpContext.Current.Response.Write(fileName);
+
+            return Ok();
         }
 
         // GET: api/energybills/1

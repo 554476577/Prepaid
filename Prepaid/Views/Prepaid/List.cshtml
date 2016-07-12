@@ -76,6 +76,21 @@
             params.RoomNo = $("#RoomNo").val();
             getInfos(params, true);
         };
+
+        // 导出报表
+        $scope.exportReport = function () {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/export/userprepaidbills",
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("业主能耗缴费实时账单导出成功！");
+                location.href = location.origin + '/' + data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div">
@@ -88,7 +103,10 @@
                     <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
                     <li class="search-li">建筑名称:<input type="text" id="BuildingName" class="form-control input-md input-search"></li>
                     <li class="search-li">房间编号:<input type="text" id="RoomNo" class="form-control input-md input-search"></li>
-                    <li class="search-li"><button class="search-btn" title="搜索" ng-click="search()">搜索</button></li>
+                    <li class="search-li">
+                        <button class="search-btn" title="搜索" ng-click="search()">搜索</button>
+                        <button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button>
+                    </li>
                 </ul>
             </div>
         </caption>
