@@ -106,6 +106,22 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
+        [HttpGet]
+        [Route("api/export/userenergybills")]
+        public IHttpActionResult ExportUserEnergyBills()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            IEnumerable<UserEnergy> userEnergies = this.repository.GetUserEnergies();
+            string path = ReportHelper.ExportUserEnergies(userEnergies);
+            HttpContext.Current.Response.ContentType = "text/plain";
+            HttpContext.Current.Response.Write(path);
+
+            return Ok();
+        }
+
         // GET: api/userprepaidbills
         [HttpGet]
         [Route("api/userprepaidbills")]
