@@ -91,18 +91,19 @@
                 </button>
             </div>
         </caption>
-        <thead>
+        <thead class="Point-th">
             <tr>
                 <th width="5%">点位ID</th>
                 <th width="8%">协议名称</th>
                 <th width="8%">归属设备域</th>
                 <th width="8%">仪器名称</th>
-                <th width="10%">物理地址</th>
+                <th width="10%">单价</th>
+                <th width="8%">物理地址</th>
                 <th width="8%">组ID</th>
-                <th width="10%">是否归档</th>
-                <th width="14%">归档时间间隔</th>
+                <th width="8%">是否归档</th>
+                <th width="10%">归档时间间隔</th>
                 <th width="8%">父ID</th>
-                <th width="21%">操作</th>
+                <th width="19%">操作</th>
             </tr>
         </thead>
         <tbody>
@@ -111,6 +112,7 @@
                 <td>{{item.Protocol}}</td>
                 <td>{{item.Scope}}</td>
                 <td>{{item.DeviceName}}</td>
+                <td>{{item.Price}}</td>
                 <td>{{item.PhyAddr}}</td>
                 <td>{{item.ItemID}}</td>
                 <td>{{item.IsArchive}}</td>

@@ -22,7 +22,8 @@
                 "Unit": $("#Unit").val(),
                 "IsArchive": $("#IsArchive").is(":checked"),
                 "ArchiveInterval": $("#ArchiveInterval").val(),
-                "ParentID": $("#ParentID").val()
+                "ParentID": $("#ParentID").val(),
+                "Price": convertMoney($("#Price").val())
             };
             $http({
                 method: "post",
@@ -94,12 +95,16 @@
             <input type="text" class="form-control input-text" id="MaxValue" name="MaxValue" placeholder="请输入安全最大值！">
         </div>
         <div class="form-group group-style">
-            <label for="Type">类别</label>
-            <input type="text" class="form-control input-text" id="Type" name="Type" placeholder="请输入类别！">
-        </div>
-        <div class="form-group group-style">
             <label for="Unit">单位</label>
             <input type="text" class="form-control input-text" id="Unit" name="Unit" placeholder="请输入单位！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Price">单价</label>
+            <input type="text" class="form-control input-text" id="Price" name="Price" placeholder="请输入单价！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Type">类别</label>
+            <input type="text" class="form-control input-text" id="Type" name="Type" placeholder="请输入类别！">
         </div>
         <div class="form-group group-style">
             <label for="ArchiveInterval">归档时间间隔</label>

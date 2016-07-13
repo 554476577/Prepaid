@@ -29,8 +29,8 @@ function convertMoneyWith2dot(money) {
 
 function convertMoney(money) {
     money = convertMoneyWith2dot(money);
-    money = parseFloat(money) * 100;
-    return parseInt(money);
+    money = money.replace(".", "");
+    return money;
 }
 
 // 错误提示框

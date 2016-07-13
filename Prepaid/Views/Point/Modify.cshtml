@@ -41,7 +41,8 @@
                 "Unit": $("#Unit").val(),
                 "IsArchive": $("#IsArchive").is(":checked"),
                 "ArchiveInterval": $("#ArchiveInterval").val(),
-                "ParentID": $("#ParentID").val()
+                "ParentID": $("#ParentID").val(),
+                "Price": convertMoney($("#Price").val())
             };
             $http({
                 method: "put",
@@ -113,12 +114,16 @@
             <input type="text" class="form-control input-text" id="MaxValue" name="MaxValue" value="{{Item.MaxValue}}" placeholder="请输入安全最大值！">
         </div>
         <div class="form-group group-style">
-            <label for="Type">类别</label>
-            <input type="text" class="form-control input-text" id="Type" name="Type" value="{{Item.Type}}" placeholder="请输入类别！">
-        </div>
-        <div class="form-group group-style">
             <label for="Unit">单位</label>
             <input type="text" class="form-control input-text" id="Unit" name="Unit" value="{{Item.Unit}}" placeholder="请输入单位！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Price">单价</label>
+            <input type="text" class="form-control input-text" id="Price" name="Price" value="{{Item.Price}}" placeholder="请输入单价！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Type">类别</label>
+            <input type="text" class="form-control input-text" id="Type" name="Type" value="{{Item.Type}}" placeholder="请输入类别！">
         </div>
         <div class="form-group group-style">
             <label for="ParentID">父点位ID</label>
