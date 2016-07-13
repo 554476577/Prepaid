@@ -68,6 +68,39 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
+        [HttpGet]
+        [Route("api/export/recharges")]
+        public IHttpActionResult ExportRecharges()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            string fileName = "业主缴费记录.xls";
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("UUID", "UUID");
+            dict.Add("业主姓名", "RealName");
+            dict.Add("充值金额", "Money");
+            dict.Add("时间", "DateTime");
+            dict.Add("备注", "Remark");
+            IEnumerable<Recharge> recharges = this.rechargeRepository.GetAll();
+            var items = from item in recharges
+                        select new
+                        {
+                            UUID = item.UUID,
+                            UserID = item.UserID,
+                            RealName = item.User.RealName,
+                            Money = TextHelper.ConvertMoney(item.Money),
+                            DateTime = item.DateTime,
+                            Remark = item.Remark
+                        };
+            ReportHelper.Export(dict, items, fileName);
+            HttpContext.Current.Response.ContentType = "text/plain";
+            HttpContext.Current.Response.Write(fileName);
+
+            return Ok();
+        }
+
         // GET: api/recharges/03b96c82ba5747eba2a5d96ef67837c9
         [ResponseType(typeof(Recharge))]
         public async Task<IHttpActionResult> GetRecharge(string uuid)

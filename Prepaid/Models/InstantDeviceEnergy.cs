@@ -43,6 +43,11 @@ namespace Prepaid.Models
         public double IntervalValue { get; set; }
 
         /// <summary>
+        /// 单价
+        /// </summary>
+        public string Price { get; set; }
+
+        /// <summary>
         /// 距离最近一次抄表时间的能耗金额(已经扩大100倍)
         /// </summary>
         public int IntervalMoney { get; set; }

@@ -28,6 +28,11 @@ namespace Prepaid.Models
         public double Value { get; set; }
 
         /// <summary>
+        /// 单价
+        /// </summary>
+        public string Price { get; set; }
+
+        /// <summary>
         /// 最近一次交费时的所交金额费用
         /// </summary>
         public string Money { get; set; }

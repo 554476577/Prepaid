@@ -56,6 +56,21 @@
             params.RealName = $("#RealName").val();
             getInfos(params, true);
         };
+
+        // 导出报表
+        $scope.exportReport = function () {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/export/recharges",
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("业主缴费记录导出成功！");
+                location.href = location.origin + '/' + data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
     });
 </script>
 
@@ -68,6 +83,7 @@
                     <li class="search-li">UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
                     <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
                     <li class="search-li"><button class="search-btn" title="搜索" ng-click="search()">搜索</button></li>
+                    <li class="search-li"><button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button></li>
                 </ul>
             </div>
         </caption>

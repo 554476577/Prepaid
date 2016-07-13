@@ -56,6 +56,7 @@ namespace Prepaid.Repositories
                                                  DeviceName = q.DeviceLink.Point.DeviceName,
                                                  TotolValue = q.TotolValue,
                                                  Value = q.Value,
+                                                 Price = TextHelper.ConvertMoney(q.DeviceLink.Point.Price),
                                                  Money = TextHelper.ConvertMoney(q.Money),
                                                  Remark = q.Remark
                                              });
@@ -155,6 +156,7 @@ namespace Prepaid.Repositories
                     deviceEnergy.PreValue = preEnergy.TotolValue;
                     deviceEnergy.CurrentValue = Convert.ToDouble(item.Point.Value);
                     deviceEnergy.IntervalValue = deviceEnergy.CurrentValue - deviceEnergy.PreValue;
+                    deviceEnergy.Price = TextHelper.ConvertMoney(item.Point.Price);
                     deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * item.Point.Price);
                     deviceEnergy.StrIntervalMoney = TextHelper.ConvertMoney(deviceEnergy.IntervalMoney);
                 }

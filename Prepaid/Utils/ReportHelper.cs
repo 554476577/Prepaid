@@ -120,6 +120,34 @@ namespace Prepaid.Utils
             WriteToFile(fileName);
         }
 
+        public static void Export<T>(Dictionary<string, string> pairs, IEnumerable<T> sources, string fileName)
+        {
+            string sheetName = fileName.Substring(0, fileName.LastIndexOf('.'));
+            string[] titles = pairs.Keys.ToArray();
+            string[] properties = pairs.Values.ToArray();
+            workbook = new HSSFWorkbook();
+            InitializeWorkbook();
+            ISheet sheet = workbook.CreateSheet(sheetName);
+            //SetPrintSetting(sheet); // 设置打印格式
+            SetHeaderTitle(sheet, titles); // 设置标题栏
+            for (int i = 0; i < sources.Count(); i++)
+            {
+                T item = sources.ElementAt(i);
+                IRow row = CreateCommonRow(sheet, i + 1);
+                for (int j = 0; j < properties.Length; j++)
+                {
+                    var propertyInfo = item.GetType().GetProperty(properties[j]);
+                    object obj = propertyInfo.GetValue(item);
+                    string value = string.Empty;
+                    if (obj != null)
+                        value = obj.ToString();
+                    CreateCommonCell(sheet, row, j, value);
+                }
+            }
+
+            WriteToFile(fileName);
+        }
+
         private static void SetHeaderTitle(ISheet sheet, string[] titles)
         {
             IRow row = sheet.CreateRow(0);
