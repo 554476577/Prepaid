@@ -78,6 +78,8 @@ namespace Prepaid.Models
         [StringLength(20)]
         public string Unit { get; set; }
 
+        public int? Price { get; set; }
+
         public DateTime? DateTime { get; set; }
 
         public bool? IsArchive { get; set; }

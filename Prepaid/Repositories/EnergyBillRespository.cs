@@ -155,7 +155,7 @@ namespace Prepaid.Repositories
                     deviceEnergy.PreValue = preEnergy.TotolValue;
                     deviceEnergy.CurrentValue = Convert.ToDouble(item.Point.Value);
                     deviceEnergy.IntervalValue = deviceEnergy.CurrentValue - deviceEnergy.PreValue;
-                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * 1.05 *100);
+                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * item.Point.Price);
                     deviceEnergy.StrIntervalMoney = TextHelper.ConvertMoney(deviceEnergy.IntervalMoney);
                 }
                 deviceEnergies.Add(deviceEnergy);
