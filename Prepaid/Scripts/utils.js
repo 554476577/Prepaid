@@ -6,6 +6,33 @@ function getQueryString(name) {
     return null;
 }
 
+// 把金额转换成带有两位小数点的浮点数
+function convertMoneyWith2dot(money) {
+    var length = money.length;
+    // 如果为空则不做任何处理，直接返回
+    if (length == 0) {
+        return "";
+    }
+    var index = money.indexOf(".");
+    if (index < 0) { // 如果没有小数点，则在后面直接补完两位小数
+        return money + ".00";
+    } else if (index == length - 1) {
+        return money + "00";
+    } else if (index == length - 1 - 1) {
+        return money + "0";
+    } else if (index == length - 1 - 2) {
+        return money;
+    } else if (index < length - 1 - 2) {
+        return money.substring(0, index + 3);
+    }
+}
+
+function convertMoney(money) {
+    money = convertMoneyWith2dot(money);
+    money = parseFloat(money) * 100;
+    return parseInt(money);
+}
+
 // 错误提示框
 function ShowErrModal(error, status) {
     ShowModal(2, error, function () {

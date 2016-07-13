@@ -30,7 +30,7 @@ namespace Prepaid.Models
         /// <summary>
         /// 最近一次交费时的所交金额费用
         /// </summary>
-        public int? Money { get; set; }
+        public string Money { get; set; }
 
         /// <summary>
         /// 备注

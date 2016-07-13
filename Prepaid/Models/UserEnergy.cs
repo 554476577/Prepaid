@@ -35,7 +35,7 @@ namespace Prepaid.Models
         /// <summary>
         /// 该用户最近一次交费时的所交金额费用
         /// </summary>
-        public int? SumMoney { get; set; }
+        public string SumMoney { get; set; }
 
         /// <summary>
         /// 该用户下面拥有的所有仪表的能耗状况

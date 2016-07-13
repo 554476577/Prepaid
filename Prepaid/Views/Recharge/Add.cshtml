@@ -6,7 +6,7 @@
         $scope.add = function () {
             var params = {
                 "UserID":getQueryString("userid"),
-                "Money": $("#Money").val(),
+                "Money": convertMoney($("#Money").val()),
                 "Remark": $("#Remark").val()
             };
             $http({

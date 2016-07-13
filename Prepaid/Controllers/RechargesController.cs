@@ -50,7 +50,7 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.rechargeRepository.GetCount(UserID, RealName));
-                recharges = this.rechargeRepository.GetPagerItems(UserID, RealName, pageIndex, pageSize, u => u.UUID);
+                recharges = this.rechargeRepository.GetPagerItems(UserID, RealName, pageIndex, pageSize, u => u.DateTime,true);
             }
 
             var items = from item in recharges
@@ -59,7 +59,7 @@ namespace Prepaid.Controllers
                             UUID = item.UUID,
                             UserID = item.UserID,
                             RealName = item.User.RealName,
-                            Money = item.Money,
+                            Money = TextHelper.ConvertMoney(item.Money),
                             DateTime = item.DateTime,
                             Remark = item.Remark
                         };
@@ -85,7 +85,7 @@ namespace Prepaid.Controllers
                 UUID = item.UUID,
                 UserID = item.UserID,
                 RealName = item.User.RealName,
-                Money = item.Money,
+                Money = TextHelper.ConvertMoney(item.Money),
                 DateTime = item.DateTime,
                 Remark = item.Remark
             };

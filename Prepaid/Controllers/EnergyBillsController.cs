@@ -61,7 +61,7 @@ namespace Prepaid.Controllers
                             DeviceName = item.DeviceLink.Point.DeviceName,
                             TotolValue = item.TotolValue,
                             Value = item.Value,
-                            Money = item.Money,
+                            Money = TextHelper.ConvertMoney(item.Money),
                             DateTime = item.DateTime,
                             Remark = item.Remark
                         };
@@ -202,7 +202,7 @@ namespace Prepaid.Controllers
                 DeviceName = item.DeviceLink.Point.DeviceName,
                 TotolValue = item.TotolValue,
                 Value = item.Value,
-                Money = item.Money,
+                Money = TextHelper.ConvertMoney(item.Money),
                 DateTime = item.DateTime,
                 Remark = item.Remark
             };

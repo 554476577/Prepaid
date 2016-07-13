@@ -13,6 +13,6 @@ namespace Prepaid.Repositories
 
         int GetCount(string userID, string realName);
 
-        IEnumerable<Recharge> GetPagerItems(string userID, string realName, int pageIndex, int pageSize, Func<Recharge, string> func, bool isDesc = false);
+        IEnumerable<Recharge> GetPagerItems(string userID, string realName, int pageIndex, int pageSize, Func<Recharge, DateTime?> func, bool isDesc = false);
     }
 }

@@ -57,7 +57,7 @@ namespace Prepaid.Controllers
                             Description = item.Description,
                             MinScore = item.MinScore,
                             MaxScore = item.MaxScore,
-                            Arrears = item.Arrears,
+                            Arrears = TextHelper.ConvertMoney(item.Arrears),
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
@@ -85,7 +85,7 @@ namespace Prepaid.Controllers
                 Description = item.Description,
                 MinScore = item.MinScore,
                 MaxScore = item.MaxScore,
-                Arrears = item.Arrears,
+                Arrears = TextHelper.ConvertMoney(item.Arrears),
                 CreateTime = item.CreateTime,
                 Remark = item.Remark
             };

@@ -34,7 +34,7 @@ namespace Prepaid.Repositories
             return GetAll(userID, realName).Count();
         }
 
-        public IEnumerable<Recharge> GetPagerItems(string userID, string realName, int pageIndex, int pageSize, Func<Recharge, string> func, bool isDesc = false)
+        public IEnumerable<Recharge> GetPagerItems(string userID, string realName, int pageIndex, int pageSize, Func<Recharge, DateTime?> func, bool isDesc = false)
         {
             var result = GetAll(userID, realName);
             int recordStart = (pageIndex - 1) * pageSize;

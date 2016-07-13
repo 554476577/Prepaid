@@ -94,5 +94,30 @@ namespace Prepaid.Utils
         {
             return System.Text.RegularExpressions.Regex.IsMatch(ip, @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$");
         }
+
+        /// <summary>
+        /// 把int类型的金额缩小100倍，转变成带有两位浮点数的字符串
+        /// </summary>
+        /// <param name="money"></param>
+        /// <returns></returns>
+        public static string ConvertMoney(int? money)
+        {
+            if (money == null)
+                return "0.00";
+            string strMoney = money.ToString();
+            if (strMoney.Length == 1)
+            {
+                return "0.0" + strMoney;
+            }
+            else if (strMoney.Length == 2)
+            {
+                return "0." + strMoney;
+            }
+            else
+            {
+                strMoney = strMoney.Insert(strMoney.Length - 2, ".");
+                return strMoney;
+            }
+        }
     }
 }

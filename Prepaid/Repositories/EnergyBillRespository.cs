@@ -47,18 +47,18 @@ namespace Prepaid.Repositories
                 userEnergy.DateTime = item.DateTime;
                 userEnergy.SumTotolValue = item.SumTotolValue;
                 userEnergy.SumValue = item.SumValue;
-                userEnergy.SumMoney = item.SumMoney;
-                userEnergy.DeviceEnergies = from p in GetAll()
-                                            where p.DeviceLink.UserID == item.UserID && p.DateTime == item.DateTime
-                                            select new DeviceEnergy
-                                            {
-                                                PointID = p.DeviceLink.Point.ID,
-                                                DeviceName = p.DeviceLink.Point.DeviceName,
-                                                TotolValue = p.TotolValue,
-                                                Value = p.Value,
-                                                Money = p.Money,
-                                                Remark = p.Remark
-                                            };
+                userEnergy.SumMoney = TextHelper.ConvertMoney(item.SumMoney);
+                userEnergy.DeviceEnergies = (from p in GetAll()
+                                             where p.DeviceLink.UserID == item.UserID && p.DateTime == item.DateTime
+                                             select p).AsEnumerable().Select(q => new DeviceEnergy
+                                             {
+                                                 PointID = q.DeviceLink.Point.ID,
+                                                 DeviceName = q.DeviceLink.Point.DeviceName,
+                                                 TotolValue = q.TotolValue,
+                                                 Value = q.Value,
+                                                 Money = TextHelper.ConvertMoney(q.Money),
+                                                 Remark = q.Remark
+                                             });
                 userEnergies.Add(userEnergy);
             }
 
@@ -120,13 +120,15 @@ namespace Prepaid.Repositories
                 prepaidEnergy.RealName = item.RealName;
                 prepaidEnergy.BuildingName = item.BuildingName;
                 prepaidEnergy.RoomNo = item.RoomNo;
-                prepaidEnergy.AccountBalance = item.AccountBalance;
-                prepaidEnergy.AccountWarnLimit = item.AccountWarnLimit;
+                prepaidEnergy.AccountBalance = TextHelper.ConvertMoney(item.AccountBalance);
+                prepaidEnergy.AccountWarnLimit = TextHelper.ConvertMoney(item.AccountWarnLimit);
                 prepaidEnergy.CreditScore = item.CreditScore;
                 prepaidEnergy.InstantDeviceEnergies = GetInstantDeviceEnergies(item.UUID);
                 prepaidEnergy.CurrentSumValue = prepaidEnergy.InstantDeviceEnergies.Sum(o => o.IntervalValue);
                 prepaidEnergy.CurrentSumMoney = prepaidEnergy.InstantDeviceEnergies.Sum(o => o.IntervalMoney);
-                prepaidEnergy.CurrentAccountBalance = prepaidEnergy.AccountBalance - prepaidEnergy.CurrentSumMoney;
+                prepaidEnergy.StrCurrentSumMoney = TextHelper.ConvertMoney(prepaidEnergy.CurrentSumMoney);
+                prepaidEnergy.CurrentAccountBalance = item.AccountBalance - prepaidEnergy.CurrentSumMoney;
+                prepaidEnergy.StrCurrentAccountBalance = TextHelper.ConvertMoney(prepaidEnergy.CurrentAccountBalance);
                 prepaidEnergies.Add(prepaidEnergy);
             }
 
@@ -153,7 +155,8 @@ namespace Prepaid.Repositories
                     deviceEnergy.PreValue = preEnergy.TotolValue;
                     deviceEnergy.CurrentValue = Convert.ToDouble(item.Point.Value);
                     deviceEnergy.IntervalValue = deviceEnergy.CurrentValue - deviceEnergy.PreValue;
-                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * 1.05);
+                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * 1.05 *100);
+                    deviceEnergy.StrIntervalMoney = TextHelper.ConvertMoney(deviceEnergy.IntervalMoney);
                 }
                 deviceEnergies.Add(deviceEnergy);
             }
