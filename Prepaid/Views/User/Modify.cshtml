@@ -19,6 +19,7 @@
 
         $scope.modify = function () {
             var params = {
+                "UUID": $scope.Item.UUID,
                 "RealName": $("#RealName").val(),
                 "Phone": $("#Phone").val(),
                 "Address": $("#Address").val(),
@@ -27,8 +28,8 @@
                 "FloorCount": $("#FloorCount").val(),
                 "Floor": $("#Floor").val(),
                 "RoomNo": $("#RoomNo").val(),
-                "AccountBalance": $("#AccountBalance").val(),
-                "AccountWarnLimit": $("#AccountWarnLimit").val(),
+                "AccountBalance": convertMoney($("#AccountBalance").val()),
+                "AccountWarnLimit": convertMoney($("#AccountWarnLimit").val()),
                 "CreditScore": $("#CreditScore").val(),
                 "AlipayAccount": $("#AlipayAccount").val(),
                 "WechatAccount": $("#WechatAccount").val(),
