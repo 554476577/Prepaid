@@ -39,10 +39,10 @@
                 "MaxValue": $("#MaxValue").val(),
                 "Type": $("#Type").val(),
                 "Unit": $("#Unit").val(),
+                "Price": convertMoney($("#Price").val()),
                 "IsArchive": $("#IsArchive").is(":checked"),
                 "ArchiveInterval": $("#ArchiveInterval").val(),
-                "ParentID": $("#ParentID").val(),
-                "Price": convertMoney($("#Price").val())
+                "ParentID": $("#ParentID").val()
             };
             $http({
                 method: "put",

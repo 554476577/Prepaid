@@ -141,7 +141,26 @@ namespace Prepaid.Controllers
 
             try
             {
-                await this.repository.PutAsync(point);
+                Point p = this.repository.GetByID(uuid);
+                p.PointID = point.PointID;
+                p.Protocol = point.Protocol;
+                p.Floor = point.Floor;
+                p.Scope = point.Scope;
+                p.DeviceName = point.DeviceName;
+                p.PhyAddr = point.PhyAddr;
+                p.ItemID = point.ItemID;
+                p.ItemName = point.ItemName;
+                p.ItemDescription = point.ItemDescription;
+                p.ValueFunc = point.ValueFunc;
+                p.MinValue = point.MinValue;
+                p.MaxValue = point.MaxValue;
+                p.Type = point.Type;
+                p.Unit = point.Unit;
+                p.Price = point.Price;
+                p.IsArchive = point.IsArchive;
+                p.ArchiveInterval = point.ArchiveInterval;
+                p.ParentID = point.ParentID;
+                await this.repository.PutAsync(p);
             }
             catch (DbUpdateConcurrencyException)
             {
