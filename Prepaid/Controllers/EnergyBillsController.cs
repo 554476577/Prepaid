@@ -18,10 +18,12 @@ namespace Prepaid.Controllers
     public class EnergyBillsController : ApiController
     {
         IEnergyBillRespository repository;
+        IUserRespository userRespository;
 
-        public EnergyBillsController(IEnergyBillRespository repository)
+        public EnergyBillsController(IEnergyBillRespository repository, IUserRespository userRespository)
         {
             this.repository = repository;
+            this.userRespository = userRespository;
         }
 
         // GET: api/energybills
@@ -99,7 +101,7 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.repository.GetUserEnergiesCount(UserID, RealName, StartTime, EndTime));
-                userEnergies = this.repository.GetUserPagerEnergies(UserID, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.UserID);
+                userEnergies = this.repository.GetUserPagerEnergies(UserID, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.DateTime, true);
             }
             pager.Items = userEnergies;
 
@@ -271,6 +273,8 @@ namespace Prepaid.Controllers
                 return errResult;
 
             string strDeviceEnergies = HttpContext.Current.Request.Params["DeviceEnergies"];
+            string UserID = HttpContext.Current.Request.Params["UserID"];
+            string CurrentAccountBalance = HttpContext.Current.Request.Params["CurrentAccountBalance"];
             strDeviceEnergies = string.Format("[{0}]", strDeviceEnergies); // 格式化为json数组
             List<InstantDeviceEnergy> deviceEnergies = JsonConvert.DeserializeObject<List<InstantDeviceEnergy>>(strDeviceEnergies);
             DateTime now = DateTime.Now;
@@ -283,6 +287,45 @@ namespace Prepaid.Controllers
                 energyBill.Money = item.IntervalMoney;
                 energyBill.DateTime = now;
                 await this.repository.AddAsync(energyBill);
+            }
+
+            User user = await this.userRespository.GetByIdAsync(UserID);
+            user.AccountBalance = Convert.ToInt32(CurrentAccountBalance);
+            await this.userRespository.PutAsync(user);
+
+            return Ok();
+        }
+
+        // POST: api/batch/userenergybills
+        [HttpPost]
+        [Route("api/batch/userenergybills")]
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> BatchPostUserEnergyBills()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            IEnumerable<PrepaidEnergy> prepaidEnergies = this.repository.GetPrepaidEnergies();
+            DateTime now = DateTime.Now;
+            foreach (var prepaidItem in prepaidEnergies)
+            {
+                if (prepaidItem.CurrentAccountBalance < 0) // 如果预算不够，则不结算
+                    continue;
+                foreach (InstantDeviceEnergy item in prepaidItem.InstantDeviceEnergies)
+                {
+                    EnergyBill energyBill = new EnergyBill();
+                    energyBill.DeviceLinkID = item.DeviceLinkID;
+                    energyBill.TotolValue = item.CurrentValue;
+                    energyBill.Value = item.IntervalValue;
+                    energyBill.Money = item.IntervalMoney;
+                    energyBill.DateTime = now;
+                    await this.repository.AddAsync(energyBill);
+                }
+
+                User user = await this.userRespository.GetByIdAsync(prepaidItem.UserID);
+                user.AccountBalance = Convert.ToInt32(prepaidItem.CurrentAccountBalance);
+                await this.userRespository.PutAsync(user);
             }
 
             return Ok();

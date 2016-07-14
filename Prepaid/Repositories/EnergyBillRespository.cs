@@ -66,7 +66,7 @@ namespace Prepaid.Repositories
             return userEnergies;
         }
 
-        public IEnumerable<UserEnergy> GetUserPagerEnergies(int pageIndex, int pageSize, Func<UserEnergy, string> func, bool isDesc = false)
+        public IEnumerable<UserEnergy> GetUserPagerEnergies(int pageIndex, int pageSize, Func<UserEnergy, DateTime?> func, bool isDesc = false)
         {
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
@@ -101,7 +101,7 @@ namespace Prepaid.Repositories
         }
 
         public IEnumerable<UserEnergy> GetUserPagerEnergies(string userID, string realName, string startTime, string endTime,
-            int pageIndex, int pageSize, Func<UserEnergy, string> func, bool isDesc = false)
+            int pageIndex, int pageSize, Func<UserEnergy, DateTime?> func, bool isDesc = false)
         {
             var result = GetUserEnergies(userID, realName, startTime, endTime);
             int recordStart = (pageIndex - 1) * pageSize;
@@ -154,12 +154,17 @@ namespace Prepaid.Repositories
                 {
                     deviceEnergy.PreDateTime = preEnergy.DateTime;
                     deviceEnergy.PreValue = preEnergy.TotolValue;
-                    deviceEnergy.CurrentValue = Convert.ToDouble(item.Point.Value);
-                    deviceEnergy.IntervalValue = deviceEnergy.CurrentValue - deviceEnergy.PreValue;
-                    deviceEnergy.Price = TextHelper.ConvertMoney(item.Point.Price);
-                    deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * item.Point.Price);
-                    deviceEnergy.StrIntervalMoney = TextHelper.ConvertMoney(deviceEnergy.IntervalMoney);
                 }
+                else // 还没有结算记录，则使用默认值
+                {
+                    deviceEnergy.PreDateTime = DateTime.MinValue;
+                    deviceEnergy.PreValue = 0.00d;
+                }
+                deviceEnergy.CurrentValue = Math.Round(Convert.ToDouble(item.Point.Value), 2);
+                deviceEnergy.Price = TextHelper.ConvertMoney(item.Point.Price);
+                deviceEnergy.IntervalValue = Math.Round(deviceEnergy.CurrentValue - deviceEnergy.PreValue, 2);
+                deviceEnergy.IntervalMoney = Convert.ToInt32(deviceEnergy.IntervalValue * item.Point.Price);
+                deviceEnergy.StrIntervalMoney = TextHelper.ConvertMoney(deviceEnergy.IntervalMoney);
                 deviceEnergies.Add(deviceEnergy);
             }
 

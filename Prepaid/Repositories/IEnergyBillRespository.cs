@@ -11,14 +11,14 @@ namespace Prepaid.Repositories
     {
         IEnumerable<UserEnergy> GetUserEnergies();
 
-        IEnumerable<UserEnergy> GetUserPagerEnergies(int pageIndex, int pageSize, Func<UserEnergy, string> func, bool isDesc = false);
+        IEnumerable<UserEnergy> GetUserPagerEnergies(int pageIndex, int pageSize, Func<UserEnergy, DateTime?> func, bool isDesc = false);
 
         IEnumerable<UserEnergy> GetUserEnergies(string userID, string realName, string startTime, string endTime);
 
         int GetUserEnergiesCount(string userID, string realName, string startTime, string endTime);
 
         IEnumerable<UserEnergy> GetUserPagerEnergies(string userID, string realName, string startTime, string endTime,
-            int pageIndex, int pageSize, Func<UserEnergy, string> func, bool isDesc = false);
+            int pageIndex, int pageSize, Func<UserEnergy, DateTime?> func, bool isDesc = false);
 
         IEnumerable<PrepaidEnergy> GetPrepaidEnergies();
 

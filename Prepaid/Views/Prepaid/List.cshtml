@@ -52,13 +52,17 @@
         }
 
         // 结算
-        $scope.settleBill = function (deviceEnergies) {
+        $scope.settleBill = function (userID, currentAccountBalance, deviceEnergies) {
             ShowConfirmModal("确定要结算该业主的能耗费用吗?", function () {
                 $http({
                     method: "post",
                     withCredentials: true,
                     url: "../api/userenergybills",
-                    params: { "DeviceEnergies": deviceEnergies }
+                    params: {
+                        "UserID": userID,
+                        "CurrentAccountBalance": currentAccountBalance,
+                        "DeviceEnergies": deviceEnergies
+                    }
                 }).success(function (data, status, headers, config) {
                     window.parent.location.href = "../prepaid/list";
                 }).error(function (data, status, headers, config) {
@@ -91,6 +95,21 @@
                 ShowErrModal(data, status);
             });
         };
+
+        // 批量结算
+        $scope.batchSettle = function () {
+            ShowConfirmModal("确定要在当前时刻批量结算业主能耗费用吗?", function () {
+                $http({
+                    method: "post",
+                    withCredentials: true,
+                    url: "../api/batch/userenergybills"
+                }).success(function (data, status, headers, config) {
+                    window.parent.location.href = "../prepaid/list";
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div">
@@ -106,6 +125,7 @@
                     <li class="search-li">
                         <button class="search-btn" title="搜索" ng-click="search()">搜索</button>
                         <button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button>
+                        <button class="search-btn" title="批量结算" ng-click="batchSettle()">批量结算</button>
                     </li>
                 </ul>
             </div>
@@ -154,11 +174,18 @@
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">
-                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style" url="recharge/add?userid={{item.UserID}}"
-                            onclick="popFirstWnd(this.id, '能耗充值','400','400')">
+                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style" 
+                            url="recharge/add?userid={{item.UserID}}" onclick="popFirstWnd(this.id, '能耗充值','400','400')">
                         充值
                     </button>
-                    <button type="button" class="btn btn-danger btn-style" ng-click="settleBill(item.InstantDeviceEnergies)">结算</button>
+                    <button type="button" ng-if="item.CurrentAccountBalance >= 0" class="btn btn-danger btn-style"
+                            ng-click="settleBill(item.UserID,item.CurrentAccountBalance,item.InstantDeviceEnergies)">
+                        结算
+                    </button>
+                    <button type="button" ng-if="item.CurrentAccountBalance < 0" class="btn btn-danger btn-style" disabled
+                            ng-click="settleBill(item.UserID,item.CurrentAccountBalance,item.InstantDeviceEnergies)">
+                        结算
+                    </button>
                 </td>
             </tr>
         </tbody>
