@@ -55,17 +55,18 @@
         // 添加设备联动信息
         $scope.modify = function () {
             var params = {
+                "ID": $scope.Item.ID,
                 "UserID": $scope.UserID,
                 "PointID": $scope.PointID,
                 "Remark": $("#Remark").val()
             };
             $http({
-                method: "post",
+                method: "put",
                 withCredentials: true,
-                url: "../api/devicelinks",
+                url: "../api/devicelinks/" + getQueryString("id"),
                 params: params
             }).success(function (data, status, headers, config) {
-                ShowTipsModel("设备联动信息添加成功！", function () {
+                ShowTipsModel("设备联动信息修改成功！", function () {
                     if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
                         window.parent.location.href = "../user/list";
                     } else {
@@ -130,5 +131,5 @@
             <textarea cols="30" rows="3" class="form-control text-size textarea-text" id="Remark" name="Remark" placeholder="请输入备注！">{{Item.Remark}}</textarea>
         </div>
     </form>
-    <button class="btn btn-primary btn-style btn-top" ng-click="add()">添加</button><br />
+    <button class="btn btn-primary btn-style btn-top" ng-click="modify()">修改</button><br />
 </div>
