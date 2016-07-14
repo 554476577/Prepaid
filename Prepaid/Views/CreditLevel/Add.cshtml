@@ -9,7 +9,7 @@
                 "Description": $("#Description").val(),
                 "MinScore": $("#MinScore").val(),
                 "MaxScore": $("#MaxScore").val(),
-                "Arrears": $("#Arrears").val(),
+                "Arrears": convertMoney($("#Arrears").val()),
                 "Remark": $("#Remark").val()
             };
             $http({

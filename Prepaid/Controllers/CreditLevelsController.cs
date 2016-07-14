@@ -106,6 +106,7 @@ namespace Prepaid.Controllers
 
             try
             {
+                creditLevel.CreateTime = DateTime.Now;
                 await this.repository.PutAsync(creditLevel);
             }
             catch (DbUpdateConcurrencyException)

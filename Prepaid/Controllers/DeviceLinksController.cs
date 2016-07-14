@@ -106,6 +106,7 @@ namespace Prepaid.Controllers
 
             try
             {
+                deviceLink.CreateTime = DateTime.Now;
                 await this.repository.PutAsync(deviceLink);
             }
             catch (DbUpdateConcurrencyException)
