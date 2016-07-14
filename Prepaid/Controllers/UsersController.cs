@@ -128,6 +128,7 @@ namespace Prepaid.Controllers
 
             try
             {
+                user.CreateTime = DateTime.Now;
                 await this.repository.PutAsync(user);
             }
             catch (DbUpdateConcurrencyException)
