@@ -132,27 +132,27 @@
         </caption>
         <thead class="paid-th">
             <tr style="display:block;">
-                <th class="first-th">业主姓名</th>
+                <th>业主姓名</th>
                 <th>建筑名称</th>
                 <th>房间编号</th>
                 <th>设备名称</th>
-                <th>上次抄表读数</th>
-                <th>当前抄表读数</th>
+                <th class="long">上次抄表读数</th>
+                <th class="long">当前抄表读数</th>
                 <th>当前用能</th>
                 <th>单价</th>
-                <th>当前能耗价格</th>
+                <th class ="long">当前能耗价格</th>
                 <th>当前总能耗</th>
-                <th>当前结算总价</th>
+                <th class="long">当前结算总价</th>
                 <th>账户余额</th>
-                <th>结算后账户余额</th>
-                <th>账户报警金额</th>
-                <th>账户可透支金额</th>
+                <th class="long">结算后账户余额</th>
+                <th class="long">账户报警金额</th>
+                <th class="long">账户可透支金额</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody class="paid-tbody">
             <tr ng-cloak ng-repeat="item in Items" style="display:block;">
-                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="width:90px;">{{item.RealName}}</td>
+                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="width:6%;">{{item.RealName}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}" colspan="5" class="td-style">

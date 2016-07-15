@@ -108,76 +108,76 @@ tbody tr td {
     text-align:center;
 }
 /*能耗管理的table样式*/
-.energy-th tr th {
-    width:149px;
+.table thead.energy-th tr th {
+    width:9.2%;
     text-align:center;
-}
-.energy-th tr .thead-th {
-    width:241px;
+    padding:8px 0;
 }
 .table .energy-tbody tr td {
-    width:144px;
+    width:9%;
     border-top:1px solid transparent;
     border-bottom:1px solid #ddd;
     text-align:center;
     vertical-align:middle;
+    padding-left:0px;
+    padding-right:0px;
 }
 .table .energy-tbody tr .td-style {
-    width:745px;
+    width:45%;
 }
-.table .tab2 {
-    margin-bottom:0;
+.table .energy-tbody .td-style td {
+    width:20%;
 }
-.table.tab2 tr td {
-    width:149px;
-}
+
 /*预付费的table样式*/
-.paid-th tr th {
-    width:109px;
+.table thead.paid-th tr th {
+    width:5%;
     text-align:center;
+    padding-left:0;
+    padding-right:0;
 }
-.paid-th tr .first-th {
-    width:90px;
+.paid-th .long th {
+    width:6%;
 }
 .table .paid-tbody tr td {
-    width:109px;
+    width:6.25%;
     border-top:1px solid transparent;
     border-bottom:1px solid #ddd;
     text-align:center;
     vertical-align:middle;
+    padding:0 0;
 }
 .table .paid-tbody tr .td-style {
-    width:654px;
-    padding:8px 0;
+    width:37%;
 }
 .table .paid-tab2 {
     margin-bottom:0;
 }
 .table.paid-tab2 tr td {
-    width:117px;
-    padding:8px 0;
+    width:16%;
 }
 /*搜索框的样式*/
 .search-top {
     height:40px;
-    margin-left:20px;
+    margin-left:15px;
     margin-top:10px;
 }
 .search-li {
+    width:20%;
     display:inline-table;
     float:left;
     font-weight:bold;
 }
 .search-btn {
     line-height:26px;
-    margin-left:15px;
+    margin-left:10px;
     border:2px solid #cbc1c1;
     border-radius:3px;
 }
 .input-search {
     display:inline-table;
-    width:150px;
-    margin:0 15px;
+    width:65%;
+    margin-left:10px;
 }
 .search-div {
     display:inline-table;
@@ -189,9 +189,9 @@ tbody tr td {
 .search-lg-div {
     display:inline-table;
     float:left;
-    width:230px;
-    margin-left:15px;
+    width:15%;
+    margin-left:5px;
 }
 .search-lg-div > .search-data {
-    width:230px;
+    width:100%;
 }
