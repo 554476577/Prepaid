@@ -158,20 +158,20 @@
                 <td rowspan="{{item.InstantDeviceEnergies.length}}" colspan="5" class="td-style">
                     <table class="table table-hover paid-tab2">
                         <tr ng-cloak ng-repeat="device in item.InstantDeviceEnergies" class="success">
-                            <td>{{device.DeviceName}}</td>
-                            <td>{{device.PreValue}}</td>
+                            <td class="long">{{device.DeviceName}}</td>
+                            <td class="long">{{device.PreValue}}</td>
                             <td>{{device.CurrentValue}}</td>
                             <td>{{device.IntervalValue}}</td>
-                            <td>{{device.Price}}</td>
+                            <td class="long">{{device.Price}}</td>
                             <td>{{device.StrIntervalMoney}}</td>
                         </tr>
                     </table>
                 </td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumValue}}</td>
+                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumValue}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentSumMoney}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentAccountBalance}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
+                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
+                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentAccountBalance}}</td>
+                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">
                     <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style" 

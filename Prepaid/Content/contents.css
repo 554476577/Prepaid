@@ -108,6 +108,9 @@ tbody tr td {
     text-align:center;
 }
 /*能耗管理的table样式*/
+.table thead.energy-th tr {
+    width:100%;
+}
 .table thead.energy-th tr th {
     /*width:9.2%;
     text-align:center;
@@ -141,7 +144,10 @@ tbody tr td {
     padding-left:0;
     padding-right:0;
 }
-.paid-th .long th {
+.paid-th th.long{
+    width:7.8%;
+}
+.table .paid-tbody tr td.long {
     width:7.8%;
 }
 .table .paid-tbody tr td {
