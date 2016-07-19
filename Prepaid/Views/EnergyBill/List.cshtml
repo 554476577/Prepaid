@@ -127,12 +127,12 @@
         <thead>
             <tr style="width:100%;display:block;">
                 <th width="8%">用户UUID</th>
-                <th width="6%">业主姓名</th>
-                <th width="6%">结算时间</th>
-                <th width="7%">设备名称</th>
+                <th width="5%">业主姓名</th>
+                <th width="8%">结算时间</th>
+                <th width="8%">设备名称</th>
                 <th width="7%">设备累计读数</th>
-                <th width="8%">设备结算能耗</th>
-                <th width="3%">单价</th>
+                <th width="7%">设备结算能耗</th>
+                <th width="5%">单价</th>
                 <th width="8%">设备结算价格</th>
                 <th width="7%">总读数</th>
                 <th width="6%">最近结算总能耗</th>
@@ -143,15 +143,15 @@
             <tr ng-cloak ng-repeat="item in Items" style="display:block;">
                 <td style="word-break:break-all;width:7%;" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</td>
                 <td width="5%" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</td>
-                <td width="4%" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</td>
-                <td width="28%" rowspan="{{item.DeviceEnergies.length}}" colspan="5">
+                <td width="2%" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</td>
+                <td width="33%" rowspan="{{item.DeviceEnergies.length}}" colspan="5">
                     <table class="table table-hover" style="width:100%;margin-bottom:0;">
                         <tr ng-cloak ng-repeat="device in item.DeviceEnergies" class="success" style="display:block;width:100%;">
-                            <td width="22%">{{device.DeviceName}}</td>
-                            <td width="22%">{{device.TotolValue}}</td>
-                            <td width="27%">{{device.Value}}</td>
+                            <td width="26%">{{device.DeviceName}}</td>
+                            <td width="21%">{{device.TotolValue}}</td>
+                            <td width="23%">{{device.Value}}</td>
                             <td width="">{{device.Price}}</td>
-                            <td width="24%">{{device.Money}}</td>
+                            <td width="25%">{{device.Money}}</td>
                         </tr>
                     </table>
                 </td>
