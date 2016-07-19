@@ -128,9 +128,9 @@
             <tr style="width:100%;display:block;">
                 <th width="8%">用户UUID</th>
                 <th width="6%">业主姓名</th>
-                <th width="7%">结算时间</th>
+                <th width="6%">结算时间</th>
                 <th width="7%">设备名称</th>
-                <th width="8%">设备累计读数</th>
+                <th width="7%">设备累计读数</th>
                 <th width="8%">设备结算能耗</th>
                 <th width="3%">单价</th>
                 <th width="8%">设备结算价格</th>
@@ -142,9 +142,9 @@
         <tbody>
             <tr ng-cloak ng-repeat="item in Items" style="display:block;">
                 <td style="word-break:break-all;width:7%;" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</td>
-                <td width="6%" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</td>
-                <td width="6%" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</td>
-                <td width="30%" rowspan="{{item.DeviceEnergies.length}}" colspan="5">
+                <td width="5%" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</td>
+                <td width="4%" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</td>
+                <td width="28%" rowspan="{{item.DeviceEnergies.length}}" colspan="5">
                     <table class="table table-hover" style="width:100%;margin-bottom:0;">
                         <tr ng-cloak ng-repeat="device in item.DeviceEnergies" class="success" style="display:block;width:100%;">
                             <td width="22%">{{device.DeviceName}}</td>
