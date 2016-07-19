@@ -108,65 +108,9 @@ tbody tr td {
     text-align:center;
 }
 /*能耗管理的table样式*/
-.table thead.energy-th tr {
-    width:100%;
-}
-.table thead.energy-th tr th {
-    /*width:9.2%;
-    text-align:center;
-    padding:8px 0;*/
-     width:9.2%;
-    text-align:center;
-    vertical-align:middle;
-    padding-left:0px;
-    padding-right:0px;
-}
-.table .energy-tbody tr td {
-    width:9%;
-    border-top:1px solid transparent;
-    border-bottom:1px solid #ddd;
-    text-align:center;
-    vertical-align:middle;
-    padding-left:0px;
-    padding-right:0px;
-}
-.table .energy-tbody tr .td-style {
-    width:45%;
-}
-.table .energy-tbody .td-style td {
-    width:20%;
-}
 
 /*预付费的table样式*/
-.table thead.paid-th tr th {
-    width:5%;
-    text-align:center;
-    padding-left:0;
-    padding-right:0;
-}
-.paid-th th.long{
-    width:7.8%;
-}
-.table .paid-tbody tr td.long {
-    width:7.8%;
-}
-.table .paid-tbody tr td {
-    width:6.25%;
-    border-top:1px solid transparent;
-    border-bottom:1px solid #ddd;
-    text-align:center;
-    vertical-align:middle;
-    padding:0 0;
-}
-.table .paid-tbody tr .td-style {
-    width:37%;
-}
-.table .paid-tab2 {
-    margin-bottom:0;
-}
-.table.paid-tab2 tr td {
-    width:16%;
-}
+
 /*搜索框的样式*/
 .search-top {
     height:40px;

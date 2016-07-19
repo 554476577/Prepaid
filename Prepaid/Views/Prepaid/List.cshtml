@@ -112,7 +112,7 @@
         };
     });
 </script>
-<div ng-controller="EnergyBillCtrl" class="content-div">
+<div ng-controller="EnergyBillCtrl" class="content-div table-responsive">
     <table class="table table-hover">
         <caption class="caption-style">
             <h3>预付费管理</h3>
@@ -131,50 +131,50 @@
             </div>
         </caption>
         <thead class="paid-th">
-            <tr style="display:block;">
-                <th>业主姓名</th>
-                <th>建筑名称</th>
-                <th>房间编号</th>
-                <th>设备名称</th>
-                <th class="long">上次抄表读数</th>
-                <th class="long">当前抄表读数</th>
-                <th>当前用能</th>
-                <th>单价</th>
-                <th class ="long">当前能耗价格</th>
-                <th>当前总能耗</th>
-                <th class="long">当前结算总价</th>
-                <th>账户余额</th>
-                <th class="long">结算后账户余额</th>
-                <th class="long">账户报警金额</th>
-                <th class="long">账户可透支金额</th>
+            <tr style="display:block;width:100%;">
+                <th width="6%">业主姓名</th>
+                <th width="6%">建筑名称</th>
+                <th width="6%">房间编号</th>
+                <th width="6%">设备名称</th>
+                <th width="6%">上次抄表读数</th>
+                <th width="6%">当前抄表读数</th>
+                <th width="6%">当前用能</th>
+                <th width="6%">单价</th>
+                <th width="6%">当前能耗价格</th>
+                <th width="6%">当前总能耗</th>
+                <th width="6%">当前结算总价</th>
+                <th width="6%">账户余额</th>
+                <th width="6%">结算后账户余额</th>
+                <th width="6%">账户报警金额</th>
+                <th width="6%">账户可透支金额</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody class="paid-tbody">
             <tr ng-cloak ng-repeat="item in Items" style="display:block;">
-                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="width:6%;">{{item.RealName}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}" colspan="5" class="td-style">
-                    <table class="table table-hover paid-tab2">
-                        <tr ng-cloak ng-repeat="device in item.InstantDeviceEnergies" class="success">
-                            <td class="long">{{device.DeviceName}}</td>
-                            <td class="long">{{device.PreValue}}</td>
-                            <td>{{device.CurrentValue}}</td>
-                            <td>{{device.IntervalValue}}</td>
-                            <td class="long">{{device.Price}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</td>
+                <td width="36%" rowspan="{{item.InstantDeviceEnergies.length}}" colspan="6">
+                    <table style="width:100%;margin-bottom:0;" class="table table-hover">
+                        <tr ng-cloak ng-repeat="device in item.InstantDeviceEnergies" class="success" style="display:block; width:100%;">
+                            <td width="15%">{{device.DeviceName}}</td>
+                            <td width="17%">{{device.PreValue}}</td>
+                            <td width="17%">{{device.CurrentValue}}</td>
+                            <td width="17%">{{device.IntervalValue}}</td>
+                            <td width="17%">{{device.Price}}</td>
                             <td>{{device.StrIntervalMoney}}</td>
                         </tr>
                     </table>
                 </td>
-                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumValue}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentSumMoney}}</td>
-                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
-                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentAccountBalance}}</td>
-                <td class="long" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumValue}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentSumMoney}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentAccountBalance}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
+                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
                 <td rowspan="{{item.InstantDeviceEnergies.length}}">
-                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style" 
+                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
                             url="recharge/add?userid={{item.UserID}}" onclick="popFirstWnd(this.id, '能耗充值','400','400')">
                         充值
                     </button>
