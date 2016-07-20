@@ -203,13 +203,13 @@
             <div class="col-lg-1 col-sm-1">最近结算总价格</div>
         </div>
         <div class="row information" ng-cloak ng-repeat="item in Items">
-            <div class="col-lg-2" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</div>
-            <div class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</div>
-            <div class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</div>
-            <div style="float:right;" class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</div>
-            <div style="float:right" class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</div>
-            <div style="float:right;margin-bottom:1px;" class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</div>
-            <div style="float:right;" class="col-lg-5 information-content" ng-cloak ng-repeat="device in item.DeviceEnergies">
+            <div class="col-lg-2 col-sm-2" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</div>
+            <div class="col-lg-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</div>
+            <div class="col-lg-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</div>
+            <div style="float:right;" class="col-lg-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</div>
+            <div style="float:right" class="col-lg-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</div>
+            <div style="float:right;margin-bottom:1px;" class="col-lg-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</div>
+            <div style="float:right;" class="col-lg-5 col-sm-5 information-content" ng-cloak ng-repeat="device in item.DeviceEnergies">
                 <div class="information-second">{{device.Money}}</div>
                 <div class="information-second">{{device.Price}}</div>
                 <div class="information-second">{{device.Value}}</div>
