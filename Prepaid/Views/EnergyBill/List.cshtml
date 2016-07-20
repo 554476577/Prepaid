@@ -98,7 +98,7 @@
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div table-responsive">
-    <table class="table table-hover" style="table-layout: fixed; width:100%;">
+    <!--<table class="table table-hover" style="table-layout: fixed; width:100%;">
         <caption class="caption-style">
             <h3>能耗管理</h3>
             <div class="search-top">
@@ -160,7 +160,64 @@
                 <td width="7%" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</td>
             </tr>
         </tbody>
-    </table>
+    </table>-->
+    <div class="top-basic">
+        <h3>能耗管理</h3>
+        <div class="search-top">
+            <ul>
+                <li class="search-li">用户UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
+                <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
+            </ul>
+            <div class="col-lg-3 search-lg-div">
+                <div class="input-group date form_datetime search-data" id="startTime">
+                    <input class="form-control" ng-model="StartTime" data-date-format="yyyy-mm-dd" placeholder="请输入开始日期">
+                    <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+            <div class="col-lg-3 search-lg-div">
+                <div class="input-group date form_datetime search-data" id="endTime">
+                    <input class="form-control" ng-model="EndTime" data-date-format="yyyy-mm-dd" placeholder="请输入结束日期">
+                    <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+            <div class="input-group search-div">
+                <button class="search-btn" title="搜索" ng-click="search()">搜索</button>
+                <button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row head-basic">
+            <div class="col-lg-2 col-sm-2">用户UUID</div>
+            <div class="col-lg-1 col-sm-1">业主姓名</div>
+            <div class="col-lg-1 col-sm-1">结算时间</div>
+            <div class="col-lg-5 col-sm-5">
+                <div class="head-second">设备名称</div>
+                <div class="head-second">设备累计读数</div>
+                <div class="head-second">设备结算能耗</div>
+                <div class="head-second">单价</div>
+                <div class="head-second">设备结算价格</div>
+            </div>
+            <div class="col-lg-1 col-sm-1">总读数</div>
+            <div class="col-lg-1 col-sm-1">最近结算总能耗</div>
+            <div class="col-lg-1 col-sm-1">最近结算总价格</div>
+        </div>
+        <div class="row information" ng-cloak ng-repeat="item in Items">
+            <div class="col-lg-2" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</div>
+            <div class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</div>
+            <div class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</div>
+            <div style="float:right;" class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</div>
+            <div style="float:right" class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</div>
+            <div style="float:right;margin-bottom:1px;" class="col-lg-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</div>
+            <div style="float:right;" class="col-lg-5 information-content" ng-cloak ng-repeat="device in item.DeviceEnergies">
+                <div class="information-second">{{device.Money}}</div>
+                <div class="information-second">{{device.Price}}</div>
+                <div class="information-second">{{device.Value}}</div>
+                <div class="information-second">{{device.TotolValue}}</div>
+                <div class="information-second">{{device.DeviceName}}</div>
+            </div>
+        </div>
+    </div>
     <div class="width center">
         <div id="page4" class="m-pagination m-center"></div>
     </div>

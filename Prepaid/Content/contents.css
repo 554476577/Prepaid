@@ -108,7 +108,37 @@ tbody tr td {
     text-align:center;
 }
 /*能耗管理的table样式*/
-
+.container-fluid .row{
+    text-align:center;
+    border-bottom:2px solid #ddd;
+    padding:8px 0;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+    .container-fluid .row.head-basic {
+        font-weight:bold;
+    }
+.container-fluid .row.information > div {
+    height:50px;
+    font-size:13px;
+    line-height:22px;
+}
+.container-fluid .row .head-second {
+    float:left;
+    width:20%;
+}
+.container-fluid .row .information-content {
+    border-bottom:1px solid #ddd;
+    background-color:#dff0d8;     
+}
+.container-fluid .row .information-content:hover {
+    background-color:#d0e9c6;       
+}
+.container-fluid .row .information-second {
+    float:right;
+    width:20%;
+    padding:8px 0;
+}
 /*预付费的table样式*/
 
 /*搜索框的样式*/
