@@ -98,123 +98,66 @@
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div table-responsive">
-    <!--<table class="table table-hover" style="table-layout: fixed; width:100%;">
-        <caption class="caption-style">
-            <h3>能耗管理</h3>
-            <div class="search-top">
-                <ul>
-                    <li class="search-li">用户UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
-                    <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
-                </ul>
-                <div class="col-lg-3 search-lg-div">
-                    <div class="input-group date form_datetime search-data" id="startTime">
+    <div class="top-basic">
+        <h3>能耗管理</h3>
+    </div>
+    <div class="container-fluid">
+        <div class="container-fluid paid-content">
+            <div class="row" style="border-bottom:1px solid transparent;">
+                <div class="col-lg-4 col-md-4 col-sm-4 search-top">
+                    <div class="row" style="border-bottom:1px solid transparent;">
+                        <div class="col-lg-2 col-md-2 col-sm-2" style="height:34px;padding-top:10px;">用户UUID:</div>
+                        <div class="search-li col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;"><input type="text" id="UserID" class="form-control input-md energy-input"></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2" style="height:34px;padding-top:10px;">业主姓名:</div>
+                        <div class="search-li col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-md energy-input"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 search-lg-div">
+                    <div class="input-group date form_datetime search-data" id="startTime" style="padding-top:8px;">
                         <input class="form-control" ng-model="StartTime" data-date-format="yyyy-mm-dd" placeholder="请输入开始日期">
                         <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
                 </div>
-                <div class="col-lg-3 search-lg-div">
-                    <div class="input-group date form_datetime search-data" id="endTime">
-                        <input class="form-control" ng-model="EndTime" data-date-format="yyyy-mm-dd" placeholder="请输入结束日期">
+                <div class="col-lg-3 col-md-3 col-md-3 search-lg-div">
+                    <div class="input-group date form_datetime search-data" id="endTime" style="padding-top:8px;">
+                        <input class=" form-control" ng-model="EndTime" data-date-format="yyyy-mm-dd" placeholder="请输入结束日期">
                         <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
                 </div>
-                <div class="input-group search-div">
+                <div class="input-group search-div" style="padding-top:8px;">
                     <button class="search-btn" title="搜索" ng-click="search()">搜索</button>
                     <button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button>
                 </div>
             </div>
-        </caption>
-        <thead>
-            <tr style="width:100%;display:block;">
-                <th width="8%">用户UUID</th>
-                <th width="5%">业主姓名</th>
-                <th width="8%">结算时间</th>
-                <th width="8%">设备名称</th>
-                <th width="7%">设备累计读数</th>
-                <th width="7%">设备结算能耗</th>
-                <th width="5%">单价</th>
-                <th width="8%">设备结算价格</th>
-                <th width="7%">总读数</th>
-                <th width="6%">最近结算总能耗</th>
-                <th width="8%">最近结算总价格</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-cloak ng-repeat="item in Items" style="display:block;">
-                <td style="word-break:break-all;width:7%;" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</td>
-                <td width="5%" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</td>
-                <td width="2%" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</td>
-                <td width="33%" rowspan="{{item.DeviceEnergies.length}}" colspan="5">
-                    <table class="table table-hover" style="width:100%;margin-bottom:0;">
-                        <tr ng-cloak ng-repeat="device in item.DeviceEnergies" class="success" style="display:block;width:100%;">
-                            <td width="26%">{{device.DeviceName}}</td>
-                            <td width="21%">{{device.TotolValue}}</td>
-                            <td width="23%">{{device.Value}}</td>
-                            <td width="">{{device.Price}}</td>
-                            <td width="25%">{{device.Money}}</td>
-                        </tr>
-                    </table>
-                </td>
-                <td width="6%" rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</td>
-                <td width="6%" rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</td>
-                <td width="7%" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</td>
-            </tr>
-        </tbody>
-    </table>-->
-    <div class="top-basic">
-        <h3>能耗管理</h3>
-        <div class="search-top">
-            <ul>
-                <li class="search-li">用户UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
-                <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
-            </ul>
-            <div class="col-lg-3 search-lg-div">
-                <div class="input-group date form_datetime search-data" id="startTime">
-                    <input class="form-control" ng-model="StartTime" data-date-format="yyyy-mm-dd" placeholder="请输入开始日期">
-                    <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
+            <div class="row head-basic">
+                <div class="col-lg-2 col-md-2 col-sm-2">用户UUID</div>
+                <div class="col-lg-1 col-md-1 col-sm-1">业主姓名</div>
+                <div class="col-lg-1 col-md-1 col-sm-1">结算时间</div>
+                <div class="col-lg-5 col-md-5 col-sm-5">
+                    <div class="head-second">设备名称</div>
+                    <div class="head-second">设备累计读数</div>
+                    <div class="head-second">设备结算能耗</div>
+                    <div class="head-second">单价</div>
+                    <div class="head-second">设备结算价格</div>
                 </div>
+                <div class="col-lg-1 col-md-1 col-sm-1">总读数</div>
+                <div class="col-lg-1 col-md-1 col-sm-1">最近结算总能耗</div>
+                <div class="col-lg-1 col-md-1 col-sm-1">最近结算总价格</div>
             </div>
-            <div class="col-lg-3 search-lg-div">
-                <div class="input-group date form_datetime search-data" id="endTime">
-                    <input class="form-control" ng-model="EndTime" data-date-format="yyyy-mm-dd" placeholder="请输入结束日期">
-                    <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
+            <div class="row information" ng-cloak ng-repeat="item in Items">
+                <div class="col-lg-2 col-md-2 col-sm-2" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</div>
+                <div class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</div>
+                <div class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</div>
+                <div style="float:right;" class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</div>
+                <div style="float:right" class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</div>
+                <div style="float:right;margin-bottom:1px;" class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</div>
+                <div style="float:right;" class="col-lg-5 col-md-5 col-sm-5 information-content" ng-cloak ng-repeat="device in item.DeviceEnergies">
+                    <div class="information-second">{{device.Money}}</div>
+                    <div class="information-second">{{device.Price}}</div>
+                    <div class="information-second">{{device.Value}}</div>
+                    <div class="information-second">{{device.TotolValue}}</div>
+                    <div class="information-second">{{device.DeviceName}}</div>
                 </div>
-            </div>
-            <div class="input-group search-div">
-                <button class="search-btn" title="搜索" ng-click="search()">搜索</button>
-                <button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row head-basic">
-            <div class="col-lg-2 col-md-2 col-sm-2">用户UUID</div>
-            <div class="col-lg-1 col-md-1 col-sm-1">业主姓名</div>
-            <div class="col-lg-1 col-md-1 col-sm-1">结算时间</div>
-            <div class="col-lg-5 col-md-5 col-sm-5">
-                <div class="head-second">设备名称</div>
-                <div class="head-second">设备累计读数</div>
-                <div class="head-second">设备结算能耗</div>
-                <div class="head-second">单价</div>
-                <div class="head-second">设备结算价格</div>
-            </div>
-            <div class="col-lg-1 col-md-1 col-sm-1">总读数</div>
-            <div class="col-lg-1 col-md-1 col-sm-1">最近结算总能耗</div>
-            <div class="col-lg-1 col-md-1 col-sm-1">最近结算总价格</div>
-        </div>
-        <div class="row information" ng-cloak ng-repeat="item in Items">
-            <div class="col-lg-2 col-md-2 col-sm-2" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</div>
-            <div class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</div>
-            <div class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</div>
-            <div style="float:right;" class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</div>
-            <div style="float:right" class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</div>
-            <div style="float:right;margin-bottom:1px;" class="col-lg-1 col-md-1 col-sm-1" rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</div>
-            <div style="float:right;" class="col-lg-5 col-md-5 col-sm-5 information-content" ng-cloak ng-repeat="device in item.DeviceEnergies">
-                <div class="information-second">{{device.Money}}</div>
-                <div class="information-second">{{device.Price}}</div>
-                <div class="information-second">{{device.Value}}</div>
-                <div class="information-second">{{device.TotolValue}}</div>
-                <div class="information-second">{{device.DeviceName}}</div>
             </div>
         </div>
     </div>

@@ -113,81 +113,99 @@
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div table-responsive">
-    <table class="table table-hover">
-        <caption class="caption-style">
-            <h3>预付费管理</h3>
-            <div class="search-top">
-                <ul>
-                    <li class="search-li">业主UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
-                    <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
-                    <li class="search-li">建筑名称:<input type="text" id="BuildingName" class="form-control input-md input-search"></li>
-                    <li class="search-li">房间编号:<input type="text" id="RoomNo" class="form-control input-md input-search"></li>
-                    <li class="search-li">
-                        <button class="search-btn" title="搜索" ng-click="search()">搜索</button>
-                        <button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button>
-                        <button class="search-btn" title="批量结算" ng-click="batchSettle()">批量结算</button>
-                    </li>
-                </ul>
+    <div class="topic-basic">
+        <h3>预付费管理</h3>
+    </div>
+    <div class="container-fluid paid-content">
+        <div class="row" style="border-bottom:1px solid transparent;">
+            <div class="col-lg-8 col-md-8 col-sm-8 search-top">
+                <div class="row" style="border-bottom:1px solid transparent;">
+                    <div class="search-li col-lg-3 col-md-3 col-sm-3">业主UUID:<input type="text" id="UserID" class="form-control input-md input-search"></div>
+                    <div class="search-li col-lg-3 col-md-3 col-sm-3">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></div>
+                    <div class="search-li col-lg-3 col-md-3 col-sm-3">建筑名称:<input type="text" id="BuildingName" class="form-control input-md input-search"></div>
+                    <div class="search-li col-lg-3 col-md-3 col-sm-3">房间编号:<input type="text" id="RoomNo" class="form-control input-md input-search"></div>
+                </div>
             </div>
-        </caption>
-        <thead class="paid-th">
-            <tr style="display:block;width:100%;">
-                <th width="6%">业主姓名</th>
-                <th width="6%">建筑名称</th>
-                <th width="6%">房间编号</th>
-                <th width="6%">设备名称</th>
-                <th width="6%">上次抄表读数</th>
-                <th width="6%">当前抄表读数</th>
-                <th width="6%">当前用能</th>
-                <th width="6%">单价</th>
-                <th width="6%">当前能耗价格</th>
-                <th width="6%">当前总能耗</th>
-                <th width="6%">当前结算总价</th>
-                <th width="6%">账户余额</th>
-                <th width="6%">结算后账户余额</th>
-                <th width="6%">账户报警金额</th>
-                <th width="6%">账户可透支金额</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody class="paid-tbody">
-            <tr ng-cloak ng-repeat="item in Items" style="display:block;">
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</td>
-                <td width="36%" rowspan="{{item.InstantDeviceEnergies.length}}" colspan="6">
-                    <table style="width:100%;margin-bottom:0;" class="table table-hover">
-                        <tr ng-cloak ng-repeat="device in item.InstantDeviceEnergies" class="success" style="display:block; width:100%;">
-                            <td width="15%">{{device.DeviceName}}</td>
-                            <td width="17%">{{device.PreValue}}</td>
-                            <td width="17%">{{device.CurrentValue}}</td>
-                            <td width="17%">{{device.IntervalValue}}</td>
-                            <td width="17%">{{device.Price}}</td>
-                            <td>{{device.StrIntervalMoney}}</td>
-                        </tr>
-                    </table>
-                </td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.CurrentSumValue}}</td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentSumMoney}}</td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}" style="color:red;">{{item.StrCurrentAccountBalance}}</td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</td>
-                <td width="6%" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</td>
-                <td rowspan="{{item.InstantDeviceEnergies.length}}">
-                    <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
-                            url="recharge/add?userid={{item.UserID}}" onclick="popFirstWnd(this.id, '能耗充值','400','400')">
-                        充值
-                    </button>
-                    <button type="button" ng-if="item.CurrentAccountBalance >= 0" class="btn btn-danger btn-style"
-                            ng-click="settleBill(item.UserID,item.CurrentAccountBalance,item.InstantDeviceEnergies)">
-                        结算
-                    </button>
-                    <button type="button" ng-if="item.CurrentAccountBalance < 0" class="btn btn-danger btn-style" disabled
-                            ng-click="settleBill(item.UserID,item.CurrentAccountBalance,item.InstantDeviceEnergies)">
-                        结算
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="search-li col-lg-4 col-md-4 col-sm-4">
+                <div class="row" style="border-bottom:1px solid transparent;">
+                    <div class=" col-lg-2 col-md-2 col-sm-2"><button class="search-btn" title="搜索" ng-click="search()">搜索</button></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><button class="search-btn" title="导出报表" ng-click="exportReport()">导出报表</button></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><button class="search-btn" title="批量结算" ng-click="batchSettle()">批量结算</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="row paid-menu" style="padding-bottom:0;">
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="row" style="border-bottom:1px solid transparent;">
+                    <div class="col-md-4 col-sm-4 col-xs-4">业主姓名</div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">建筑名称</div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">房间编号</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 device-data">
+                <div class="row" style="border-bottom:1px solid transparent;">
+                    <div class="col-md-2 col-sm-2 col-xs-2">设备名称</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">上次抄表读数</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">当前抄表读数</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">当前用能</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">单价</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">当前能耗价格</div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="row device-right" style="border-bottom:1px solid transparent;">
+                    <div class="col-md-1 col-sm-1 col-xs-1">当前总能耗</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">当前结算总价</div>
+                    <div class="col-md-1 col-sm-1 col-xs-1">账户余额</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">结算后账户余额</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">账户报警金额</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">账户可透支金额</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">操作</div>
+                </div>
+            </div>
+        </div>
+        <div class="row paid-data" ng-cloak ng-repeat="item in Items">
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="row" style="border-bottom:1px solid transparent;">
+                    <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</div>
+                    <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="row paid-move" ng-cloak ng-repeat="device in item.InstantDeviceEnergies">
+                    <div class="col-md-2 col-sm-2 col-xs-2">{{device.DeviceName}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">{{device.PreValue}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">{{device.CurrentValue}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">{{device.IntervalValue}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">{{device.Price}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">{{device.StrIntervalMoney}}</div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="row device-right" style="border-bottom:1px solid transparent;">
+                    <div class="col-md-1 col-sm-1 col-xs-1" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.CurrentSumValue}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.StrCurrentSumMoney}}</div>
+                    <div class="col-md-1 col-sm-1 col-xs-1" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.StrCurrentAccountBalance}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</div>
+                    <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">
+                        <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
+                                url="recharge/add?userid={{item.UserID}}" onclick="popFirstWnd(this.id, '能耗充值','400','400')">
+                            充值
+                        </button>
+                        <button type="button" ng-if="item.CurrentAccountBalance >= 0" class="btn btn-danger btn-style"
+                                ng-click="settleBill(item.UserID,item.CurrentAccountBalance,item.InstantDeviceEnergies)">
+                            结算
+                        </button>
+                        <button type="button" ng-if="item.CurrentAccountBalance < 0" class="btn btn-danger btn-style" disabled
+                                ng-click="settleBill(item.UserID,item.CurrentAccountBalance,item.InstantDeviceEnergies)">
+                            结算
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

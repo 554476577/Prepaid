@@ -140,39 +140,54 @@ tbody tr td {
     padding:8px 0;
 }
 /*预付费的table样式*/
-
+.container > div.paid-menu{
+    border-bottom:1px solid transparent;
+}
+.row.paid-data {
+    padding-bottom:8px;
+}
+.container-fluid > .row > div >.row> div{
+    padding:0 0 ;
+}
+.row.paid-data >.col-lg-4 >.paid-move {
+    background-color:#dff0d8;
+    border-bottom:1px solid #ddd;
+}
+.row.paid-data >.col-lg-4 >.paid-move:hover {
+    background-color:#d0e9c6;
+}
 /*搜索框的样式*/
 .search-top {
     height:40px;
-    margin-left:15px;
-    margin-top:10px;
 }
 .search-li {
-    width:20%;
     display:inline-table;
     float:left;
     font-weight:bold;
+    font-size:12px;
 }
 .search-btn {
-    line-height:26px;
+    line-height:28px;
     margin-left:10px;
     border:2px solid #cbc1c1;
     border-radius:3px;
 }
 .input-search {
     display:inline-table;
-    width:65%;
+    width:70%;
     margin-left:10px;
+}
+.energy-input {
+    display:inline-table;
+    width:90%;
 }
 .search-div {
     display:inline-table;
     float:left;
-    width:300px;
     margin-left:15px;
 }
 /*搜索框的时间控件的样式*/
 .search-lg-div {
-    display:inline-table;
     float:left;
     width:15%;
     margin-left:5px;
