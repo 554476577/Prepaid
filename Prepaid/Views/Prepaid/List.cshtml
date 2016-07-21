@@ -110,6 +110,13 @@
                 });
             });
         };
+
+        $scope.myStyle = function (height) {
+            return {
+                "height": 100 * height + "px",
+                "background-color": "red"
+            }
+        };
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div table-responsive">
@@ -167,7 +174,7 @@
             </div>
         </div>
         <div class="row paid-data" ng-cloak ng-repeat="item in Items">
-            <div class="col-lg-2 col-md-2 col-sm-2">
+            <div class="col-lg-2 col-md-2 col-sm-2" ng-style="myStyle(item.InstantDeviceEnergies.length)">
                 <div class="row" style="border-bottom:1px solid transparent;">
                     <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</div>
                     <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</div>
