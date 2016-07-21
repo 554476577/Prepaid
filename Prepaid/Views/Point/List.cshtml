@@ -2,95 +2,105 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-        app.controller('PointCtrl', function ($scope, $http) {
-            $scope.PageSize = 10;
+    app.controller('PointCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
 
-            var params = {
-                "PointID": "",
-                "DeviceName": "",
-                "ItemID": "",
-                "PageIndex": 1,
-                "PageSize": $scope.PageSize
-            };
+        var params = {
+            "PointID": "",
+            "DeviceName": "",
+            "ItemID": "",
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
 
-            getInfos(params, true);
+        getInfos(params, true);
 
-            function getInfos(params, isFirstLoadPager) {
+        function getInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/points",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.delete = function (pointID) {
+            ShowConfirmModal("确定要删除该点位吗？", function () {
                 $http({
-                    method: "get",
+                    method: "delete",
                     withCredentials: true,
-                    url: "../api/points",
-                    params: params
+                    url: "../api/points/" + pointID
                 }).success(function (data, status, headers, config) {
-                    $scope.Items = data.Items;
-                    $scope.RecordCount = data.RecordCount;
-                    if (isFirstLoadPager) {
-                        // 分页数据绑定
-                        $("#page4").page('destroy');
-                        $("#page4").page({
-                            total: $scope.RecordCount,
-                            pageSize: $scope.PageSize,
-                            firstBtnText: '首页',
-                            lastBtnText: '尾页',
-                            prevBtnText: '上一页',
-                            nextBtnText: '下一页',
-                            showInfo: false,
-                            showJump: true,
-                            jumpBtnText: '跳转'
-                        }).on("pageClicked", function (event, pageIndex) {
-                            params.PageIndex = pageIndex + 1;
-                            getInfos(params, false); // 重新绑定数据
-                        }).on('jumpClicked', function (event, pageIndex) {
-                            params.PageIndex = pageIndex + 1;
-                            getInfos(params, false); // 重新绑定数据
-                        });
-                    }
+                    ShowTipsModel("点位删除成功！");
+                    getInfos(params, false);
                 }).error(function (data, status, headers, config) {
                     ShowErrModal(data, status);
                 });
-            }
+            });
+        };
 
-            $scope.delete = function (pointID) {
-                ShowConfirmModal("确定要删除该点位吗？", function () {
-                    $http({
-                        method: "delete",
-                        withCredentials: true,
-                        url: "../api/points/" + pointID
-                    }).success(function (data, status, headers, config) {
-                        ShowTipsModel("点位删除成功！");
-                        getInfos(params, false);
-                    }).error(function (data, status, headers, config) {
-                        ShowErrModal(data, status);
-                    });
-                });
-            };
-
-            // 搜索
-            $scope.search = function () {
-                params.PageIndex = 1;
-                params.PointID = $("#PointID").val();
-                params.DeviceName = $("#DeviceName").val();
-                params.ItemID = $("#ItemID").val();
-                getInfos(params, true);
-            };
-        });
+        // 搜索
+        $scope.search = function () {
+            params.PageIndex = 1;
+            params.PointID = $("#PointID").val();
+            params.DeviceName = $("#DeviceName").val();
+            params.ItemID = $("#ItemID").val();
+            getInfos(params, true);
+        };
+    });
 </script>
 <div ng-controller="PointCtrl" class="content-div">
-    <table class="table table-hover">
-        <caption class="caption-style">
-            <h3>设备管理</h3>
-            <div class="search-top">
-                <ul>
-                    <li class="search-li">点位ID:<input type="text" id="PointID" class="form-control input-md input-search"></li>
-                    <li class="search-li">仪器名称:<input type="text" id="DeviceName" class="form-control input-md input-search"></li>
-                    <li class="search-li">组ID:<input type="text" id="ItemID" class="form-control input-md input-search"></li>
-                    <li class="search-li"><button class="search-btn" title="搜索" ng-click="search()">搜索</button></li>
-                </ul>
+    <div class="top-basic">
+        <h3>设备管理</h3>
+    </div>
+    <div class="container-fluid">
+        <div class="row" style="border-bottom:1px solid transparent;">
+            <div class="col-lg-7 col-md-7 col-sm-7 search-top">
+                <div class="row" style="border-bottom:1px solid transparent;">
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">点位ID:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="PointID" class="form-control input-md input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">仪器名称:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="DeviceName" class="form-control input-md input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">组ID:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="ItemID" class="form-control input-md input-search"></div>
+
+                </div>
+            </div>
+            <div class="input-group search-div" style="padding-top:8px;">
+                <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
                 <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
             </div>
-        </caption>
+        </div>
+    </div>
+    <table class="table table-hover">
         <thead class="Point-th">
             <tr>
                 <th width="5%">点位ID</th>
@@ -119,10 +129,14 @@
                 <td>{{item.ArchiveInterval}}</td>
                 <td>{{item.ParentID}}</td>
                 <td>
-                    <button id="btnModify{{$index+1}}" url="point/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改点位信息')" 
-                            class="btn btn-warning btn-style">修改</button>
-                    <button id="btnDetails{{$index+1}}" url="/point/details?id={{item.ID}}" onclick="popDefaultWnd(this.id, '详情')" 
-                            class="btn btn-info btn-style">详情</button>
+                    <button id="btnModify{{$index+1}}" url="point/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改点位信息')"
+                            class="btn btn-warning btn-style">
+                        修改
+                    </button>
+                    <button id="btnDetails{{$index+1}}" url="/point/details?id={{item.ID}}" onclick="popDefaultWnd(this.id, '详情')"
+                            class="btn btn-info btn-style">
+                        详情
+                    </button>
                     <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.ID)">删除</button>
                 </td>
             </tr>

@@ -160,17 +160,26 @@ tbody tr td {
 .search-top {
     height:40px;
 }
-.search-li {
+.container-fluid>.row>.search-top>.row>.search-txt {
     display:inline-table;
     float:left;
     font-weight:bold;
     font-size:12px;
+    height:34px;
+    padding-top:10px;
 }
 .search-btn {
+    width:40px;
     line-height:28px;
-    margin-left:10px;
-    border:2px solid #cbc1c1;
+    border:1px solid #cbc1c1;
     border-radius:3px;
+    margin-right:10px;
+}
+.search-load {
+    line-height:28px;
+    border:1px solid #cbc1c1;
+    border-radius:3px;
+    margin-right:10px;
 }
 .input-search {
     display:inline-table;

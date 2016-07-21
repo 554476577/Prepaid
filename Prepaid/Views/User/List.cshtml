@@ -136,102 +136,111 @@
 </script>
 
 <div ng-controller="UserCtrl" class="content-div">
-    <div>
-        <table class="table table-hover">
-            <caption class="caption-style">
-                <h3>用户管理</h3>
-                <div class="search-top">
-                    <ul>
-                        <li class="search-li">UUID:<input type="text" id="UserID" class="form-control input-md input-search"></li>
-                        <li class="search-li">业主姓名:<input type="text" id="RealName" class="form-control input-md input-search"></li>
-                        <li class="search-li">建筑物名称:<input type="text" id="BuildingName" class="form-control input-md input-search"></li>
-                        <li class="search-li">房号:<input type="text" id="RoomNo" class="form-control input-md input-search"></li>
-                        <li class="search-li"><button class="search-btn" title="搜索" ng-click="search()">搜索</button></li>
-                    </ul>
-                    <button title="添加业主" id="btnAdd" url="user/add" onclick="popDefaultWnd(this.id,'添加业主')" class="btn btn-success btn-top">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-              </div>
-            </caption>
-            <thead>
-                <tr>
-                    <th width="5%">UUID</th>
-                    <th width="8%">业主姓名</th>
-                    <th width="8%">电话</th>
-                    <th width="8%">建筑物名称</th>
-                    <th width="10%">房号</th>
-                    <th width="8%">账户余额</th>
-                    <th width="10%">账户报警余额</th>
-                    <th width="8%">积分</th>
-                    <th width="14%">时间</th>
-                    <th width="21%">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-cloak ng-repeat="item in Items1">
-                    <td>{{item.UUID}}</td>
-                    <td>{{item.RealName}}</td>
-                    <td>{{item.Phone}}</td>
-                    <td>{{item.BuildingName}}</td>
-                    <td>{{item.RoomNo}}</td>
-                    <td>{{item.AccountBalance}}</td>
-                    <td>{{item.AccountWarnLimit}}</td>
-                    <td>{{item.CreditScore}}</td>
-                    <td>{{item.CreateTime}}</td>
-                    <td>
-                        <button id="btnModify{{$index+1}}" url="user/modify?uuid={{item.UUID}}" onclick="popDefaultWnd(this.id, '修改业主信息')"
-                                class="btn btn-warning btn-style">
-                            修改
-                        </button>
-                        <button id="btnDetails{{$index+1}}" url="/user/details?uuid={{item.UUID}}" onclick="popDefaultWnd(this.id, '业主详情')"
-                                class="btn btn-info btn-style">
-                            详情
-                        </button>
-                        <button type="button" class="btn btn-danger btn-style" ng-click="deleteUser(item.UUID)">删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="width center">
-            <div id="page1" class="m-pagination m-center"></div>
-        </div>
+    <div class="top-basic">
+        <h3>用户管理</h3>
     </div>
-    <div>
-        <table class="table table-hover">
-            <caption>
-                <button title="添加设备联动" id="btnAdd1" url="devicelink/add" onclick="popDefaultWnd(this.id, '添加设备联动')" class="btn btn-success btn-top">
+    <div class="container-fluid">
+        <div class="row" style="border-bottom:1px solid transparent;">
+            <div class="col-lg-8 col-md-8 col-sm-8 search-top">
+                <div class="row" style="border-bottom:1px solid transparent;">
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">UUID:</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="UserID" class="form-control input-md input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">业主姓名:</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="RealName" class="form-control input-md input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">建筑名称:</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="BuildingName" class="form-control input-md input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">房号:</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="RoomNo" class="form-control input-md input-search"></div>
+                </div>
+            </div>
+            <div class="input-group search-div" style="padding-top:8px;">
+                <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                <button title="添加业主" id="btnAdd" url="user/add" onclick="popDefaultWnd(this.id,'添加业主')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
-            </caption>
-            <thead>
-                <tr>
-                    <th width="16%">ID</th>
-                    <th width="16%">业主姓名</th>
-                    <th width="16%">仪器名称</th>
-                    <th width="17%">时间</th>
-                    <th width="16%">备注</th>
-                    <th width="19%">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-cloak ng-repeat="item in Items2">
-                    <td>{{item.ID}}</td>
-                    <td>{{item.RealName}}</td>
-                    <td>{{item.DeviceName}}</td>
-                    <td>{{item.CreateTime}}</td>
-                    <td>{{item.Remark}}</td>
-                    <td>
-                        <button id="btnModify1{{$index+1}}" url="devicelink/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改设备联动信息')"
-                                class="btn btn-warning btn-style">
-                            修改
-                        </button>
-                        <button type="button" class="btn btn-danger btn-style" ng-click="deleteDeviceLink(item.ID)">删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="width center">
-            <div id="page2" class="m-pagination m-center"></div>
+            </div>
         </div>
     </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th width="5%">UUID</th>
+                <th width="8%">业主姓名</th>
+                <th width="8%">电话</th>
+                <th width="8%">建筑物名称</th>
+                <th width="10%">房号</th>
+                <th width="8%">账户余额</th>
+                <th width="10%">账户报警余额</th>
+                <th width="8%">积分</th>
+                <th width="14%">时间</th>
+                <th width="21%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-cloak ng-repeat="item in Items1">
+                <td>{{item.UUID}}</td>
+                <td>{{item.RealName}}</td>
+                <td>{{item.Phone}}</td>
+                <td>{{item.BuildingName}}</td>
+                <td>{{item.RoomNo}}</td>
+                <td>{{item.AccountBalance}}</td>
+                <td>{{item.AccountWarnLimit}}</td>
+                <td>{{item.CreditScore}}</td>
+                <td>{{item.CreateTime}}</td>
+                <td>
+                    <button id="btnModify{{$index+1}}" url="user/modify?uuid={{item.UUID}}" onclick="popDefaultWnd(this.id, '修改业主信息')"
+                            class="btn btn-warning btn-style">
+                        修改
+                    </button>
+                    <button id="btnDetails{{$index+1}}" url="/user/details?uuid={{item.UUID}}" onclick="popDefaultWnd(this.id, '业主详情')"
+                            class="btn btn-info btn-style">
+                        详情
+                    </button>
+                    <button type="button" class="btn btn-danger btn-style" ng-click="deleteUser(item.UUID)">删除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="width center">
+        <div id="page1" class="m-pagination m-center"></div>
+    </div>
+</div>
+<div>
+    <table class="table table-hover">
+        <caption>
+            <button title="添加设备联动" id="btnAdd1" url="devicelink/add" onclick="popDefaultWnd(this.id, '添加设备联动')" class="btn btn-success btn-top">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+        </caption>
+        <thead>
+            <tr>
+                <th width="16%">ID</th>
+                <th width="16%">业主姓名</th>
+                <th width="16%">仪器名称</th>
+                <th width="17%">时间</th>
+                <th width="16%">备注</th>
+                <th width="19%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-cloak ng-repeat="item in Items2">
+                <td>{{item.ID}}</td>
+                <td>{{item.RealName}}</td>
+                <td>{{item.DeviceName}}</td>
+                <td>{{item.CreateTime}}</td>
+                <td>{{item.Remark}}</td>
+                <td>
+                    <button id="btnModify1{{$index+1}}" url="devicelink/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改设备联动信息')"
+                            class="btn btn-warning btn-style">
+                        修改
+                    </button>
+                    <button type="button" class="btn btn-danger btn-style" ng-click="deleteDeviceLink(item.ID)">删除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="width center">
+        <div id="page2" class="m-pagination m-center"></div>
+    </div>
+</div>
 </div>
