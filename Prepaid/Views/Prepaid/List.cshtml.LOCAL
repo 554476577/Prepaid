@@ -110,20 +110,12 @@
                 });
             });
         };
-<<<<<<< HEAD
         $scope.myStyle = function (height) {
             if (height > 1) {
                 return {
                     "height": 37 * height + "px",
                     "padding-top": 22 + "px"
                 };
-=======
-
-        $scope.myStyle = function (height) {
-            return {
-                "height": 100 * height + "px",
-                "background-color": "red"
->>>>>>> 84fd6993cd862e0b237ad0d5adc14c875c44246b
             }
         };
     });
