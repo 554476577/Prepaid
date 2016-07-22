@@ -108,52 +108,57 @@ tbody tr td {
     text-align:center;
 }
 /*能耗管理的table样式*/
+.container-fluid .row.information {
+    border-bottom:2px solid #ddd;
+}
 .container-fluid .row{
     text-align:center;
-    border-bottom:2px solid #ddd;
     padding:8px 0;
     word-break: break-all;
     word-wrap: break-word;
 }
-    .container-fluid .row.head-basic {
-        font-weight:bold;
-    }
-.container-fluid .row.information > div {
-    height:50px;
-    font-size:13px;
-    line-height:22px;
+.container-fluid .row.head-basic {
+    font-weight:bold;
+}
+.container-fluid .row.head-basic .col-lg-5 {
+    padding:0 0;
 }
 .container-fluid .row .head-second {
+    padding:8px 0;
     float:left;
     width:20%;
 }
 .container-fluid .row .information-content {
     border-bottom:1px solid #ddd;
-    background-color:#dff0d8;     
+    background-color:#dff0d8;
+    padding-left:0;
+    padding-right:0;     
 }
 .container-fluid .row .information-content:hover {
     background-color:#d0e9c6;       
 }
 .container-fluid .row .information-second {
-    float:right;
+    float:left;
     width:20%;
     padding:8px 0;
+    line-height:20px;
 }
 /*预付费的table样式*/
-.container > div.paid-menu{
-    border-bottom:1px solid transparent;
-}
-.row.paid-data {
-    padding-bottom:8px;
+.container-fluid .row.paid-menu,.container-fluid .row.paid-data,.container-fluid .row.head-basic {
+    border-bottom:2px solid #ddd;
 }
 .container-fluid > .row > div >.row> div{
     padding:0 0 ;
+    line-height:20px;
 }
-.row.paid-data >.col-lg-4 >.paid-move {
+.row.paid-data > .col-lg-5 > .device-right {
+    padding:8px 0 2px 0;
+}
+.row.paid-data >.col-lg-5 >.paid-move {
     background-color:#dff0d8;
     border-bottom:1px solid #ddd;
 }
-.row.paid-data >.col-lg-4 >.paid-move:hover {
+.row.paid-data >.col-lg-5 >.paid-move:hover {
     background-color:#d0e9c6;
 }
 /*搜索框的样式*/

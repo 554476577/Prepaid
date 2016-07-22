@@ -110,6 +110,14 @@
                 });
             });
         };
+        $scope.myStyle = function (height) {
+            if (height > 1) {
+                return {
+                    "height": 37 * height + "px",
+                    "padding-top": 22 + "px"
+                };
+            }
+        };
     });
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div table-responsive">
@@ -136,7 +144,7 @@
                 <button class="search-load" title="批量结算" ng-click="batchSettle()">批量结算</button>
             </div>
         </div>
-        <div class="row paid-menu" style="padding-bottom:0;">
+        <div class="row paid-menu" style="padding-bottom:0;font-weight:bold;">
             <div class="col-lg-2 col-md-2 col-sm-2">
                 <div class="row" style="border-bottom:1px solid transparent;">
                     <div class="col-md-4 col-sm-4 col-xs-4">业主姓名</div>
@@ -144,7 +152,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-4">房间编号</div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 device-data">
+            <div class="col-lg-5 col-md-5 col-sm-5 device-data">
                 <div class="row" style="border-bottom:1px solid transparent;">
                     <div class="col-md-2 col-sm-2 col-xs-2">设备名称</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">上次抄表读数</div>
@@ -154,7 +162,7 @@
                     <div class="col-md-2 col-sm-2 col-xs-2">当前能耗价格</div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-5 col-md-5 col-sm-5">
                 <div class="row device-right" style="border-bottom:1px solid transparent;">
                     <div class="col-md-1 col-sm-1 col-xs-1">当前总能耗</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">当前结算总价</div>
@@ -167,14 +175,14 @@
             </div>
         </div>
         <div class="row paid-data" ng-cloak ng-repeat="item in Items">
-            <div class="col-lg-2 col-md-2 col-sm-2">
+            <div class="col-lg-2 col-md-2 col-sm-2" ng-style="myStyle(item.InstantDeviceEnergies.length)">
                 <div class="row" style="border-bottom:1px solid transparent;">
                     <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</div>
                     <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.BuildingName}}</div>
                     <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RoomNo}}</div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-5 col-md-5 col-sm-5">
                 <div class="row paid-move" ng-cloak ng-repeat="device in item.InstantDeviceEnergies">
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.DeviceName}}</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.PreValue}}</div>
@@ -184,7 +192,7 @@
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.StrIntervalMoney}}</div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-5 col-md-5 col-sm-5" ng-style="myStyle(item.InstantDeviceEnergies.length)">
                 <div class="row device-right" style="border-bottom:1px solid transparent;">
                     <div class="col-md-1 col-sm-1 col-xs-1" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.CurrentSumValue}}</div>
                     <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.StrCurrentSumMoney}}</div>
