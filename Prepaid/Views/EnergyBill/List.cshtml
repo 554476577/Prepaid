@@ -95,19 +95,21 @@
                 ShowErrModal(data, status);
             });
         };
+
         $scope.energyStyle = function (height) {
             if (height > 1) {
                 return {
                     "height": 36 * height + "px",
-                    "padding-top": 22 + "px"
+                    "padding-top": 22 + 37 * (height - 2) / 2 + "px"
                 };
             }
         };
+
         $scope.backStyle = function (back) {
             if (back > 1) {
                 return {
                     //"height": 36 * back + "px",
-                    "padding-top": "-"+ 22 + "px"
+                    "padding-top": 22 + 37 * (height - 2) / 2 + "px"
                 };
             }
         };
