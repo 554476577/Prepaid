@@ -33,14 +33,14 @@
                     $(this).parent().addClass("li-active");
                 }
             });
-        });     
+        });
     </script>
 </head>
 <body ng-app="app" ng-controller="layoutCtrl">
     <div class="content">
         <div class="nav-top">
             <div class="logo">
-                <a href="~/home/index"><h3>能耗预付费系统</h3></a>
+                <a href="~/home/index"><img src="~/images/pre_energy.png" alt="Alternate Text" /></a>
             </div>
             <div class="user-identity">
                 <div class="dropdown">
@@ -58,13 +58,41 @@
         <div class="main">
             <div class="manager">
                 <ul>
-                    <li class="li-list li-active"><a data-curr="prepaid" href="~/prepaid/list">实时能耗</a></li>
-                    <li class="li-list"><a data-curr="energybill" href="~/energybill/list">缴费记录</a></li>
-                    <li class="li-list"><a data-curr="user" href="~/user/list">业主信息</a></li>
-                    <li class="li-list"><a data-curr="point" href="~/point/list">设备一览</a></li>
-                    <li class="li-list"><a data-curr="creditlevel" href="~/creditlevel/list">信用等级</a></li>
-                    <li class="li-list"><a data-curr="recharge" href="~/recharge/list">充值记录</a></li>
-                    <li class="li-list"><a data-curr="admin" href="~/admin/list">账号管理</a></li>
+                    <li class="li-list">
+                        <a class="picture_1" data-curr="prepaid" href="~/prepaid/list">
+                       
+                        </a>
+                    </li>
+                    <li class="li-list">
+                        <a class="picture_2" data-curr="energybill" href="~/energybill/list">
+                       
+                        </a>
+                    </li>
+                    <li class="li-list">
+                        <a class="picture_3" data-curr="user" href="~/user/list">
+                      
+                        </a>
+                    </li>
+                    <li class="li-list">
+                        <a class="picture_4" data-curr="point" href="~/point/list">
+                       
+                        </a>
+                    </li>
+                    <li class="li-list">
+                        <a class="picture_5" data-curr="creditlevel" href="~/creditlevel/list">
+                            
+                        </a>
+                    </li>
+                    <li class="li-list">
+                        <a class="picture_6" data-curr="recharge" href="~/recharge/list">
+                            
+                        </a>
+                    </li>
+                    <li class="li-list">
+                        <a class="picture_7" data-curr="admin" href="~/admin/list">
+                           
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="content-show">

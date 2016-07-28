@@ -20,9 +20,9 @@ body {
 }
 
 .nav-top {
-    background:#88C448;
+    background:#19c68b;
     width:100%;
-    height:80px;
+    height:68px;
     position:relative;
 }
 
@@ -31,6 +31,7 @@ body {
     height: 100%;
     width: 300px;
     left: 10px;
+    padding-top:18px;
     /*background-color:#8B4513;*/
 }
 .logo > a > h3 {
@@ -53,38 +54,43 @@ body {
 .manager {
     float:left;
     width: 150px;
-    padding-top:0;
-    min-height: 800px;
-    border-top:2px solid #BBCD9B;
-    /*border-right:2px solid #BBCD9B;*/
-    box-shadow:-2px 0 #BBCD9B;
+    height: 100%;
+    background-color:#576161;
 }
 .manager li.li-list {
+    display:block;
     width:100%;
-    text-align:center;
-    background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fff), to(#aad078));
-    font-size:16px;
-    font-weight:bold;
-    padding:15px 0;
-    border-bottom:2px solid #88c448;
-}
-.manager li.li-active {
-    width:100%;
-    text-align:center;
-    background-color:#14b555;
-    font-size:16px;
-    font-weight:bold;
-    padding:15px 0;
-    border-bottom:2px solid #88c448;
-    color:#274989;
 }
 .manager a {
     display:block;
     width:100%;
+    height:44px;
 }
-.manager a:hover {
-    color:#B7B7B7;
-    text-decoration:none;
+.manager li.li-active{
+    display:block;
+    width:100%;
+    background-color:#51a07d;        
+}
+.manager a.picture_1 {
+    background-image:url(../../images/left/real_energy_1.png);
+}
+.manager a.picture_2 {
+    background-image:url(../../images/left/pay_1.png);
+}
+.manager a.picture_3 {
+    background-image:url(../../images/left/owner_1.png);
+}
+.manager a.picture_4 {
+    background-image:url(../../images/left/equipment_1.png);
+}
+.manager a.picture_5 {
+    background-image:url(../../images/left/credit_1.png);
+}
+.manager a.picture_6 {
+    background-image:url(../../images/left/recharge_1.png);
+}
+.manager a.picture_7 {
+    background-image:url(../../images/left/account_1.png);
 }
 .content-show {
     float:left;
