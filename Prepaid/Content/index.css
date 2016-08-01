@@ -96,6 +96,5 @@ body {
     float:left;
     width: calc(100% - 150px);
     height: 100%;
-    border:2px solid #b7b7b7;
-    border-bottom:2px solid transparent;
+    background-color:#e9ede5;
 }

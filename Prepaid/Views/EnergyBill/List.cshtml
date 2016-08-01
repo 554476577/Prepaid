@@ -99,8 +99,8 @@
         $scope.energyStyle = function (height) {
             if (height > 1) {
                 return {
-                    "height": 36 * height + "px",
-                    "padding-top": 22 + 37 * (height - 2) / 2 + "px"
+                    "height": 40 * height + "px",
+                    "padding-top": 20 + 40 * (height - 2) / 2 + "px"
                 };
             }
         };
@@ -109,7 +109,7 @@
             if (back > 1) {
                 return {
                     //"height": 36 * back + "px",
-                    "padding-top": 22 + 37 * (height - 2) / 2 + "px"
+                    "padding-top": 20 + 40 * (height - 2) / 2 + "px"
                 };
             }
         };
@@ -117,12 +117,12 @@
 </script>
 <div ng-controller="EnergyBillCtrl" class="content-div table-responsive">
     <div class="top-basic">
-        <h3>能耗管理</h3>
+        <strong>能耗管理</strong>
     </div>
     <div class="container-fluid paid-content">
-        <div class="row" style="border-bottom:1px solid transparent;">
+        <div class="row row-style">
             <div class="col-lg-4 col-md-4 col-sm-4 search-top">
-                <div class="row" style="border-bottom:1px solid transparent;">
+                <div class="row">
                     <div class="search-txt col-lg-2 col-md-2 col-sm-2">用户UUID:</div>
                     <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="UserID" class="form-control input-md input-search"></div>
                     <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
@@ -146,15 +146,17 @@
                 <button class="search-load" title="导出报表" ng-click="exportReport()">导出报表</button>
             </div>
         </div>
-        <div class="row head-basic">
+    </div>
+    <div class="container-fluid control-div">
+        <div class="row paid-head">
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="row">
+                <div class="row style-sm">
                     <div class="col-lg-6 col-md-6 col-sm-6">用户UUID</div>
                     <div class="col-lg-2 col-md-2 col-sm-2">业主姓名</div>
                     <div class="col-lg-4 col-md-4 col-sm-4">结算时间</div>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="col-lg-5 col-md-5 col-sm-5" style="padding:0 0;">
                 <div class="head-second">设备名称</div>
                 <div class="head-second">设备累计读数</div>
                 <div class="head-second">设备结算能耗</div>
@@ -162,26 +164,36 @@
                 <div class="head-second">设备结算价格</div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="row">
+                <div class="row style-sm">
                     <div class="col-lg-4 col-md-4 col-sm-4">总读数</div>
                     <div class="col-lg-4 col-md-4 col-sm-4">最近结算总能耗</div>
                     <div class="col-lg-4 col-md-4 col-sm-4">最近结算总价格</div>
                 </div>
             </div>
         </div>
-        <div class="row information" ng-cloak ng-repeat="item in Items">
-            <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceEnergies.length)">
-                <div class="row">
+        <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}">
+            <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceEnergies.length)" style="position:relative;">
+                <div class="row style-spe">
                     <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceEnergies.length}}">{{item.UserID}}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2" rowspan="{{item.DeviceEnergies.length}}">{{item.RealName}}</div>
                     <div style="margin-bottom:2px;" class="col-lg-4 col-md-4 col-sm-4" rowspan="{{item.DeviceEnergies.length}}">{{item.DateTime}}</div>
                 </div>
+                <div class="row zindex">
+                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2" style="border-left:1px solid #d7d7d7;border-right:1px solid #d7d7d7;"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3" style="float:right;" ng-style="energyStyle(item.DeviceEnergies.length)">
-                <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3" style="float:right;position:relative;" ng-style="energyStyle(item.DeviceEnergies.length)">
+                <div class="row style-spe">
                     <div class="col-lg-4 col-md-4 col-sm-4" rowspan="{{item.DeviceEnergies.length}}">{{item.SumTotolValue}}</div>
                     <div class="col-lg-4 col-md-4 col-sm-4" rowspan="{{item.DeviceEnergies.length}}">{{item.SumValue}}</div>
                     <div class="col-lg-4 col-md-4 col-sm-4" rowspan="{{item.DeviceEnergies.length}}">{{item.SumMoney}}</div>
+                </div>
+                <div class="row zindex">
+                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="border-left:1px solid #d7d7d7;border-right:1px solid #d7d7d7;"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
                 </div>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-5 information-content" ng-cloak ng-repeat="device in item.DeviceEnergies">
@@ -191,7 +203,6 @@
                 <div class="information-second">{{device.Price}}</div>
                 <div class="information-second">{{device.Money}}</div>
             </div>
-            
         </div>
     </div>
 </div>

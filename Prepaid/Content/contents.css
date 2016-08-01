@@ -32,7 +32,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-top:0;
 }
 .content-div {
-    padding: 10px 15px;
+    padding: 10px 10px;
     font-size: 13px;
 }
 
@@ -107,21 +107,114 @@ thead tr th {
 tbody tr td {
     text-align:center;
 }
-/*能耗管理的table样式*/
-.container-fluid .row.information {
-    border-bottom:2px solid #ddd;
+/*基础样式*/
+.top-basic {
+    font-size:15px;
+    color:#7c7c7c;
+    border:1px solid #d7d7d7;
+    padding:4px 10px;
+    background:-webkit-gradient(linear, 0% 0%, 0% 50%,from(#f5f5f5), to(#e6e6e6));
+    border-radius:3px;
 }
+.container-fluid.control-div {
+    margin-top:5px;
+    padding:5px 5px 5px 5px;
+    background-color:#fff;
+    border:1px solid #d7d7d7;
+    border-radius:5px;
+}
+.container-fluid .row.row-style {
+    padding-top:0;
+    background-color:#fff;
+    border:1px solid #d7d7d7;
+    border-top:1px solid transparent;
+    border-radius:3px;
+    color:#7c7c7c;
+}
+.container-fluid .row.paid-head {
+    border-top:1px solid #d7d7d7;
+    border-bottom:1px solid #d7d7d7;
+    padding:0 0;
+    margin:0 5px;
+    background-color:#e8e8e8;
+    border-left:1px solid #d7d7d7;
+}
+/*头部的背景样式*/
+.container-fluid .row.paid-menu {
+    padding:0 0;
+    margin:0 5px;
+    background-color:#e8e8e8;
+    border-left:#d7d7d7;
+}
+/*no-repeat 的隔行变色*/
+.container-fluid .row.paid-menu:nth-child(even) {
+    background-color:#fff;
+}
+.container-fluid .row.paid-menu:nth-child(odd) {
+    background-color:#f4f3f3;
+}
+.container-fluid .row.style-sm {
+    padding:0 0 ;
+    height:35px;
+}
+.container-fluid .head-second {
+    border-left:1px solid #d7d7d7;
+    padding:0 0 ;
+    height:35px;
+}
+.container-fluid .style-sm div {
+    border-left:1px solid #d7d7d7;
+    line-height:35px;
+    color:#7c7c7c;
+    font-weight:bold;
+}
+.container-fluid .row.style-md {
+    padding:0 0 ;
+    height:40px;
+}
+.container-fluid .row.style-spe {
+    padding:0 0 ;
+    height:40px;
+}
+.container-fluid .style-md div {
+    border-right:1px solid #d7d7d7;
+    line-height:40px;
+    color:#7c7c7c;
+    font-weight:bold;
+}
+.container-fluid .style-spe div {
+    line-height:40px;
+    color:#7c7c7c;
+    font-weight:bold;
+}
+.item-last {
+    border-bottom:1px solid #d7d7d7;
+}
+/*能耗管理的table样式*/
 .container-fluid .row{
     text-align:center;
     padding:8px 0;
     word-break: break-all;
     word-wrap: break-word;
 }
-.container-fluid .row.head-basic {
-    font-weight:bold;
+.container-fluid .row.information {
+    margin-left:5px;
+    margin-right:5px;
+    border-left:1px solid #d7d7d7;
+    border-right:1px solid #d7d7d7;
+    padding:0 0; 
 }
-.container-fluid .row.head-basic .col-lg-5 {
-    padding:0 0;
+    .container-fluid .row.information .zindex ,.container-fluid .row.paid-menu .zindex {
+        position:absolute;top:0;left:15px;z-index:10000;height:100%;width:100%;padding:0 0 ;
+    }
+        .container-fluid .row.information .zindex > div ,.container-fluid .row.paid-menu .zindex >div {
+            height:100%;
+        }
+.container-fluid .row.information:nth-child(even) {
+    background-color:#fff;
+}
+.container-fluid .row.information:nth-child(odd) {
+    background-color:#f4f3f3;
 }
 .container-fluid .row .head-second {
     padding:8px 0;
@@ -129,38 +222,24 @@ tbody tr td {
     width:20%;
 }
 .container-fluid .row .information-content {
-    border-bottom:1px solid #ddd;
-    background-color:#dff0d8;
+    color:#7c7c7c;
+    font-weight:bold;
+    border-left:1px solid #d7d7d7;
     padding-left:0;
     padding-right:0;     
-}
-.container-fluid .row .information-content:hover {
-    background-color:#d0e9c6;       
 }
 .container-fluid .row .information-second {
     float:left;
     width:20%;
     padding:8px 0;
-    line-height:20px;
+    line-height:24px;
+    border-right:1px solid #d7d7d7;
 }
 /*预付费的table样式*/
-.container-fluid .row.paid-menu,.container-fluid .row.paid-data,.container-fluid .row.head-basic {
-    border-bottom:2px solid #ddd;
-}
 .container-fluid > .row > div >.row> div{
     padding:0 0 ;
-    line-height:20px;
 }
-.row.paid-data > .col-lg-5 > .device-right {
-    padding:8px 0 2px 0;
-}
-.row.paid-data >.col-lg-5 >.paid-move {
-    background-color:#dff0d8;
-    border-bottom:1px solid #ddd;
-}
-.row.paid-data >.col-lg-5 >.paid-move:hover {
-    background-color:#d0e9c6;
-}
+
 /*搜索框的样式*/
 .search-top {
     height:40px;
