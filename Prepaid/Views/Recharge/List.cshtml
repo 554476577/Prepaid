@@ -7,7 +7,7 @@
 
         var params = {
             "UserID": "",
-            "RealName":"",
+            "RealName": "",
             "PageIndex": 1,
             "PageSize": $scope.PageSize
         };
@@ -76,19 +76,19 @@
 
 <div ng-controller="RechargeCtrl" class="content-div">
     <div class="top-basic">
-        <h3>充值记录</h3>
+        <strong>充值记录</strong>
     </div>
     <div class="container-fluid">
-        <div class="row" style="border-bottom:1px solid transparent;">
+        <div class="row row-style">
             <div class="col-lg-4 col-md-4 col-sm-4 search-top">
-                <div class="row" style="border-bottom:1px solid transparent;">
+                <div class="row">
                     <div class="search-txt col-lg-2 col-md-2 col-sm-2">UUID:</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="UserID" class="form-control input-md input-search"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="UserID" class="form-control input-search"></div>
                     <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-md input-search"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-search"></div>
                 </div>
             </div>
-            <div class="input-group search-div" style="padding-top:8px;">
+            <div class="input-group search-div">
                 <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
                 <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -97,24 +97,26 @@
             </div>
         </div>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th width="20%">UUID</th>
-                <th width="20%">业主姓名</th>
-                <th width="20%">充值金额</th>
-                <th width="20%">时间</th>
-                <th width="20%">备注</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-cloak ng-repeat="item in Items">
-                <td>{{item.UUID}}</td>
-                <td>{{item.RealName}}</td>
-                <td>{{item.Money}}</td>
-                <td>{{item.DateTime}}</td>
-                <td>{{item.Remark}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="content-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="20%">UUID</th>
+                    <th width="20%">业主姓名</th>
+                    <th width="20%">充值金额</th>
+                    <th width="20%">时间</th>
+                    <th width="20%">备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-cloak ng-repeat="item in Items">
+                    <td>{{item.UUID}}</td>
+                    <td>{{item.RealName}}</td>
+                    <td>{{item.Money}}</td>
+                    <td>{{item.DateTime}}</td>
+                    <td>{{item.Remark}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

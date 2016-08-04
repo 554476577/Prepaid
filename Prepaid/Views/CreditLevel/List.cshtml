@@ -35,42 +35,53 @@
 </script>
 
 <div ng-controller="CreditLevelCtrl" class="content-div">
-    <table class="table table-hover">
-        <caption class="caption-style">
-            <h3>信用等级</h3>
+
+    <div class="top-basic">
+        <strong>信用等级</strong>
+    </div>
+    <div class="container-fluid">
+        <div class="row row-style">
+            <div class="search-div" style="float:right;padding-right:10px;">
                 <button id="btnAdd" title="添加信用等级" url="creditlevel/add" class="btn btn-success btn-top" onclick="popDefaultWnd(this.id, '添加信用等级')">
                     <i class=" fa fa-plus" aria-hidden="true"></i>
                 </button>
-        </caption>
-        <thead>
-            <tr>
-                <th width="10%">UUID</th>
-                <th width="10%">等级名称</th>
-                <th width="10%">等级描述</th>
-                <th width="10%">最低积分</th>
-                <th width="10%">最高积分</th>
-                <th width="10%">可欠费金额</th>
-                <th width="10%">时间</th>
-                <th width="10%">备注</th>
-                <th width="20%">操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-cloak ng-repeat="item in Items">
-                <td>{{item.UUID}}</td>
-                <td>{{item.Name}}</td>
-                <td>{{item.Description}}</td>
-                <td>{{item.MinScore}}</td>
-                <td>{{item.MaxScore}}</td>
-                <td>{{item.Arrears}}</td>
-                <td>{{item.CreateTime}}</td>
-                <td>{{item.Remark}}</td>
-                <td>
-                    <button type="button" id="btnModify{{$index+1}}" url="creditlevel/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
-                            onclick="popDefaultWnd(this.id,'修改信用等级信息')">修改</button>
-                    <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.UUID)">删除</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </div>
+    <div class="content-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="10%">UUID</th>
+                    <th width="10%">等级名称</th>
+                    <th width="10%">等级描述</th>
+                    <th width="10%">最低积分</th>
+                    <th width="10%">最高积分</th>
+                    <th width="10%">可欠费金额</th>
+                    <th width="10%">时间</th>
+                    <th width="10%">备注</th>
+                    <th width="20%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-cloak ng-repeat="item in Items">
+                    <td>{{item.UUID}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.Description}}</td>
+                    <td>{{item.MinScore}}</td>
+                    <td>{{item.MaxScore}}</td>
+                    <td>{{item.Arrears}}</td>
+                    <td>{{item.CreateTime}}</td>
+                    <td>{{item.Remark}}</td>
+                    <td>
+                        <button type="button" id="btnModify{{$index+1}}" url="creditlevel/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
+                                onclick="popDefaultWnd(this.id,'修改信用等级信息')">
+                            修改
+                        </button>
+                        <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.UUID)">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

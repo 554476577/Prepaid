@@ -15,10 +15,6 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
 .div-three {
     float:left;
 }
-.form-div {
-    height:484px;
-    margin-bottom:0;
-}
 .group-style.group-select {
     margin-top:25px;
 }
@@ -58,6 +54,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
 
 .btn.btn-top {
     float: right;
+    padding:5px 12px;
 }
 
 .m-pagination.m-center {
@@ -68,24 +65,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
 .big{
     font-weight:bold;
 }
-.point-table {
-    background-color: #FFF;
-    border: none;
-    color: #565;
-    font: 15px arial;
-    width: 600px;
-}
 
-.point-table caption {
-    border-bottom: 2px solid #B3DE94;
-}
-.point-table tr.even td {
-    background-color:#fff;
-}
-.point-table tbody td {
-    background-color: #88C448;
-    padding:12px;
-}
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
     font-size:13px;
 }
@@ -95,17 +75,6 @@ input:-ms-input-placeholder,textarea:-ms-input-placeholder {
 
 input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     font-size:13px;
-}
-.caption-style > h3 {
-    margin:0;
-    color:#274989;
-}
-/*table 的基础样式*/
-thead tr th {
-    text-align:center;
-}
-tbody tr td {
-    text-align:center;
 }
 /*基础样式*/
 .top-basic {
@@ -131,7 +100,7 @@ tbody tr td {
     border-radius:3px;
     color:#7c7c7c;
 }
-.container-fluid .row.paid-head {
+.container-fluid .row.content-basic {
     border-top:1px solid #d7d7d7;
     border-bottom:1px solid #d7d7d7;
     padding:0 0;
@@ -140,22 +109,29 @@ tbody tr td {
     border-left:1px solid #d7d7d7;
 }
 /*头部的背景样式*/
-.container-fluid .row.paid-menu {
+.container-fluid .row.content-list {
     padding:0 0;
     margin:0 5px;
     background-color:#e8e8e8;
     border-left:#d7d7d7;
+    border-left:1px solid #d7d7d7;
+    border-right:1px solid #d7d7d7;
 }
 /*no-repeat 的隔行变色*/
-.container-fluid .row.paid-menu:nth-child(even) {
+.container-fluid .row.content-list:nth-child(even),.container-fluid .row.information:nth-child(even) {
     background-color:#fff;
 }
-.container-fluid .row.paid-menu:nth-child(odd) {
+.container-fluid .row.content-list:nth-child(odd),.container-fluid .row.information:nth-child(odd) {
     background-color:#f4f3f3;
 }
 .container-fluid .row.style-sm {
     padding:0 0 ;
     height:35px;
+}
+.container-fluid .row > div,.containner-fluid .row.style-sm > div, .container-fluid .row .head-second,.container-fluid .row.style-spe>div,.container-fluid .row .information-second {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
 }
 .container-fluid .head-second {
     border-left:1px solid #d7d7d7;
@@ -163,16 +139,12 @@ tbody tr td {
     height:35px;
 }
 .container-fluid .style-sm div {
-    border-left:1px solid #d7d7d7;
+    border-right:1px solid #d7d7d7;
     line-height:35px;
     color:#7c7c7c;
     font-weight:bold;
 }
-.container-fluid .row.style-md {
-    padding:0 0 ;
-    height:40px;
-}
-.container-fluid .row.style-spe {
+.container-fluid .row.style-md,.container-fluid .row.style-spe  {
     padding:0 0 ;
     height:40px;
 }
@@ -190,12 +162,10 @@ tbody tr td {
 .item-last {
     border-bottom:1px solid #d7d7d7;
 }
-/*能耗管理的table样式*/
+/*能耗管理的样式*/
 .container-fluid .row{
     text-align:center;
-    padding:8px 0;
-    word-break: break-all;
-    word-wrap: break-word;
+    padding:8px 0; 
 }
 .container-fluid .row.information {
     margin-left:5px;
@@ -204,18 +174,23 @@ tbody tr td {
     border-right:1px solid #d7d7d7;
     padding:0 0; 
 }
-    .container-fluid .row.information .zindex ,.container-fluid .row.paid-menu .zindex {
-        position:absolute;top:0;left:15px;z-index:10000;height:100%;width:100%;padding:0 0 ;
-    }
-        .container-fluid .row.information .zindex > div ,.container-fluid .row.paid-menu .zindex >div {
-            height:100%;
-        }
-.container-fluid .row.information:nth-child(even) {
-    background-color:#fff;
+.container-fluid .row.information .zindex ,.container-fluid .row.content-list .zindex {
+    position:absolute;
+    top:0;
+    left:15px;
+    z-index:10000;
+    height:100%;
+    width:100%;
+    padding:0 0 ;
 }
-.container-fluid .row.information:nth-child(odd) {
-    background-color:#f4f3f3;
+.container-fluid .row.information .zindex > div ,.container-fluid .row.content-list .zindex >div {
+    height:100%;
 }
+.container-fluid .row.content-list .zindex > div:nth-child(even), .container-fluid .row.information .zindex > div:nth-child(even) {
+    border-left:1px solid #d7d7d7;
+    border-right:1px solid #d7d7d7;
+}
+
 .container-fluid .row .head-second {
     padding:8px 0;
     float:left;
@@ -239,7 +214,6 @@ tbody tr td {
 .container-fluid > .row > div >.row> div{
     padding:0 0 ;
 }
-
 /*搜索框的样式*/
 .search-top {
     height:40px;
@@ -248,7 +222,7 @@ tbody tr td {
     display:inline-table;
     float:left;
     font-weight:bold;
-    font-size:12px;
+    font-size:13px;
     height:34px;
     padding-top:10px;
 }
@@ -268,15 +242,14 @@ tbody tr td {
 .input-search {
     display:inline-table;
     width:90%;
+    height:32px;
 }
-.energy-input {
-    display:inline-table;
-    width:90%;
-}
+
 .search-div {
     display:inline-table;
     float:left;
     margin-left:15px;
+    padding-top:8px;
 }
 /*搜索框的时间控件的样式*/
 .search-lg-div {
@@ -286,4 +259,29 @@ tbody tr td {
 }
 .search-lg-div > .search-data {
     width:100%;
+    height:30px;
+    padding-top:8px;
+}
+/*业主信息以下的基础样式*/
+.content-table {
+    margin-top:10px; 
+    background-color:#fff;
+    padding:10px 10px;
+    color:#7c7c7c;
+    border-radius:5px;
+}
+.content-table > .table {
+    border:1px solid #d7d7d7;
+}
+.content-table > .table > thead>tr>th, .content-table > .table > tbody>tr>td {
+    text-align:center;
+    vertical-align:middle;
+    border-left:1px solid #d7d7d7;
+    border-right:1px solid #d7d7d7;
+}
+.content-table > .table > thead {
+    background-color:#e8e8e8;   
+}
+.content-table > .table > tbody > tr:nth-child(even) {
+    background-color:#f4f3f3;
 }

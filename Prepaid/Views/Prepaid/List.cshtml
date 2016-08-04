@@ -124,21 +124,21 @@
     <div class="top-basic">
         <strong>实时能耗</strong>
     </div>
-    <div class="container-fluid paid-content">
+    <div class="container-fluid">
         <div class="row row-style">
             <div class="col-lg-8 col-md-8 col-sm-8 search-top">
-                <div class="row" style="border-bottom:1px solid transparent;">
+                <div class="row">
                     <div class="search-txt col-lg-1 col-md-1 col-sm-1">业主UUID:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="UserID" class="form-control input-md input-search"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="UserID" class="form-control input-search"></div>
                     <div class="search-txt col-lg-1 col-md-1 col-sm-1">业主姓名:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="RealName" class="form-control input-md input-search"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="RealName" class="form-control input-search"></div>
                     <div class="search-txt col-lg-1 col-md-1 col-sm-1">建筑名称:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="BuildingName" class="form-control input-md input-search"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="BuildingName" class="form-control input-search"></div>
                     <div class="search-txt col-lg-1 col-md-1 col-sm-1">房间编号:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="RoomNo" class="form-control input-md input-search"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="RoomNo" class="form-control input-search"></div>
                 </div>
             </div>
-            <div class="input-group search-div" style="padding-top:8px;">
+            <div class="input-group search-div">
                 <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
                 <button class="search-load" title="导出报表" ng-click="exportReport()">导出报表</button>
                 <button class="search-load" title="批量结算" ng-click="batchSettle()">批量结算</button>
@@ -147,7 +147,7 @@
     </div>
     <!--添加边框的div-->
     <div class="container-fluid control-div">
-        <div class="row paid-head">
+        <div class="row content-basic">
             <div class="col-lg-2 col-md-2 col-sm-2">
                 <div class="row style-sm">
                     <div class="col-md-4 col-sm-4 col-xs-4">业主姓名</div>
@@ -166,7 +166,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="row device-right style-sm">
+                <div class="row style-sm">
                     <div class="col-md-1 col-sm-1 col-xs-1">当前总能耗</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">当前结算总价</div>
                     <div class="col-md-1 col-sm-1 col-xs-1">账户余额</div>
@@ -177,7 +177,7 @@
                 </div>
             </div>
         </div>
-        <div class="row paid-data paid-menu" ng-cloak ng-repeat="item in Items" style="border-left:1px solid #d7d7d7;border-right:1px solid #d7d7d7;" ng-class="{'item-last':$last}">
+        <div class="row content-list" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}">
             <div class="col-lg-2 col-md-2 col-sm-2" ng-style="myStyle(item.InstantDeviceEnergies.length)" style="position:relative;">
                 <div class="row style-spe">
                     <div class="col-md-4 col-sm-4 col-xs-4" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.RealName}}</div>
@@ -186,12 +186,12 @@
                 </div>
                 <div class="row zindex">
                     <div class="col-md-4 col-sm-4 col-xs-4"></div>
-                    <div class="col-md-4 col-sm-4 col-xs-4" style="border-left: 1px solid #d7d7d7; border-right: 1px solid #d7d7d7;"></div>
+                    <div class="col-md-4 col-sm-4 col-xs-4"></div>
                     <div class="col-md-4 col-sm-4 col-xs-4" style="border-right:1px solid #d7d7d7;"></div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="row paid-move style-md" ng-cloak ng-repeat="device in item.InstantDeviceEnergies">
+                <div class="row style-md" ng-cloak ng-repeat="device in item.InstantDeviceEnergies">
                     <div class="col-md-3 col-sm-3 col-xs-3">{{device.DeviceName}}</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.PreValue}}</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.CurrentValue}}</div>
@@ -201,7 +201,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6" ng-style="myStyle(item.InstantDeviceEnergies.length)" style="position:relative;">
-                <div class=" row device-right style-spe">
+                <div class="row style-spe">
                     <div class="col-md-1 col-sm-1 col-xs-1" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.CurrentSumValue}}</div>
                     <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.StrCurrentSumMoney}}</div>
                     <div class="col-md-1 col-sm-1 col-xs-1" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</div>
@@ -225,11 +225,11 @@
                 </div>
                 <div class="row zindex">
                     <div class="col-md-1 col-sm-1 col-xs-1"></div>
-                    <div class="col-md-2 col-sm-2 col-xs-2" style="border-left:1px solid #d7d7d7;border-right:1px solid #d7d7d7;"></div>
-                    <div class="col-md-1 col-sm-1 col-xs-1"></div>
-                    <div class="col-md-2 col-sm-2 col-xs-2" style="border-left:1px solid #d7d7d7;border-right:1px solid #d7d7d7;"></div>
                     <div class="col-md-2 col-sm-2 col-xs-2"></div>
-                    <div class="col-md-2 col-sm-2 col-xs-2" style="border-left:1px solid #d7d7d7;border-right:1px solid #d7d7d7;"></div>
+                    <div class="col-md-1 col-sm-1 col-xs-1"></div>
+                    <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                    <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                    <div class="col-md-2 col-sm-2 col-xs-2"></div>
                     <div class="col-md-2 col-sm-2 col-xs-2"></div>
                 </div>
             </div>
