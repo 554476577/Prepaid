@@ -28,8 +28,9 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-top:0;
 }
 .content-div {
-    padding: 10px 10px;
+    padding: 10px 10px 0 10px;
     font-size: 13px;
+    background-color:#e9ede5;
 }
 
 .btn.btn-style {
