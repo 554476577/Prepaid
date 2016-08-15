@@ -32,7 +32,6 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     font-size: 13px;
     background-color:#e9ede5;
 }
-
 .btn.btn-style {
     padding: 3px 6px;
     font-size: 13px;
@@ -59,7 +58,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
 }
 
 .m-pagination.m-center {
-    width: 65%;
+    width: 25%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -153,12 +152,10 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     border-right:1px solid #d7d7d7;
     line-height:40px;
     color:#7c7c7c;
-    font-weight:bold;
 }
 .container-fluid .style-spe div {
     line-height:40px;
     color:#7c7c7c;
-    font-weight:bold;
 }
 .item-last {
     border-bottom:1px solid #d7d7d7;
@@ -196,10 +193,11 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     padding:8px 0;
     float:left;
     width:20%;
+    color:#7c7c7c;
+    font-weight:bold;
 }
 .container-fluid .row .information-content {
     color:#7c7c7c;
-    font-weight:bold;
     border-left:1px solid #d7d7d7;
     padding-left:0;
     padding-right:0;     

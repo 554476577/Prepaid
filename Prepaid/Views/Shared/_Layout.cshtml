@@ -33,6 +33,28 @@
                     $(this).parent().addClass("li-active");
                 }
             });
+
+            $(function () {
+                var Accordion = function (el, multiple) {
+                    this.el = el || {};
+                    this.multiple = multiple || false;
+                    // Variables privadas
+                    var links = this.el.find('.link');
+                    // Evento
+                    links.on('click', { el: this.el, multiple: this.multiple }, this.dropdown)
+                }
+                Accordion.prototype.dropdown = function (e) {
+                    var $el = e.data.el;
+                    $this = $(this),
+                    $next = $this.next();
+                    $next.slideToggle();
+                    $this.parent().toggleClass('open');
+                    if (!e.data.multiple) {
+                        $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+                    };
+                }
+                var accordion = new Accordion($('#accordion'), false);
+            });
         });
     </script>
 </head>
@@ -44,12 +66,25 @@
             </div>
             <div class="user-identity">
                 <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1">
-                        {{UserSession.UserName}} <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation">
-                            <a role="menuitem" href="#" ng-click="logout()">退出</a>
+                    @*<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1">
+                            haha <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation">
+                                <a role="menuitem" href="#" ng-click="logout()">退出</a>
+                            </li>
+                        </ul>*@
+                    <ul id="accordion" class="accordion">
+                        <li style="position:relative;">
+                            <div class="link">
+                                admin<i class="fa fa-chevron-down"></i>
+                            </div>
+                            <ul class="submenu">
+                                <li><a href="#">消费记录</a><a href="#">业主信息</a></li>
+                                <li><a href="#">设备一览</a><a href="#">信用等级</a></li>
+                                <li><a href="#">充值记录</a><a href="#">账号管理</a></li>
+                                <li role="presentation"><a role="menuitem" href="#" ng-click="logout()">退出</a> </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
