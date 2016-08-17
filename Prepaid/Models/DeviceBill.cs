@@ -5,12 +5,12 @@ using System.Web;
 
 namespace Prepaid.Models
 {
-    public class DeviceEnergy
+    public class DeviceBill
     {
         /// <summary>
-        /// 点位ID
+        /// 设备编号
         /// </summary>
-        public int PointID { get; set; }
+        public string DeviceNo { get; set; }
 
         /// <summary>
         /// 设备名称
@@ -18,14 +18,14 @@ namespace Prepaid.Models
         public string DeviceName { get; set; }
 
         /// <summary>
-        /// 设备总读数
+        /// 上次读数
         /// </summary>
-        public double TotolValue { get; set; }
+        public double PreValue { get; set; }
 
         /// <summary>
-        /// 最近一次交费时的所用的设备能耗值
+        /// 当前读数
         /// </summary>
-        public double Value { get; set; }
+        public double CurValue { get; set; }
 
         /// <summary>
         /// 单价
@@ -33,7 +33,7 @@ namespace Prepaid.Models
         public string Price { get; set; }
 
         /// <summary>
-        /// 最近一次交费时的所交金额费用
+        /// 价格
         /// </summary>
         public string Money { get; set; }
 

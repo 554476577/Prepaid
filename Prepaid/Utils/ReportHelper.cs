@@ -15,7 +15,7 @@ namespace Prepaid.Utils
     {
         static HSSFWorkbook workbook;
 
-        public static void ExportUserEnergies(IEnumerable<UserEnergy> userEnergies, string[] titles, string fileName)
+        public static void ExportRoomBills(IEnumerable<RoomBill> bills, string[] titles, string fileName)
         {
             workbook = new HSSFWorkbook();
             InitializeWorkbook();
@@ -23,36 +23,38 @@ namespace Prepaid.Utils
             //SetPrintSetting(sheet); // 设置打印格式
             SetHeaderTitle(sheet, titles); // 设置标题栏
             int rowIndex = 0;
-            for (int i = 0; i < userEnergies.Count(); i++)
+            for (int i = 0; i < bills.Count(); i++)
             {
-                UserEnergy userEnergy = userEnergies.ElementAt(i);
-                int deviceCount = userEnergy.DeviceEnergies.Count();
+                RoomBill bill = bills.ElementAt(i);
+                int deviceCount = bill.DeviceBills.Count();
                 IRow row = CreateCommonRow(sheet, ++rowIndex);
-                // 业主UUID
-                CreateCommonCell(sheet, row, 0, userEnergy.UserID);
+                // 房间编号
+                CreateCommonCell(sheet, row, 0, bill.RoomNo);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 0, 0));
-                // 业主姓名
-                CreateCommonCell(sheet, row, 1, userEnergy.RealName);
+                // 结算批号
+                CreateCommonCell(sheet, row, 1, bill.LotNo);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 1, 1));
-                // 结账时间
-                CreateCommonCell(sheet, row, 2, userEnergy.DateTime.ToString());
+                // 业主姓名
+                CreateCommonCell(sheet, row, 2, bill.RealName);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 2, 2));
-                // 总读数
-                CreateCommonCell(sheet, row, 7, userEnergy.SumTotolValue.ToString());
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 7, 7));
-                // 结算总能耗
-                CreateCommonCell(sheet, row, 8, userEnergy.SumValue.ToString());
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 8, 8));
-                // 结算总价格
-                CreateCommonCell(sheet, row, 9, userEnergy.SumMoney.ToString());
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 9, 9));
+                // 结账时间
+                CreateCommonCell(sheet, row, 3, bill.DateTime.ToString());
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 3, 3));
+                // 总能耗
+                CreateCommonCell(sheet, row, 10, bill.SumValue.ToString());
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 10, 10));
+                // 总价格
+                CreateCommonCell(sheet, row, 11, bill.SumMoney.ToString());
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 11, 11));
                 for (int j = 0; j < deviceCount; j++)
                 {
-                    DeviceEnergy deviceEnergy = userEnergy.DeviceEnergies.ElementAt(j);
-                    CreateCommonCell(sheet, row, 3, deviceEnergy.DeviceName);
-                    CreateCommonCell(sheet, row, 4, deviceEnergy.TotolValue.ToString());
-                    CreateCommonCell(sheet, row, 5, deviceEnergy.Value.ToString());
-                    CreateCommonCell(sheet, row, 6, deviceEnergy.Money.ToString());
+                    DeviceBill deviceBill = bill.DeviceBills.ElementAt(j);
+                    CreateCommonCell(sheet, row, 4, deviceBill.DeviceNo);
+                    CreateCommonCell(sheet, row, 5, deviceBill.DeviceName);
+                    CreateCommonCell(sheet, row, 6, deviceBill.PreValue.ToString());
+                    CreateCommonCell(sheet, row, 7, deviceBill.CurValue.ToString());
+                    CreateCommonCell(sheet, row, 8, deviceBill.Price);
+                    CreateCommonCell(sheet, row, 9, deviceBill.Money);
                     if (j != deviceCount - 1)
                         row = CreateCommonRow(sheet, ++rowIndex);
                 }
@@ -61,57 +63,46 @@ namespace Prepaid.Utils
             WriteToFile(fileName);
         }
 
-        public static void ExportPrepaidEnergies(IEnumerable<PrepaidEnergy> prepaidEnergies, string[] titles, string fileName)
+        public static void ExportPrepaidBills(IEnumerable<PrepaidBill> prepaidBills, string[] titles, string fileName)
         {
             workbook = new HSSFWorkbook();
             InitializeWorkbook();
-            ISheet sheet = workbook.CreateSheet("能耗缴费实时账单");
+            ISheet sheet = workbook.CreateSheet("能耗预付费实时账单");
             //SetPrintSetting(sheet); // 设置打印格式
             SetHeaderTitle(sheet, titles); // 设置标题栏
             int rowIndex = 0;
-            for (int i = 0; i < prepaidEnergies.Count(); i++)
+            for (int i = 0; i < prepaidBills.Count(); i++)
             {
-                PrepaidEnergy prepaidEnergy = prepaidEnergies.ElementAt(i);
-                int deviceCount = prepaidEnergy.InstantDeviceEnergies.Count();
+                PrepaidBill bill = prepaidBills.ElementAt(i);
+                int deviceCount = bill.PrepaidDeviceBills.Count();
                 IRow row = CreateCommonRow(sheet, ++rowIndex);
-                // 业主UUID
-                CreateCommonCell(sheet, row, 0, prepaidEnergy.UserID);
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 0, 0));
-                // 业主姓名
-                CreateCommonCell(sheet, row, 1, prepaidEnergy.RealName);
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 1, 1));
-                // 建筑名称
-                CreateCommonCell(sheet, row, 2, prepaidEnergy.BuildingName);
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 2, 2));
                 // 房间编号
-                CreateCommonCell(sheet, row, 3, prepaidEnergy.RoomNo);
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 3, 3));
-                // 当前总能耗
-                CreateCommonCell(sheet, row, 9, prepaidEnergy.CurrentSumValue.ToString());
+                CreateCommonCell(sheet, row, 0, bill.RoomNo);
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 0, 0));
+                // 建筑编号
+                CreateCommonCell(sheet, row, 1, bill.BuildingNo);
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 1, 1));
+                // 业主姓名
+                CreateCommonCell(sheet, row, 2, bill.RealName);
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 2, 2));
+                // 总能耗
+                CreateCommonCell(sheet, row, 9, bill.SumValue.ToString());
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 9, 9));
-                // 当前结算总价
-                CreateCommonCell(sheet, row, 10, prepaidEnergy.CurrentSumMoney.ToString());
+                // 总价格
+                CreateCommonCell(sheet, row, 10, bill.SumMoney);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 10, 10));
                 // 账户余额
-                CreateCommonCell(sheet, row, 11, prepaidEnergy.AccountBalance.ToString());
+                CreateCommonCell(sheet, row, 11, bill.AccountBalance);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 11, 11));
-                // 结算后账户余额
-                CreateCommonCell(sheet, row, 12, prepaidEnergy.CurrentAccountBalance.ToString());
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 12, 12));
-                // 账户报警金额
-                CreateCommonCell(sheet, row, 13, prepaidEnergy.AccountWarnLimit.ToString());
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 13, 13));
-                // 账户可透支金额
-                CreateCommonCell(sheet, row, 14, prepaidEnergy.MaxArrears.ToString());
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 14, 14));
                 for (int j = 0; j < deviceCount; j++)
                 {
-                    InstantDeviceEnergy deviceEnergy = prepaidEnergy.InstantDeviceEnergies.ElementAt(j);
-                    CreateCommonCell(sheet, row, 4, deviceEnergy.DeviceName);
-                    CreateCommonCell(sheet, row, 5, deviceEnergy.PreValue.ToString());
-                    CreateCommonCell(sheet, row, 6, deviceEnergy.CurrentValue.ToString());
-                    CreateCommonCell(sheet, row, 7, deviceEnergy.IntervalValue.ToString());
-                    CreateCommonCell(sheet, row, 8, deviceEnergy.IntervalValue.ToString());
+                    PrepaidDeviceBill deviceBill = bill.PrepaidDeviceBills.ElementAt(j);
+                    CreateCommonCell(sheet, row, 3, deviceBill.DeviceNo);
+                    CreateCommonCell(sheet, row, 4, deviceBill.DeviceName);
+                    CreateCommonCell(sheet, row, 5, deviceBill.PreValue.ToString());
+                    CreateCommonCell(sheet, row, 6, deviceBill.CurValue.ToString());
+                    CreateCommonCell(sheet, row, 7, deviceBill.Price);
+                    CreateCommonCell(sheet, row, 8, deviceBill.Money);
                     if (j != deviceCount - 1)
                         row = CreateCommonRow(sheet, ++rowIndex);
                 }

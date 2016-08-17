@@ -7,16 +7,16 @@ using System.Web;
 
 namespace Prepaid.Repositories
 {
-    public class CreditLevelRespository : AbstractRespository<string, CreditLevel>
+    public class BuildingRespository : AbstractRespository<string, Building>
     {
-        public override System.Data.Entity.DbSet<CreditLevel> GetAll()
+        public override System.Data.Entity.DbSet<Building> GetAll()
         {
-            return db.CreditLevels;
+            return db.Buildings;
         }
 
         public override bool IsExist(string uuid)
         {
-            return db.CreditLevels.Count(e => e.UUID == uuid) > 0;
+            return db.Buildings.Count(e => e.BuildingNo == uuid) > 0;
         }
     }
 }

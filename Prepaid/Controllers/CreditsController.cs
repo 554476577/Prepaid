@@ -14,17 +14,17 @@ using System.Web.Http.Description;
 
 namespace Prepaid.Controllers
 {
-    public class DeviceLinksController : ApiController
+    public class CreditsController : ApiController
     {
-        IRepository<int, DeviceLink> repository;
+        IRepository<string, Credit> repository;
 
-        public DeviceLinksController(IRepository<int, DeviceLink> repository)
+        public CreditsController(IRepository<string, Credit> repository)
         {
             this.repository = repository;
         }
 
-        // GET: api/devicelinks
-        public IHttpActionResult GetDeviceLinks()
+        // GET: api/credits
+        public IHttpActionResult GetCredits()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -33,12 +33,12 @@ namespace Prepaid.Controllers
             Pager pager = null;
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<DeviceLink> deviceLinks;
+            IEnumerable<Credit> Credits;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                deviceLinks = this.repository.GetAll();
+                Credits = this.repository.GetAll();
             }
             else
             {
@@ -46,18 +46,18 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                deviceLinks = this.repository.GetPagerItems(pageIndex, pageSize, u => u.ID);
+                Credits = this.repository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
             }
 
-            var items = from item in deviceLinks
+            var items = from item in Credits
                         select new
                         {
-                            ID = item.ID,
-                            UserID = item.UserID,
-                            RealName = item.User.RealName,
-                            PointID = item.PointID,
-                            DeviceName = item.Point.DeviceName,
-                            Status = item.Status,
+                            UUID = item.UUID,
+                            Name = item.Name,
+                            Description = item.Description,
+                            MinScore = item.MinScore,
+                            MaxScore = item.MaxScore,
+                            Arrears = TextHelper.ConvertMoney(item.Arrears),
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
@@ -66,26 +66,26 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        // GET: api/devicelinks/1
-        [ResponseType(typeof(DeviceLink))]
-        public async Task<IHttpActionResult> GetDeviceLink(int uuid)
+        // GET: api/credits/03b96c82ba5747eba2a5d96ef67837c9
+        [ResponseType(typeof(Credit))]
+        public async Task<IHttpActionResult> GetCredit(string uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            DeviceLink item = await this.repository.GetByIdAsync(uuid);
+            Credit item = await this.repository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
             var result = new
             {
-                ID = item.ID,
-                UserID = item.UserID,
-                RealName = item.User.RealName,
-                PointID = item.PointID,
-                DeviceName = item.Point.DeviceName,
-                Status = item.Status,
+                UUID = item.UUID,
+                Name = item.Name,
+                Description = item.Description,
+                MinScore = item.MinScore,
+                MaxScore = item.MaxScore,
+                Arrears = TextHelper.ConvertMoney(item.Arrears),
                 CreateTime = item.CreateTime,
                 Remark = item.Remark
             };
@@ -93,21 +93,21 @@ namespace Prepaid.Controllers
             return Ok(result);
         }
 
-        // PUT: api/devicelinks/1
+        // PUT: api/credits/03b96c82ba5747eba2a5d96ef67837c9
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutDeviceLink(int uuid, [FromUri]DeviceLink deviceLink)
+        public async Task<IHttpActionResult> PutCredit(string uuid, [FromUri]Credit Credit)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            if (uuid != deviceLink.ID)
+            if (uuid != Credit.UUID)
                 return BadRequest();
 
             try
             {
-                deviceLink.CreateTime = DateTime.Now;
-                await this.repository.PutAsync(deviceLink);
+                Credit.CreateTime = DateTime.Now;
+                await this.repository.PutAsync(Credit);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -120,9 +120,9 @@ namespace Prepaid.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/devicelinks
-        [ResponseType(typeof(DeviceLink))]
-        public async Task<IHttpActionResult> PostDeviceLink([FromUri]DeviceLink deviceLink)
+        // POST: api/credits
+        [ResponseType(typeof(Credit))]
+        public async Task<IHttpActionResult> PostCredit([FromUri]Credit Credit)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -130,12 +130,13 @@ namespace Prepaid.Controllers
 
             try
             {
-                deviceLink.CreateTime = DateTime.Now;
-                await this.repository.AddAsync(deviceLink);
+                Credit.UUID = TextHelper.GenerateUUID();
+                Credit.CreateTime = DateTime.Now;
+                await this.repository.AddAsync(Credit);
             }
             catch (DbUpdateException)
             {
-                if (this.repository.IsExist(deviceLink.ID))
+                if (this.repository.IsExist(Credit.UUID))
                     return Conflict();
                 else
                     throw;
@@ -144,18 +145,18 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // DELETE: api/devicelinks/1
-        public async Task<IHttpActionResult> DeleteDeviceLink(int uuid)
+        // DELETE: api/credits/03b96c82ba5747eba2a5d96ef67837c9
+        public async Task<IHttpActionResult> DeleteCredit(string uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            DeviceLink deviceLink = await this.repository.GetByIdAsync(uuid);
-            if (deviceLink == null)
+            Credit Credit = await this.repository.GetByIdAsync(uuid);
+            if (Credit == null)
                 return NotFound();
 
-            await this.repository.DeleteAsync(deviceLink);
+            await this.repository.DeleteAsync(Credit);
 
             return Ok();
         }

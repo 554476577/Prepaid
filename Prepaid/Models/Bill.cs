@@ -6,16 +6,22 @@ namespace Prepaid.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Recharge")]
-    public partial class Recharge
+    [Table("Bill")]
+    public partial class Bill
     {
-        [Key]
-        [StringLength(32)]
-        public string UUID { get; set; }
+        public int ID { get; set; }
 
         [Required]
         [StringLength(20)]
-        public string RoomNo { get; set; }
+        public string DeviceNo { get; set; }
+
+        [Required]
+        [StringLength(32)]
+        public string LotNo { get; set; }
+
+        public double PreValue { get; set; }
+
+        public double CurValue { get; set; }
 
         public int Money { get; set; }
 
@@ -24,6 +30,6 @@ namespace Prepaid.Models
         [StringLength(200)]
         public string Remark { get; set; }
 
-        public virtual Room Room { get; set; }
+        public virtual Device Device { get; set; }
     }
 }

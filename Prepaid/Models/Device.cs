@@ -6,35 +6,30 @@ namespace Prepaid.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Point")]
-    public partial class Point
+    [Table("Device")]
+    public partial class Device
     {
-        public Point()
+        public Device()
         {
-            DeviceLinks = new HashSet<DeviceLink>();
+            Alarms = new HashSet<Alarm>();
+            Bills = new HashSet<Bill>();
+            Cutouts = new HashSet<Cutout>();
         }
 
-        public int ID { get; set; }
+        [Key]
+        [StringLength(20)]
+        public string DeviceNo { get; set; }
 
         [Required]
         [StringLength(20)]
-        public string PointID { get; set; }
-
-        [StringLength(32)]
-        public string ModuleID { get; set; }
+        public string RoomNo { get; set; }
 
         [Required]
+        [StringLength(32)]
+        public string TypeID { get; set; }
+
         [StringLength(50)]
         public string Protocol { get; set; }
-
-        public int? AreaID { get; set; }
-
-        [StringLength(20)]
-        public string Floor { get; set; }
-
-        public double? TopPos { get; set; }
-
-        public double? LeftPos { get; set; }
 
         [StringLength(50)]
         public string Scope { get; set; }
@@ -57,28 +52,14 @@ namespace Prepaid.Models
 
         public int? Status { get; set; }
 
-        [StringLength(50)]
-        public string ValueOrigin { get; set; }
+        public double? PreValue { get; set; }
 
-        [StringLength(150)]
-        public string ValueFunc { get; set; }
+        public double? Value { get; set; }
 
-        [StringLength(50)]
-        public string Value { get; set; }
-
-        [StringLength(50)]
-        public string MinValue { get; set; }
-
-        [StringLength(50)]
-        public string MaxValue { get; set; }
-
-        [StringLength(20)]
-        public string Type { get; set; }
+        public double? Rate { get; set; }
 
         [StringLength(20)]
         public string Unit { get; set; }
-
-        public int? Price { get; set; }
 
         public DateTime? DateTime { get; set; }
 
@@ -90,8 +71,6 @@ namespace Prepaid.Models
 
         public bool? ArchiveTag { get; set; }
 
-        public int? ParentID { get; set; }
-
         [StringLength(150)]
         public string Remark1 { get; set; }
 
@@ -101,6 +80,14 @@ namespace Prepaid.Models
         [StringLength(150)]
         public string Remark3 { get; set; }
 
-        public virtual ICollection<DeviceLink> DeviceLinks { get; set; }
+        public virtual ICollection<Alarm> Alarms { get; set; }
+
+        public virtual ICollection<Bill> Bills { get; set; }
+
+        public virtual ICollection<Cutout> Cutouts { get; set; }
+
+        public virtual DeviceType DeviceType { get; set; }
+
+        public virtual Room Room { get; set; }
     }
 }

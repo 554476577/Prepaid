@@ -9,10 +9,10 @@ namespace Prepaid.Repositories
 {
     public interface IRechargeRespository : IRepository<string, Recharge>
     {
-        IEnumerable<Recharge> GetAll(string userID, string realName);
+        IEnumerable<Recharge> GetAll(string RoomNo, string RealName);
 
-        int GetCount(string userID, string realName);
+        int GetCount(string RoomNo, string RealName);
 
-        IEnumerable<Recharge> GetPagerItems(string userID, string realName, int pageIndex, int pageSize, Func<Recharge, DateTime?> func, bool isDesc = false);
+        IEnumerable<Recharge> GetPagerItems(string RoomNo, string RealName, int pageIndex, int pageSize, Func<Recharge, DateTime?> func, bool isDesc = false);
     }
 }

@@ -14,17 +14,17 @@ using System.Web.Http.Description;
 
 namespace Prepaid.Controllers
 {
-    public class CreditLevelsController : ApiController
+    public class BuildingsController : ApiController
     {
-        IRepository<string, CreditLevel> repository;
+        IRepository<string, Building> repository;
 
-        public CreditLevelsController(IRepository<string, CreditLevel> repository)
+        public BuildingsController(IRepository<string, Building> repository)
         {
             this.repository = repository;
         }
 
-        // GET: api/creditlevels
-        public IHttpActionResult GetCreditLevels()
+        // GET: api/buildings
+        public IHttpActionResult GetBuildings()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -33,12 +33,12 @@ namespace Prepaid.Controllers
             Pager pager = null;
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<CreditLevel> creditLevels;
+            IEnumerable<Building> Buildings;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                creditLevels = this.repository.GetAll();
+                Buildings = this.repository.GetAll();
             }
             else
             {
@@ -46,18 +46,18 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                creditLevels = this.repository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
+                Buildings = this.repository.GetPagerItems(pageIndex, pageSize, u => u.BuildingNo);
             }
 
-            var items = from item in creditLevels
+            var items = from item in Buildings
                         select new
                         {
-                            UUID = item.UUID,
+                            BuildingNo = item.BuildingNo,
                             Name = item.Name,
+                            CommunityID = item.CommunityID,
+                            CommunityName = item.Community.Name,
                             Description = item.Description,
-                            MinScore = item.MinScore,
-                            MaxScore = item.MaxScore,
-                            Arrears = TextHelper.ConvertMoney(item.Arrears),
+                            Floors = item.Floors,
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
@@ -66,26 +66,26 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        // GET: api/creditlevels/03b96c82ba5747eba2a5d96ef67837c9
-        [ResponseType(typeof(CreditLevel))]
-        public async Task<IHttpActionResult> GetCreditLevel(string uuid)
+        // GET: api/buildings/03b96c82ba5747eba2a5d96ef67837c9
+        [ResponseType(typeof(Building))]
+        public async Task<IHttpActionResult> GetBuilding(string uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            CreditLevel item = await this.repository.GetByIdAsync(uuid);
+            Building item = await this.repository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
             var result = new
             {
-                UUID = item.UUID,
+                BuildingNo = item.BuildingNo,
                 Name = item.Name,
+                CommunityID = item.CommunityID,
+                CommunityName = item.Community.Name,
                 Description = item.Description,
-                MinScore = item.MinScore,
-                MaxScore = item.MaxScore,
-                Arrears = TextHelper.ConvertMoney(item.Arrears),
+                Floors = item.Floors,
                 CreateTime = item.CreateTime,
                 Remark = item.Remark
             };
@@ -93,21 +93,21 @@ namespace Prepaid.Controllers
             return Ok(result);
         }
 
-        // PUT: api/creditlevels/03b96c82ba5747eba2a5d96ef67837c9
+        // PUT: api/buildings/03b96c82ba5747eba2a5d96ef67837c9
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCreditLevel(string uuid, [FromUri]CreditLevel creditLevel)
+        public async Task<IHttpActionResult> PutBuilding(string uuid, [FromUri]Building Building)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            if (uuid != creditLevel.UUID)
+            if (uuid != Building.BuildingNo)
                 return BadRequest();
 
             try
             {
-                creditLevel.CreateTime = DateTime.Now;
-                await this.repository.PutAsync(creditLevel);
+                Building.CreateTime = DateTime.Now;
+                await this.repository.PutAsync(Building);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -120,9 +120,9 @@ namespace Prepaid.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/creditlevels
-        [ResponseType(typeof(CreditLevel))]
-        public async Task<IHttpActionResult> PostCreditLevel([FromUri]CreditLevel creditLevel)
+        // POST: api/buildings
+        [ResponseType(typeof(Building))]
+        public async Task<IHttpActionResult> PostBuilding([FromUri]Building Building)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -130,13 +130,12 @@ namespace Prepaid.Controllers
 
             try
             {
-                creditLevel.UUID = TextHelper.GenerateUUID();
-                creditLevel.CreateTime = DateTime.Now;
-                await this.repository.AddAsync(creditLevel);
+                Building.CreateTime = DateTime.Now;
+                await this.repository.AddAsync(Building);
             }
             catch (DbUpdateException)
             {
-                if (this.repository.IsExist(creditLevel.UUID))
+                if (this.repository.IsExist(Building.BuildingNo))
                     return Conflict();
                 else
                     throw;
@@ -145,18 +144,18 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // DELETE: api/creditlevels/03b96c82ba5747eba2a5d96ef67837c9
-        public async Task<IHttpActionResult> DeleteCreditLevel(string uuid)
+        // DELETE: api/buildings/03b96c82ba5747eba2a5d96ef67837c9
+        public async Task<IHttpActionResult> DeleteBuilding(string uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            CreditLevel creditLevel = await this.repository.GetByIdAsync(uuid);
-            if (creditLevel == null)
+            Building Building = await this.repository.GetByIdAsync(uuid);
+            if (Building == null)
                 return NotFound();
 
-            await this.repository.DeleteAsync(creditLevel);
+            await this.repository.DeleteAsync(Building);
 
             return Ok();
         }

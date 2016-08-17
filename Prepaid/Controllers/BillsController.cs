@@ -15,19 +15,19 @@ using System.Web.Http.Description;
 
 namespace Prepaid.Controllers
 {
-    public class EnergyBillsController : ApiController
+    public class BillsController : ApiController
     {
-        IEnergyBillRespository repository;
-        IUserRespository userRespository;
+        IBillRespository billRepository;
+        IRoomRespository roomRespository;
 
-        public EnergyBillsController(IEnergyBillRespository repository, IUserRespository userRespository)
+        public BillsController(IBillRespository billRepository, IRoomRespository roomRespository)
         {
-            this.repository = repository;
-            this.userRespository = userRespository;
+            this.billRepository = billRepository;
+            this.roomRespository = roomRespository;
         }
 
-        // GET: api/energybills
-        public IHttpActionResult GetEnergyBills()
+        // GET: api/bills
+        public IHttpActionResult GetBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -36,33 +36,31 @@ namespace Prepaid.Controllers
             Pager pager = null;
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
-            IEnumerable<EnergyBill> energyBills;
+            IEnumerable<Bill> bills;
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                energyBills = this.repository.GetAll();
+                bills = this.billRepository.GetAll();
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                energyBills = this.repository.GetPagerItems(pageIndex, pageSize, u => u.ID);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetCount());
+                bills = this.billRepository.GetPagerItems(pageIndex, pageSize, u => u.LotNo);
             }
 
-            var items = from item in energyBills
+            var items = from item in bills
                         select new
                         {
                             ID = item.ID,
-                            DeviceLinkID = item.DeviceLinkID,
-                            UserID = item.DeviceLink.User.UUID,
-                            RealName = item.DeviceLink.User.RealName,
-                            PointID = item.DeviceLink.Point.ID,
-                            DeviceName = item.DeviceLink.Point.DeviceName,
-                            TotolValue = item.TotolValue,
-                            Value = item.Value,
+                            DeviceNo = item.DeviceNo,
+                            DeviceName = item.Device.DeviceName,
+                            RoomNo = item.Device.RoomNo,
+                            PreValue = item.PreValue,
+                            CurValue = item.CurValue,
                             Money = TextHelper.ConvertMoney(item.Money),
                             DateTime = item.DateTime,
                             Remark = item.Remark
@@ -72,18 +70,18 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        // GET: api/userenergybills
+        // GET: api/roombills
         [HttpGet]
-        [Route("api/userenergybills")]
-        public IHttpActionResult GetUserEnergyBills()
+        [Route("api/roombills")]
+        public IHttpActionResult GetRoomBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
             Pager pager = null;
-            IEnumerable<UserEnergy> userEnergies;
-            string UserID = HttpContext.Current.Request.Params["UserID"];
+            IEnumerable<RoomBill> bills;
+            string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string RealName = HttpContext.Current.Request.Params["RealName"];
             string StartTime = HttpContext.Current.Request.Params["StartTime"];
             string EndTime = HttpContext.Current.Request.Params["EndTime"];
@@ -93,24 +91,24 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                userEnergies = this.repository.GetUserEnergies(UserID, RealName, StartTime, EndTime);
+                bills = this.billRepository.GetRoomBills(RoomNo, RealName, StartTime, EndTime);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetUserEnergiesCount(UserID, RealName, StartTime, EndTime));
-                userEnergies = this.repository.GetUserPagerEnergies(UserID, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.DateTime, true);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetRoomBillsCount(RoomNo, RealName, StartTime, EndTime));
+                bills = this.billRepository.GetRoomPagerBills(RoomNo, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.RoomNo, true);
             }
-            pager.Items = userEnergies;
+            pager.Items = bills;
 
             return Ok(pager);
         }
 
         [HttpGet]
-        [Route("api/export/userenergybills")]
-        public IHttpActionResult ExportUserEnergyBills()
+        [Route("api/export/roombills")]
+        public IHttpActionResult ExportRoomBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -119,46 +117,45 @@ namespace Prepaid.Controllers
             string fileName = "业主能耗缴费历史账单.xls";
             string[] titles = { "用户UUID", "业主姓名", "结算时间", "设备名称", "设备累计读数", "设备结算能耗", 
                                   "设备结算价格", "总读数", "结算总能耗","结算总价格" };
-            IEnumerable<UserEnergy> userEnergies = this.repository.GetUserEnergies();
-            ReportHelper.ExportUserEnergies(userEnergies,titles, fileName);
+            IEnumerable<RoomBill> userEnergies = this.billRepository.GetRoomBills();
+            ReportHelper.ExportRoomBills(userEnergies, titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
             HttpContext.Current.Response.Write(fileName);
 
             return Ok();
         }
 
-        // GET: api/userprepaidbills
+        // GET: api/prepaidbills
         [HttpGet]
-        [Route("api/userprepaidbills")]
-        public IHttpActionResult GetUserPrepaidBills()
+        [Route("api/prepaidbills")]
+        public IHttpActionResult GetPrepaidBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
             Pager pager = null;
-            IEnumerable<PrepaidEnergy> prepaidEnergies;
-            string UserID = HttpContext.Current.Request.Params["UserID"];
-            string RealName = HttpContext.Current.Request.Params["RealName"];
-            string BuildingName = HttpContext.Current.Request.Params["BuildingName"];
+            IEnumerable<PrepaidBill> bills;
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
+            string BuildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            string RealName = HttpContext.Current.Request.Params["RealName"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                prepaidEnergies = this.repository.GetPrepaidEnergies(UserID, RealName, BuildingName, RoomNo);
+                bills = this.billRepository.GetPrepaidBills(RoomNo, BuildingNo, RealName);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetPrepaidEnergiesCount(UserID, RealName, BuildingName, RoomNo));
-                prepaidEnergies = this.repository.GetPrepaidPagerEnergies(UserID, RealName, BuildingName, RoomNo, pageIndex, pageSize, u => u.UserID);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetPrepaidBillsCount(RoomNo, BuildingNo, RealName));
+                bills = this.billRepository.GetPrepaidPagerBills(RoomNo, BuildingNo, RealName, pageIndex, pageSize, u => u.RoomNo);
             }
-            pager.Items = prepaidEnergies;
+            pager.Items = bills;
 
             return Ok(pager);
         }
@@ -174,36 +171,34 @@ namespace Prepaid.Controllers
             string fileName = "业主能耗缴费实时账单.xls";
             string[] titles = { "业主UUID", "业主姓名", "建筑名称", "房间编号", "设备名称", "上次抄表读数", "当前抄表读数", "当前用能", 
                                   "当前能耗价格","当前总能耗","当前结算总价","账户余额","结算后账户余额","账户报警金额","账户可透支金额" };
-            IEnumerable<PrepaidEnergy> prepaidEnergies = this.repository.GetPrepaidEnergies();
-            ReportHelper.ExportPrepaidEnergies(prepaidEnergies,titles, fileName);
+            IEnumerable<PrepaidBill> prepaidEnergies = this.billRepository.GetPrepaidBills();
+            ReportHelper.ExportPrepaidBills(prepaidEnergies, titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
             HttpContext.Current.Response.Write(fileName);
 
             return Ok();
         }
 
-        // GET: api/energybills/1
-        [ResponseType(typeof(EnergyBill))]
-        public async Task<IHttpActionResult> GetEnergyBill(int uuid)
+        // GET: api/bills/1
+        [ResponseType(typeof(Bill))]
+        public async Task<IHttpActionResult> GetBill(int uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            EnergyBill item = await this.repository.GetByIdAsync(uuid);
+            Bill item = await this.billRepository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
             var result = new
             {
                 ID = item.ID,
-                DeviceLinkID = item.DeviceLinkID,
-                UserID = item.DeviceLink.User.UUID,
-                RealName = item.DeviceLink.User.RealName,
-                PointID = item.DeviceLink.Point.ID,
-                DeviceName = item.DeviceLink.Point.DeviceName,
-                TotolValue = item.TotolValue,
-                Value = item.Value,
+                DeviceNo = item.DeviceNo,
+                DeviceName = item.Device.DeviceName,
+                RoomNo = item.Device.RoomNo,
+                PreValue = item.PreValue,
+                CurValue = item.CurValue,
                 Money = TextHelper.ConvertMoney(item.Money),
                 DateTime = item.DateTime,
                 Remark = item.Remark
@@ -212,24 +207,25 @@ namespace Prepaid.Controllers
             return Ok(result);
         }
 
-        // PUT: api/energybills/1
+        // PUT: api/bills/1
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutEnergyBill(int uuid, [FromUri]EnergyBill energyBill)
+        public async Task<IHttpActionResult> PutBill(int uuid, [FromUri]Bill bill)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            if (uuid != energyBill.ID)
+            if (uuid != bill.ID)
                 return BadRequest();
 
             try
             {
-                await this.repository.PutAsync(energyBill);
+                bill.DateTime = DateTime.Now;
+                await this.billRepository.PutAsync(bill);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.repository.IsExist(uuid))
+                if (!this.billRepository.IsExist(uuid))
                     return NotFound();
                 else
                     throw;
@@ -238,9 +234,9 @@ namespace Prepaid.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/energybills
-        [ResponseType(typeof(EnergyBill))]
-        public async Task<IHttpActionResult> PostEnergyBill([FromUri]EnergyBill energyBill)
+        // POST: api/bills
+        [ResponseType(typeof(Bill))]
+        public async Task<IHttpActionResult> PostBill([FromUri]Bill bill)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -248,12 +244,13 @@ namespace Prepaid.Controllers
 
             try
             {
-                energyBill.DateTime = DateTime.Now;
-                await this.repository.AddAsync(energyBill);
+                bill.LotNo = TextHelper.GenerateUUID();
+                bill.DateTime = DateTime.Now;
+                await this.billRepository.AddAsync(bill);
             }
             catch (DbUpdateException)
             {
-                if (this.repository.IsExist(energyBill.ID))
+                if (this.billRepository.IsExist(bill.ID))
                     return Conflict();
                 else
                     throw;
@@ -262,87 +259,91 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // POST: api/userenergybills
+        // POST: api/roombills
         [HttpPost]
-        [Route("api/userenergybills")]
+        [Route("api/roombills")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PostUserEnergyBills()
+        public async Task<IHttpActionResult> PostBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
             string strDeviceEnergies = HttpContext.Current.Request.Params["DeviceEnergies"];
-            string UserID = HttpContext.Current.Request.Params["UserID"];
+            string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string CurrentAccountBalance = HttpContext.Current.Request.Params["CurrentAccountBalance"];
             strDeviceEnergies = string.Format("[{0}]", strDeviceEnergies); // 格式化为json数组
-            List<InstantDeviceEnergy> deviceEnergies = JsonConvert.DeserializeObject<List<InstantDeviceEnergy>>(strDeviceEnergies);
+            List<PrepaidDeviceBill> bills = JsonConvert.DeserializeObject<List<PrepaidDeviceBill>>(strDeviceEnergies);
             DateTime now = DateTime.Now;
-            foreach (InstantDeviceEnergy item in deviceEnergies)
+            string lotNo = TextHelper.GenerateUUID();
+            foreach (PrepaidDeviceBill item in bills)
             {
-                EnergyBill energyBill = new EnergyBill();
-                energyBill.DeviceLinkID = item.DeviceLinkID;
-                energyBill.TotolValue = item.CurrentValue;
-                energyBill.Value = item.IntervalValue;
-                energyBill.Money = item.IntervalMoney;
-                energyBill.DateTime = now;
-                await this.repository.AddAsync(energyBill);
+                Bill bill = new Bill();
+                bill.DeviceNo = item.DeviceNo;
+                bill.LotNo = lotNo;
+                bill.PreValue = item.PreValue ?? 0.00;
+                bill.CurValue = item.CurValue ?? 0.00;
+                bill.Money = item.IntMoney;
+                bill.DateTime = now;
+                await this.billRepository.AddAsync(bill);
             }
 
-            User user = await this.userRespository.GetByIdAsync(UserID);
-            user.AccountBalance = Convert.ToInt32(CurrentAccountBalance);
-            await this.userRespository.PutAsync(user);
+            Room room = await this.roomRespository.GetByIdAsync(RoomNo);
+            room.AccountBalance = Convert.ToInt32(CurrentAccountBalance);
+            await this.roomRespository.PutAsync(room);
 
             return Ok();
         }
 
-        // POST: api/batch/userenergybills
+        // POST: api/batch/bills
         [HttpPost]
-        [Route("api/batch/userenergybills")]
+        [Route("api/batch/bills")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> BatchPostUserEnergyBills()
+        public async Task<IHttpActionResult> BatchPostBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            IEnumerable<PrepaidEnergy> prepaidEnergies = this.repository.GetPrepaidEnergies();
+            IEnumerable<PrepaidBill> prepaidBills = this.billRepository.GetPrepaidBills();
             DateTime now = DateTime.Now;
-            foreach (var prepaidItem in prepaidEnergies)
+            string lotNo = TextHelper.GenerateUUID();
+            foreach (var prepaidBill in prepaidBills)
             {
-                if (prepaidItem.CurrentAccountBalance < 0) // 如果预算不够，则不结算
+                if (prepaidBill.IntAccountBalance < 0) // 如果预算不够，则不结算
                     continue;
-                foreach (InstantDeviceEnergy item in prepaidItem.InstantDeviceEnergies)
+                foreach (PrepaidDeviceBill item in prepaidBill.PrepaidDeviceBills)
                 {
-                    EnergyBill energyBill = new EnergyBill();
-                    energyBill.DeviceLinkID = item.DeviceLinkID;
-                    energyBill.TotolValue = item.CurrentValue;
-                    energyBill.Value = item.IntervalValue;
-                    energyBill.Money = item.IntervalMoney;
-                    energyBill.DateTime = now;
-                    await this.repository.AddAsync(energyBill);
+                    Bill bill = new Bill();
+                    bill.DeviceNo = item.DeviceNo;
+                    bill.LotNo = lotNo;
+                    bill.PreValue = item.PreValue ?? 0.00;
+                    bill.CurValue = item.CurValue ?? 0.00;
+                    bill.Money = item.IntMoney;
+                    bill.DateTime = now;
+                    await this.billRepository.AddAsync(bill);
                 }
 
-                User user = await this.userRespository.GetByIdAsync(prepaidItem.UserID);
-                user.AccountBalance = Convert.ToInt32(prepaidItem.CurrentAccountBalance);
-                await this.userRespository.PutAsync(user);
+                Room room = await this.roomRespository.GetByIdAsync(prepaidBill.RoomNo);
+                room.AccountBalance = prepaidBill.IntAccountBalance - prepaidBill.IntSumMoney;
+                await this.roomRespository.PutAsync(room);
             }
 
             return Ok();
         }
 
-        // DELETE: api/energybills/1
-        public async Task<IHttpActionResult> DeleteEnergyBill(int uuid)
+        // DELETE: api/bills/1
+        public async Task<IHttpActionResult> DeleteBill(int uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            EnergyBill energyBill = await this.repository.GetByIdAsync(uuid);
-            if (energyBill == null)
+            Bill bill = await this.billRepository.GetByIdAsync(uuid);
+            if (bill == null)
                 return NotFound();
 
-            await this.repository.DeleteAsync(energyBill);
+            await this.billRepository.DeleteAsync(bill);
 
             return Ok();
         }

@@ -17,12 +17,12 @@ namespace Prepaid.Controllers
     public class RechargesController : ApiController
     {
         IRechargeRespository rechargeRepository;
-        IUserRespository userRepository;
+        IRoomRespository roomRepository;
 
-        public RechargesController(IRechargeRespository rechargeRepository, IUserRespository userRepository)
+        public RechargesController(IRechargeRespository rechargeRepository, IRoomRespository userRepository)
         {
             this.rechargeRepository = rechargeRepository;
-            this.userRepository = userRepository;
+            this.roomRepository = userRepository;
         }
 
         // GET: api/recharges
@@ -34,7 +34,7 @@ namespace Prepaid.Controllers
 
             Pager pager = null;
             IEnumerable<Recharge> recharges;
-            string UserID = HttpContext.Current.Request.Params["UserID"];
+            string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string RealName = HttpContext.Current.Request.Params["RealName"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
@@ -42,23 +42,23 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                recharges = this.rechargeRepository.GetAll(UserID, RealName);
+                recharges = this.rechargeRepository.GetAll(RoomNo, RealName);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.rechargeRepository.GetCount(UserID, RealName));
-                recharges = this.rechargeRepository.GetPagerItems(UserID, RealName, pageIndex, pageSize, u => u.DateTime,true);
+                pager = new Pager(pageIndex, pageSize, this.rechargeRepository.GetCount(RoomNo, RealName));
+                recharges = this.rechargeRepository.GetPagerItems(RoomNo, RealName, pageIndex, pageSize, u => u.DateTime, true);
             }
 
             var items = from item in recharges
                         select new
                         {
                             UUID = item.UUID,
-                            UserID = item.UserID,
-                            RealName = item.User.RealName,
+                            RoomNo = item.RoomNo,
+                            RealName = item.Room.RealName,
                             Money = TextHelper.ConvertMoney(item.Money),
                             DateTime = item.DateTime,
                             Remark = item.Remark
@@ -76,9 +76,10 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            string fileName = "业主缴费记录.xls";
+            string fileName = "业主充值记录.xls";
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("UUID", "UUID");
+            dict.Add("房间编号", "RoomNo");
             dict.Add("业主姓名", "RealName");
             dict.Add("充值金额", "Money");
             dict.Add("时间", "DateTime");
@@ -88,8 +89,8 @@ namespace Prepaid.Controllers
                         select new
                         {
                             UUID = item.UUID,
-                            UserID = item.UserID,
-                            RealName = item.User.RealName,
+                            RoomNo = item.RoomNo,
+                            RealName = item.Room.RealName,
                             Money = TextHelper.ConvertMoney(item.Money),
                             DateTime = item.DateTime,
                             Remark = item.Remark
@@ -116,8 +117,8 @@ namespace Prepaid.Controllers
             var result = new
             {
                 UUID = item.UUID,
-                UserID = item.UserID,
-                RealName = item.User.RealName,
+                RoomNo = item.RoomNo,
+                RealName = item.Room.RealName,
                 Money = TextHelper.ConvertMoney(item.Money),
                 DateTime = item.DateTime,
                 Remark = item.Remark
@@ -162,10 +163,10 @@ namespace Prepaid.Controllers
 
             try
             {
-                string UserID = recharge.UserID;
-                User user = this.userRepository.GetByID(UserID);
-                user.AccountBalance += recharge.Money;
-                await this.userRepository.PutAsync(user);
+                string RoomNo = recharge.RoomNo;
+                Room room = this.roomRepository.GetByID(RoomNo);
+                room.AccountBalance += recharge.Money;
+                await this.roomRepository.PutAsync(room);
 
                 recharge.UUID = TextHelper.GenerateUUID();
                 recharge.DateTime = DateTime.Now;

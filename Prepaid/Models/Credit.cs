@@ -6,24 +6,29 @@ namespace Prepaid.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Recharge")]
-    public partial class Recharge
+    [Table("Credit")]
+    public partial class Credit
     {
         [Key]
         [StringLength(32)]
         public string UUID { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string RoomNo { get; set; }
+        [StringLength(50)]
+        public string Name { get; set; }
 
-        public int Money { get; set; }
+        [StringLength(200)]
+        public string Description { get; set; }
 
-        public DateTime? DateTime { get; set; }
+        public int MinScore { get; set; }
+
+        public int MaxScore { get; set; }
+
+        public int Arrears { get; set; }
+
+        public DateTime? CreateTime { get; set; }
 
         [StringLength(200)]
         public string Remark { get; set; }
-
-        public virtual Room Room { get; set; }
     }
 }

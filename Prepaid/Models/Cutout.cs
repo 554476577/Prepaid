@@ -6,24 +6,23 @@ namespace Prepaid.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("EnergyBill")]
-    public partial class EnergyBill
+    [Table("Cutout")]
+    public partial class Cutout
     {
         public int ID { get; set; }
 
-        public int DeviceLinkID { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string DeviceNo { get; set; }
 
-        public double TotolValue { get; set; }
+        [StringLength(250)]
+        public string Reason { get; set; }
 
-        public double Value { get; set; }
-
-        public int? Money { get; set; }
-
-        public DateTime? DateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
 
         [StringLength(200)]
         public string Remark { get; set; }
 
-        public virtual DeviceLink DeviceLink { get; set; }
+        public virtual Device Device { get; set; }
     }
 }

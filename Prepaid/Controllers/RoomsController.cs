@@ -14,27 +14,26 @@ using System.Web.Http.Description;
 
 namespace Prepaid.Controllers
 {
-    public class UsersController : ApiController
+    public class RoomsController : ApiController
     {
-        IUserRespository repository;
+        IRoomRespository repository;
 
-        public UsersController(IUserRespository repository)
+        public RoomsController(IRoomRespository repository)
         {
             this.repository = repository;
         }
 
-        // GET: api/users
-        public IHttpActionResult GetUsers()
+        // GET: api/rooms
+        public IHttpActionResult GetRooms()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
             Pager pager = null;
-            IEnumerable<User> users;
-            string UserID = HttpContext.Current.Request.Params["UserID"];
+            IEnumerable<Room> rooms;
             string RealName = HttpContext.Current.Request.Params["RealName"];
-            string BuildingName = HttpContext.Current.Request.Params["BuildingName"];
+            string BuildingNo = HttpContext.Current.Request.Params["BuildingNo"];
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
@@ -42,29 +41,29 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                users = this.repository.GetAll(UserID, RealName, BuildingName, RoomNo);
+                rooms = this.repository.GetAll(RealName, BuildingNo, RoomNo);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount(UserID, RealName, BuildingName, RoomNo));
-                users = this.repository.GetPagerItems(UserID, RealName, BuildingName, RoomNo, pageIndex, pageSize, u => u.UUID);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetCount(RealName, BuildingNo, RoomNo));
+                rooms = this.repository.GetPagerItems(RealName, BuildingNo, RoomNo, pageIndex, pageSize, u => u.RoomNo);
             }
 
-            var items = from item in users
+            var items = from item in rooms
                         select new
                         {
-                            UUID = item.UUID,
-                            Phone = item.Phone,
-                            RealName = item.RealName,
-                            Address = item.Address,
-                            BuildingNo = item.BuildingNo,
-                            BuildingName = item.BuildingName,
-                            FloorCount = item.FloorCount,
-                            Floor = item.Floor,
                             RoomNo = item.RoomNo,
+                            BuildingNo = item.BuildingNo,
+                            BuildingName = item.Building.Name,
+                            Floors = item.Building.Floors,
+                            Floor = item.Floor,
+                            Area = item.Area,
+                            Price = item.Price,
+                            RealName = item.RealName,
+                            Phone = item.Phone,
                             AccountBalance = TextHelper.ConvertMoney(item.AccountBalance),
                             AccountWarnLimit = TextHelper.ConvertMoney(item.AccountWarnLimit),
                             CreditScore = item.CreditScore,
@@ -79,29 +78,29 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        // GET: api/users/03b96c82ba5747eba2a5d96ef67837c9
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> GetUser(string uuid)
+        // GET: api/rooms/03b96c82ba5747eba2a5d96ef67837c9
+        [ResponseType(typeof(Room))]
+        public async Task<IHttpActionResult> GetRoom(string uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            User item = await this.repository.GetByIdAsync(uuid);
+            Room item = await this.repository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
             var result = new
             {
-                UUID = item.UUID,
-                Phone = item.Phone,
-                RealName = item.RealName,
-                Address = item.Address,
-                BuildingNo = item.BuildingNo,
-                BuildingName = item.BuildingName,
-                FloorCount = item.FloorCount,
-                Floor = item.Floor,
                 RoomNo = item.RoomNo,
+                BuildingNo = item.BuildingNo,
+                BuildingName = item.Building.Name,
+                Floors = item.Building.Floors,
+                Floor = item.Floor,
+                Area = item.Area,
+                Price = item.Price,
+                RealName = item.RealName,
+                Phone = item.Phone,
                 AccountBalance = TextHelper.ConvertMoney(item.AccountBalance),
                 AccountWarnLimit = TextHelper.ConvertMoney(item.AccountWarnLimit),
                 CreditScore = item.CreditScore,
@@ -115,21 +114,21 @@ namespace Prepaid.Controllers
             return Ok(result);
         }
 
-        // PUT: api/users/03b96c82ba5747eba2a5d96ef67837c9
+        // PUT: api/rooms/03b96c82ba5747eba2a5d96ef67837c9
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutUser(string uuid, [FromUri]User user)
+        public async Task<IHttpActionResult> PutRoom(string uuid, [FromUri]Room room)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            if (uuid != user.UUID)
+            if (uuid != room.RoomNo)
                 return BadRequest();
 
             try
             {
-                user.CreateTime = DateTime.Now;
-                await this.repository.PutAsync(user);
+                room.CreateTime = DateTime.Now;
+                await this.repository.PutAsync(room);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -142,9 +141,9 @@ namespace Prepaid.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/users
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> PostUser([FromUri]User user)
+        // POST: api/rooms
+        [ResponseType(typeof(Room))]
+        public async Task<IHttpActionResult> PostRoom([FromUri]Room room)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -152,13 +151,12 @@ namespace Prepaid.Controllers
 
             try
             {
-                user.UUID = TextHelper.GenerateUUID();
-                user.CreateTime = DateTime.Now;
-                await this.repository.AddAsync(user);
+                room.CreateTime = DateTime.Now;
+                await this.repository.AddAsync(room);
             }
             catch (DbUpdateException)
             {
-                if (this.repository.IsExist(user.UUID))
+                if (this.repository.IsExist(room.RoomNo))
                     return Conflict();
                 else
                     throw;
@@ -167,18 +165,18 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // DELETE: api/users/03b96c82ba5747eba2a5d96ef67837c9
-        public async Task<IHttpActionResult> DeleteUser(string uuid)
+        // DELETE: api/rooms/03b96c82ba5747eba2a5d96ef67837c9
+        public async Task<IHttpActionResult> DeleteRoom(string uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            User user = await this.repository.GetByIdAsync(uuid);
-            if (user == null)
+            Room room = await this.repository.GetByIdAsync(uuid);
+            if (room == null)
                 return NotFound();
 
-            await this.repository.DeleteAsync(user);
+            await this.repository.DeleteAsync(room);
 
             return Ok();
         }

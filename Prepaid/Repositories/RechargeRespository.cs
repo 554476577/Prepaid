@@ -19,24 +19,24 @@ namespace Prepaid.Repositories
             return db.Recharges.Count(e => e.UUID == uuid) > 0;
         }
 
-        public IEnumerable<Recharge> GetAll(string userID, string realName)
+        public IEnumerable<Recharge> GetAll(string RoomNo, string RealName)
         {
             IEnumerable<Recharge> result = GetAll();
-            if (!string.IsNullOrEmpty(userID))
-                result = result.Where(u => u.UserID.Contains(userID));
-            if (!string.IsNullOrEmpty(realName))
-                result = result.Where(u => u.User.RealName != null && u.User.RealName.Contains(realName));
+            if (!string.IsNullOrEmpty(RoomNo))
+                result = result.Where(u => u.RoomNo.Contains(RoomNo));
+            if (!string.IsNullOrEmpty(RealName))
+                result = result.Where(u => u.Room.RealName != null && u.Room.RealName.Contains(RealName));
             return result;
         }
 
-        public int GetCount(string userID, string realName)
+        public int GetCount(string RoomNo, string RealName)
         {
-            return GetAll(userID, realName).Count();
+            return GetAll(RoomNo, RealName).Count();
         }
 
-        public IEnumerable<Recharge> GetPagerItems(string userID, string realName, int pageIndex, int pageSize, Func<Recharge, DateTime?> func, bool isDesc = false)
+        public IEnumerable<Recharge> GetPagerItems(string RoomNo, string RealName, int pageIndex, int pageSize, Func<Recharge, DateTime?> func, bool isDesc = false)
         {
-            var result = GetAll(userID, realName);
+            var result = GetAll(RoomNo, RealName);
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
                 return result.OrderBy(func).Skip(recordStart).Take(pageSize);
