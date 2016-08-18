@@ -1,0 +1,150 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    app.controller('PointCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+
+        var params = {
+            "PointID": "",
+            "DeviceName": "",
+            "ItemID": "",
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+
+        getInfos(params, true);
+
+        function getInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/points",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.delete = function (pointID) {
+            ShowConfirmModal("确定要删除该点位吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/points/" + pointID
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("点位删除成功！");
+                    getInfos(params, false);
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+
+        // 搜索
+        $scope.search = function () {
+            params.PageIndex = 1;
+            params.PointID = $("#PointID").val();
+            params.DeviceName = $("#DeviceName").val();
+            params.ItemID = $("#ItemID").val();
+            getInfos(params, true);
+        };
+    });
+</script>
+<div ng-controller="PointCtrl" class="content-div">
+    <div class="top-basic">
+        <strong>设备一览</strong>
+    </div>
+    <div class="container-fluid">
+        <div class="row row-style">
+            <div class="col-lg-7 col-md-7 col-sm-7 search-top">
+                <div class="row">
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">点位ID:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="PointID" class="form-control input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">仪器名称:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="DeviceName" class="form-control input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">组ID:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="ItemID" class="form-control input-search"></div>
+
+                </div>
+            </div>
+            <div class="input-group search-div">
+                <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="content-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="5%">点位ID</th>
+                    <th width="8%">协议名称</th>
+                    <th width="8%">归属设备域</th>
+                    <th width="8%">仪器名称</th>
+                    <th width="10%">单价</th>
+                    <th width="8%">物理地址</th>
+                    <th width="8%">组ID</th>
+                    <th width="8%">是否归档</th>
+                    <th width="10%">归档时间间隔</th>
+                    <th width="8%">父ID</th>
+                    <th width="19%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-cloak ng-repeat="item in Items">
+                    <td>{{item.PointID}}</td>
+                    <td>{{item.Protocol}}</td>
+                    <td>{{item.Scope}}</td>
+                    <td>{{item.DeviceName}}</td>
+                    <td>{{item.Price}}</td>
+                    <td>{{item.PhyAddr}}</td>
+                    <td>{{item.ItemID}}</td>
+                    <td>{{item.IsArchive}}</td>
+                    <td>{{item.ArchiveInterval}}</td>
+                    <td>{{item.ParentID}}</td>
+                    <td>
+                        <button id="btnModify{{$index+1}}" url="point/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改点位信息')"
+                                class="btn btn-warning btn-style">
+                            修改
+                        </button>
+                        <button id="btnDetails{{$index+1}}" url="/point/details?id={{item.ID}}" onclick="popDefaultWnd(this.id, '详情')"
+                                class="btn btn-info btn-style">
+                            详情
+                        </button>
+                        <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.ID)">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="width center">
+            <div id="page4" class="m-pagination m-center"></div>
+        </div>
+    </div>
+</div>
