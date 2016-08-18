@@ -50,7 +50,7 @@ body {
 
 .content-show {
     float: left;
-    width: calc(100% - 150px);
+    width: calc(100% - 170px);
     height: 100%;
     background-color: #e9ede5;
 }
@@ -210,3 +210,88 @@ a {
     background: #b63b4d;
     color: #FFF;
     }
+/*左边伸缩菜单*/
+#sub-ctrl 
+{
+    width:170px;
+    border:solid 1px #dfdfdf;
+    padding:5px;
+    background:#ffffff;
+    font-size:11px;
+    overflow:hidden;
+    }
+#sub-ctrl img 
+{
+    padding:5px;
+    background:#d7d7d7;
+    border:solid 1px #464646;
+    margin:2px;
+    }
+.menu ul li {
+    display:block;
+    width:160px;
+    margin-bottom:5px;
+    /*background: url(../images/zakladka.png) top left no-repeat;*/
+    background:#f7f7f7;
+    list-style:none;
+    overflow:visible;
+    border-radius:3px;
+}
+.menu ul li a 
+{
+    display:block;
+    height:34px; 
+    margin-top:0px;
+    padding-top:8px;
+    font-size:13px;
+    color:#82846f;
+    outline:none;
+    padding-left:20px;
+    }
+.menu ul li .active 
+{
+    background:url(../images/on.png) top right no-repeat;
+    background-color:#e7e7e7;
+    }
+
+.menu ul li .inactive 
+{
+    background:url(../images/off.png) top right no-repeat;
+    }
+    .menu ul li ul li .active
+    {
+        background:url(../images/on.png) top right no-repeat;
+        background-color:#d7d7d7;
+        }
+        .menu ul li ul li .inactive
+        {
+            background:url(../images/off.png) top right no-repeat;
+            }
+.menu ul li ul 
+{
+    display:none;
+    margin-bottom:10px;
+ }
+.menu ul li ul li ul 
+{
+    margin-bottom:5px;
+    }
+.menu ul li ul li 
+{
+    display:block;
+    background:none;
+    font-size:11px;
+    list-style:circle;
+    color:#8f9d4c;
+    padding-left:30px;
+    }
+.menu ul li ul.subNav-second li a 
+{
+    display:block;
+    height:26px;
+    background:none;
+    font-size:10px;
+    padding-top:0;
+    color:#8f9d4c;
+    padding-left:0px;
+     }

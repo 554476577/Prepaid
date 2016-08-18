@@ -194,6 +194,8 @@
     <Content Include="images\left\real_energy_2.png" />
     <Content Include="images\left\recharge_1.png" />
     <Content Include="images\left\recharge_2.png" />
+    <Content Include="images\off.png" />
+    <Content Include="images\on.png" />
     <Content Include="images\pre_energy.png" />
     <Content Include="images\top.png" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -326,7 +328,7 @@
     <Content Include="Views\Recharge\Add.cshtml" />
     <Content Include="Views\Community\Add.cshtml" />
     <Content Include="Views\Community\Modify.cshtml" />
-    <Content Include="Views\Community\Details.cshtml" />
+    <Content Include="Views\Community\List.cshtml" />
     <Content Include="Views\Notice\List.cshtml" />
     <Content Include="Views\Building\Add.cshtml" />
     <Content Include="Views\Building\Modify.cshtml" />
