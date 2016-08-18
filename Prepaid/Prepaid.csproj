@@ -306,7 +306,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Views\Admin\List.cshtml" />
     <Content Include="Views\Admin\Add.cshtml" />
     <Content Include="Views\Admin\Modify.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
@@ -333,9 +332,9 @@
     <Content Include="Views\DeviceType\Add.cshtml" />
     <Content Include="Views\DeviceType\Modify.cshtml" />
     <Content Include="Views\Ladder\Add.cshtml" />
-    <Content Include="Views\Ladder\Modify.cshtml" />
     <Content Include="Views\Basic\List.cshtml" />
     <Content Include="Views\Basic\Details.cshtml" />
+    <Content Include="Views\Ladder\Modify.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

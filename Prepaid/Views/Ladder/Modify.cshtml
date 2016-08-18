@@ -2,59 +2,67 @@
     Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
-    app.controller('PointCtrl', function ($scope, $http) {
+    app.controller('LadderCtrl', function ($scope, $http) {
+        $scope.DeviceTypeName = "请选择设备类型";
         getInfo();
+        getDeviceTypes();
 
-        // 获取点位信息
-        function getInfo() {
+        // 获取设备类型信息列表
+        function getDeviceTypes() {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/points/" + getQueryString("id")
+                url: "../api/devicetypes"
             }).success(function (data, status, headers, config) {
-                $scope.Item = data;
-                if ($scope.Item.IsArchive) {
-                    $("#IsArchive").attr("checked", "true");
-                }
+                $scope.DeviceTypeItems = data.Items;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
         }
 
-        // 修改点位
+        // 选择设备类型
+        $scope.selectDeviceType = function (uuid, typeName) {
+            $scope.DeviceTypeID = uuid;
+            $scope.DeviceTypeName = typeName;
+        }
+
+        // 获取设备类型信息
+        function getInfo() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/ladders/" + getQueryString("uuid")
+            }).success(function (data, status, headers, config) {
+                $scope.Item = data;
+                $scope.DeviceTypeName = $scope.Item.TypeName;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 修改设备类型
         $scope.modify = function () {
             var params = {
-                "ID": getQueryString("id"),
-                "PointID": $("#PointID").val(),
-                "Protocol": $("#Protocol").val(),
-                "Floor": $("#Floor").val(),
-                "Scope": $("#Scope").val(),
-                "DeviceName": $("#DeviceName").val(),
-                "PhyAddr": $("#PhyAddr").val(),
-                "ItemID": $("#ItemID").val(),
-                "ItemName": $("#ItemName").val(),
-                "ItemDescription": $("#ItemDescription").val(),
-                "ValueFunc": $("#ValueFunc").val(),
-                "MinValue": $("#MinValue").val(),
-                "MaxValue": $("#MaxValue").val(),
-                "Type": $("#Type").val(),
-                "Unit": $("#Unit").val(),
-                "Price": convertMoney($("#Price").val()),
-                "IsArchive": $("#IsArchive").is(":checked"),
-                "ArchiveInterval": $("#ArchiveInterval").val(),
-                "ParentID": $("#ParentID").val()
+                "UUID":$scope.Item.UUID,
+                "TypeID": $scope.DeviceTypeID,
+                "Name": $("#Name").val(),
+                "Description": $("#Description").val(),
+                "MinEnergy": $("#MinEnergy").val(),
+                "MaxEnergy": $("#MaxEnergy").val(),
+                "Price": $("#Price").val(),
+                "Remark": $("#Remark").val()
             };
             $http({
                 method: "put",
                 withCredentials: true,
-                url: "../api/points/" + getQueryString("id"),
+                url: "../api/ladders/" + getQueryString("uuid"),
                 params: params
             }).success(function (data, status, headers, config) {
-                ShowTipsModel("点位信息修改成功！", function () {
+                ShowTipsModel("阶梯单价修改成功！", function () {
                     if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
-                        window.parent.location.href = "../point/list";
+                        window.parent.location.href = "../basic/list";
                     } else {
-                        window.location.href = "../point/list";
+                        window.location.href = "../basic/list";
                     }
                 });
             }).error(function (data, status, headers, config) {
@@ -63,78 +71,51 @@
         };
     });
 </script>
-<div ng-controller="PointCtrl" class="content-div">
+<div ng-controller="LadderCtrl" class="content-div">
     <form role="form" class="form-div">
-        <div class="form-group group-style">
-            <label for="PointID">点位ID</label>
-            <input type="text" class="form-control input-text" id="PointID" name="PointID" value="{{Item.PointID}}" placeholder="请输入点位ID！">
+        <div class="form-group">
+            <label>设备类型选择</label>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;">
+                        {{DeviceTypeName}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-cloak ng-repeat="item in DeviceTypeItems">
+                            <a href="#" ng-click="selectDeviceType(item.UUID,item.Name)">{{item.Name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="form-group group-style">
-            <label for="Protocol">采集协议</label>
-            <input type="text" class="form-control input-text" id="Protocol" name="Protocol" value="{{Item.Protocol}}" placeholder="请输入采集协议！">
+            <label for="Name">名称</label>
+            <input type="text" class="form-control input-text" id="Name" name="Name" value="{{Item.Name}}" placeholder="请输入名称！">
         </div>
         <div class="form-group group-style">
-            <label for="Floor">楼层</label>
-            <input type="text" class="form-control input-text" id="Floor" name="Floor" value="{{Item.Floor}}" placeholder="请输入楼层！">
+            <label for="Description">描述</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Description" name="Description" placeholder="请输入描述！">
+               {{Item.Description}}
+            </textarea>
         </div>
         <div class="form-group group-style">
-            <label for="Scope">归属设备域</label>
-            <input type="text" class="form-control input-text" id="Scope" name="Scope" value="{{Item.Scope}}" placeholder="请输入归属设备域！">
+            <label for="MinEnergy">能量值下限</label>
+            <input type="text" class="form-control input-text" id="MinEnergy" name="MinEnergy" value="{{Item.MinEnergy}}" placeholder="请输入能量值下限！">
         </div>
         <div class="form-group group-style">
-            <label for="DeviceName">仪器名称</label>
-            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" value="{{Item.DeviceName}}" placeholder="请输入仪器名称！">
-        </div>
-        <div class="form-group group-style">
-            <label for="PhyAddr">物理地址</label>
-            <input type="text" class="form-control input-text" id="PhyAddr" name="PhyAddr" value="{{Item.PhyAddr}}" placeholder="请输入物理地址！">
-        </div>
-        <div class="form-group group-style">
-            <label for="ItemID">组ID</label>
-            <input type="text" class="form-control input-text" id="ItemID" name="ItemID" value="{{Item.ItemID}}" placeholder="请输入组ID！">
-        </div>
-        <div class="form-group group-style">
-            <label for="ItemName">组名称</label>
-            <input type="text" class="form-control input-text" id="ItemName" name="ItemName" value="{{Item.ItemName}}" placeholder="请输入组名称！">
-        </div>
-        <div class="form-group group-style">
-            <label for="ItemDescription">组描述</label>
-            <input type="text" class="form-control input-text" id="ItemDescription" name="ItemDescription" value="{{Item.ItemDescription}}" placeholder="请输入组描述！">
-        </div>
-        <div class="form-group group-style">
-            <label for="ValueFunc">值转换函数</label>
-            <input type="text" class="form-control input-text" id="ValueFunc" name="ValueFunc" value="{{Item.ValueFunc}}" placeholder="请输入值的转换函数！">
-        </div>
-        <div class="form-group group-style">
-            <label for="MinValue">安全最小值</label>
-            <input type="text" class="form-control input-text" id="MinValue" name="MinValue" value="{{Item.MinValue}}" placeholder="请输入安全最小值！">
-        </div>
-        <div class="form-group group-style">
-            <label for="MaxValue">安全最大值</label>
-            <input type="text" class="form-control input-text" id="MaxValue" name="MaxValue" value="{{Item.MaxValue}}" placeholder="请输入安全最大值！">
-        </div>
-        <div class="form-group group-style">
-            <label for="Unit">单位</label>
-            <input type="text" class="form-control input-text" id="Unit" name="Unit" value="{{Item.Unit}}" placeholder="请输入单位！">
+            <label for="MaxEnergy">能量值上限</label>
+            <input type="text" class="form-control input-text" id="MaxEnergy" name="MaxEnergy" value="{{Item.MaxEnergy}}" placeholder="请输入能量值上限！">
         </div>
         <div class="form-group group-style">
             <label for="Price">单价</label>
             <input type="text" class="form-control input-text" id="Price" name="Price" value="{{Item.Price}}" placeholder="请输入单价！">
         </div>
         <div class="form-group group-style">
-            <label for="Type">类别</label>
-            <input type="text" class="form-control input-text" id="Type" name="Type" value="{{Item.Type}}" placeholder="请输入类别！">
-        </div>
-        <div class="form-group group-style">
-            <label for="ParentID">父点位ID</label>
-            <input type="text" class="form-control input-text" id="ParentID" name="ParentID" value="{{Item.ParentID}}" placeholder="请输入父点位ID！">
-        </div>
-        <div class="form-group group-style">
-            <label for="ArchiveInterval">归档时间间隔</label>
-            <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" value="{{Item.ArchiveInterval}}" placeholder="请输入归档时间间隔！">
-        </div>
-        <div class="form-group group-style">
-            <label for="IsArchive"><input type="checkbox" id="IsArchive" name="IsArchive">是否归档</label>
+            <label for="Remark">备注</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注信息！">
+                {{Item.Remark}}
+            </textarea>
         </div>
     </form>
     <button class="btn btn-primary btn-style btn-top btn-special" ng-click="modify()">修改</button><br />

@@ -2,7 +2,7 @@
     Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
-    app.controller('CreditLevelCtrl', function ($scope, $http) {
+    app.controller('CreditCtrl', function ($scope, $http) {
         $scope.add = function () {
             var params = {
                 "Name": $("#Name").val(),
@@ -15,14 +15,14 @@
             $http({
                 method: "post",
                 withCredentials: true,
-                url: "../api/creditlevels",
+                url: "../api/credits",
                 params: params
             }).success(function (data, status, headers, config) {
                 ShowTipsModel("信用等级添加成功！", function () {
                     if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
-                        window.parent.location.href = "../creditlevel/list";
+                        window.parent.location.href = "../basic/list";
                     } else {
-                        window.location.href = "../creditlevel/list";
+                        window.location.href = "../basic/list";
                     }
                 });
             }).error(function (data, status, headers, config) {
@@ -31,7 +31,7 @@
         };
     });
 </script>
-<div ng-controller="CreditLevelCtrl" class="content-div">
+<div ng-controller="CreditCtrl" class="content-div">
     <form role="form">
         <div class="form-group">
             <label for="Name">等级名称</label>

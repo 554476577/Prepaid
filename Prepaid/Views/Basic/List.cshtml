@@ -2,149 +2,348 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-    app.controller('PointCtrl', function ($scope, $http) {
-        $scope.PageSize = 10;
+    app.controller('BasicCtrl', function ($scope, $http) {
+        getAdminInfos();
+        getDeviceTypes();
+        getCredits();
+        getLadders();
 
-        var params = {
-            "PointID": "",
-            "DeviceName": "",
-            "ItemID": "",
-            "PageIndex": 1,
-            "PageSize": $scope.PageSize
-        };
-
-        getInfos(params, true);
-
-        function getInfos(params, isFirstLoadPager) {
+        // 获取管理员信息列表
+        function getAdminInfos() {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/points",
-                params: params
+                url: "../api/admins"
             }).success(function (data, status, headers, config) {
-                $scope.Items = data.Items;
-                $scope.RecordCount = data.RecordCount;
-                if (isFirstLoadPager) {
-                    // 分页数据绑定
-                    $("#page4").page('destroy');
-                    $("#page4").page({
-                        total: $scope.RecordCount,
-                        pageSize: $scope.PageSize,
-                        firstBtnText: '首页',
-                        lastBtnText: '尾页',
-                        prevBtnText: '上一页',
-                        nextBtnText: '下一页',
-                        showInfo: false,
-                        showJump: true,
-                        jumpBtnText: '跳转'
-                    }).on("pageClicked", function (event, pageIndex) {
-                        params.PageIndex = pageIndex + 1;
-                        getInfos(params, false); // 重新绑定数据
-                    }).on('jumpClicked', function (event, pageIndex) {
-                        params.PageIndex = pageIndex + 1;
-                        getInfos(params, false); // 重新绑定数据
-                    });
-                }
+                $scope.AdminItems = data.Items;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
         }
 
-        $scope.delete = function (pointID) {
-            ShowConfirmModal("确定要删除该点位吗？", function () {
+        // 删除管理员信息
+        $scope.deleteAdmin = function (uuid) {
+            ShowConfirmModal("确定要删除该账号吗？", function () {
                 $http({
                     method: "delete",
                     withCredentials: true,
-                    url: "../api/points/" + pointID
+                    url: "../api/admins/" + uuid
                 }).success(function (data, status, headers, config) {
-                    ShowTipsModel("点位删除成功！");
-                    getInfos(params, false);
+                    ShowTipsModel("账号删除成功！", function () {
+                        getAdminInfos();
+                    });
                 }).error(function (data, status, headers, config) {
                     ShowErrModal(data, status);
                 });
             });
         };
 
-        // 搜索
-        $scope.search = function () {
-            params.PageIndex = 1;
-            params.PointID = $("#PointID").val();
-            params.DeviceName = $("#DeviceName").val();
-            params.ItemID = $("#ItemID").val();
-            getInfos(params, true);
+        // 获取设备类型信息
+        function getDeviceTypes() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/devicetypes"
+            }).success(function (data, status, headers, config) {
+                $scope.DeviceTypeItems = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 删除设备类型
+        $scope.deleteDeviceType = function (uuid) {
+            ShowConfirmModal("确定要删除该设备类型吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/devicetypes/" + uuid
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("设备类型删除成功！", function () {
+                        getDeviceTypes();
+                    });
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+
+        // 获取信用等级信息列表
+        function getCredits() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/credits"
+            }).success(function (data, status, headers, config) {
+                $scope.CreditItems = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 删除信用等级
+        $scope.deleteCredit = function (uuid) {
+            ShowConfirmModal("确定要删除该信用等级吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/credits/" + uuid
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("信用等级删除成功！", function () {
+                        getCredits();
+                    });
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+
+        // 获取阶梯单价信息列表
+        function getLadders() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/ladders"
+            }).success(function (data, status, headers, config) {
+                $scope.LadderItems = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 删除阶梯单价
+        $scope.deleteLadder = function (uuid) {
+            ShowConfirmModal("确定要删除该阶梯单价吗？", function () {
+                $http({
+                    method: "delete",
+                    withCredentials: true,
+                    url: "../api/ladders/" + uuid
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("阶梯单价删除成功！", function () {
+                        getLadders();
+                    });
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
         };
     });
 </script>
-<div ng-controller="PointCtrl" class="content-div">
-    <div class="top-basic">
-        <strong>设备一览</strong>
-    </div>
-    <div class="container-fluid">
-        <div class="row row-style">
-            <div class="col-lg-7 col-md-7 col-sm-7 search-top">
-                <div class="row">
-                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">点位ID:</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="PointID" class="form-control input-search"></div>
-                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">仪器名称:</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="DeviceName" class="form-control input-search"></div>
-                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">组ID:</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="ItemID" class="form-control input-search"></div>
-
+<div ng-controller="BasicCtrl" class="content-div">
+    <div style="width:100%;height:500px;background-color:aliceblue;">
+        @*账号管理*@
+        <div style="width:50%;height:100%;float:left;">
+            <div class="top-basic">
+                <strong>账号管理</strong>
+            </div>
+            <div class="container-fluid">
+                <div class="row row-style">
+                    <div class="search-div" style="float:right;padding-right:10px;">
+                        <button id="btnAdminAdd" title="添加账号" url="admin/add" class="btn btn-success btn-top" 
+                                onclick="popDefaultWnd(this.id,'添加账号')">
+                            <i class=" fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="input-group search-div">
-                <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
+            <div class="content-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="5%">UUID</th>
+                            <th width="10%">用户名</th>
+                            <th width="8%">真实姓名</th>
+                            <th width="15%">手机号码</th>
+                            <th width="15%">是否可控</th>
+                            <th width="25%">时间</th>
+                            <th width="8%">备注</th>
+                            <th width="14%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-cloak ng-repeat="item in AdminItems">
+                            <td>{{item.UUID}}</td>
+                            <td>{{item.UserName}}</td>
+                            <td>{{item.RealName}}</td>
+                            <td>{{item.Phone}}</td>
+                            <td>{{item.HasControl}}</td>
+                            <td>{{item.CreateTime}}</td>
+                            <td>{{item.Remark}}</td>
+                            <td>
+                                <button type="button" id="btnAdminModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
+                                        onclick="popDefaultWnd(this.id,'修改账号信息')">
+                                    修改
+                                </button>
+                                <button type="button" class="btn btn-danger btn-style" ng-click="deleteAdmin(item.UUID)">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @*设备类型*@
+        <div style="width:50%;height:100%;float:left;">
+            <div class="top-basic">
+                <strong>设备类型</strong>
+            </div>
+            <div class="container-fluid">
+                <div class="row row-style">
+                    <div class="search-div" style="float:right;padding-right:10px;">
+                        <button id="btnDeviceTypeAdd" title="添加设备类型" url="devicetype/add" class="btn btn-success btn-top"
+                                onclick="popDefaultWnd(this.id, '添加设备类型')">
+                            <i class=" fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="content-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="5%">UUID</th>
+                            <th width="10%">名称</th>
+                            <th width="8%">描述</th>
+                            <th width="11%">单价1</th>
+                            <th width="11%">单价2</th>
+                            <th width="11%">单价3</th>
+                            <th width="11%">单价4</th>
+                            <th width="11%">单价5</th>
+                            <th width="25%">时间</th>
+                            <th width="8%">备注</th>
+                            <th width="14%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-cloak ng-repeat="item in DeviceTypeItems">
+                            <td>{{item.UUID}}</td>
+                            <td>{{item.Name}}</td>
+                            <td>{{item.Description}}</td>
+                            <td>{{item.Price1}}</td>
+                            <td>{{item.Price2}}</td>
+                            <td>{{item.Price3}}</td>
+                            <td>{{item.Price4}}</td>
+                            <td>{{item.Price5}}</td>
+                            <td>{{item.CreateTime}}</td>
+                            <td>{{item.Remark}}</td>
+                            <td>
+                                <button type="button" id="btnDeviceTypeModify{{$index+1}}" url="devicetype/modify?uuid={{item.UUID}}" 
+                                        class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id,'修改设备类型')">
+                                    修改
+                                </button>
+                                <button type="button" class="btn btn-danger btn-style" ng-click="deleteDeviceType(item.UUID)">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="content-table">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="5%">点位ID</th>
-                    <th width="8%">协议名称</th>
-                    <th width="8%">归属设备域</th>
-                    <th width="8%">仪器名称</th>
-                    <th width="10%">单价</th>
-                    <th width="8%">物理地址</th>
-                    <th width="8%">组ID</th>
-                    <th width="8%">是否归档</th>
-                    <th width="10%">归档时间间隔</th>
-                    <th width="8%">父ID</th>
-                    <th width="19%">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-cloak ng-repeat="item in Items">
-                    <td>{{item.PointID}}</td>
-                    <td>{{item.Protocol}}</td>
-                    <td>{{item.Scope}}</td>
-                    <td>{{item.DeviceName}}</td>
-                    <td>{{item.Price}}</td>
-                    <td>{{item.PhyAddr}}</td>
-                    <td>{{item.ItemID}}</td>
-                    <td>{{item.IsArchive}}</td>
-                    <td>{{item.ArchiveInterval}}</td>
-                    <td>{{item.ParentID}}</td>
-                    <td>
-                        <button id="btnModify{{$index+1}}" url="point/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改点位信息')"
-                                class="btn btn-warning btn-style">
-                            修改
+    <div style="width:100%;height:500px;">
+        @*信用等级*@
+        <div style="width:50%;height:100%; background-color:#FFEE99;float:left;">
+            <div class="top-basic">
+                <strong>信用等级</strong>
+            </div>
+            <div class="container-fluid">
+                <div class="row row-style">
+                    <div class="search-div" style="float:right;padding-right:10px;">
+                        <button id="btnCreditAdd" title="添加信用等级" url="credit/add" class="btn btn-success btn-top"
+                                onclick="popDefaultWnd(this.id, '添加信用等级')">
+                            <i class=" fa fa-plus" aria-hidden="true"></i>
                         </button>
-                        <button id="btnDetails{{$index+1}}" url="/point/details?id={{item.ID}}" onclick="popDefaultWnd(this.id, '详情')"
-                                class="btn btn-info btn-style">
-                            详情
+                    </div>
+                </div>
+            </div>
+            <div class="content-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="5%">UUID</th>
+                            <th width="10%">名称</th>
+                            <th width="8%">描述</th>
+                            <th width="18%">最小积分</th>
+                            <th width="18%">最大积分</th>
+                            <th width="18%">可欠费金额</th>
+                            <th width="25%">时间</th>
+                            <th width="9%">备注</th>
+                            <th width="14%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-cloak ng-repeat="item in CreditItems">
+                            <td>{{item.UUID}}</td>
+                            <td>{{item.Name}}</td>
+                            <td>{{item.Description}}</td>
+                            <td>{{item.MinScore}}</td>
+                            <td>{{item.MaxScore}}</td>
+                            <td>{{item.Arrears}}</td>
+                            <td>{{item.CreateTime}}</td>
+                            <td>{{item.Remark}}</td>
+                            <td>
+                                <button type="button" id="btnCreditModify{{$index+1}}" url="credit/modify?uuid={{item.UUID}}"
+                                        class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id,'修改信用等级')">
+                                    修改
+                                </button>
+                                <button type="button" class="btn btn-danger btn-style" ng-click="deleteCredit(item.UUID)">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @*阶梯单价*@
+        <div style="width:50%;height:100%;float:left;">
+            <div class="top-basic">
+                <strong>阶梯单价</strong>
+            </div>
+            <div class="container-fluid">
+                <div class="row row-style">
+                    <div class="search-div" style="float:right;padding-right:10px;">
+                        <button id="btnLadderAdd" title="添加阶梯单价" url="ladder/add" class="btn btn-success btn-top"
+                                onclick="popDefaultWnd(this.id, '添加阶梯单价')">
+                            <i class=" fa fa-plus" aria-hidden="true"></i>
                         </button>
-                        <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.ID)">删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="width center">
-            <div id="page4" class="m-pagination m-center"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="5%">UUID</th>
+                            <th width="10%">设备类型</th>
+                            <th width="8%">名称</th>
+                            <th width="18%">描述</th>
+                            <th width="12%">能量值下限</th>
+                            <th width="12%">能量值上限</th>
+                            <th width="12%">单价</th>
+                            <th width="25%">时间</th>
+                            <th width="9%">备注</th>
+                            <th width="14%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-cloak ng-repeat="item in LadderItems">
+                            <td>{{item.UUID}}</td>
+                            <td>{{item.TypeName}}</td>
+                            <td>{{item.Name}}</td>
+                            <td>{{item.Description}}</td>
+                            <td>{{item.MinEnergy}}</td>
+                            <td>{{item.MaxEnergy}}</td>
+                            <td>{{item.Price}}</td>
+                            <td>{{item.CreateTime}}</td>
+                            <td>{{item.Remark}}</td>
+                            <td>
+                                <button type="button" id="btnLadderModify{{$index+1}}" url="ladder/modify?uuid={{item.UUID}}"
+                                        class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id, '修改阶梯单价')">
+                                    修改
+                                </button>
+                                <button type="button" class="btn btn-danger btn-style" ng-click="deleteLadder(item.UUID)">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
