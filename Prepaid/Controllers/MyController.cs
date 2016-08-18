@@ -76,4 +76,13 @@ namespace Prepaid.Controllers
     {
         public ActionResult List() { return View(); }
     }
+
+    public class CommunityController : Controller 
+    {
+        public ActionResult Add() { return View(); }
+
+        public ActionResult Modify() { return View(); }
+
+        public ActionResult Details() { return View(); }
+    }
 }
