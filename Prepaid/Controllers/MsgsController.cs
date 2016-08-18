@@ -65,7 +65,7 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        // GET: api/msgs/03b96c82ba5747eba2a5d96ef67837c9
+        // GET: api/msgs/3
         [ResponseType(typeof(Msg))]
         public async Task<IHttpActionResult> GetMsg(int uuid)
         {
@@ -91,7 +91,7 @@ namespace Prepaid.Controllers
             return Ok(result);
         }
 
-        // PUT: api/msgs/03b96c82ba5747eba2a5d96ef67837c9
+        // PUT: api/msgs/3
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutMsg(int uuid, [FromUri]Msg Msg)
         {
@@ -142,7 +142,7 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // DELETE: api/msgs/03b96c82ba5747eba2a5d96ef67837c9
+        // DELETE: api/msgs/3
         public async Task<IHttpActionResult> DeleteMsg(int uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);

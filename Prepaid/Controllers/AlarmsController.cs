@@ -67,7 +67,7 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        // GET: api/alarms/03b96c82ba5747eba2a5d96ef67837c9
+        // GET: api/alarms/3
         [ResponseType(typeof(Alarm))]
         public async Task<IHttpActionResult> GetAlarm(int uuid)
         {
@@ -95,7 +95,7 @@ namespace Prepaid.Controllers
             return Ok(result);
         }
 
-        // PUT: api/alarms/03b96c82ba5747eba2a5d96ef67837c9
+        // PUT: api/alarms/3
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutAlarm(int uuid, [FromUri]Alarm Alarm)
         {
@@ -146,7 +146,7 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // DELETE: api/alarms/03b96c82ba5747eba2a5d96ef67837c9
+        // DELETE: api/alarms/3
         public async Task<IHttpActionResult> DeleteAlarm(int uuid)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
