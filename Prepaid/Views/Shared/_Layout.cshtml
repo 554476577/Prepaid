@@ -25,8 +25,8 @@
     <script src="~/Scripts/utils.js"></script>
     <script src="~/Scripts/init.js"></script>
     <script>
-        $(document).ready(function () {
-            $(".manager li a").each(function () {
+       $(document).ready(function ($) {
+           $(".manager li a").each(function () {
                 var curr = $(this).data("curr");
                 if (window.location.href.indexOf(curr) != -1) {
                     $(this).parent().removeClass("li-list");
@@ -34,6 +34,7 @@
                 }
             });
 
+            /*右上角的行为*/
             $(function () {
                 var Accordion = function (el, multiple) {
                     this.el = el || {};
@@ -55,8 +56,51 @@
                 }
                 var accordion = new Accordion($('#accordion'), false);
             });
-        });
-    </script>
+       });
+        /*左边伸缩四级菜单的行为的调用*/
+       $(document).ready(function () {
+           $(".menu ul li").menu();
+       });
+
+       /*左边伸缩四级菜单的行为*/
+       (function ($) {
+           $.fn.menu = function (b) {
+               var c,
+               item,
+               b = jQuery.extend({
+                   Speed: 220,
+                   autostart: 1,
+                   autohide: 1
+               }, b);
+               c = $(this);
+               item = c.children("ul").parent("li").children("a");
+               item.addClass("inactive");
+               function _item() {
+                   var a = $(this);
+                   if (b.autohide) {
+                       a.parent().parent().find(".active").parent("li").children("ul").slideUp(b.Speed / 1.2,
+               function () {
+                   $(this).parent("li").children("a").removeAttr("class");
+                   $(this).parent("li").children("a").attr("class", "inactive")
+               })
+                   }
+                   if (a.attr("class") == "inactive") {
+                       a.parent("li").children("ul").slideDown(b.Speed,
+               function () {
+                   a.removeAttr("class");
+                   a.addClass("active")
+               })
+                   }
+                   if (a.attr("class") == "active") {
+                       a.removeAttr("class");
+                       a.addClass("inactive");
+                       a.parent("li").children("ul").slideUp(b.Speed)
+                   }
+               }
+               item.unbind('click').click(_item);
+           }
+       })(jQuery);
+</script>
 </head>
 <body ng-app="app" ng-controller="layoutCtrl">
     <div class="content">
@@ -89,36 +133,57 @@
             </div>
         </div>
         <div class="main">
-            <div class="manager">
-                <ul>
-                    <li class="li-list">
-                        <a class="picture_1" data-curr="prepaid" href="~/prepaid/list"></a>
-                    </li>
-                    <li class="li-list">
-                        <a class="picture_2" data-curr="energybill" href="~/energybill/list"></a>
-                    </li>
-                    <li class="li-list">
-                        <a class="picture_3" data-curr="user" href="~/user/list"></a>
-                    </li>
-                    <li class="li-list">
-                        <a class="picture_4" data-curr="point" href="~/point/list"></a>
-                    </li>
-                    <li class="li-list">
-                        <a class="picture_5" data-curr="creditlevel" href="~/creditlevel/list"></a>
-                    </li>
-                    <li class="li-list">
-                        <a class="picture_6" data-curr="recharge" href="~/recharge/list"></a>
-                    </li>
-                    <li class="li-list">
-                        <a class="picture_7" data-curr="admin" href="~/admin/list"></a>
-                    </li>
-                    <li class="li-list">
-                        <a data-curr="community" href="~/community/add">点我！</a>
-                    </li>
-                    <li class="li-list">
-                        <a data-curr="community" href="~/community/Details">点点我！</a>
-                    </li>
-                </ul>
+            <div id="sub-ctrl" style="float:left;">
+                <div class="menu">
+                    <ul>
+                        <li>
+                            <a class="active" href="#">A 区</a>
+                            <ul>
+                                <li><a href="#">A 1层</a></li>
+                                <li>
+                                    <a href="#">A 2层</a>
+                                    <ul class="menu-second">
+                                        <li><a href="#">201</a></li>
+                                        <li><a href="#">202</a></li>
+                                        <li><a href="#">203</a></li>
+                                        <li><a href="#">204</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">A 3层</a></li>
+                                <li>
+                                    <a href="#">A 4层</a>
+                                    <ul>
+                                        <li><a href="#">401</a></li>
+                                        <li><a href="#">402</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">A 5层</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">B 区</a>
+                            <ul>
+                                <li><a href="#">B 1层</a></li>
+                                <li><a href="#">B 2层</a></li>
+                                <li><a href="#">B 3层</a></li>
+                                <li><a href="#">B 4层</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">C 区</a>
+                            <ul>
+                                <li><a href="#">C 1层</a></li>
+                                <li><a href="#">C 2层</a></li>
+                                <li><a href="#">C 3层</a></li>
+                                <li><a href="#">C 4层</a></li>
+                                <li><a href="#">C 5层</a></li>
+                                <li><a href="#">C 6层</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Item</a></li>
+                        <li><a href="#">Item</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="content-show">
                 @RenderBody()
