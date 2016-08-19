@@ -11,7 +11,7 @@
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/Communities"
+                url: "../api/communities"
             }).success(function (data, status, headers, config) {
                 if (data.Items.length > 0) {
                     $scope.HasItem = true;
@@ -94,7 +94,7 @@
                     <label for="Remark">备注</label>
                     <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
                 </div>
-                <button type="button" id="btnCommunityModify{{$index+1}}" url="community/modify?uuid={{item.UUID}}" class="btn btn-danger btn-style" onclick="popDefaultWnd(this.id,'修改小区信息')">
+                <button type="button" id="btnCommunityModify{{$index+1}}" url="community/modify?uuid={{Item.UUID}}" class="btn btn-danger btn-style" onclick="popDefaultWnd(this.id,'修改小区信息')">
                     修改
                 </button>
             </div>
@@ -121,7 +121,7 @@
                     <tr>
                         <th width="5%">编号</th>
                         <th width="10%">名称</th>
-                        <th width="11%">社区名字</th>
+                        <th width="11%">社区名称</th>
                         <th width="11%">描述</th>
                         <th width="11%">楼层</th>
                         <th width="8%">备注</th>
