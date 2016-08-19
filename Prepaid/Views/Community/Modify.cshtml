@@ -1,10 +1,82 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('CommunityCtrl', function ($scope, $http) {
+        getInfo();
 
-</body>
-</html>
+        function getInfo() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/communities/" + getQueryString("uuid")
+            }).success(function (data, status, headers, config) {
+                $scope.Item = data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.modify = function () {
+            var params = {
+                "UUID": $scope.Item.UUID,
+                "Name": $("#Name").val(),
+                "Description":$("#Description").val(),
+                "Address" : $("#Address").val(),
+                "Area" : $("#Area").val(),
+                "Capacity": $("#Capacity").val(),
+                "CheckInTime": $("#CheckInTime").val(),
+                "Remark": $("#Remark").val()
+            };
+            $http({
+                method: "put",
+                withCredentials: true,
+                url: "../api/communities/" + getQueryString("uuid"),
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("小区信息修改成功！", function () {
+                    if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
+                        window.parent.location.href = "../community/list";
+                    } else {
+                        window.location.href = "../community/list";
+                    }
+                });
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+    });
+</script>
+<div ng-controller="CommunityCtrl" class="content-div">
+    <form role="form">
+        <div class="form-group">
+            <label for="Name">小区名称</label>
+            <input type="text" class="form-control input-text" id="Name" name="Name" value="{{Item.Name}}" placeholder="请输入小区名称！">
+        </div>
+        <div class="form-group">
+            <label for="Description">小区描述</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Description" name="Description" value="{{Item.Description}}" placeholder="请输入小区描述！"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="Address">小区地址</label>
+            <input type="text" class="form-control input-text" min="0" id="Address" name="Address" value="{{Item.Address}}" placeholder="请输入小区地址！">
+        </div>
+        <div class="form-group">
+            <label for="Area">小区区域</label>
+            <input type="text" class="form-control input-text" min="0" id="Area" name="Area" value="{{Item.Area}}" placeholder="请输入小区区域！">
+        </div>
+        <div class="form-group">
+            <label for="Capacity">小区总住户</label>
+            <input type="text" class="form-control input-text" id="Capacity" name="Capacity" value="{{Item.Capacity}}" placeholder="请输入小区总住户！">
+        </div>
+        <div class="form-group">
+            <label for="CheckInTime">小区入住时间</label>
+            <input type="text" class="form-control input-text" id="CheckInTime" name="CheckInTime" value="{{Item.CheckInTime}}" placeholder="请输入入住时间！">
+        </div>
+        <div class="form-group">
+            <label for="Remark">备注</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" placeholder="请输入备注！"></textarea>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top" ng-click="modify()">修改</button><br />
+</div>
