@@ -2,15 +2,15 @@
     Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
-    app.controller('PointCtrl', function ($scope, $http) {
+    app.controller('DeviceCtrl', function ($scope, $http) {
         getInfo();
 
-        // 获取点位信息
+        // 获取设备信息
         function getInfo() {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/points/" + getQueryString("id")
+                url: "../api/devices/" + getQueryString("deviceNo")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
                 if ($scope.Item.IsArchive) {
@@ -22,7 +22,7 @@
         }
     });
 </script>
-<div ng-controller="PointCtrl" style="padding:100px 100px;">
+<div ng-controller="DeviceCtrl" style="padding:100px 100px;">
     <form role="form">
         <table class="point-table">
             <thead>
@@ -35,52 +35,58 @@
             </thead>
             <tbody class="body">
                 <tr class="even">
-                    <td>点位ID</td>
-                    <td class="big">{{Item.PointID}}</td>
-                    <td>采集协议</td>
+                    <td>设备编号</td>
+                    <td class="big">{{Item.DeviceNo}}</td>
+                    <td>房间编号</td>
+                    <td class="big">{{Item.RoomNo}}</td>
+                </tr>
+                <tr>
+                    <td>设备类型</td>
+                    <td class="big">{{Item.TypeName}}</td>
+                    <td>归属协议</td>
                     <td class="big">{{Item.Protocol}}</td>
                 </tr>
                 <tr>
-                    <td>归属设备域</td>
+                    <td>归属区域</td>
                     <td class="big">{{Item.Scope}}</td>
-                    <td>仪器名称</td>
-                    <td class="big">{{Item.DeviceName}}</td>
-                </tr>
-                <tr class="even">
                     <td>物理地址</td>
                     <td class="big">{{Item.PhyAddr}}</td>
+                </tr>
+                <tr class="even"> 
                     <td>组ID</td>
                     <td class="big">{{Item.ItemID}}</td>
-                </tr>
-                <tr>
                     <td>组名称</td>
-                    <td class="big">{{Item.ValueFunc}}</td>
-                    <td>点位描述</td>
-                    <td class="big">{{Item.ItemDescription}}</td>
-                </tr>
-                <tr class="even">
-                    <td>值转换函数</td>
                     <td class="big">{{Item.ItemName}}</td>
-                    <td>安全最小值</td>
-                    <td class="big">{{Item.MinValue}}</td>
                 </tr>
                 <tr>
-                    <td>安全最大值</td>
-                    <td class="big">{{Item.MaxValue}}</td>
-                    <td>类别</td>
-                    <td class="big">{{Item.Type}}</td>
+                    <td>组描述</td>
+                    <td class="big">{{Item.ItemDescription}}</td>
+                    <td>设备状态</td>
+                    <td class="big">{{Item.Status}}</td>
                 </tr>
                 <tr class="even">
+                    <td>转换倍率</td>
+                    <td class="big">{{Item.Rate}}</td>
                     <td>单位</td>
                     <td class="big">{{Item.Unit}}</td>
-                    <td>单价</td>
-                    <td class="big">{{Item.Price}}</td>
                 </tr>
                 <tr>
+                    <td>单价1</td>
+                    <td class="big">{{Item.Price1}}</td>
+                    <td>单价2</td>
+                    <td class="big">{{Item.Price2}}</td>
+                </tr>
+                <tr class="even">
+                    <td>单价3</td>
+                    <td class="big">{{Item.Price3}}</td>
+                    <td>单价4</td>
+                    <td class="big">{{Item.Price4}}</td>
+                </tr>
+                <tr>
+                    <td>单价5</td>
+                    <td class="big">{{Item.Price5}}</td>
                     <td>归档时间间隔</td>
                     <td class="big">{{Item.ArchiveInterval}}</td>
-                    <td>父点位ID</td>
-                    <td class="big">{{Item.ParentID}}</td>
                 </tr>
                 <tr class="even">
                     <td><input type="checkbox" id="IsArchive" name="IsArchive" readonly>是否归档</td>

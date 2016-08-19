@@ -2,12 +2,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-    app.controller('PointCtrl', function ($scope, $http) {
+    app.controller('DeviceCtrl', function ($scope, $http) {
         $scope.PageSize = 10;
 
         var params = {
-            "PointID": "",
-            "DeviceName": "",
+            "DeviceNo": "",
+            "RoomNo": "",
             "ItemID": "",
             "PageIndex": 1,
             "PageSize": $scope.PageSize
@@ -19,7 +19,7 @@
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/points",
+                url: "../api/devices",
                 params: params
             }).success(function (data, status, headers, config) {
                 $scope.Items = data.Items;
@@ -50,15 +50,16 @@
             });
         }
 
-        $scope.delete = function (pointID) {
-            ShowConfirmModal("确定要删除该点位吗？", function () {
+        $scope.delete = function (deviceNo) {
+            ShowConfirmModal("确定要删除该设备吗？", function () {
                 $http({
                     method: "delete",
                     withCredentials: true,
-                    url: "../api/points/" + pointID
+                    url: "../api/devices/" + deviceNo
                 }).success(function (data, status, headers, config) {
-                    ShowTipsModel("点位删除成功！");
-                    getInfos(params, false);
+                    ShowTipsModel("设备删除成功！", function () {
+                        getInfos(params, false);
+                    });
                 }).error(function (data, status, headers, config) {
                     ShowErrModal(data, status);
                 });
@@ -68,14 +69,14 @@
         // 搜索
         $scope.search = function () {
             params.PageIndex = 1;
-            params.PointID = $("#PointID").val();
-            params.DeviceName = $("#DeviceName").val();
+            params.DeviceNo = $("#DeviceNo").val();
+            params.RoomNo = $("#RoomNo").val();
             params.ItemID = $("#ItemID").val();
             getInfos(params, true);
         };
     });
 </script>
-<div ng-controller="PointCtrl" class="content-div">
+<div ng-controller="DeviceCtrl" class="content-div">
     <div class="top-basic">
         <strong>设备一览</strong>
     </div>
@@ -83,10 +84,10 @@
         <div class="row row-style">
             <div class="col-lg-7 col-md-7 col-sm-7 search-top">
                 <div class="row">
-                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">点位ID:</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="PointID" class="form-control input-search"></div>
-                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">仪器名称:</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="DeviceName" class="form-control input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">设备编号:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="DeviceNo" class="form-control input-search"></div>
+                    <div class="search-txt col-lg-1 col-md-1 col-sm-1">房间编号:</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="RoomNo" class="form-control input-search"></div>
                     <div class="search-txt col-lg-1 col-md-1 col-sm-1">组ID:</div>
                     <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="ItemID" class="form-control input-search"></div>
 
@@ -94,7 +95,7 @@
             </div>
             <div class="input-group search-div">
                 <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
+                <button title="添加设备" id="btnAdd" url="device/add" onclick="popDefaultWnd(this.id,'添加设备')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
             </div>
@@ -104,37 +105,33 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th width="5%">点位ID</th>
-                    <th width="8%">协议名称</th>
-                    <th width="8%">归属设备域</th>
-                    <th width="8%">仪器名称</th>
-                    <th width="10%">单价</th>
-                    <th width="8%">物理地址</th>
+                    <th width="8%">设备编号</th>
+                    <th width="8%">房间编号</th>
+                    <th width="8%">设备类型</th>
+                    <th width="8%">设备名称</th>
+                    <th width="15%">物理地址</th>
                     <th width="8%">组ID</th>
                     <th width="8%">是否归档</th>
                     <th width="10%">归档时间间隔</th>
-                    <th width="8%">父ID</th>
                     <th width="19%">操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-cloak ng-repeat="item in Items">
-                    <td>{{item.PointID}}</td>
-                    <td>{{item.Protocol}}</td>
-                    <td>{{item.Scope}}</td>
+                    <td>{{item.DeviceNo}}</td>
+                    <td>{{item.RoomNo}}</td>
+                    <td>{{item.TypeName}}</td>
                     <td>{{item.DeviceName}}</td>
-                    <td>{{item.Price}}</td>
                     <td>{{item.PhyAddr}}</td>
                     <td>{{item.ItemID}}</td>
                     <td>{{item.IsArchive}}</td>
                     <td>{{item.ArchiveInterval}}</td>
-                    <td>{{item.ParentID}}</td>
                     <td>
-                        <button id="btnModify{{$index+1}}" url="point/modify?id={{item.ID}}" onclick="popDefaultWnd(this.id, '修改点位信息')"
+                        <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popDefaultWnd(this.id, '修改点位信息')"
                                 class="btn btn-warning btn-style">
                             修改
                         </button>
-                        <button id="btnDetails{{$index+1}}" url="/point/details?id={{item.ID}}" onclick="popDefaultWnd(this.id, '详情')"
+                        <button id="btnDetails{{$index+1}}" url="device/details?deviceNo={{item.DeviceNo}}" onclick="popDefaultWnd(this.id, '详情')"
                                 class="btn btn-info btn-style">
                             详情
                         </button>

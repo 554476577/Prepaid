@@ -108,12 +108,16 @@ function popWnd(id, title, width, height) {
     var url = $("#" + id).attr("url");
     var wnd = $("#wnd").data("kendoWindow");
     if (!wnd || wnd._closing) {
+        $('#wnd').replaceWith('<div id="wnd"></div>');
         $("#wnd").css("width", width + "px");
         $("#wnd").css("height", height + "px");
         wnd = $("#wnd").kendoWindow({
             width: width,
             height: height,
             title: title,
+            position: {
+                top: 68
+            },
             actions: ["Close"],
             content: rootUrl + url,
             animation: false,

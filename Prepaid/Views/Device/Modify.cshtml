@@ -2,17 +2,40 @@
     Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
-    app.controller('PointCtrl', function ($scope, $http) {
+    app.controller('DeviceCtrl', function ($scope, $http) {
+        $scope.DeviceTypeName = "请选择设备类型";
+
+        getDeviceTypes();
         getInfo();
 
-        // 获取点位信息
+        // 获取设备类型信息列表
+        function getDeviceTypes() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/devicetypes"
+            }).success(function (data, status, headers, config) {
+                $scope.DeviceTypeItems = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 选择设备类型
+        $scope.selectDeviceType = function (uuid, typeName) {
+            $scope.DeviceTypeID = uuid;
+            $scope.DeviceTypeName = typeName;
+        }
+
+        // 获取设备信息
         function getInfo() {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/points/" + getQueryString("id")
+                url: "../api/devices/" + getQueryString("deviceNo")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
+                $scope.DeviceTypeName = $scope.Item.TypeName;
                 if ($scope.Item.IsArchive) {
                     $("#IsArchive").attr("checked", "true");
                 }
@@ -21,40 +44,35 @@
             });
         }
 
-        // 修改点位
+        // 修改设备信息
         $scope.modify = function () {
             var params = {
-                "ID": getQueryString("id"),
-                "PointID": $("#PointID").val(),
+                "DeviceNo": $("#DeviceNo").val(),
+                "RoomNo": $("#RoomNo").val(),
+                "TypeID": $scope.DeviceTypeID,
                 "Protocol": $("#Protocol").val(),
-                "Floor": $("#Floor").val(),
                 "Scope": $("#Scope").val(),
                 "DeviceName": $("#DeviceName").val(),
                 "PhyAddr": $("#PhyAddr").val(),
                 "ItemID": $("#ItemID").val(),
                 "ItemName": $("#ItemName").val(),
                 "ItemDescription": $("#ItemDescription").val(),
-                "ValueFunc": $("#ValueFunc").val(),
-                "MinValue": $("#MinValue").val(),
-                "MaxValue": $("#MaxValue").val(),
-                "Type": $("#Type").val(),
+                "Rate": $("#Rate").val(),
                 "Unit": $("#Unit").val(),
-                "Price": convertMoney($("#Price").val()),
                 "IsArchive": $("#IsArchive").is(":checked"),
-                "ArchiveInterval": $("#ArchiveInterval").val(),
-                "ParentID": $("#ParentID").val()
+                "ArchiveInterval": $("#ArchiveInterval").val()
             };
             $http({
                 method: "put",
                 withCredentials: true,
-                url: "../api/points/" + getQueryString("id"),
+                url: "../api/devices/" + getQueryString("deviceNo"),
                 params: params
             }).success(function (data, status, headers, config) {
-                ShowTipsModel("点位信息修改成功！", function () {
+                ShowTipsModel("设备信息修改成功！", function () {
                     if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
-                        window.parent.location.href = "../point/list";
+                        window.parent.location.href = "../device/list";
                     } else {
-                        window.location.href = "../point/list";
+                        window.location.href = "../device/list";
                     }
                 });
             }).error(function (data, status, headers, config) {
@@ -63,27 +81,43 @@
         };
     });
 </script>
-<div ng-controller="PointCtrl" class="content-div">
+<div ng-controller="DeviceCtrl" class="content-div">
     <form role="form" class="form-div">
         <div class="form-group group-style">
-            <label for="PointID">点位ID</label>
-            <input type="text" class="form-control input-text" id="PointID" name="PointID" value="{{Item.PointID}}" placeholder="请输入点位ID！">
+            <label for="DeviceNo">设备编号</label>
+            <input type="text" class="form-control input-text" id="DeviceNo" name="DeviceNo" value="{{Item.DeviceNo}}" placeholder="请输入设备编号！">
         </div>
         <div class="form-group group-style">
-            <label for="Protocol">采集协议</label>
-            <input type="text" class="form-control input-text" id="Protocol" name="Protocol" value="{{Item.Protocol}}" placeholder="请输入采集协议！">
+            <label for="RoomNo">房间编号</label>
+            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" value="{{Item.RoomNo}}" placeholder="请输入房间编号！">
+        </div>
+        <div class="form-group">
+            <label>设备类型选择</label>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;">
+                        {{DeviceTypeName}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-cloak ng-repeat="item in DeviceTypeItems">
+                            <a href="#" ng-click="selectDeviceType(item.UUID,item.Name)">{{item.Name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="form-group group-style">
-            <label for="Floor">楼层</label>
-            <input type="text" class="form-control input-text" id="Floor" name="Floor" value="{{Item.Floor}}" placeholder="请输入楼层！">
+            <label for="Protocol">归属协议</label>
+            <input type="text" class="form-control input-text" id="Protocol" name="Protocol" value="{{Item.Protocol}}" placeholder="请输入归属协议！">
         </div>
         <div class="form-group group-style">
-            <label for="Scope">归属设备域</label>
-            <input type="text" class="form-control input-text" id="Scope" name="Scope" value="{{Item.Scope}}" placeholder="请输入归属设备域！">
+            <label for="Scope">归属区域</label>
+            <input type="text" class="form-control input-text" id="Scope" name="Scope" value="{{Item.Scope}}" placeholder="请输入归属区域！">
         </div>
         <div class="form-group group-style">
-            <label for="DeviceName">仪器名称</label>
-            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" value="{{Item.DeviceName}}" placeholder="请输入仪器名称！">
+            <label for="DeviceName">设备名称</label>
+            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" value="{{Item.DeviceName}}" placeholder="请输入设备名称！">
         </div>
         <div class="form-group group-style">
             <label for="PhyAddr">物理地址</label>
@@ -99,41 +133,24 @@
         </div>
         <div class="form-group group-style">
             <label for="ItemDescription">组描述</label>
-            <input type="text" class="form-control input-text" id="ItemDescription" name="ItemDescription" value="{{Item.ItemDescription}}" placeholder="请输入组描述！">
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="ItemDescription" name="ItemDescription" placeholder="请输入组描述！">
+                {{Item.ItemDescription}}
+            </textarea>
         </div>
         <div class="form-group group-style">
-            <label for="ValueFunc">值转换函数</label>
-            <input type="text" class="form-control input-text" id="ValueFunc" name="ValueFunc" value="{{Item.ValueFunc}}" placeholder="请输入值的转换函数！">
-        </div>
-        <div class="form-group group-style">
-            <label for="MinValue">安全最小值</label>
-            <input type="text" class="form-control input-text" id="MinValue" name="MinValue" value="{{Item.MinValue}}" placeholder="请输入安全最小值！">
-        </div>
-        <div class="form-group group-style">
-            <label for="MaxValue">安全最大值</label>
-            <input type="text" class="form-control input-text" id="MaxValue" name="MaxValue" value="{{Item.MaxValue}}" placeholder="请输入安全最大值！">
+            <label for="Rate">转换倍率</label>
+            <input type="text" class="form-control input-text" id="Rate" name="Rate" value="{{Item.Rate}}" placeholder="请输入值的转换倍率！">
         </div>
         <div class="form-group group-style">
             <label for="Unit">单位</label>
             <input type="text" class="form-control input-text" id="Unit" name="Unit" value="{{Item.Unit}}" placeholder="请输入单位！">
         </div>
         <div class="form-group group-style">
-            <label for="Price">单价</label>
-            <input type="text" class="form-control input-text" id="Price" name="Price" value="{{Item.Price}}" placeholder="请输入单价！">
-        </div>
-        <div class="form-group group-style">
-            <label for="Type">类别</label>
-            <input type="text" class="form-control input-text" id="Type" name="Type" value="{{Item.Type}}" placeholder="请输入类别！">
-        </div>
-        <div class="form-group group-style">
-            <label for="ParentID">父点位ID</label>
-            <input type="text" class="form-control input-text" id="ParentID" name="ParentID" value="{{Item.ParentID}}" placeholder="请输入父点位ID！">
-        </div>
-        <div class="form-group group-style">
             <label for="ArchiveInterval">归档时间间隔</label>
-            <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" value="{{Item.ArchiveInterval}}" placeholder="请输入归档时间间隔！">
+            <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" value="{{Item.ArchiveInterval}}" 
+                   placeholder="请输入归档时间间隔！">
         </div>
-        <div class="form-group group-style">
+        <div class="form-group group-style checkbox">
             <label for="IsArchive"><input type="checkbox" id="IsArchive" name="IsArchive">是否归档</label>
         </div>
     </form>

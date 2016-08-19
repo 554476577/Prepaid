@@ -2,17 +2,38 @@
     Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
-    app.controller('UserCtrl', function ($scope, $http) {
+    app.controller('RoomCtrl', function ($scope, $http) {
+        $scope.BuildingNo = "请选择建筑编号";
+        getBuildings();
+
+        // 获取建筑信息列表
+        function getBuildings() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/buildings"
+            }).success(function (data, status, headers, config) {
+                $scope.BuildingItems = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 选择建筑编号
+        $scope.selectBuilding = function (buildingNo) {
+            $scope.BuildingNo = buildingNo;
+        }
+
+        // 添加房间信息
         $scope.add = function () {
             var params = {
+                "RoomNo": $("#RoomNo").val(),
+                "BuildingNo": $scope.BuildingNo,
+                "Floor": $("#Floor").val(),
+                "Area": $("#Area").val(),
+                "Price": $("#Price").val(),
                 "RealName": $("#RealName").val(),
                 "Phone": $("#Phone").val(),
-                "Address": $("#Address").val(),
-                "BuildingNo": $("#BuildingNo").val(),
-                "BuildingName": $("#BuildingName").val(),
-                "FloorCount": $("#FloorCount").val(),
-                "Floor": $("#Floor").val(),
-                "RoomNo": $("#RoomNo").val(),
                 "AccountBalance": convertMoney($("#AccountBalance").val()),
                 "AccountWarnLimit": convertMoney($("#AccountWarnLimit").val()),
                 "CreditScore": $("#CreditScore").val(),
@@ -24,14 +45,14 @@
             $http({
                 method: "post",
                 withCredentials: true,
-                url: "../api/users",
+                url: "../api/rooms",
                 params: params
             }).success(function (data, status, headers, config) {
-                ShowTipsModel("业主信息添加成功！", function () {
+                ShowTipsModel("房间信息添加成功！", function () {
                     if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
-                        window.parent.location.href = "../user/list";
+                        window.parent.location.href = "../room/list";
                     } else {
-                        window.location.href = "../user/list";
+                        window.location.href = "../room/list";
                     }
                 });
             }).error(function (data, status, headers, config) {
@@ -40,8 +61,40 @@
         };
     });
 </script>
-<div ng-controller="UserCtrl" class="content-div" style="background-color:#fff;">  
+<div ng-controller="RoomCtrl" class="content-div" style="background-color:#fff;">
     <form role="form" class="form-div">
+        <div class="form-group group-style">
+            <label for="RoomNo">房间编号</label>
+            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" placeholder="请输入房间编号！">
+        </div>
+        <div class="form-group">
+            <label>建筑编号选择</label>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;">
+                        {{BuildingNo}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-cloak ng-repeat="item in BuildingItems">
+                            <a href="#" ng-click="selectBuilding(item.BuildingNo)">{{item.BuildingNo}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group group-style">
+            <label for="Floor">楼层</label>
+            <input type="text" class="form-control input-text" id="Floor" name="Floor" placeholder="请输入楼层！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Area">面积</label>
+            <input type="text" class="form-control input-text" id="Area" name="Area" placeholder="请输入房间面积！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Price">管理费单价</label>
+            <input type="text" class="form-control input-text" id="Price" name="Price" placeholder="请输入物业管理费单价！">
+        </div>
         <div class="form-group group-style">
             <label for="RealName">业主姓名</label>
             <input type="text" class="form-control input-text" id="RealName" name="RealName" placeholder="请输入业主姓名！">
@@ -49,30 +102,6 @@
         <div class="form-group group-style">
             <label for="Phone">电话号码</label>
             <input type="text" class="form-control input-text" id="Phone" name="Phone" placeholder="请输入电话号码！">
-        </div>
-        <div class="form-group group-style">
-            <label for="Address">地址</label>
-            <input type="text" class="form-control input-text" id="Address" name="Address" placeholder="请输入地址！">
-        </div>
-        <div class="form-group group-style">
-            <label for="BuildingNo">建筑编号</label>
-            <input type="text" class="form-control input-text" id="BuildingNo" name="BuildingNo" placeholder="请输入建筑编号！">
-        </div>
-        <div class="form-group group-style">
-            <label for="BuildingName">建筑名称</label>
-            <input type="text" class="form-control input-text" id="BuildingName" name="BuildingName" placeholder="请输入建筑名称！">
-        </div>
-        <div class="form-group group-style">
-            <label for="FloorCount">楼层总数</label>
-            <input type="text" class="form-control input-text" id="FloorCount" name="FloorCount" placeholder="请输入楼层总数！">
-        </div>
-        <div class="form-group group-style">
-            <label for="Floor">楼层</label>
-            <input type="text" class="form-control input-text" id="Floor" name="Floor" placeholder="请输入楼层！">
-        </div>
-        <div class="form-group group-style">
-            <label for="RoomNo">房号</label>
-            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" placeholder="请输入房号！">
         </div>
         <div class="form-group group-style">
             <label for="AccountBalance">账户余额</label>
@@ -105,4 +134,3 @@
     </form>
     <button class="btn btn-primary btn-style btn-top btn-special2" ng-click="add()">添加</button><br />
 </div>
-    

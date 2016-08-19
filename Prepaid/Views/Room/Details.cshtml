@@ -2,14 +2,14 @@
     Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
-    app.controller('UserCtrl', function ($scope, $http) {
+    app.controller('RoomCtrl', function ($scope, $http) {
         getInfo();
 
         function getInfo() {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/users/" + getQueryString("uuid")
+                url: "../api/rooms/" + getQueryString("roomNo")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
             }).error(function (data, status, headers, config) {
@@ -18,7 +18,7 @@
         }
     });
 </script>
-<div ng-controller="UserCtrl" class="content-div" style="margin:50px 80px;">
+<div ng-controller="RoomCtrl" class="content-div" style="margin:50px 80px;">
     <form role="form">
         <table class="point-table">
             <thead style="height:0;">
@@ -31,28 +31,28 @@
             </thead>
             <tbody class="body">
                 <tr>
-                    <td>业主姓名</td>
-                    <td class="big">{{Item.RealName}}</td>
-                    <td>电话号码</td>
-                    <td class="big">{{Item.Phone}}</td>
-                </tr>
-                <tr class="even">
-                    <td>地址</td>
-                    <td class="big">{{Item.Address}}</td>
+                    <td>房间编号</td>
+                    <td class="big">{{Item.RoomNo}}</td>
                     <td>建筑编号</td>
                     <td class="big">{{Item.BuildingNo}}</td>
                 </tr>
+                <tr class="even">
+                    <td>所处楼层</td>
+                    <td class="big">{{Item.Floor}}/{{Item.Floors}}</td>
+                    <td>区域面积</td>
+                    <td class="big">{{Item.Area}}</td>
+                </tr>
                 <tr>
-                    <td>建筑名称</td>
-                    <td class="big">{{Item.BuildingName}}</td>
-                    <td>楼层总数</td>
-                    <td class="big">{{Item.FloorCount}}</td>
+                    <td>管理费用(每平米)</td>
+                    <td class="big">{{Item.Price}}</td>
+                    <td>业主姓名</td>
+                    <td class="big">{{Item.RealName}}</td>
                 </tr>
                 <tr class="even">
-                    <td>楼层</td>
-                    <td class="big">{{Item.Floor}}</td>
-                    <td>房号</td>
-                    <td class="big">{{Item.RoomNo}}</td>
+                    <td>电话号码</td>
+                    <td class="big">{{Item.Phone}}</td>
+                    <td>用户积分</td>
+                    <td class="big">{{Item.CreditScore}}</td>
                 </tr>
                 <tr>
                     <td>账户余额</td>
@@ -61,18 +61,14 @@
                     <td class="big">{{Item.AccountWarnLimit}}</td>
                 </tr>
                 <tr class="even">
-                    <td>用户积分</td>
-                    <td class="big">{{Item.CreditScore}}</td>
+                    <td>微信账号</td>
+                    <td class="big">{{Item.WechatAccount}}</td>
                     <td>支付宝账号</td>
                     <td class="big">{{Item.AlipayAccount}}</td>
                 </tr>
                 <tr>
-                    <td>微信账号</td>
-                    <td class="big">{{Item.WechatAccount}}</td>
                     <td>银行账号</td>
                     <td class="big">{{Item.BankAccount}}</td>
-                </tr>
-                <tr class="even">
                     <td>备注</td>
                     <td class="big">{{Item.Remark}}</td>
                 </tr>
