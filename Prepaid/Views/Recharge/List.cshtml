@@ -6,7 +6,7 @@
         $scope.PageSize = 10;
 
         var params = {
-            "UserID": "",
+            "RoomNo": "",
             "RealName": "",
             "PageIndex": 1,
             "PageSize": $scope.PageSize
@@ -52,7 +52,7 @@
         // 搜索
         $scope.search = function () {
             params.PageIndex = 1;
-            params.UserID = $("#UserID").val();
+            params.RoomNo = $("#RoomNo").val();
             params.RealName = $("#RealName").val();
             getInfos(params, true);
         };
@@ -82,15 +82,15 @@
         <div class="row row-style">
             <div class="col-lg-4 col-md-4 col-sm-4 search-top">
                 <div class="row">
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">UUID:</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="UserID" class="form-control input-search"></div>
+                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">房间编号:</div>
+                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RoomNo" class="form-control input-search"></div>
                     <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
                     <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-search"></div>
                 </div>
             </div>
             <div class="input-group search-div">
                 <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button title="添加点位" id="btnAdd" url="point/add" onclick="popDefaultWnd(this.id,'添加点位')" class="btn btn-success btn-top">
+                <button title="添加充值记录" id="btnAdd" url="recharge/add" onclick="popDefaultWnd(this.id, '添加充值记录')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
                 <button class="search-load" title="导出报表" ng-click="exportReport()">导出报表</button>
@@ -101,7 +101,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th width="20%">UUID</th>
+                    <th width="20%">房间编号</th>
                     <th width="20%">业主姓名</th>
                     <th width="20%">充值金额</th>
                     <th width="20%">时间</th>
@@ -110,7 +110,7 @@
             </thead>
             <tbody>
                 <tr ng-cloak ng-repeat="item in Items">
-                    <td>{{item.UUID}}</td>
+                    <td>{{item.RoomNo}}</td>
                     <td>{{item.RealName}}</td>
                     <td>{{item.Money}}</td>
                     <td>{{item.DateTime}}</td>

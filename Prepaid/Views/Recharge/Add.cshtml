@@ -5,7 +5,7 @@
     app.controller('RechargeCtrl', function ($scope, $http) {
         $scope.add = function () {
             var params = {
-                "UserID":getQueryString("userid"),
+                "RoomNo": getQueryString("RoomNo"),
                 "Money": convertMoney($("#Money").val()),
                 "Remark": $("#Remark").val()
             };
