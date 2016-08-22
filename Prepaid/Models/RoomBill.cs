@@ -18,7 +18,7 @@ namespace Prepaid.Models
         public string LotNo { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 业主姓名
         /// </summary>
         public string RealName { get; set; }
 
