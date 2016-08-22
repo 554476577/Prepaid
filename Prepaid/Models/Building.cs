@@ -7,7 +7,7 @@ namespace Prepaid.Models
     using System.Data.Entity.Spatial;
 
     [Table("Building")]
-    public partial class Building
+    public partial class  Building
     {
         public Building()
         {

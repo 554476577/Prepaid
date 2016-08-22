@@ -130,7 +130,7 @@
     });
 </script>
 <div ng-controller="BasicCtrl" class="content-div">
-    <div style="width:100%;height:500px;background-color:aliceblue;">
+    <div style="width:100%;height:500px;background-color:#fff;">
         @*账号管理*@
         <div style="width:50%;height:100%;float:left;">
             <div class="top-basic">
@@ -150,19 +150,17 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
                             <th width="10%">用户名</th>
-                            <th width="8%">真实姓名</th>
+                            <th width="10%">真实姓名</th>
                             <th width="15%">手机号码</th>
                             <th width="15%">是否可控</th>
                             <th width="25%">时间</th>
-                            <th width="8%">备注</th>
+                            <th width="11%">备注</th>
                             <th width="14%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in AdminItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.UserName}}</td>
                             <td>{{item.RealName}}</td>
                             <td>{{item.Phone}}</td>
@@ -200,7 +198,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
                             <th width="10%">名称</th>
                             <th width="8%">描述</th>
                             <th width="11%">单价1</th>
@@ -215,7 +212,6 @@
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in DeviceTypeItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Description}}</td>
                             <td>{{item.Price1}}</td>
@@ -258,7 +254,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
                             <th width="10%">名称</th>
                             <th width="8%">描述</th>
                             <th width="18%">最小积分</th>
@@ -271,7 +266,6 @@
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in CreditItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Description}}</td>
                             <td>{{item.MinScore}}</td>
@@ -310,7 +304,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
                             <th width="10%">设备类型</th>
                             <th width="8%">名称</th>
                             <th width="18%">描述</th>
@@ -324,7 +317,6 @@
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in LadderItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.TypeName}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Description}}</td>

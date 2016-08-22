@@ -136,10 +136,17 @@
             <div id="sub-ctrl" style="float:left;">
                 <div class="menu">
                     <ul>
-                        <li>
-                            <a class="active" href="#">A 区</a>
+                        <li ng-cloak ng-repeat="BuildingItem in BuildingItems">
+                            <a class="active" href="#">{{BuildingItem.BuildingNo}}</a>
                             <ul>
-                                <li><a href="#">A 1层</a></li>
+                                <li ng-cloak ng-repeat="FloorItem in BuildingItem.FloorItems">
+                                    <a href="#">{{FloorItem.Floor}}F</a>
+                                    <ul class="menu-second">
+                                        @*<li ng-cloak ng-repeat="Room in FloorItem.Rooms">
+                                            <a href="#">{{Room.RoomNo}}</a>
+                                        </li>*@
+                                    </ul>
+                                </li>
                                 <li>
                                     <a href="#">A 2层</a>
                                     <ul class="menu-second">

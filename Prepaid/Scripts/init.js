@@ -67,6 +67,7 @@ app.directive('onFinishRenderFilters', function ($timeout) {
 // 该控制器针对布局页面
 app.controller('layoutCtrl', function ($scope, $http) {
     getUserSession();
+    getBuildingInfo();
 
     // 获取用户信息
     function getUserSession() {
@@ -76,6 +77,36 @@ app.controller('layoutCtrl', function ($scope, $http) {
             url: "../api/admin"
         }).success(function (data, status, headers, config) {
             $scope.UserSession = data;
+        }).error(function (data, status, headers, config) {
+            ShowErrModal(data, status);
+        });
+    }
+
+    // 获取建筑信息列表
+    function getBuildingInfo() {
+        $http({
+            method: "get",
+            withCredentials: true,
+            url: "../api/buildings"
+        }).success(function (data, status, headers, config) {
+            $scope.BuildingItems = data.Items;
+        }).error(function (data, status, headers, config) {
+            ShowErrModal(data, status);
+        });
+    };
+
+    $scope.GetRooms = function (BuildingNo, Floor) {
+        var params = {
+            "BuildingNo": BuildingNo,
+            "Floor": Floor
+        }
+        $http({
+            method: "get",
+            withCredentials: true,
+            url: "../api/rooms",
+            params: params
+        }).success(function (data, status, headers, config) {
+            $scope.RoomItems = data.Items;
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
         });
