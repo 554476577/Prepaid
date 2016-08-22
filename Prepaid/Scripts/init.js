@@ -66,7 +66,49 @@ app.directive('onFinishRenderFilters', function ($timeout) {
 
 // 该控制器针对布局页面
 app.controller('layoutCtrl', function ($scope, $http) {
+    /*左边伸缩四级菜单的行为*/
+    (function ($) {
+        $.fn.menu = function (b) {
+            var c,
+            item,
+            b = jQuery.extend({
+                Speed: 220,
+                autostart: 1,
+                autohide: 1
+            }, b);
+            c = $(this);
+            item = c.children("ul").parent("li").children("a");
+            item.addClass("inactive");
+            function _item() {
+                var a = $(this);
+                if (b.autohide) {
+                    a.parent().parent().find(".active").parent("li").children("ul").slideUp(b.Speed / 1.2,
+                    function () {
+                        $(this).parent("li").children("a").removeAttr("class");
+                        $(this).parent("li").children("a").attr("class", "inactive");
+                    });
+                }
+
+                if (a.attr("class").indexOf("inactive") >= 0) {
+                    a.parent("li").children("ul").slideDown(b.Speed,
+                    function () {
+                        a.removeAttr("class");
+                        a.addClass("active");
+                    });
+                }
+
+                if (a.attr("class").indexOf("inactive") < 0) {
+                    a.removeAttr("class");
+                    a.addClass("inactive");
+                    a.parent("li").children("ul").slideUp(b.Speed)
+                }
+            }
+            item.unbind('click').click(_item);
+        }
+    })(jQuery);
+
     getUserSession();
+    getBuildingInfo();
 
     // 获取用户信息
     function getUserSession() {
@@ -76,6 +118,23 @@ app.controller('layoutCtrl', function ($scope, $http) {
             url: "../api/admin"
         }).success(function (data, status, headers, config) {
             $scope.UserSession = data;
+        }).error(function (data, status, headers, config) {
+            ShowErrModal(data, status);
+        });
+    }
+
+    // 获取建筑信息列表
+    function getBuildingInfo() {
+        $http({
+            method: "get",
+            withCredentials: true,
+            url: "../api/buildings"
+        }).success(function (data, status, headers, config) {
+            $scope.BuildingItems = data.Items;
+            // angularjs渲染完毕之后执行的回调函数
+            $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+                $(".menu ul li").menu();
+            });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
         });
