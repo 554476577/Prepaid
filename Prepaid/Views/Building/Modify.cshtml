@@ -34,6 +34,7 @@
                 url: "../api/buildings/" + getQueryString("buildingNo")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
+                $scope.CommunityID = $scope.Item.CommunityID;
                 $scope.CommunityName = $scope.Item.CommunityName;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
@@ -105,7 +106,7 @@
         </div>
         <div class="form-group group-style">
             <label for="Remark">备注</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" placeholder="请输入备注！"></textarea>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！">{{Item.Remark}}</textarea>
         </div>
     </form>
     <button class="btn btn-primary btn-style btn-top btn-special2" ng-click="modify()">修改</button><br />

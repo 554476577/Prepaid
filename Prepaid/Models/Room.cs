@@ -24,7 +24,7 @@ namespace Prepaid.Models
         [StringLength(20)]
         public string BuildingNo { get; set; }
 
-        public int? Floor { get; set; }
+        public int Floor { get; set; }
 
         public double? Area { get; set; }
 

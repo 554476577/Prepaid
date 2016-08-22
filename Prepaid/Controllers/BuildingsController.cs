@@ -58,12 +58,24 @@ namespace Prepaid.Controllers
                             CommunityName = item.Community.Name,
                             Description = item.Description,
                             Floors = item.Floors,
+                            LstFloor=GetFloors(item.Floors),
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
             pager.Items = items;
 
             return Ok(pager);
+        }
+
+        private List<int> GetFloors(int floorCount)
+        {
+            List<int> floors = new List<int>();
+            for (int i = 1; i <= floorCount; i++)
+            {
+                floors.Add(i);
+            }
+
+            return floors;
         }
 
         // GET: api/buildings/03b96c82ba5747eba2a5d96ef67837c9

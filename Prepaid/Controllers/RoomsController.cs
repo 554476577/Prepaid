@@ -35,21 +35,22 @@ namespace Prepaid.Controllers
             string RealName = HttpContext.Current.Request.Params["RealName"];
             string BuildingNo = HttpContext.Current.Request.Params["BuildingNo"];
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
+            string Floor = HttpContext.Current.Request.Params["Floor"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
 
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                rooms = this.repository.GetAll(RealName, BuildingNo, RoomNo);
+                rooms = this.repository.GetAll(RealName, BuildingNo, RoomNo, Floor);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount(RealName, BuildingNo, RoomNo));
-                rooms = this.repository.GetPagerItems(RealName, BuildingNo, RoomNo, pageIndex, pageSize, u => u.RoomNo);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetCount(RealName, BuildingNo, RoomNo, Floor));
+                rooms = this.repository.GetPagerItems(RealName, BuildingNo, RoomNo, Floor, pageIndex, pageSize, u => u.RoomNo);
             }
 
             var items = from item in rooms

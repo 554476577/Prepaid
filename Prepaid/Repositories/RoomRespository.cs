@@ -19,7 +19,7 @@ namespace Prepaid.Repositories
             return db.Rooms.Count(e => e.RoomNo == uuid) > 0;
         }
 
-        public IEnumerable<Room> GetAll(string RealName, string BuildingNo, string RoomNo)
+        public IEnumerable<Room> GetAll(string RealName, string BuildingNo, string RoomNo, string Floor)
         {
             IEnumerable<Room> result = GetAll();
             if (!string.IsNullOrEmpty(RealName))
@@ -28,18 +28,21 @@ namespace Prepaid.Repositories
                 result = result.Where(u => u.BuildingNo != null && u.BuildingNo.Contains(BuildingNo));
             if (!string.IsNullOrEmpty(RoomNo))
                 result = result.Where(u => u.RoomNo != null && u.RoomNo.Contains(RoomNo));
+            if (!string.IsNullOrEmpty(Floor))
+                result = result.Where(u => u.Floor == Convert.ToInt32(Floor));
+
             return result;
         }
 
-        public int GetCount(string RealName, string BuildingNo, string RoomNo)
+        public int GetCount(string RealName, string BuildingNo, string RoomNo, string Floor)
         {
-            return GetAll(RealName, BuildingNo, RoomNo).Count();
+            return GetAll(RealName, BuildingNo, RoomNo, Floor).Count();
         }
 
-        public IEnumerable<Room> GetPagerItems(string RealName, string BuildingNo, string RoomNo,
+        public IEnumerable<Room> GetPagerItems(string RealName, string BuildingNo, string RoomNo, string Floor,
             int pageIndex, int pageSize, Func<Room, string> func, bool isDesc = false)
         {
-            var result = GetAll(RealName, BuildingNo, RoomNo);
+            var result = GetAll(RealName, BuildingNo, RoomNo, Floor);
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
                 return result.OrderBy(func).Skip(recordStart).Take(pageSize);
