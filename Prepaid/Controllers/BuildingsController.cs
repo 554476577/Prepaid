@@ -16,19 +16,11 @@ namespace Prepaid.Controllers
 {
     public class BuildingsController : ApiController
     {
-        private class FloorItem
-        {
-            public int Floor { get; set; }
-            public IEnumerable<Room> Rooms { get; set; }
-        }
+        IRepository<string, Building> repository;
 
-        IRepository<string, Building> buildingRepository;
-        IRoomRespository roomRespository;
-
-        public BuildingsController(IRepository<string, Building> buildingRepository, IRoomRespository roomRespository)
+        public BuildingsController(IRepository<string, Building> repository)
         {
-            this.buildingRepository = buildingRepository;
-            this.roomRespository = roomRespository;
+            this.repository = repository;
         }
 
         // GET: api/buildings
@@ -46,15 +38,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                Buildings = this.buildingRepository.GetAll();
+                Buildings = this.repository.GetAll();
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.buildingRepository.GetCount());
-                Buildings = this.buildingRepository.GetPagerItems(pageIndex, pageSize, u => u.BuildingNo);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
+                Buildings = this.repository.GetPagerItems(pageIndex, pageSize, u => u.BuildingNo);
             }
 
             var items = from item in Buildings
@@ -66,7 +58,7 @@ namespace Prepaid.Controllers
                             CommunityName = item.Community.Name,
                             Description = item.Description,
                             Floors = item.Floors,
-                            FloorItems = GetFloors(item.BuildingNo, item.Floors),
+                            LstFloor = GetFloors(item.Floors),
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
@@ -75,15 +67,12 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        private IEnumerable<FloorItem> GetFloors(string buildingNo, int floorCount)
+        private List<int> GetFloors(int floorCount)
         {
-            List<FloorItem> floors = new List<FloorItem>();
+            List<int> floors = new List<int>();
             for (int i = 1; i <= floorCount; i++)
             {
-                FloorItem floor = new FloorItem();
-                floor.Floor = i;
-                floor.Rooms = this.roomRespository.GetAll("", buildingNo, "", i.ToString());
-                floors.Add(floor);
+                floors.Add(i);
             }
 
             return floors;
@@ -97,7 +86,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Building item = await this.buildingRepository.GetByIdAsync(uuid);
+            Building item = await this.repository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
@@ -130,11 +119,11 @@ namespace Prepaid.Controllers
             try
             {
                 Building.CreateTime = DateTime.Now;
-                await this.buildingRepository.PutAsync(Building);
+                await this.repository.PutAsync(Building);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.buildingRepository.IsExist(uuid))
+                if (!this.repository.IsExist(uuid))
                     return NotFound();
                 else
                     throw;
@@ -154,11 +143,11 @@ namespace Prepaid.Controllers
             try
             {
                 Building.CreateTime = DateTime.Now;
-                await this.buildingRepository.AddAsync(Building);
+                await this.repository.AddAsync(Building);
             }
             catch (DbUpdateException)
             {
-                if (this.buildingRepository.IsExist(Building.BuildingNo))
+                if (this.repository.IsExist(Building.BuildingNo))
                     return Conflict();
                 else
                     throw;
@@ -174,11 +163,11 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Building Building = await this.buildingRepository.GetByIdAsync(uuid);
+            Building Building = await this.repository.GetByIdAsync(uuid);
             if (Building == null)
                 return NotFound();
 
-            await this.buildingRepository.DeleteAsync(Building);
+            await this.repository.DeleteAsync(Building);
 
             return Ok();
         }
