@@ -23,6 +23,16 @@ namespace Prepaid.Models
         public string RealName { get; set; }
 
         /// <summary>
+        /// 电话号码
+        /// </summary>
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// 信用积分
+        /// </summary>
+        public int? CreditScore { get; set; }
+
+        /// <summary>
         /// 账户余额
         /// </summary>
         public int? IntAccountBalance { get; set; }
@@ -31,6 +41,11 @@ namespace Prepaid.Models
         /// 账户余额
         /// </summary>
         public string AccountBalance { get; set; }
+
+        /// <summary>
+        /// 可欠费金额
+        /// </summary>
+        public string AccountWarnLimit { get; set; }
 
         /// <summary>
         /// 用户在当前时刻消耗的能耗总量
@@ -46,6 +61,11 @@ namespace Prepaid.Models
         /// 用户在当前时刻消耗的总金额(扩大100倍)
         /// </summary>
         public string SumMoney { get; set; }
+
+        /// <summary>
+        /// 结算后账户余额
+        /// </summary>
+        public string BilledBalance { get; set; }
 
         /// <summary>
         /// 该用户在当前时刻拥有的所有仪表的能耗状况

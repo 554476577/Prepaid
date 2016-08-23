@@ -23,7 +23,7 @@ namespace Prepaid.Models
         public double PreValue { get; set; }
 
         /// <summary>
-        /// 当前读数
+        /// 结算读数
         /// </summary>
         public double CurValue { get; set; }
 

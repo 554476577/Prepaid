@@ -1,0 +1,108 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    app.controller('BillCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+
+        var params = {
+            "RoomNo": getQueryString("roomNo"),
+            "BuildingNo": getQueryString("buildingNo"),
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+
+        getInfos(params, true);
+
+        function getInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/roombills",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+
+        $scope.energyStyle = function (height) {
+            if (height > 1) {
+                return {
+                    "height": 40 * height + "px",
+                    "padding-top": 20 + 40 * (height - 2) / 2 + "px"
+                };
+            }
+        };
+    });
+</script>
+<div ng-controller="BillCtrl" class="content-div">
+    <div class="top-basic">
+        <strong>结算记录</strong>
+    </div>
+    <div class="container-fluid control-div">
+        <div class="row content-basic">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="row style-sm">
+                    <div class="col-lg-6 col-md-6 col-sm-6">结算批次</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">结算时间</div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8" style="padding:0 0;">
+                <div class="head-second">设备编号</div>
+                <div class="head-second">设备名称</div>
+                <div class="head-second">上次读数</div>
+                <div class="head-second">结算读数</div>
+                <div class="head-second">单价</div>
+                <div class="head-second" style="border-right:1px solid #d7d7d7;">价格</div>
+            </div>
+        </div>
+        <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}">
+            <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceEnergies.length)" style="position:relative;">
+                <div class="row style-spe">
+                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
+                    <div style="margin-bottom:2px;" class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.DateTime}}</div>
+                </div>
+                <div class="row zindex">
+                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 information-content" ng-cloak ng-repeat="device in item.DeviceBills">
+                <div class="information-second">{{device.DeviceNo}}</div>
+                <div class="information-second">{{device.DeviceName}}</div>
+                <div class="information-second">{{device.PreValue}}</div>
+                <div class="information-second">{{device.CurValue}}</div>
+                <div class="information-second">{{device.Price}}</div>
+                <div class="information-second">{{device.Money}}</div>
+            </div>
+            <div class="width center">
+                <div id="page4" class="m-pagination m-center"></div>
+            </div>
+        </div>
+    </div>
+</div>

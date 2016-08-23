@@ -335,8 +335,10 @@
     <Content Include="Views\DeviceType\Modify.cshtml" />
     <Content Include="Views\Ladder\Add.cshtml" />
     <Content Include="Views\Basic\List.cshtml" />
-    <Content Include="Views\Basic\Details.cshtml" />
     <Content Include="Views\Ladder\Modify.cshtml" />
+    <Content Include="Views\Bill\Cube.cshtml" />
+    <Content Include="Views\Room\Bills.cshtml" />
+    <Content Include="Views\Room\Recharges.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

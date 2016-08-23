@@ -127,12 +127,16 @@ namespace Prepaid.Repositories
                 bill.RoomNo = item.RoomNo;
                 bill.BuildingNo = item.BuildingNo;
                 bill.RealName = item.RealName;
+                bill.Phone = item.Phone;
+                bill.CreditScore = item.CreditScore;
                 bill.IntAccountBalance = item.AccountBalance;
                 bill.AccountBalance = TextHelper.ConvertMoney(item.AccountBalance);
+                bill.AccountWarnLimit = TextHelper.ConvertMoney(item.AccountWarnLimit);
                 bill.PrepaidDeviceBills = GetPrepaidDeviceBills(item.RoomNo);
                 bill.SumValue = bill.PrepaidDeviceBills.Sum(o => o.CurValue - o.PreValue);
                 bill.IntSumMoney = bill.PrepaidDeviceBills.Sum(o => o.IntMoney);
                 bill.SumMoney = TextHelper.ConvertMoney(bill.IntSumMoney);
+                bill.BilledBalance = TextHelper.ConvertMoney(item.AccountBalance - bill.IntSumMoney);
                 bills.Add(bill);
             }
 

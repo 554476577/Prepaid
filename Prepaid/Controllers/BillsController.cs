@@ -161,8 +161,8 @@ namespace Prepaid.Controllers
         }
 
         [HttpGet]
-        [Route("api/export/userprepaidbills")]
-        public IHttpActionResult ExportUserPrepaidBills()
+        [Route("api/export/prepaidbills")]
+        public IHttpActionResult ExportPrepaidBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)

@@ -1,0 +1,240 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    app.controller('PrepaidBillCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+
+        var params = {
+            "BuildingNo": getQueryString("buildingNo"),
+            "RoomNo": getQueryString("roomNo"),
+            "RealName": "",
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+
+        getInfos(params, true);
+
+        function getInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/prepaidbills",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 结算
+        $scope.settleBill = function (userID, currentAccountBalance, deviceEnergies) {
+            ShowConfirmModal("确定要结算该业主的能耗费用吗?", function () {
+                $http({
+                    method: "post",
+                    withCredentials: true,
+                    url: "../api/energybills",
+                    params: {
+                        "UserID": userID,
+                        "CurrentAccountBalance": currentAccountBalance,
+                        "DeviceEnergies": deviceEnergies
+                    }
+                }).success(function (data, status, headers, config) {
+                    window.parent.location.href = "../prepaid/list";
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+
+        // 搜索
+        $scope.search = function () {
+            params.PageIndex = 1;
+            params.UserID = $("#UserID").val();
+            params.RealName = $("#RealName").val();
+            params.BuildingName = $("#BuildingName").val();
+            params.RoomNo = $("#RoomNo").val();
+            getInfos(params, true);
+        };
+
+        // 导出报表
+        $scope.exportReport = function () {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/export/userprepaidbills",
+                params: params
+            }).success(function (data, status, headers, config) {
+                ShowTipsModel("业主能耗缴费实时账单导出成功！");
+                location.href = location.origin + '/' + data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        };
+
+        // 批量结算
+        $scope.batchSettle = function () {
+            ShowConfirmModal("确定要在当前时刻批量结算业主能耗费用吗?", function () {
+                $http({
+                    method: "post",
+                    withCredentials: true,
+                    url: "../api/batch/userenergybills"
+                }).success(function (data, status, headers, config) {
+                    window.parent.location.href = "../prepaid/list";
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
+    });
+</script>
+<style>
+    .one > table {
+        line-height: 24px;
+    }
+    .user-table {
+        text-align: center;
+        float: right;
+        line-height: 24px;
+    }
+    .user-table tr th {
+        text-align: center;
+        padding: 0 5px;
+    }
+    .user-table tr th {
+        border: 1px solid #d7d7d7;
+    }
+    .user-table tr td {
+        padding: 0 7px;
+        border: 1px solid #d7d7d7;
+    }
+    .third {
+        margin-top: 14px;
+    }
+    .forth {
+        margin-top: 10px;
+    }
+    .second > span {
+        margin: 0 3px;
+    }
+    .third > button {
+        padding: 3px 3px;
+        font-size: 13px;
+    }
+    .forth > button {
+        padding: 3px 3px;
+        font-size: 13px;
+    }
+</style>
+<div ng-controller="PrepaidBillCtrl" class="content-div">
+    <div ng-cloak ng-repeat="item in Items" style="width: 575px; height: 220px; border: 1px solid #aaa;padding: 5px 5px;
+         color:#555;border-radius:3px;float:left;">
+        <div class="one" style="float: left;">
+            <table>
+                <tr>
+                    <td>单    位:</td>
+                    <td><b>&nbsp;{{item.BuildingNo}}/{{item.RoomNo}}</b></td>
+                </tr>
+                <tr>
+                    <td>业主姓名:</td>
+                    <td><b>&nbsp;{{item.RealName}}</b></td>
+                </tr>
+                <tr>
+                    <td>联系方式:</td>
+                    <td><b>&nbsp;{{item.Phone}}</b></td>
+                </tr>
+                <tr>
+                    <td>信用积分:</td>
+                    <td><b>&nbsp;{{item.CreditScore}}</b></td>
+                </tr>
+                <tr>
+                    <td>信用等级:</td>
+                    <td><b style="color:#0033ff;">&nbsp;高级</b></td>
+                </tr>
+                <tr>
+                    <td>账户余额:</td>
+                    <td><b style="color:#0033ff;">&nbsp;{{item.AccountBalance}}元</b></td>
+                </tr>
+                <tr>
+                    <td>可欠费金额:</td>
+                    <td><b style="color:#0033ff;">&nbsp;{{item.AccountWarnLimit}}元</b></td>
+                </tr>
+            </table>
+        </div>
+        <div class="" style="float:right;">
+            <div class="second">
+                <span>当前总能耗:<b style=" color:#999900;">{{item.SumValue}}</b></span>
+                <span>当前结算总价格:<b style="color:#ff3300;">{{item.SumMoney}}元</b></span>
+                <span>结算后账户余额:<b style="color:#ff3300;">{{item.BilledBalance}}元</b></span>
+            </div>
+            <div class="second-list">
+                <table class="user-table" cellpadding="2" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>设备名称</th>
+                            <th>单价</th>
+                            <th>上次抄表读数</th>
+                            <th>当前抄表读数</th>
+                            <th>价格</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-cloak ng-repeat="device in item.PrepaidDeviceBills">
+                            <td>{{device.DeviceName}}</td>
+                            <td>{{device.Price}}</td>
+                            <td>{{device.PreValue}}</td>
+                            <td>{{device.CurValue}}</td>
+                            <td>{{device.Money}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="third" style="float:left;">
+            <button class="btn btn-primary" id="btnBillRecord{{$index+1}}"
+                    url="room/bills?roomNo={{item.RoomNo}}&buildingNo={{item.BuildingNo}}" onclick="popDefaultWnd(this.id, '结算记录')">
+                结算记录
+            </button>
+            <button class="btn btn-primary" id="btnRechargeRecord{{$index+1}}"
+                    url="room/recharges?roomNo={{item.RoomNo}}" onclick="popDefaultWnd(this.id, '充值记录')">
+                充值记录
+            </button>
+        </div>
+        <div class="forth" style="float:right;">
+            <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
+                    url="recharge/add?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '能耗充值','400','400')">
+                充值
+            </button>
+            <button type="button" ng-if="item.CurrentAccountBalance >= 0" class="btn btn-danger btn-style"
+                    ng-click="settleBill(item.RoomNo,item.CurrentAccountBalance,item.InstantDeviceEnergies)">
+                结算
+            </button>
+        </div>
+    </div>
+    <div class="width center">
+        <div id="page4" class="m-pagination m-center"></div>
+    </div>
+</div>

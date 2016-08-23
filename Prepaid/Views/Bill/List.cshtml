@@ -26,10 +26,8 @@
         $scope.PageSize = 10;
 
         var params = {
-            "RoomNo": "",
-            "RealName": "",
-            "StartTime": "",
-            "EndTime": "",
+            "RoomNo": getQueryString("roomNo"),
+            "RealName": getQueryString("realName"),
             "PageIndex": 1,
             "PageSize": $scope.PageSize
         };
@@ -104,15 +102,6 @@
                 };
             }
         };
-
-        $scope.backStyle = function (back) {
-            if (back > 1) {
-                return {
-                    //"height": 36 * back + "px",
-                    "padding-top": 20 + 40 * (height - 2) / 2 + "px"
-                };
-            }
-        };
     });
 </script>
 <div ng-controller="BillCtrl" class="content-div">
@@ -175,10 +164,10 @@
         <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}">
             <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceEnergies.length)" style="position:relative;">
                 <div class="row style-spe">
-                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{>{{item.RoomNo}}</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{>{{item.LotNo}}</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{>{{item.RealName}}</div>
-                    <div style="margin-bottom:2px;" class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{>{{item.DateTime}}</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.RoomNo}}</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.RealName}}</div>
+                    <div style="margin-bottom:2px;" class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.DateTime}}</div>
                 </div>
                 <div class="row zindex">
                     <div class="col-lg-6 col-md-6 col-sm-6"></div>
@@ -188,8 +177,8 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3" style="float:right;position:relative;" ng-style="energyStyle(item.DeviceBills.length)">
                 <div class="row style-spe">
-                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{>{{item.SumValue}}</div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{>{{item.SumMoney}}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumValue}}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumMoney}}</div>
                 </div>
                 <div class="row zindex">
                     <div class="col-lg-4 col-md-4 col-sm-4"></div>

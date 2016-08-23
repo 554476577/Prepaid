@@ -14,8 +14,6 @@ namespace Prepaid.Controllers
     public class BasicController : Controller
     {
         public ActionResult List() { return View(); }
-
-        public ActionResult Details() { return View(); }
     }
 
     public class AdminController : Controller
@@ -73,6 +71,10 @@ namespace Prepaid.Controllers
         public ActionResult Modify() { return View(); }
 
         public ActionResult Details() { return View(); }
+
+        public ActionResult Bills() { return View(); }
+
+        public ActionResult Recharges() { return View(); }
     }
 
     public class DeviceController : Controller
@@ -89,6 +91,8 @@ namespace Prepaid.Controllers
     public class BillController : Controller
     {
         public ActionResult List() { return View(); }
+
+        public ActionResult Cube() { return View(); }
 
         public ActionResult Prepaid() { return View(); }
     }

@@ -130,6 +130,7 @@ namespace Prepaid.Controllers
             try
             {
                 admin.UUID = Prepaid.Utils.TextHelper.GenerateUUID();
+                admin.Password = TextHelper.MD5Encrypt(admin.Password);
                 admin.CreateTime = DateTime.Now;
                 await this.repository.AddAsync(admin);
             }
