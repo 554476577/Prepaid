@@ -83,14 +83,6 @@
 </script>
 <div ng-controller="DeviceCtrl" class="content-div">
     <form role="form" class="form-div">
-        <div class="form-group group-style">
-            <label for="DeviceNo">设备编号</label>
-            <input type="text" class="form-control input-text" id="DeviceNo" name="DeviceNo" value="{{Item.DeviceNo}}" placeholder="请输入设备编号！">
-        </div>
-        <div class="form-group group-style">
-            <label for="RoomNo">房间编号</label>
-            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" value="{{Item.RoomNo}}" placeholder="请输入房间编号！">
-        </div>
         <div class="form-group">
             <label>设备类型选择</label>
             <div class="input-group">
@@ -108,16 +100,24 @@
             </div>
         </div>
         <div class="form-group group-style">
+            <label for="DeviceNo">设备编号</label>
+            <input type="text" class="form-control input-text" id="DeviceNo" name="DeviceNo" value="{{Item.DeviceNo}}" placeholder="请输入设备编号！">
+        </div>
+        <div class="form-group group-style">
+            <label for="DeviceName">设备名称</label>
+            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" value="{{Item.DeviceName}}" placeholder="请输入设备名称！">
+        </div>
+        <div class="form-group group-style">
+            <label for="RoomNo">房间编号</label>
+            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" value="{{Item.RoomNo}}" placeholder="请输入房间编号！">
+        </div>
+        <div class="form-group group-style">
             <label for="Protocol">归属协议</label>
             <input type="text" class="form-control input-text" id="Protocol" name="Protocol" value="{{Item.Protocol}}" placeholder="请输入归属协议！">
         </div>
         <div class="form-group group-style">
             <label for="Scope">归属区域</label>
             <input type="text" class="form-control input-text" id="Scope" name="Scope" value="{{Item.Scope}}" placeholder="请输入归属区域！">
-        </div>
-        <div class="form-group group-style">
-            <label for="DeviceName">设备名称</label>
-            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" value="{{Item.DeviceName}}" placeholder="请输入设备名称！">
         </div>
         <div class="form-group group-style">
             <label for="PhyAddr">物理地址</label>
@@ -147,7 +147,7 @@
         </div>
         <div class="form-group group-style">
             <label for="ArchiveInterval">归档时间间隔</label>
-            <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" value="{{Item.ArchiveInterval}}" 
+            <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" value="{{Item.ArchiveInterval}}"
                    placeholder="请输入归档时间间隔！">
         </div>
         <div class="form-group group-style checkbox">

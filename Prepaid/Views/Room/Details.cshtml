@@ -18,61 +18,65 @@
         }
     });
 </script>
-<div ng-controller="RoomCtrl" class="content-div" style="margin:50px 80px;">
-    <form role="form">
-        <table class="point-table">
-            <thead style="height:0;">
-                <tr>
-                    <th width="20%"></th>
-                    <th width="20%"></th>
-                    <th width="25%"></th>
-                    <th width="35%"></th>
-                </tr>
-            </thead>
-            <tbody class="body">
-                <tr>
-                    <td>房间编号</td>
-                    <td class="big">{{Item.RoomNo}}</td>
-                    <td>建筑编号</td>
-                    <td class="big">{{Item.BuildingNo}}</td>
-                </tr>
-                <tr class="even">
-                    <td>所处楼层</td>
-                    <td class="big">{{Item.Floor}}/{{Item.Floors}}</td>
-                    <td>区域面积</td>
-                    <td class="big">{{Item.Area}}</td>
-                </tr>
-                <tr>
-                    <td>管理费用(每平米)</td>
-                    <td class="big">{{Item.Price}}</td>
-                    <td>业主姓名</td>
-                    <td class="big">{{Item.RealName}}</td>
-                </tr>
-                <tr class="even">
-                    <td>电话号码</td>
-                    <td class="big">{{Item.Phone}}</td>
-                    <td>用户积分</td>
-                    <td class="big">{{Item.CreditScore}}</td>
-                </tr>
-                <tr>
-                    <td>账户余额</td>
-                    <td class="big">{{Item.AccountBalance}}</td>
-                    <td>账户报警余额</td>
-                    <td class="big">{{Item.AccountWarnLimit}}</td>
-                </tr>
-                <tr class="even">
-                    <td>微信账号</td>
-                    <td class="big">{{Item.WechatAccount}}</td>
-                    <td>支付宝账号</td>
-                    <td class="big">{{Item.AlipayAccount}}</td>
-                </tr>
-                <tr>
-                    <td>银行账号</td>
-                    <td class="big">{{Item.BankAccount}}</td>
-                    <td>备注</td>
-                    <td class="big">{{Item.Remark}}</td>
-                </tr>
-            <tbody>
-        </table>
-    </form>
+<div ng-controller="RoomCtrl" class="content-div">
+    <div class="content-table">
+        <form role="form">
+            <table class="table">   
+                <thead style="height:0;border-bottom:transparent;">
+                    <tr>
+                        <th width="25%"></th>
+                        <th width="25%"></th>
+                        <th width="25%"></th>
+                        <th width="25%"></th>
+                    </tr>
+                </thead>
+                <tbody class="body" style="color:#7c7c7c;">
+                    <tr>
+                        <td>业主姓名</td>
+                        <td class="big">{{Item.RealName}}</td>
+                        <td>房间编号</td>
+                        <td class="big">{{Item.RoomNo}}</td>
+                        
+                    </tr>
+                    <tr class="even">
+                        <td>所处楼层</td>
+                        <td class="big">{{Item.Floor}}/{{Item.Floors}}</td>
+                        <td>建筑编号</td>
+                        <td class="big">{{Item.BuildingNo}}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td>管理费用(每平米)</td>
+                        <td class="big">{{Item.Price}}</td>
+                        <td>区域面积</td>
+                        <td class="big">{{Item.Area}}</td>
+                    </tr>
+                    <tr class="even">
+                        <td>电话号码</td>
+                        <td class="big">{{Item.Phone}}</td>
+                        <td>用户积分</td>
+                        <td class="big">{{Item.CreditScore}}</td>
+                    </tr>
+                    <tr>
+                        <td>账户余额</td>
+                        <td class="big" style="color:#009900;">{{Item.AccountBalance}}</td>
+                        <td>账户报警余额</td>
+                        <td class="big" style="color:#ff3300;">{{Item.AccountWarnLimit}}</td>
+                    </tr>
+                    <tr class="even">
+                        <td>微信账号</td>
+                        <td class="big">{{Item.WechatAccount}}</td>
+                        <td>支付宝账号</td>
+                        <td class="big">{{Item.AlipayAccount}}</td>
+                    </tr>
+                    <tr>
+                        <td>银行账号</td>
+                        <td class="big">{{Item.BankAccount}}</td>
+                        <td>备注</td>
+                        <td class="big">{{Item.Remark}}</td>
+                    </tr>
+                <tbody>
+            </table>
+        </form>
+    </div>
 </div>

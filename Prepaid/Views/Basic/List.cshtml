@@ -130,7 +130,7 @@
     });
 </script>
 <div ng-controller="BasicCtrl" class="content-div">
-    <div style="width:100%;margin-bottom:10px;">
+    <div style="width:100%;height:552px; margin-bottom:10px;">
         @*账号管理*@
         <div style="width:50%;height:100%;float:left;">
             <div class="top-basic" style="position:relative;height:43px;">
@@ -223,14 +223,14 @@
         </div>
         <div style="clear:both;height:0;font-size: 1px;line-height: 0px;"></div>
     </div>
-    <div style="width:100%;height:500px;background-color:aliceblue;clear:both;">
+    <div style="width:100%;height:552px;background-color:aliceblue;clear:both;">
         @*信用等级*@
         <div style="width:50%;height:100%;float:left;clear:both;">
             <div class="top-basic" style="position:relative;height:43px;">
                 <strong style="line-height:35px;">信用等级</strong>
                 <div style="padding-right:10px;position:absolute;top:4px;right:0;">
                     <button id="btnCreditAdd" title="添加信用等级" url="credit/add" class="btn btn-success"
-                            onclick="popDefaultWnd(this.id, '添加信用等级')">
+                            onclick="popFirstWnd(this.id, '添加信用等级','800','400')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -260,7 +260,7 @@
                             <td>{{item.Remark}}</td>
                             <td>
                                 <button type="button" id="btnCreditModify{{$index+1}}" url="credit/modify?uuid={{item.UUID}}"
-                                        class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id,'修改信用等级')">
+                                        class="btn btn-warning btn-style" onclick="popFirstWnd(this.id, '修改信用等级','800','400')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteCredit(item.UUID)">删除</button>
@@ -287,8 +287,8 @@
                         <tr>
                             <th width="12%">设备类型</th>
                             <th width="10%">梯度类型</th>
-                            <th width="20%">描述</th>
-                            <th width="10%">能量值下限</th>
+                            <th width="19%">描述</th>
+                            <th width="11%">能量值下限</th>
                             <th width="11%">能量值上限</th>
                             <th width="7%">单价</th>
                             <th width="15%">时间</th>

@@ -94,7 +94,7 @@
             </div>
             <div class="input-group search-div">
                 <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button title="添加房间" id="btnAdd" url="room/add" onclick="popDefaultWnd(this.id,'添加房间')" class="btn btn-success btn-top">
+                <button title="添加房间" id="btnAdd" url="room/add" onclick="popFirstWnd(this.id, '添加房间','800','600')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
             </div>
@@ -126,7 +126,7 @@
                     <td>{{item.CreditScore}}</td>
                     <td>{{item.CreateTime}}</td>
                     <td>
-                        <button id="btnModify{{$index+1}}" url="room/modify?roomNo={{item.RoomNo}}" onclick="popDefaultWnd(this.id, '修改房间信息')"
+                        <button id="btnModify{{$index+1}}" url="room/modify?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '修改房间信息','800','600')"
                                 class="btn btn-warning btn-style">
                             修改
                         </button>

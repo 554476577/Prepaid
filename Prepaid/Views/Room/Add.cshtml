@@ -61,17 +61,17 @@
         };
     });
 </script>
-<div ng-controller="RoomCtrl" class="content-div" style="background-color:#fff;">
+<div ng-controller="RoomCtrl" class="content-div">
     <form role="form" class="form-div">
         <div class="form-group group-style">
             <label for="RoomNo">房间编号</label>
             <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" placeholder="请输入房间编号！">
         </div>
-        <div class="form-group">
+        <div class="form-group group-style">
             <label>建筑编号选择</label>
             <div class="input-group">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;height:34px;">
                         {{BuildingNo}}
                         <span class="caret"></span>
                     </button>

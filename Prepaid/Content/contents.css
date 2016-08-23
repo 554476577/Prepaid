@@ -20,25 +20,25 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-right:10px;
 }
 .form-group.checkbox {
-    margin-top:0;
+    margin-top:20px;
 }
 .content-div {
-    padding: 15px 5px 10px 15px;
+    padding: 20px 10px 10px 15px;
     font-size: 13px;
     background-color:#e9ede5;
     overflow:auto;
-    min-height:500px;
+    min-height:450px;
 }
 .content-second-div {
-    padding: 15px 5px 10px 15px;
+    padding: 20px 10px 10px 15px;
     font-size: 13px;
     background-color:#e9ede5;
     overflow:auto;
     min-height:400px;
 }
 .form-group {
-    width:49%;
     float:left;
+    width:49%;
     margin-right:5px;
 }
 .btn.btn-style {
@@ -73,6 +73,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
 }
 .big{
     font-weight:bold;
+    color:#7c7c7c;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
