@@ -65,6 +65,11 @@ namespace Prepaid.Models
         /// <summary>
         /// 结算后账户余额
         /// </summary>
+        public int? IntBilledBalance { get; set; }
+
+        /// <summary>
+        /// 结算后账户余额
+        /// </summary>
         public string BilledBalance { get; set; }
 
         /// <summary>

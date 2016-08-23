@@ -82,6 +82,7 @@ namespace Prepaid.Controllers
             Pager pager = null;
             IEnumerable<RoomBill> bills;
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
+            string BuildingNo = HttpContext.Current.Request.Params["BuildingNo"];
             string RealName = HttpContext.Current.Request.Params["RealName"];
             string StartTime = HttpContext.Current.Request.Params["StartTime"];
             string EndTime = HttpContext.Current.Request.Params["EndTime"];
@@ -91,15 +92,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                bills = this.billRepository.GetRoomBills(RoomNo, RealName, StartTime, EndTime);
+                bills = this.billRepository.GetRoomBills(RoomNo, BuildingNo, RealName, StartTime, EndTime);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.billRepository.GetRoomBillsCount(RoomNo, RealName, StartTime, EndTime));
-                bills = this.billRepository.GetRoomPagerBills(RoomNo, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.RoomNo, true);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetRoomBillsCount(RoomNo, BuildingNo, RealName, StartTime, EndTime));
+                bills = this.billRepository.GetRoomPagerBills(RoomNo, BuildingNo, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.RoomNo, true);
             }
             pager.Items = bills;
 
@@ -269,11 +270,11 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            string strDeviceEnergies = HttpContext.Current.Request.Params["DeviceEnergies"];
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
-            string CurrentAccountBalance = HttpContext.Current.Request.Params["CurrentAccountBalance"];
-            strDeviceEnergies = string.Format("[{0}]", strDeviceEnergies); // 格式化为json数组
-            List<PrepaidDeviceBill> bills = JsonConvert.DeserializeObject<List<PrepaidDeviceBill>>(strDeviceEnergies);
+            string IntBilledBalance = HttpContext.Current.Request.Params["IntBilledBalance"];
+            string strDeviceBills = HttpContext.Current.Request.Params["DeviceBills"];
+            strDeviceBills = string.Format("[{0}]", strDeviceBills); // 格式化为json数组
+            List<PrepaidDeviceBill> bills = JsonConvert.DeserializeObject<List<PrepaidDeviceBill>>(strDeviceBills);
             DateTime now = DateTime.Now;
             string lotNo = TextHelper.GenerateUUID();
             foreach (PrepaidDeviceBill item in bills)
@@ -289,7 +290,7 @@ namespace Prepaid.Controllers
             }
 
             Room room = await this.roomRespository.GetByIdAsync(RoomNo);
-            room.AccountBalance = Convert.ToInt32(CurrentAccountBalance);
+            room.AccountBalance = Convert.ToInt32(IntBilledBalance);
             await this.roomRespository.PutAsync(room);
 
             return Ok();

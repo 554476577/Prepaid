@@ -13,11 +13,11 @@ namespace Prepaid.Repositories
 
         IEnumerable<RoomBill> GetRoomBills(int pageIndex, int pageSize, Func<RoomBill, string> func, bool isDesc = false);
 
-        IEnumerable<RoomBill> GetRoomBills(string roomNo, string realName, string startTime, string endTime);
+        IEnumerable<RoomBill> GetRoomBills(string roomNo, string buildingNo, string realName, string startTime, string endTime);
 
-        int GetRoomBillsCount(string roomNo, string realName, string startTime, string endTime);
+        int GetRoomBillsCount(string roomNo, string buildingNo, string realName, string startTime, string endTime);
 
-        IEnumerable<RoomBill> GetRoomPagerBills(string roomNo, string realName, string startTime, string endTime,
+        IEnumerable<RoomBill> GetRoomPagerBills(string roomNo, string buildingNo, string realName, string startTime, string endTime,
             int pageIndex, int pageSize, Func<RoomBill, string> func, bool isDesc = false);
 
         IEnumerable<PrepaidBill> GetPrepaidBills();

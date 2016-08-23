@@ -17,9 +17,9 @@
             }).success(function (data, status, headers, config) {
                 ShowTipsModel("业主能耗金额充值成功！", function () {
                     if (window.parent) { // 如果当前窗口存在父窗口，则在父窗口进行跳转
-                        window.parent.location.href = "../prepaid/list";
+                        window.parent.location.href = "../room/bills";
                     } else {
-                        window.location.href = "../prepaid/list";
+                        window.location.href = "../room/bills";
                     }
                 });
             }).error(function (data, status, headers, config) {

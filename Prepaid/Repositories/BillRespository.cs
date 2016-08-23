@@ -81,11 +81,13 @@ namespace Prepaid.Repositories
                 return GetRoomBills().OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
 
-        public IEnumerable<RoomBill> GetRoomBills(string roomNo, string realName, string startTime, string endTime)
+        public IEnumerable<RoomBill> GetRoomBills(string roomNo, string buildingNo, string realName, string startTime, string endTime)
         {
             IEnumerable<Bill> bills = db.Bills;
             if (!string.IsNullOrEmpty(roomNo))
                 bills = bills.Where(u => u.Device.RoomNo.Contains(roomNo));
+            if (!string.IsNullOrEmpty(buildingNo))
+                bills = bills.Where(u => u.Device.Room.BuildingNo.Contains(buildingNo));
             if (!string.IsNullOrEmpty(realName))
                 bills = bills.Where(u => u.Device.Room.RealName != null && u.Device.Room.RealName.Contains(realName));
             if (!string.IsNullOrEmpty(startTime))
@@ -102,15 +104,15 @@ namespace Prepaid.Repositories
             return GetRoomBills(bills);
         }
 
-        public int GetRoomBillsCount(string roomNo, string realName, string startTime, string endTime)
+        public int GetRoomBillsCount(string roomNo, string buildingNo, string realName, string startTime, string endTime)
         {
-            return GetRoomBills(roomNo, realName, startTime, endTime).Count();
+            return GetRoomBills(roomNo, buildingNo, realName, startTime, endTime).Count();
         }
 
-        public IEnumerable<RoomBill> GetRoomPagerBills(string roomNo, string realName, string startTime, string endTime,
+        public IEnumerable<RoomBill> GetRoomPagerBills(string roomNo, string buildingNo, string realName, string startTime, string endTime,
             int pageIndex, int pageSize, Func<RoomBill, string> func, bool isDesc = false)
         {
-            var result = GetRoomBills(roomNo, realName, startTime, endTime);
+            var result = GetRoomBills(roomNo, buildingNo, realName, startTime, endTime);
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
                 return result.OrderBy(func).Skip(recordStart).Take(pageSize);
@@ -136,7 +138,8 @@ namespace Prepaid.Repositories
                 bill.SumValue = bill.PrepaidDeviceBills.Sum(o => o.CurValue - o.PreValue);
                 bill.IntSumMoney = bill.PrepaidDeviceBills.Sum(o => o.IntMoney);
                 bill.SumMoney = TextHelper.ConvertMoney(bill.IntSumMoney);
-                bill.BilledBalance = TextHelper.ConvertMoney(item.AccountBalance - bill.IntSumMoney);
+                bill.IntBilledBalance = item.AccountBalance - bill.IntSumMoney;
+                bill.BilledBalance = TextHelper.ConvertMoney(bill.IntBilledBalance);
                 bills.Add(bill);
             }
 

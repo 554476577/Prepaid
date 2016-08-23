@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
     app.controller('RechargeCtrl', function ($scope, $http) {
@@ -7,7 +7,7 @@
 
         var params = {
             "RoomNo": getQueryString("roomNo"),
-            "RealName": getQueryString("realName"),
+            "BuildingNo": getQueryString("buildingNo"),
             "PageIndex": 1,
             "PageSize": $scope.PageSize
         };
@@ -48,55 +48,10 @@
                 ShowErrModal(data, status);
             });
         };
-
-        // 搜索
-        $scope.search = function () {
-            params.PageIndex = 1;
-            params.RoomNo = $("#RoomNo").val();
-            params.RealName = $("#RealName").val();
-            getInfos(params, true);
-        };
-
-        // 导出报表
-        $scope.exportReport = function () {
-            $http({
-                method: "get",
-                withCredentials: true,
-                url: "../api/export/recharges",
-                params: params
-            }).success(function (data, status, headers, config) {
-                ShowTipsModel("业主缴费记录导出成功！");
-                location.href = location.origin + '/' + data;
-            }).error(function (data, status, headers, config) {
-                ShowErrModal(data, status);
-            });
-        };
     });
 </script>
 
 <div ng-controller="RechargeCtrl" class="content-div">
-    <div class="top-basic">
-        <strong>充值记录</strong>
-    </div>
-    <div class="container-fluid">
-        <div class="row row-style">
-            <div class="col-lg-4 col-md-4 col-sm-4 search-top">
-                <div class="row">
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">房间编号:</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RoomNo" class="form-control input-search"></div>
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-search"></div>
-                </div>
-            </div>
-            <div class="input-group search-div">
-                <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button title="添加充值记录" id="btnAdd" url="recharge/add" onclick="popDefaultWnd(this.id, '添加充值记录')" class="btn btn-success btn-top">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-                <button class="search-load" title="导出报表" ng-click="exportReport()">导出报表</button>
-            </div>
-        </div>
-    </div>
     <div class="content-table">
         <table class="table">
             <thead>
@@ -113,7 +68,7 @@
                     <td>{{item.RoomNo}}</td>
                     <td>{{item.RealName}}</td>
                     <td>{{item.Money}}</td>
-                    <td>{{item.DateTime}}</td>
+                    <td>{{item.DateTime|date:'yyyy-MM-dd'}}</td>
                     <td>{{item.Remark}}</td>
                 </tr>
             </tbody>
