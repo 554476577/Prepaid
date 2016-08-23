@@ -54,10 +54,7 @@
         </div>
         <div class="form-group">
             <label for="Description">等级描述</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Description" name="Description"
-                      placeholder="请输入等级描述！">
-                {{Item.Description}}
-            </textarea>
+            <input type="text" class="form-control input-text" id="Description" name="Description" value="{{Item.Description}}" placeholder="请输入等级描述！" />
         </div>
         <div class="form-group">
             <label for="MinScore">最小积分</label>
@@ -72,9 +69,9 @@
             <input type="text" class="form-control input-text" id="Arrears" name="Arrears" value="{{Item.Arrears}}" placeholder="请输入可欠费金额！">
         </div>
         <div class="form-group">
-            <label for="Remark">备注</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！">{{Item.Remark}}</textarea>
+            <label for="Remark">缴费信用</label>
+            <input type="text" class="form-control input-text" id="Remark" name="Remark" value="{{Item.Remark}}" placeholder="请输入欠费历史！">
         </div>
     </form>
-    <button class="btn btn-primary btn-style btn-top" ng-click="modify()">修改</button><br />
+    <button class="btn btn-primary btn-style btn-top btn-special" ng-click="modify()">修改</button><br />
 </div>

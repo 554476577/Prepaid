@@ -57,9 +57,9 @@
 </script>
 <div ng-controller="CommunityCtrl" class="content-div">
     @*小区信息*@
-    <div style="width:50%;height:100%;background:LightBlue;font-size:14px;float:left;">
+    <div style="width:50%;height:100%;font-size:14px;float:left;background:#fff;border:1px solid #d7d7d7;border-radius:3px;">
         <div ng-if="!HasItem">
-            <button type="button" class="btn btn-danger btn-style">
+            <button type="button" class="btn btn-success btn-style">
                 添加
             </button>
         </div>
@@ -73,7 +73,7 @@
                         <td>小区名称</td>
                         <td>{{Item.Name}}</td>
                         <td>小区入住时间</td>
-                        <td>{{Item.CheckInTime}}</td>
+                        <td>{{Item.CheckInTime|date:"yyyy-MM-dd"}}</td>
                     </tr>
                     <tr>
                         <td>总住户</td>
@@ -94,25 +94,21 @@
                     <label for="Remark">备注</label>
                     <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
                 </div>
-                <button type="button" id="btnCommunityModify{{$index+1}}" url="community/modify?uuid={{Item.UUID}}" class="btn btn-danger btn-style" onclick="popDefaultWnd(this.id,'修改小区信息')">
+                <button type="button" id="btnCommunityModify{{$index+1}}" url="community/modify?uuid={{Item.UUID}}" class="btn btn-primary btn-style btn-top btn-special" onclick="popDefaultWnd(this.id,'修改小区信息')">
                     修改
                 </button>
             </div>
         </div>
     </div>
     @*建筑信息*@
-    <div style="width:50%;height:100%;float:left;">
-        <div class="top-basic">
-            <strong>建筑信息</strong>
-        </div>
-        <div class="container-fluid">
-            <div class="row row-style">
-                <div class="search-div" style="float:right;padding-right:10px;">
-                    <button id="btnBuildingAdd" title="添加建筑信息" url="building/add" class="btn btn-success btn-top"
-                            onclick="popDefaultWnd(this.id,'添加建筑信息')">
-                        <i class=" fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                </div>
+    <div style="width:50%;height:100%;float:left;border:1px solid #d7d7d7;border:1px solid #d7d7d7;">
+        <div class="top-basic" style="position:relative;height:43px;">
+            <strong style="line-height:35px;">建筑信息</strong>
+            <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+                <button id="btnBuildingAdd" title="添加建筑信息" url="building/add" class="btn btn-success"
+                        onclick="popDefaultWnd(this.id,'添加建筑信息')">
+                    <i class=" fa fa-plus" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
         <div class="content-table">

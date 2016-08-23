@@ -9,8 +9,6 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
 .group-style {
     float:left;
     width:46%;
-    margin-left:10px;
-    margin-bottom:8px;
 }
 .div-three {
     float:left;
@@ -19,18 +17,29 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-top:25px;
 }
 .btn-special {
-    margin-right:43px;
-}
-.btn-special2 {
-    margin-right:43px;
+    margin-right:10px;
 }
 .form-group.checkbox {
     margin-top:0;
 }
 .content-div {
-    padding: 10px 10px 0 10px;
+    padding: 15px 5px 10px 15px;
     font-size: 13px;
     background-color:#e9ede5;
+    overflow:auto;
+    min-height:500px;
+}
+.content-second-div {
+    padding: 15px 5px 10px 15px;
+    font-size: 13px;
+    background-color:#e9ede5;
+    overflow:auto;
+    min-height:400px;
+}
+.form-group {
+    width:49%;
+    float:left;
+    margin-right:5px;
 }
 .btn.btn-style {
     padding: 3px 6px;
@@ -262,8 +271,7 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     padding-top:8px;
 }
 /*业主信息以下的基础样式*/
-.content-table {
-    margin-top:10px; 
+.content-table { 
     background-color:#fff;
     padding:10px 10px;
     color:#7c7c7c;

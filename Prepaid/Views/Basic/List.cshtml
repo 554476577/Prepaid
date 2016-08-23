@@ -130,48 +130,40 @@
     });
 </script>
 <div ng-controller="BasicCtrl" class="content-div">
-    <div style="width:100%;height:500px;background-color:aliceblue;">
+    <div style="width:100%;margin-bottom:10px;">
         @*账号管理*@
         <div style="width:50%;height:100%;float:left;">
-            <div class="top-basic">
-                <strong>账号管理</strong>
-            </div>
-            <div class="container-fluid">
-                <div class="row row-style">
-                    <div class="search-div" style="float:right;padding-right:10px;">
-                        <button id="btnAdminAdd" title="添加账号" url="admin/add" class="btn btn-success btn-top" 
-                                onclick="popDefaultWnd(this.id,'添加账号')">
-                            <i class=" fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                    </div>
+            <div class="top-basic" style="position:relative;height:43px;">
+                <strong style="line-height:35px;">账号管理</strong>
+                <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+                    <button id="btnAdminAdd" title="添加账号" url="admin/add" class="btn btn-success"
+                            onclick="popFirstWnd(this.id, '添加账号','800','400')">
+                        <i class=" fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table" style="border:1px solid #d7d7d7;height:509px;">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
-                            <th width="10%">用户名</th>
-                            <th width="8%">真实姓名</th>
-                            <th width="15%">手机号码</th>
+                            <th width="15%">用户名</th>
+                            <th width="15%">真实姓名</th>
+                            <th width="20%">手机号码</th>
                             <th width="15%">是否可控</th>
-                            <th width="25%">时间</th>
-                            <th width="8%">备注</th>
-                            <th width="14%">操作</th>
+                            <th width="15%">时间</th>
+                            <th width="20%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in AdminItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.UserName}}</td>
                             <td>{{item.RealName}}</td>
                             <td>{{item.Phone}}</td>
                             <td>{{item.HasControl}}</td>
-                            <td>{{item.CreateTime}}</td>
-                            <td>{{item.Remark}}</td>
+                            <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>
                                 <button type="button" id="btnAdminModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
-                                        onclick="popDefaultWnd(this.id,'修改账号信息')">
+                                        onclick="popFirstWnd(this.id, '修改账号信息','800','400')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteAdmin(item.UUID)">删除</button>
@@ -183,48 +175,40 @@
         </div>
         @*设备类型*@
         <div style="width:50%;height:100%;float:left;">
-            <div class="top-basic">
-                <strong>设备类型</strong>
-            </div>
-            <div class="container-fluid">
-                <div class="row row-style">
-                    <div class="search-div" style="float:right;padding-right:10px;">
-                        <button id="btnDeviceTypeAdd" title="添加设备类型" url="devicetype/add" class="btn btn-success btn-top"
-                                onclick="popDefaultWnd(this.id, '添加设备类型')">
-                            <i class=" fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                    </div>
+            <div class="top-basic" style="position:relative;height:43px;">
+                <strong style="line-height:35px;">设备类型</strong>
+                <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+                    <button id="btnDeviceTypeAdd" title="添加设备类型" url="devicetype/add" class="btn btn-success"
+                            onclick="popDefaultWnd(this.id, '添加设备类型')">
+                        <i class=" fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table" style="border:1px solid #d7d7d7;height:509px;">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
-                            <th width="10%">名称</th>
-                            <th width="8%">描述</th>
-                            <th width="11%">单价1</th>
-                            <th width="11%">单价2</th>
-                            <th width="11%">单价3</th>
-                            <th width="11%">单价4</th>
-                            <th width="11%">单价5</th>
-                            <th width="25%">时间</th>
-                            <th width="8%">备注</th>
-                            <th width="14%">操作</th>
+                            <th width="15%">名称</th>
+                            <th width="20%">描述</th>
+                            <th width="7%">单价1</th>
+                            <th width="7%">单价2</th>
+                            <th width="7%">单价3</th>
+                            <th width="7%">单价4</th>
+                            <th width="7%">单价5</th>
+                            <th width="15%">时间</th>
+                            <th width="15%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in DeviceTypeItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Description}}</td>
-                            <td>{{item.Price1}}</td>
-                            <td>{{item.Price2}}</td>
-                            <td>{{item.Price3}}</td>
-                            <td>{{item.Price4}}</td>
-                            <td>{{item.Price5}}</td>
-                            <td>{{item.CreateTime}}</td>
-                            <td>{{item.Remark}}</td>
+                            <td style="color:#009900;">{{item.Price1}}</td>
+                            <td style="color:#009900;">{{item.Price2}}</td>
+                            <td style="color:#009900;">{{item.Price3}}</td>
+                            <td style="color:#009900;">{{item.Price4}}</td>
+                            <td style="color:#009900;">{{item.Price5}}</td>
+                            <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>
                                 <button type="button" id="btnDeviceTypeModify{{$index+1}}" url="devicetype/modify?uuid={{item.UUID}}" 
                                         class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id,'修改设备类型')">
@@ -237,47 +221,42 @@
                 </table>
             </div>
         </div>
+        <div style="clear:both;height:0;font-size: 1px;line-height: 0px;"></div>
     </div>
-    <div style="width:100%;height:500px;">
+    <div style="width:100%;height:500px;background-color:aliceblue;clear:both;">
         @*信用等级*@
-        <div style="width:50%;height:100%; background-color:#FFEE99;float:left;">
-            <div class="top-basic">
-                <strong>信用等级</strong>
-            </div>
-            <div class="container-fluid">
-                <div class="row row-style">
-                    <div class="search-div" style="float:right;padding-right:10px;">
-                        <button id="btnCreditAdd" title="添加信用等级" url="credit/add" class="btn btn-success btn-top"
-                                onclick="popDefaultWnd(this.id, '添加信用等级')">
-                            <i class=" fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                    </div>
+        <div style="width:50%;height:100%;float:left;clear:both;">
+            <div class="top-basic" style="position:relative;height:43px;">
+                <strong style="line-height:35px;">信用等级</strong>
+                <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+                    <button id="btnCreditAdd" title="添加信用等级" url="credit/add" class="btn btn-success"
+                            onclick="popDefaultWnd(this.id, '添加信用等级')">
+                        <i class=" fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table" style="border:1px solid #d7d7d7;height:509px;">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
-                            <th width="10%">名称</th>
-                            <th width="8%">描述</th>
-                            <th width="18%">最小积分</th>
-                            <th width="18%">最大积分</th>
-                            <th width="18%">可欠费金额</th>
-                            <th width="25%">时间</th>
-                            <th width="9%">备注</th>
-                            <th width="14%">操作</th>
+                            <th width="9%">名称</th>
+                            <th width="20%">描述</th>
+                            <th width="10%">最小积分</th>
+                            <th width="10%">最大积分</th>
+                            <th width="11%">可欠费金额</th>
+                            <th width="15%">时间</th>
+                            <th width="10%">缴费信用</th>
+                            <th width="15%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in CreditItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Description}}</td>
                             <td>{{item.MinScore}}</td>
                             <td>{{item.MaxScore}}</td>
-                            <td>{{item.Arrears}}</td>
-                            <td>{{item.CreateTime}}</td>
+                            <td style="color:#0066ff;">{{item.Arrears}}</td>
+                            <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>{{item.Remark}}</td>
                             <td>
                                 <button type="button" id="btnCreditModify{{$index+1}}" url="credit/modify?uuid={{item.UUID}}"
@@ -293,46 +272,38 @@
         </div>
         @*阶梯单价*@
         <div style="width:50%;height:100%;float:left;">
-            <div class="top-basic">
-                <strong>阶梯单价</strong>
-            </div>
-            <div class="container-fluid">
-                <div class="row row-style">
-                    <div class="search-div" style="float:right;padding-right:10px;">
-                        <button id="btnLadderAdd" title="添加阶梯单价" url="ladder/add" class="btn btn-success btn-top"
-                                onclick="popDefaultWnd(this.id, '添加阶梯单价')">
-                            <i class=" fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                    </div>
+            <div class="top-basic" style="position:relative;height:43px;">
+                <strong style="line-height:35px;">阶梯单价</strong>
+                <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+                    <button id="btnLadderAdd" title="添加阶梯单价" url="ladder/add" class="btn btn-success"
+                            onclick="popDefaultWnd(this.id, '添加阶梯单价')">
+                        <i class=" fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table" style="border:1px solid #d7d7d7;height:509px;">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="5%">UUID</th>
-                            <th width="10%">设备类型</th>
-                            <th width="8%">名称</th>
-                            <th width="18%">描述</th>
-                            <th width="12%">能量值下限</th>
-                            <th width="12%">能量值上限</th>
-                            <th width="12%">单价</th>
-                            <th width="25%">时间</th>
-                            <th width="9%">备注</th>
-                            <th width="14%">操作</th>
+                            <th width="12%">设备类型</th>
+                            <th width="10%">梯度类型</th>
+                            <th width="20%">描述</th>
+                            <th width="10%">能量值下限</th>
+                            <th width="11%">能量值上限</th>
+                            <th width="7%">单价</th>
+                            <th width="15%">时间</th>
+                            <th width="15%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in LadderItems">
-                            <td>{{item.UUID}}</td>
                             <td>{{item.TypeName}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Description}}</td>
                             <td>{{item.MinEnergy}}</td>
                             <td>{{item.MaxEnergy}}</td>
-                            <td>{{item.Price}}</td>
-                            <td>{{item.CreateTime}}</td>
-                            <td>{{item.Remark}}</td>
+                            <td style="color:#009900;">{{item.Price}}</td>
+                            <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>
                                 <button type="button" id="btnLadderModify{{$index+1}}" url="ladder/modify?uuid={{item.UUID}}"
                                         class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id, '修改阶梯单价')">
@@ -345,5 +316,5 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div>  
 </div>
