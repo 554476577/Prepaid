@@ -34,8 +34,8 @@ body {
 }
 .main {
     width: 100%;
-    /*height: calc(100% - 68px);*/
-    height: 100%;
+    height: calc(100% - 68px);
+    /*height: 100%;*/
     position: relative;
     /*background-color: #576161;*/
 }

@@ -11,24 +11,24 @@ namespace Prepaid.Repositories
     {
         IEnumerable<RoomBill> GetRoomBills();
 
-        IEnumerable<RoomBill> GetRoomBills(int pageIndex, int pageSize, Func<RoomBill, string> func, bool isDesc = false);
+        IEnumerable<RoomBill> GetRoomBills<T>(int pageIndex, int pageSize, Func<RoomBill, T> func, bool isDesc = false);
 
         IEnumerable<RoomBill> GetRoomBills(string roomNo, string buildingNo, string realName, string startTime, string endTime);
 
         int GetRoomBillsCount(string roomNo, string buildingNo, string realName, string startTime, string endTime);
 
-        IEnumerable<RoomBill> GetRoomPagerBills(string roomNo, string buildingNo, string realName, string startTime, string endTime,
-            int pageIndex, int pageSize, Func<RoomBill, string> func, bool isDesc = false);
+        IEnumerable<RoomBill> GetRoomPagerBills<T>(string roomNo, string buildingNo, string realName, string startTime, string endTime,
+            int pageIndex, int pageSize, Func<RoomBill, T> func, bool isDesc = false);
 
         IEnumerable<PrepaidBill> GetPrepaidBills();
 
-        IEnumerable<PrepaidBill> GetPrepaidPagerBills(int pageIndex, int pageSize, Func<PrepaidBill, string> func, bool isDesc = false);
+        IEnumerable<PrepaidBill> GetPrepaidPagerBills<T>(int pageIndex, int pageSize, Func<PrepaidBill, T> func, bool isDesc = false);
 
         IEnumerable<PrepaidBill> GetPrepaidBills(string roomNo, string buildingNo, string realName);
 
         int GetPrepaidBillsCount(string roomNo, string buildingNo, string realName);
 
-        IEnumerable<PrepaidBill> GetPrepaidPagerBills(string roomNo, string buildingNo, string realName,
-            int pageIndex, int pageSize, Func<PrepaidBill, string> func, bool isDesc = false);
+        IEnumerable<PrepaidBill> GetPrepaidPagerBills<T>(string roomNo, string buildingNo, string realName,
+            int pageIndex, int pageSize, Func<PrepaidBill, T> func, bool isDesc = false);
     }
 }

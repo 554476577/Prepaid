@@ -161,6 +161,24 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
+        // GET: api/recommendbills/1
+        [HttpGet]
+        [Route("api/recommendbills/{flag}")]
+        public IHttpActionResult GetRecommendBills(int flag)
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            IEnumerable<PrepaidBill> bills;
+            if (flag == 0)
+                bills = this.billRepository.GetPrepaidPagerBills(1, 10, u => u.CreditScore);
+            else
+                bills = this.billRepository.GetPrepaidPagerBills(1, 10, u => u.CreditScore, true);
+
+            return Ok(bills);
+        }
+
         [HttpGet]
         [Route("api/export/prepaidbills")]
         public IHttpActionResult ExportPrepaidBills()
