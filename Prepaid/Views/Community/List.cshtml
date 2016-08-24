@@ -56,52 +56,8 @@
     });
 </script>
 <div ng-controller="CommunityCtrl" class="content-div">
-    @*小区信息*@
-    <div style="width:50%;height:100%;font-size:14px;float:left;background:#fff;border:1px solid #d7d7d7;border-radius:3px;">
-        <div ng-if="!HasItem">
-            <button type="button" class="btn btn-success btn-style">
-                添加
-            </button>
-        </div>
-        <div ng-if="HasItem">
-            <div class="top-basic">
-                <strong>小区信息</strong>
-            </div>
-            <div class="content-table">
-                <table class="table">
-                    <tr>
-                        <td>小区名称</td>
-                        <td>{{Item.Name}}</td>
-                        <td>小区入住时间</td>
-                        <td>{{Item.CheckInTime|date:"yyyy-MM-dd"}}</td>
-                    </tr>
-                    <tr>
-                        <td>总住户</td>
-                        <td>{{Item.Capacity}}</td>
-                        <td>小区面积</td>
-                        <td>{{Item.Area}}</td>
-                    </tr>
-                    <tr>
-                        <td>小区地址</td>
-                        <td colspan="3">{{Item.Address}}</td>
-                    </tr>
-                    <tr>
-                        <td>小区描述</td>
-                        <td colspan="3">{{Item.Description}}</td>
-                    </tr>
-                </table>
-                <div class="form-group">
-                    <label for="Remark">备注</label>
-                    <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
-                </div>
-                <button type="button" id="btnCommunityModify{{$index+1}}" url="community/modify?uuid={{Item.UUID}}" class="btn btn-primary btn-style btn-top btn-special" onclick="popDefaultWnd(this.id,'修改小区信息')">
-                    修改
-                </button>
-            </div>
-        </div>
-    </div>
     @*建筑信息*@
-    <div style="width:50%;height:100%;float:left;border:1px solid #d7d7d7;border:1px solid #d7d7d7;">
+    <div style="float:left;width:50%;height:100%;border:1px solid #d7d7d7;border:1px solid #d7d7d7;">
         <div class="top-basic" style="position:relative;height:43px;">
             <strong style="line-height:35px;">建筑信息</strong>
             <div style="padding-right:10px;position:absolute;top:4px;right:0;">
@@ -142,6 +98,58 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    @*小区信息*@
+    <div style="float:left;width:50%;height:100%;font-size:14px;background:#fff;border:1px solid #d7d7d7;border-radius:3px;margin-bottom:10px;">
+        <div ng-if="!HasItem">
+            <button type="button" class="btn btn-success btn-style">
+                添加
+            </button>
+        </div>
+        <div ng-if="HasItem">
+            <div class="top-basic" style="position:relative;height:43px;">
+                <strong style="line-height:35px;">小区信息</strong>
+                <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+                    <button title="修改小区信息" type="button" id="btnCommunityModify{{$index+1}}" url="community/modify?uuid={{Item.UUID}}" class="btn btn-primary"
+                            style="padding:6px 10px;" onclick="popDefaultWnd(this.id,'修改小区信息')">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="content-table">
+                <table class="table community-table">
+                    <tr>
+                        <td width="25%">小区名称</td>
+                        <td width="75%">{{Item.Name}}</td>       
+                    </tr>
+                    <tr>
+                        <td>小区入住时间</td>
+                        <td>{{Item.CheckInTime|date:"yyyy-MM-dd"}}</td>
+                    </tr>
+                    <tr>
+                        <td>总住户</td>
+                        <td>{{Item.Capacity}}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td>小区面积</td>
+                        <td>{{Item.Area}}</td>
+                    </tr>
+                    <tr>
+                        <td>小区地址</td>
+                        <td>{{Item.Address}}</td>
+                    </tr>
+                    <tr>
+                        <td>小区描述</td>
+                        <td>{{Item.Description}}</td>
+                    </tr>
+                    <tr>
+                        <td>备注</td>
+                        <td>{{Item.Remark}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

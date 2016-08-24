@@ -281,6 +281,13 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
 .content-table > .table {
     border:1px solid #d7d7d7;
 }
+.content-table > .table.community-table > tbody > tr > td {
+    line-height:2.82857143;
+    text-align:left;
+    vertical-align:middle;
+    border-left:1px solid #d7d7d7;
+    border-right:1px solid #d7d7d7;
+    }
 .content-table > .table > thead>tr>th, .content-table > .table > tbody>tr>td {
     text-align:center;
     vertical-align:middle;

@@ -68,7 +68,7 @@
                     <td>{{item.RealName}}</td>
                     <td>{{item.Phone}}</td>
                     <td>{{item.HasControl}}</td>
-                    <td>{{item.CreateTime}}</td>
+                    <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                     <td>{{item.Remark}}</td>
                     <td>
                         <button type="button" id="btnModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"

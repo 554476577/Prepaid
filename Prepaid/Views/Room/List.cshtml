@@ -124,7 +124,7 @@
                     <td>{{item.RealName}}</td>
                     <td>{{item.AccountBalance}}</td>
                     <td>{{item.CreditScore}}</td>
-                    <td>{{item.CreateTime}}</td>
+                    <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                     <td>
                         <button id="btnModify{{$index+1}}" url="room/modify?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '修改房间信息','800','600')"
                                 class="btn btn-warning btn-style">
