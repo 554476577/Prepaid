@@ -92,7 +92,9 @@
                                     <a href="#">{{FloorItem.Floor}}F</a>
                                     <ul class="menu-second" ng-if="FloorItem.RoomNos.length>0">
                                         <li ng-cloak ng-repeat="RoomNo in FloorItem.RoomNos">
-                                            <a href="~/bill/cube?buildingNo={{BuildingItem.BuildingNo}}&roomNo={{RoomNo}}">{{RoomNo}}</a>
+                                            <a href="~/bill/cube?buildingNo={{BuildingItem.BuildingNo}}&floor={{FloorItem.Floor}}&roomNo={{RoomNo}}">
+                                                {{RoomNo}}
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>

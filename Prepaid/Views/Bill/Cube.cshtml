@@ -70,16 +70,6 @@
             });
         };
 
-        // 搜索
-        $scope.search = function () {
-            params.PageIndex = 1;
-            params.UserID = $("#UserID").val();
-            params.RealName = $("#RealName").val();
-            params.BuildingName = $("#BuildingName").val();
-            params.RoomNo = $("#RoomNo").val();
-            getInfos(params, true);
-        };
-
         // 导出报表
         $scope.exportReport = function () {
             $http({

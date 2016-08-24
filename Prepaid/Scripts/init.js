@@ -134,6 +134,39 @@ app.controller('layoutCtrl', function ($scope, $http) {
             // angularjs渲染完毕之后执行的回调函数
             $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
                 $(".menu ul li").menu();
+
+                var buildingNo = getQueryString("buildingNo");
+                var floor = getQueryString("floor");
+                var roomNo = getQueryString("roomNo");
+                if (buildingNo != null && floor != null && roomNo != null) {
+                    $(".menu>ul>li>a").each(function () {
+                        var a_building = $(this);
+                        if (a_building.text() == buildingNo) {
+                            a_building.parent("li").children("ul").slideDown(200,
+                            function () {
+                                a_building.removeAttr("class");
+                                a_building.addClass("active");
+                            });
+
+                            a_building.parent("li").children("ul").children("li").children("a").each(function () {
+                                var a_floor = $(this);
+                                if ($.trim(a_floor.text()) == floor + "F") {
+                                    a_floor.parent("li").children("ul").slideDown(200,
+                                    function () {
+                                        a_floor.removeAttr("class");
+                                        a_floor.addClass("active");
+                                    });
+
+                                    a_floor.parent("li").children("ul").children("li").children("a").each(function () {
+                                        var a_room = $(this);
+                                        a_room.removeAttr("class");
+                                        a_room.addClass("active");
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
             });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
