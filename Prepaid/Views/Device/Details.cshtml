@@ -22,79 +22,81 @@
         }
     });
 </script>
-<div ng-controller="DeviceCtrl" style="padding:100px 100px;">
-    <form role="form">
-        <table class="point-table">
-            <thead>
-                <tr>
-                    <th width="20%"></th>
-                    <th width="20%"></th>
-                    <th width="20%"></th>
-                    <th width="40%"></th>
-                </tr>
-            </thead>
-            <tbody class="body">
-                <tr class="even">
-                    <td>设备编号</td>
-                    <td class="big">{{Item.DeviceNo}}</td>
-                    <td>房间编号</td>
-                    <td class="big">{{Item.RoomNo}}</td>
-                </tr>
-                <tr>
-                    <td>设备类型</td>
-                    <td class="big">{{Item.TypeName}}</td>
-                    <td>归属协议</td>
-                    <td class="big">{{Item.Protocol}}</td>
-                </tr>
-                <tr>
-                    <td>归属区域</td>
-                    <td class="big">{{Item.Scope}}</td>
-                    <td>物理地址</td>
-                    <td class="big">{{Item.PhyAddr}}</td>
-                </tr>
-                <tr class="even"> 
-                    <td>组ID</td>
-                    <td class="big">{{Item.ItemID}}</td>
-                    <td>组名称</td>
-                    <td class="big">{{Item.ItemName}}</td>
-                </tr>
-                <tr>
-                    <td>组描述</td>
-                    <td class="big">{{Item.ItemDescription}}</td>
-                    <td>设备状态</td>
-                    <td class="big">{{Item.Status}}</td>
-                </tr>
-                <tr class="even">
-                    <td>转换倍率</td>
-                    <td class="big">{{Item.Rate}}</td>
-                    <td>单位</td>
-                    <td class="big">{{Item.Unit}}</td>
-                </tr>
-                <tr>
-                    <td>单价1</td>
-                    <td class="big">{{Item.Price1}}</td>
-                    <td>单价2</td>
-                    <td class="big">{{Item.Price2}}</td>
-                </tr>
-                <tr class="even">
-                    <td>单价3</td>
-                    <td class="big">{{Item.Price3}}</td>
-                    <td>单价4</td>
-                    <td class="big">{{Item.Price4}}</td>
-                </tr>
-                <tr>
-                    <td>单价5</td>
-                    <td class="big">{{Item.Price5}}</td>
-                    <td>归档时间间隔</td>
-                    <td class="big">{{Item.ArchiveInterval}}</td>
-                </tr>
-                <tr class="even">
-                    <td><input type="checkbox" id="IsArchive" name="IsArchive" readonly>是否归档</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            <tbody>
-        </table>
-    </form>
+<div ng-controller="DeviceCtrl" class="content-div">
+    <div class="content-table">
+        <form role="form">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="20%"></th>
+                        <th width="20%"></th>
+                        <th width="20%"></th>
+                        <th width="40%"></th>
+                    </tr>
+                </thead>
+                <tbody class="body">
+                    <tr class="even">
+                        <td>设备编号</td>
+                        <td class="big">{{Item.DeviceNo}}</td>
+                        <td>房间编号</td>
+                        <td class="big">{{Item.RoomNo}}</td>
+                    </tr>
+                    <tr>
+                        <td>设备类型</td>
+                        <td class="big">{{Item.TypeName}}</td>
+                        <td>归属协议</td>
+                        <td class="big">{{Item.Protocol}}</td>
+                    </tr>
+                    <tr>
+                        <td>归属区域</td>
+                        <td class="big">{{Item.Scope}}</td>
+                        <td>物理地址</td>
+                        <td class="big">{{Item.PhyAddr}}</td>
+                    </tr>
+                    <tr class="even">
+                        <td>组ID</td>
+                        <td class="big">{{Item.ItemID}}</td>
+                        <td>组名称</td>
+                        <td class="big">{{Item.ItemName}}</td>
+                    </tr>
+                    <tr>
+                        <td>组描述</td>
+                        <td class="big">{{Item.ItemDescription}}</td>
+                        <td>设备状态</td>
+                        <td class="big">{{Item.Status}}</td>
+                    </tr>
+                    <tr class="even">
+                        <td>转换倍率</td>
+                        <td class="big">{{Item.Rate}}</td>
+                        <td>单位</td>
+                        <td class="big">{{Item.Unit}}</td>
+                    </tr>
+                    <tr>
+                        <td>单价1</td>
+                        <td class="big">{{Item.Price1}}</td>
+                        <td>单价2</td>
+                        <td class="big">{{Item.Price2}}</td>
+                    </tr>
+                    <tr class="even">
+                        <td>单价3</td>
+                        <td class="big">{{Item.Price3}}</td>
+                        <td>单价4</td>
+                        <td class="big">{{Item.Price4}}</td>
+                    </tr>
+                    <tr>
+                        <td>单价5</td>
+                        <td class="big">{{Item.Price5}}</td>
+                        <td>归档时间间隔</td>
+                        <td class="big">{{Item.ArchiveInterval}}</td>
+                    </tr>
+                    <tr class="even">
+                        <td><input type="checkbox" id="IsArchive" name="IsArchive" readonly>是否归档</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <tbody>
+            </table>
+        </form>
+    </div>
 </div>

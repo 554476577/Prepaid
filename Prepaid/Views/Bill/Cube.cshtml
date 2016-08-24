@@ -102,98 +102,124 @@
     });
 </script>
 <style>
-    .one > table {
-        line-height: 24px;
+    .left {
+        width:40%;
+        font-size:14px;
+        height:100%;
+    }
+    .left > table {
+        width:100%;
+        line-height: 31px;
+        min-height:270px;
+        margin-bottom:0px;
     }
     .user-table {
         text-align: center;
-        float: right;
-        line-height: 24px;
+        line-height:23px;
+        background:#fff;
     }
     .user-table tr th {
         text-align: center;
-        padding: 0 5px;
-    }
-    .user-table tr th {
         border: 1px solid #d7d7d7;
     }
     .user-table tr td {
-        padding: 0 7px;
         border: 1px solid #d7d7d7;
     }
-    .third {
-        margin-top: 14px;
+    .right {
+        width:60%;
     }
-    .forth {
-        margin-top: 10px;
+    .second {
+        width:100%;
+        margin-bottom:5px;
+        font-size:14px;
+    }
+    .second-list {
+        width:100%;
+        height:100%;
     }
     .second > span {
         margin: 0 3px;
     }
-    .third > button {
-        padding: 3px 3px;
-        font-size: 13px;
-    }
-    .forth > button {
-        padding: 3px 3px;
-        font-size: 13px;
-    }
 </style>
 <div ng-controller="PrepaidBillCtrl" class="content-div">
-    <div ng-cloak ng-repeat="item in Items" style="width: 575px; height: 220px; border: 1px solid #aaa;padding: 5px 5px;
-         color:#555;border-radius:3px;float:left;">
-        <div class="one" style="float: left;">
-            <table>
-                <tr>
-                    <td>单    位:</td>
-                    <td><b>&nbsp;{{item.BuildingNo}}/{{item.RoomNo}}</b></td>
-                </tr>
-                <tr>
-                    <td>业主姓名:</td>
-                    <td><b>&nbsp;{{item.RealName}}</b></td>
-                </tr>
-                <tr>
-                    <td>联系方式:</td>
-                    <td><b>&nbsp;{{item.Phone}}</b></td>
-                </tr>
-                <tr>
-                    <td>信用积分:</td>
-                    <td><b>&nbsp;{{item.CreditScore}}</b></td>
-                </tr>
-                <tr>
-                    <td>信用等级:</td>
-                    <td><b style="color:#0033ff;">&nbsp;高级</b></td>
-                </tr>
-                <tr>
-                    <td>账户余额:</td>
-                    <td><b style="color:#0033ff;">&nbsp;{{item.AccountBalance}}元</b></td>
-                </tr>
-                <tr>
-                    <td>可欠费金额:</td>
-                    <td><b style="color:#0033ff;">&nbsp;{{item.AccountWarnLimit}}元</b></td>
-                </tr>
+    <div ng-cloak ng-repeat="item in Items" style="width:49%; border: 1px solid #aaa;padding: 6px 6px;
+         color:#555;border-radius:3px;float:left;background:#e7e7e7;">
+        <div class="left table-responsive" style="float: left;">
+            <table class="table table-condensed">
+                <tbody>
+                    <tr style="font-size:14px;">
+                        <td width="30%">单    位:</td>
+                        <td width="50%"><b>&nbsp;{{item.BuildingNo}}/{{item.RoomNo}}</b></td>
+                    </tr>
+                    <tr style="font-size:14px;">
+                        <td>业主姓名:</td>
+                        <td><b>&nbsp;{{item.RealName}}</b></td>
+                    </tr>
+                    <tr style="font-size:14px;">
+                        <td>联系方式:</td>
+                        <td><b>&nbsp;{{item.Phone}}</b></td>
+                    </tr>
+                    <tr style="font-size:14px;">
+                        <td>信用积分:</td>
+                        <td><b>&nbsp;{{item.CreditScore}}</b></td>
+                    </tr>
+                    <tr style="font-size:14px;">
+                        <td>信用等级:</td>
+                        <td><b style="color:#0033ff;">&nbsp;高级</b></td>
+                    </tr>
+                    <tr style="font-size:14px;">
+                        <td>账户余额:</td>
+                        <td><b style="color:#0033ff;">&nbsp;{{item.AccountBalance}}元</b></td>
+                    </tr>
+                    <tr style="font-size:14px;">
+                        <td>可欠费金额:</td>
+                        <td><b style="color:#0033ff;">&nbsp;{{item.AccountWarnLimit}}元</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn btn-primary btn-four" id="btnBillRecord{{$index+1}}" url="room/bills?roomNo={{item.RoomNo}}&buildingNo={{item.BuildingNo}}"
+                                    onclick="popDefaultWnd(this.id, '结算记录')">
+                                结算记录
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-four" id="btnRechargeRecord{{$index+1}}"
+                                    url="room/recharges?roomNo={{item.RoomNo}}&buildingNo={{item.BuildingNo}}" onclick="popDefaultWnd(this.id, '充值记录')">
+                                充值记录
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
-        <div class="" style="float:right;">
+        <div class="right" style="float:right;">
             <div class="second">
                 <span>当前总能耗:<b style=" color:#999900;">{{item.SumValue}}</b></span>
                 <span>当前结算总价格:<b style="color:#ff3300;">{{item.SumMoney}}元</b></span>
                 <span>结算后账户余额:<b style="color:#ff3300;">{{item.BilledBalance}}元</b></span>
+                <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
+                        url="recharge/add?roomNo={{item.RoomNo}}" onclick="popDefaultWnd(this.id, '能耗充值')">
+                    充值
+                </button>
+                <button type="button" ng-if="item.IntBilledBalance >= 0 && item.IntSumMoney>0" class="btn btn-danger btn-style"
+                        ng-click="settleBill(item.RoomNo,item.IntBilledBalance,item.PrepaidDeviceBills)">
+                    结算
+                </button>
             </div>
-            <div class="second-list">
-                <table class="user-table" cellpadding="2" cellspacing="0">
+            <div class="second-list table-responsive">
+                <table class="user-table table table-condensed" cellpadding="2" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>设备名称</th>
-                            <th>单价</th>
-                            <th>上次抄表读数</th>
-                            <th>当前抄表读数</th>
-                            <th>价格</th>
+                            <th width="20%" style="line-height:22px;">设备名称</th>
+                            <th width="20%">单价</th>
+                            <th width="20%">上次抄表读数</th>
+                            <th width="20%">当前抄表读数</th>
+                            <th width="20">价格</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="device in item.PrepaidDeviceBills">
-                            <td>{{device.DeviceName}}</td>
+                            <td style="line-height:22px;">{{device.DeviceName}}</td>
                             <td>{{device.Price}}</td>
                             <td>{{device.PreValue}}</td>
                             <td>{{device.CurValue}}</td>
@@ -201,27 +227,8 @@
                         </tr>
                     </tbody>
                 </table>
+
             </div>
-        </div>
-        <div class="third" style="float:left;">
-            <button class="btn btn-primary" id="btnBillRecord{{$index+1}}"
-                    url="room/bills?roomNo={{item.RoomNo}}&buildingNo={{item.BuildingNo}}" onclick="popDefaultWnd(this.id, '结算记录')">
-                结算记录
-            </button>
-            <button class="btn btn-primary" id="btnRechargeRecord{{$index+1}}"
-                    url="room/recharges?roomNo={{item.RoomNo}}&buildingNo={{item.BuildingNo}}" onclick="popDefaultWnd(this.id, '充值记录')">
-                充值记录
-            </button>
-        </div>
-        <div class="forth" style="float:right;">
-            <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
-                    url="recharge/add?roomNo={{item.RoomNo}}" onclick="popDefaultWnd(this.id, '能耗充值')">
-                充值
-            </button>
-            <button type="button" ng-if="item.IntBilledBalance >= 0 && item.IntSumMoney>0" class="btn btn-danger btn-style"
-                    ng-click="settleBill(item.RoomNo,item.IntBilledBalance,item.PrepaidDeviceBills)">
-                结算
-            </button>
         </div>
     </div>
     <div class="width center">
