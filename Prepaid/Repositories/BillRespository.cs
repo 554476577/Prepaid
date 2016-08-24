@@ -72,7 +72,7 @@ namespace Prepaid.Repositories
             return GetRoomBills(GetAll());
         }
 
-        public IEnumerable<RoomBill> GetRoomBills(int pageIndex, int pageSize, Func<RoomBill, string> func, bool isDesc = false)
+        public IEnumerable<RoomBill> GetRoomBills<T>(int pageIndex, int pageSize, Func<RoomBill, T> func, bool isDesc = false)
         {
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
@@ -109,8 +109,8 @@ namespace Prepaid.Repositories
             return GetRoomBills(roomNo, buildingNo, realName, startTime, endTime).Count();
         }
 
-        public IEnumerable<RoomBill> GetRoomPagerBills(string roomNo, string buildingNo, string realName, string startTime, string endTime,
-            int pageIndex, int pageSize, Func<RoomBill, string> func, bool isDesc = false)
+        public IEnumerable<RoomBill> GetRoomPagerBills<T>(string roomNo, string buildingNo, string realName, string startTime, string endTime,
+            int pageIndex, int pageSize, Func<RoomBill, T> func, bool isDesc = false)
         {
             var result = GetRoomBills(roomNo, buildingNo, realName, startTime, endTime);
             int recordStart = (pageIndex - 1) * pageSize;
@@ -171,7 +171,7 @@ namespace Prepaid.Repositories
             return bills;
         }
 
-        public IEnumerable<PrepaidBill> GetPrepaidPagerBills(int pageIndex, int pageSize, Func<PrepaidBill, string> func, bool isDesc = false)
+        public IEnumerable<PrepaidBill> GetPrepaidPagerBills<T>(int pageIndex, int pageSize, Func<PrepaidBill, T> func, bool isDesc = false)
         {
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
@@ -198,8 +198,8 @@ namespace Prepaid.Repositories
             return GetPrepaidBills(roomNo, buildingNo, realName).Count();
         }
 
-        public IEnumerable<PrepaidBill> GetPrepaidPagerBills(string roomNo, string buildingNo, string realName,
-            int pageIndex, int pageSize, Func<PrepaidBill, string> func, bool isDesc = false)
+        public IEnumerable<PrepaidBill> GetPrepaidPagerBills<T>(string roomNo, string buildingNo, string realName,
+            int pageIndex, int pageSize, Func<PrepaidBill, T> func, bool isDesc = false)
         {
             var result = GetPrepaidBills(roomNo, buildingNo, realName);
             int recordStart = (pageIndex - 1) * pageSize;

@@ -1,12 +1,15 @@
-﻿using Prepaid.Models;
+﻿using Newtonsoft.Json;
+using Prepaid.Models;
 using Prepaid.Repositories;
 using Prepaid.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -20,6 +23,19 @@ namespace Prepaid.Controllers
         {
             public int Floor { get; set; }
             public IEnumerable<string> RoomNos { get; set; }
+        }
+
+        private class BuildingItem
+        {
+            public string BuildingNo { get; set; }
+            public string Name { get; set; }
+            public string CommunityID { get; set; }
+            public string CommunityName { get; set; }
+            public string Description { get; set; }
+            public int Floors { get; set; }
+            public List<FloorItem> LstFloor { get; set; }
+            public DateTime? CreateTime { get; set; }
+            public string Remark { get; set; }
         }
 
         IRepository<string, Building> buildingRepository;
@@ -66,13 +82,50 @@ namespace Prepaid.Controllers
                             CommunityName = item.Community.Name,
                             Description = item.Description,
                             Floors = item.Floors,
-                            LstFloor = GetFloors(item.BuildingNo, item.Floors),
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
             pager.Items = items;
 
             return Ok(pager);
+        }
+
+        // GET: api/cachebuildings
+        [HttpGet]
+        [Route("api/cachebuildings")]
+        public IHttpActionResult GetCacheBuildings()
+        {
+            IEnumerable<BuildingItem> items;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cachebuildings.txt");
+            string text = string.Empty;
+            if (!File.Exists(path))
+            {
+                IEnumerable<Building> Buildings = this.buildingRepository.GetAll();
+                items = from item in Buildings
+                        select new BuildingItem
+                        {
+                            BuildingNo = item.BuildingNo,
+                            Name = item.Name,
+                            CommunityID = item.CommunityID,
+                            CommunityName = item.Community.Name,
+                            Description = item.Description,
+                            Floors = item.Floors,
+                            LstFloor = GetFloors(item.BuildingNo, item.Floors),
+                            CreateTime = item.CreateTime,
+                            Remark = item.Remark
+                        };
+                text = JsonConvert.SerializeObject(items);
+                using (StreamWriter writer = new StreamWriter(path))
+                    writer.Write(text);
+            }
+            else
+            {
+                using (StreamReader reader = new StreamReader(path))
+                    text = reader.ReadToEnd();
+                items = JsonConvert.DeserializeObject<IEnumerable<BuildingItem>>(text);
+            }
+
+            return Ok(items);
         }
 
         private List<FloorItem> GetFloors(string buildingNo, int floorCount)

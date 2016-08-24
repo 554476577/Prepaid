@@ -128,13 +128,13 @@ app.controller('layoutCtrl', function ($scope, $http) {
         $http({
             method: "get",
             withCredentials: true,
-            url: "../api/buildings"
+            url: "../api/cachebuildings"
         }).success(function (data, status, headers, config) {
-            $scope.BuildingItems = data.Items;
+            $scope.BuildingItems = data;
             // angularjs渲染完毕之后执行的回调函数
             $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
                 $(".menu ul li").menu();
-
+                // 高亮显示左边导航栏
                 var buildingNo = getQueryString("buildingNo");
                 var floor = getQueryString("floor");
                 var roomNo = getQueryString("roomNo");
@@ -159,8 +159,10 @@ app.controller('layoutCtrl', function ($scope, $http) {
 
                                     a_floor.parent("li").children("ul").children("li").children("a").each(function () {
                                         var a_room = $(this);
-                                        a_room.removeAttr("class");
-                                        a_room.addClass("active");
+                                        if ($.trim(a_room.text()) == roomNo) {
+                                            a_room.removeAttr("class");
+                                            a_room.addClass("active");
+                                        }
                                     });
                                 }
                             });
