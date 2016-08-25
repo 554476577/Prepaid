@@ -37,7 +37,7 @@ body {
     height: calc(100% - 68px);
     /*height: 100%;*/
     position: relative;
-    /*background-color: #576161;*/
+    background:#eeeeee;
 }
 
 .manager {
@@ -223,35 +223,62 @@ a {
 #sub-ctrl img 
 {
     padding:5px;
-    background:#d7d7d7;
+    background:#19268b;
     border:solid 1px #464646;
     margin:2px;
     }
-.menu ul li {
+.menu ul li.menu-fst {
     display:block;
     width:160px;
     margin-bottom:5px;
     /*background: url(../images/zakladka.png) top left no-repeat;*/
-    background:#f7f7f7;
+    background:#e7ecea;
     list-style:none;
     overflow:visible;
     border-radius:3px;
+    line-height:34px;
 }
-.menu ul li a 
-{
+.menu ul li.menu-fst a {
     display:block;
-    height:34px; 
+    line-height:34px; 
+    color:#82846f;
+    outline:none;
+    padding-left:20px;
+    font-size:14px; 
+}
+.menu ul li.menu-sec {
+    display:block;
+    width:160px;
+    margin-bottom:5px;
+    /*background: url(../images/zakladka.png) top left no-repeat;*/
+    background:#6666cc;
+    list-style:none;
+    overflow:visible;
+    border-radius:3px;
+    line-height:30px; 
+}
+.menu ul li.menu-sec a {
+    display:block;
+    line-height:30px; 
+    color:#82846f;
+    outline:none;
+    padding-left:20px;
+    font-size:14px; 
+}
+/*.menu ul li a 
+{
+    display:block; 
     margin-top:0px;
     padding-top:8px;
     font-size:13px;
     color:#82846f;
     outline:none;
     padding-left:20px;
-    }
+    }*/
 .menu ul li .active 
 {
     background:url(../images/on.png) top right no-repeat;
-    background-color:#e7e7e7;
+    background-color:#19c68b;
     }
 
 .menu ul li .inactive 
@@ -261,7 +288,8 @@ a {
     .menu ul li ul li .active
     {
         background:url(../images/on.png) top right no-repeat;
-        background-color:#d7d7d7;
+        /*background-color:#e9ede5;*/
+        background-color:#99cc00;
         }
         .menu ul li ul li .inactive
         {
@@ -271,10 +299,12 @@ a {
 {
     display:none;
     margin-bottom:10px;
+    margin-top:3px;
  }
 .menu ul li ul li ul 
 {
     margin-bottom:5px;
+    margin-top:3px;
     }
 .menu ul li ul li 
 {

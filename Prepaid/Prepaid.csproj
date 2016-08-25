@@ -179,6 +179,7 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\bg_grid.png" />
     <Content Include="images\left.png" />
     <Content Include="images\left\account_1.png" />
     <Content Include="images\left\account_2.png" />

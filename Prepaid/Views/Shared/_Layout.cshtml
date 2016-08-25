@@ -85,13 +85,13 @@
             <div id="sub-ctrl" style="float:left;">
                 <div class="menu">
                     <ul>
-                        <li ng-cloak ng-repeat="BuildingItem in BuildingItems" on-finish-render-filters>
+                        <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" on-finish-render-filters>
                             <a class="active" href="#">{{BuildingItem.BuildingNo}}</a>
                             <ul>
-                                <li ng-cloak ng-repeat="FloorItem in BuildingItem.LstFloor">
+                                <li class="menu_sec" ng-cloak ng-repeat="FloorItem in BuildingItem.LstFloor">
                                     <a href="#">{{FloorItem.Floor}}F</a>
                                     <ul class="menu-second" ng-if="FloorItem.RoomNos.length>0">
-                                        <li ng-cloak ng-repeat="RoomNo in FloorItem.RoomNos">
+                                        <li class="menu-thd" ng-cloak ng-repeat="RoomNo in FloorItem.RoomNos">
                                             <a href="~/bill/cube?buildingNo={{BuildingItem.BuildingNo}}&floor={{FloorItem.Floor}}&roomNo={{RoomNo}}">
                                                 {{RoomNo}}
                                             </a>
