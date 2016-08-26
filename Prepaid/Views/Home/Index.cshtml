@@ -32,22 +32,51 @@
         }
     });
 </script>
+<style>
+    .top, .down {
+        width: 100%;
+        height: 50%;
+        color: #763d00;
+    }
+
+        .top > ul > li, .down > ul > li {
+            font-size: 15px;
+            line-height: 41px;
+            padding-left: 35px;
+        }
+
+        .top > a, .down > a {
+            display: block;
+            width: 100%;
+            font-size: 17px;
+            text-align: center;
+            padding-top: 10px;
+        }
+</style>
 <div ng-controller="HomeCtrl" style="width:100%;height:100%;">
-    <div style="width:85%;height:100%; background-color:aliceblue;float:left;">
+    <div style="width:90%;height:100%; background-color:aliceblue;float:left;">
 
     </div>
-    <div style="width:15%;height:100%; background-color:beige;float:left;">
-        <div style="width:100%;height:50%;">
+    <div style="width:10%;height:100%; background-color:#fff9eB;float:left;">
+        <div class="top">
             <ul>
-                <li style="text-align:center;line-height:40px;" ng-cloak ng-repeat="BetterItem in BetterItems">{{BetterItem.RoomNo}}</li>
+                <li ng-cloak ng-repeat="BetterItem in BetterItems">
+                    <a href="~/bill/cube?buildingNo={{BetterItem.BuildingNo}}&roomNo={{BetterItem.RoomNo}}">
+                        >&nbsp;{{BetterItem.RoomNo}}&nbsp;&nbsp;{{BetterItem.RealName}}
+                    </a>
+                </li>
             </ul>
-            <a href="~/bill/cube?flag=1">更多...</a>
+            <a href="~/bill/cube?flag=1">更多&nbsp;&nbsp;>></a>
         </div>
-        <div style="width:100%;height:50%;background-color:brown;">
+        <div class="down">
             <ul>
-                <li ng-cloak ng-repeat="WorseItem in WorseItems">{{WorseItem.RoomNo}}</li>
+                <li ng-cloak ng-repeat="WorseItem in WorseItems">
+                    <a href="~/bill/cube?buildingNo={{WorseItem.BuildingNo}}&roomNo={{WorseItem.RoomNo}}">
+                        >&nbsp;{{WorseItem.RoomNo}}&nbsp;&nbsp;{{WorseItem.RealName}}
+                    </a>
+                </li>
             </ul>
-            <a href="~/bill/cube?flag=0">更多...</a>
+            <a href="~/bill/cube?flag=0">更多&nbsp;&nbsp;>></a>
         </div>
     </div>
 </div>

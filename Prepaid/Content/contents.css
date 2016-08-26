@@ -201,8 +201,6 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
 
 .container-fluid .row .head-second {
     padding:8px 0;
-    float:left;
-    width:16.5%;
     color:#7c7c7c;
     font-weight:bold;
 }
@@ -214,10 +212,10 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
 }
 .container-fluid .row .information-second {
     float:left;
-    width:20%;
     padding:8px 0;
     line-height:24px;
     border-right:1px solid #d7d7d7;
+    border-bottom:1px solid #d7d7d7;
 }
 /*预付费的table样式*/
 .container-fluid > .row > div >.row> div{

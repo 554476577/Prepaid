@@ -25,8 +25,8 @@
     <script src="~/Scripts/utils.js"></script>
     <script src="~/Scripts/init.js"></script>
     <script>
-       $(document).ready(function ($) {
-           $(".manager li a").each(function () {
+        $(document).ready(function ($) {
+            $(".manager li a").each(function () {
                 var curr = $(this).data("curr");
                 if (window.location.href.indexOf(curr) != -1) {
                     $(this).parent().removeClass("li-list");
@@ -56,31 +56,31 @@
                 }
                 var accordion = new Accordion($('#accordion'), false);
             });
-       });
-</script>
+        });
+    </script>
 </head>
 <body ng-app="app" ng-controller="layoutCtrl">
     <div class="content">
-        <div class="nav-top">
+        <div class="nav-top container-fluid">
             <div class="logo">
                 <a href="~/home/index"><img src="~/images/pre_energy.png" alt="Alternate Text" /></a>
                 @*<div class="row row-style">
-                    <div class="col-lg-4 col-md-4 col-sm-4 search-top">
-                        <div class="row">
-                            <div class="search-txt col-lg-2 col-md-2 col-sm-2">建筑编号:</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="BuildingNo" class="form-control input-search"></div>
-                            <div class="search-txt col-lg-2 col-md-2 col-sm-2">房间编号:</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RoomNo" class="form-control input-search"></div>
-                            <div class="search-txt col-lg-2 col-md-2 col-sm-2">楼层:</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="Floor" class="form-control input-search"></div>
-                            <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-search"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 search-top">
+                            <div class="row">
+                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">建筑编号:</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="BuildingNo" class="form-control input-search"></div>
+                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">房间编号:</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RoomNo" class="form-control input-search"></div>
+                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">楼层:</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="Floor" class="form-control input-search"></div>
+                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-search"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-group search-div">
-                        <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </div>
-                </div>*@
+                        <div class="input-group search-div">
+                            <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+                    </div>*@
             </div>
             <div class="user-identity">
                 <div class="dropdown">
@@ -97,18 +97,20 @@
                     </ul>
                 </div>
             </div>
-            <div class="global-search">
+            <div class="row global-search">
                 <div class="col-lg-11 col-md-11 col-sm-11">
-                    <div class="col-lg-1 col-md-1 col-sm-1">建筑编号:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="BuildingNo" class="form-control"></div>
-                    <div class="col-lg-1 col-md-1 col-sm-1">房间编号:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="RoomNo" class="form-control"></div>
-                    <div class="col-lg-1 col-md-1 col-sm-1">楼层:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="Floor" class="form-control"></div>
-                    <div class="col-lg-1 col-md-1 col-sm-1">业主姓名:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="RealName" class="form-control"></div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">建筑编号:</div>
+                        <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="BuildingNo" class="form-control"></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1">房间编号:</div>
+                        <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="RoomNo" class="form-control"></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1">楼层:</div>
+                        <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="Floor" class="form-control"></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1">业主姓名:</div>
+                        <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="RealName" class="form-control"></div>
+                    </div>
                 </div>
-                <div class="col-lg-1 col-md-1 col-sm-1">
+                <div class="col-lg-1 col-md-1 col-sm-1 nav-search">
                     <a href="~/bill/cube?buildingNo={{BuildingNo}}&roomNo={{RoomNo}}&floor={{Floor}}&realName={{RealName}}">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </a>

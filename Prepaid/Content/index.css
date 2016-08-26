@@ -184,10 +184,19 @@ a {
 .global-search {
     float: right;
     height: 100%;
-    width: 800px;
+    width: 850px;
     padding-top:20px;
+    font-size:14px;
+    line-height:35px;
 }
-
+    .global-search > .nav-search>a{
+        display:block;
+        width:40px;
+        height:34px;
+        background:#e7ecea;
+        border-radius:5px;
+        margin-top:8px;
+    }
 /**
  * Submenu
  -----------------------------*/

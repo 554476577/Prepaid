@@ -138,8 +138,8 @@
     </div>
     <div class="container-fluid control-div">
         <div class="row content-basic">
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="row style-sm">
+            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0 0;">
+                <div class="row style-sm" style="width:100%;margin-right:0;margin-left:0;">
                     <div class="col-lg-3 col-md-3 col-sm-3">房间编号</div>
                     <div class="col-lg-3 col-md-3 col-sm-3">结算批次</div>
                     <div class="col-lg-3 col-md-3 col-sm-3">业主姓名</div>
@@ -147,12 +147,12 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0 0;">
-                <div class="head-second">设备编号</div>
-                <div class="head-second">设备名称</div>
-                <div class="head-second">上次读数</div>
-                <div class="head-second">当前读数</div>
-                <div class="head-second">单价</div>
-                <div class="head-second" style="border-right:1px solid #d7d7d7;">价格</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second">设备编号</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second">设备名称</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second">上次读数</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second">当前读数</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second">单价</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second" style="border-right:1px solid #d7d7d7;">价格</div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2">
                 <div class="row style-sm">
@@ -162,38 +162,39 @@
             </div>
         </div>
         <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}">
-            <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceEnergies.length)" style="position:relative;">
+            <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceBills.length)" style="position:relative;">
                 <div class="row style-spe">
                     <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.RoomNo}}</div>
                     <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
                     <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.RealName}}</div>
-                    <div style="margin-bottom:2px;" class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.DateTime}}</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}" style="border-right:1px solid transparent;">{{item.DateTime|date:"yyyy-MM-dd"}}</div>
                 </div>
                 <div class="row zindex">
-                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3"></div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3" style="float:right;position:relative;" ng-style="energyStyle(item.DeviceBills.length)">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="position:relative;float:right;" ng-style="energyStyle(item.DeviceBills.length)">
                 <div class="row style-spe">
                     <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumValue}}</div>
                     <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumMoney}}</div>
                 </div>
                 <div class="row zindex">
-                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-5 information-content" ng-cloak ng-repeat="device in item.DeviceBills">
-                <div class="information-second">{{device.DeviceNo}}</div>
-                <div class="information-second">{{device.DeviceName}}</div>
-                <div class="information-second">{{device.PreValue}}</div>
-                <div class="information-second">{{device.CurValue}}</div>
-                <div class="information-second">{{device.Price}}</div>
-                <div class="information-second">{{device.Money}}</div>
+            <div class="col-lg-6 col-md-6 col-sm-6 information-content" ng-cloak ng-repeat="device in item.DeviceBills">
+                <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.DeviceNo}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.DeviceName}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.PreValue}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.CurValue}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.Price}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.Money}}</div>
             </div>
+
         </div>
     </div>
 </div>
