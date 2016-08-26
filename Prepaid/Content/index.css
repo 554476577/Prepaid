@@ -100,6 +100,7 @@ body {
 .manager a.picture_7 {
     background-image: url(../../images/left/account_1.png);
 }
+
 /*右上角的admin 的样式*/
 .user-identity {
     float: right;
@@ -178,6 +179,14 @@ a {
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
     }
+
+/*右上角的搜索框*/
+.global-search {
+    float: right;
+    height: 100%;
+    width: 800px;
+    padding-top:20px;
+}
 
 /**
  * Submenu
