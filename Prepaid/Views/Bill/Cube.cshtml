@@ -3,18 +3,34 @@
 }
 <script type="text/javascript">
     app.controller('PrepaidBillCtrl', function ($scope, $http) {
-        $scope.PageSize = 10;
+        var flag = getQueryString("flag");
+        if (flag == "0" || flag == "1") {
+            getRooms(flag);
+        } else {
+            $scope.PageSize = 10;
+            var params = {
+                "BuildingNo": getQueryString("buildingNo"),
+                "RoomNo": getQueryString("roomNo"),
+                "Floor": getQueryString("floor"),
+                "RealName": "",
+                "PageIndex": 1,
+                "PageSize": $scope.PageSize
+            };
+            getInfos(params, true);
+        }
 
-        var params = {
-            "BuildingNo": getQueryString("buildingNo"),
-            "RoomNo": getQueryString("roomNo"),
-            "RealName": "",
-            "PageIndex": 1,
-            "PageSize": $scope.PageSize
-        };
-
-        getInfos(params, true);
-
+        function getRooms(flag) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/recommendbills/" + flag
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+        
         function getInfos(params, isFirstLoadPager) {
             $http({
                 method: "get",
@@ -63,7 +79,7 @@
                         "DeviceBills": DeviceBills
                     }
                 }).success(function (data, status, headers, config) {
-                    window.parent.location.href = "../prepaid/list";
+                    window.parent.location.href = window.parent.location.href;
                 }).error(function (data, status, headers, config) {
                     ShowErrModal(data, status);
                 });

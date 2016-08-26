@@ -19,11 +19,13 @@ namespace Prepaid.Controllers
     {
         IBillRespository billRepository;
         IRoomRespository roomRespository;
+        IDeviceRepository deviceRespository;
 
-        public BillsController(IBillRespository billRepository, IRoomRespository roomRespository)
+        public BillsController(IBillRespository billRepository, IRoomRespository roomRespository, IDeviceRepository deviceRespository)
         {
             this.billRepository = billRepository;
             this.roomRespository = roomRespository;
+            this.deviceRespository = deviceRespository;
         }
 
         // GET: api/bills
@@ -83,6 +85,7 @@ namespace Prepaid.Controllers
             IEnumerable<RoomBill> bills;
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string BuildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            string Floor = HttpContext.Current.Request.Params["Floor"];
             string RealName = HttpContext.Current.Request.Params["RealName"];
             string StartTime = HttpContext.Current.Request.Params["StartTime"];
             string EndTime = HttpContext.Current.Request.Params["EndTime"];
@@ -92,15 +95,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                bills = this.billRepository.GetRoomBills(RoomNo, BuildingNo, RealName, StartTime, EndTime);
+                bills = this.billRepository.GetRoomBills(RoomNo, BuildingNo, Floor, RealName, StartTime, EndTime);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.billRepository.GetRoomBillsCount(RoomNo, BuildingNo, RealName, StartTime, EndTime));
-                bills = this.billRepository.GetRoomPagerBills(RoomNo, BuildingNo, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.RoomNo, true);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetRoomBillsCount(RoomNo, BuildingNo, Floor, RealName, StartTime, EndTime));
+                bills = this.billRepository.GetRoomPagerBills(RoomNo, BuildingNo, Floor, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.RoomNo, true);
             }
             pager.Items = bills;
 
@@ -139,6 +142,7 @@ namespace Prepaid.Controllers
             IEnumerable<PrepaidBill> bills;
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string BuildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            string Floor = HttpContext.Current.Request.Params["Floor"];
             string RealName = HttpContext.Current.Request.Params["RealName"];
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
@@ -146,15 +150,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                bills = this.billRepository.GetPrepaidBills(RoomNo, BuildingNo, RealName);
+                bills = this.billRepository.GetPrepaidBills(RoomNo, BuildingNo, Floor, RealName);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.billRepository.GetPrepaidBillsCount(RoomNo, BuildingNo, RealName));
-                bills = this.billRepository.GetPrepaidPagerBills(RoomNo, BuildingNo, RealName, pageIndex, pageSize, u => u.RoomNo);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetPrepaidBillsCount(RoomNo, BuildingNo, Floor, RealName));
+                bills = this.billRepository.GetPrepaidPagerBills(RoomNo, BuildingNo, Floor, RealName, pageIndex, pageSize, u => u.RoomNo);
             }
             pager.Items = bills;
 
@@ -305,6 +309,10 @@ namespace Prepaid.Controllers
                 bill.Money = item.IntMoney;
                 bill.DateTime = now;
                 await this.billRepository.AddAsync(bill);
+
+                Device device = await this.deviceRespository.GetByIdAsync(item.DeviceNo);
+                device.PreValue = item.CurValue ?? 0.00;
+                await this.deviceRespository.PutAsync(device);
             }
 
             Room room = await this.roomRespository.GetByIdAsync(RoomNo);

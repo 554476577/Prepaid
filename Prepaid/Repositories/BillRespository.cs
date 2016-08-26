@@ -81,13 +81,15 @@ namespace Prepaid.Repositories
                 return GetRoomBills().OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
 
-        public IEnumerable<RoomBill> GetRoomBills(string roomNo, string buildingNo, string realName, string startTime, string endTime)
+        public IEnumerable<RoomBill> GetRoomBills(string roomNo, string buildingNo, string floor, string realName, string startTime, string endTime)
         {
             IEnumerable<Bill> bills = db.Bills;
             if (!string.IsNullOrEmpty(roomNo))
                 bills = bills.Where(u => u.Device.RoomNo.Contains(roomNo));
             if (!string.IsNullOrEmpty(buildingNo))
                 bills = bills.Where(u => u.Device.Room.BuildingNo.Contains(buildingNo));
+            if (!string.IsNullOrEmpty(floor))
+                bills = bills.Where(u => u.Device.Room.Floor == Convert.ToInt32(floor));
             if (!string.IsNullOrEmpty(realName))
                 bills = bills.Where(u => u.Device.Room.RealName != null && u.Device.Room.RealName.Contains(realName));
             if (!string.IsNullOrEmpty(startTime))
@@ -104,15 +106,15 @@ namespace Prepaid.Repositories
             return GetRoomBills(bills);
         }
 
-        public int GetRoomBillsCount(string roomNo, string buildingNo, string realName, string startTime, string endTime)
+        public int GetRoomBillsCount(string roomNo, string buildingNo, string floor, string realName, string startTime, string endTime)
         {
-            return GetRoomBills(roomNo, buildingNo, realName, startTime, endTime).Count();
+            return GetRoomBills(roomNo, buildingNo, floor, realName, startTime, endTime).Count();
         }
 
-        public IEnumerable<RoomBill> GetRoomPagerBills<T>(string roomNo, string buildingNo, string realName, string startTime, string endTime,
+        public IEnumerable<RoomBill> GetRoomPagerBills<T>(string roomNo, string buildingNo, string floor, string realName, string startTime, string endTime,
             int pageIndex, int pageSize, Func<RoomBill, T> func, bool isDesc = false)
         {
-            var result = GetRoomBills(roomNo, buildingNo, realName, startTime, endTime);
+            var result = GetRoomBills(roomNo, buildingNo, floor, realName, startTime, endTime);
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
                 return result.OrderBy(func).Skip(recordStart).Take(pageSize);
@@ -180,28 +182,30 @@ namespace Prepaid.Repositories
                 return GetPrepaidBills().OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
 
-        public IEnumerable<PrepaidBill> GetPrepaidBills(string roomNo, string buildingNo, string realName)
+        public IEnumerable<PrepaidBill> GetPrepaidBills(string roomNo, string buildingNo, string floor, string realName)
         {
             IEnumerable<Room> rooms = db.Rooms;
             if (!string.IsNullOrEmpty(roomNo))
                 rooms = rooms.Where(u => u.RoomNo.Contains(roomNo));
             if (!string.IsNullOrEmpty(buildingNo))
                 rooms = rooms.Where(u => u.BuildingNo != null && u.BuildingNo.Contains(buildingNo));
+            if (!string.IsNullOrEmpty(floor))
+                rooms = rooms.Where(u => u.Floor == Convert.ToInt32(floor));
             if (!string.IsNullOrEmpty(realName))
                 rooms = rooms.Where(u => u.RealName != null && u.RealName.Contains(realName));
 
             return GetPrepaidBills(rooms);
         }
 
-        public int GetPrepaidBillsCount(string roomNo, string buildingNo, string realName)
+        public int GetPrepaidBillsCount(string roomNo, string buildingNo, string floor, string realName)
         {
-            return GetPrepaidBills(roomNo, buildingNo, realName).Count();
+            return GetPrepaidBills(roomNo, buildingNo, floor, realName).Count();
         }
 
-        public IEnumerable<PrepaidBill> GetPrepaidPagerBills<T>(string roomNo, string buildingNo, string realName,
+        public IEnumerable<PrepaidBill> GetPrepaidPagerBills<T>(string roomNo, string buildingNo, string floor, string realName,
             int pageIndex, int pageSize, Func<PrepaidBill, T> func, bool isDesc = false)
         {
-            var result = GetPrepaidBills(roomNo, buildingNo, realName);
+            var result = GetPrepaidBills(roomNo, buildingNo, floor, realName);
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
                 return result.OrderBy(func).Skip(recordStart).Take(pageSize);
