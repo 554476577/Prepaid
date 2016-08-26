@@ -246,24 +246,26 @@ a {
     padding-left:20px;
     font-size:14px; 
 }
-.menu ul li.menu-sec {
+.menu ul li.menu-fst ul li.menu-sec {
     display:block;
-    width:160px;
-    margin-bottom:5px;
+    width:140px;
+    margin-bottom:3px;
+    margin-left:20px;
     /*background: url(../images/zakladka.png) top left no-repeat;*/
-    background:#6666cc;
     list-style:none;
     overflow:visible;
     border-radius:3px;
     line-height:30px; 
 }
-.menu ul li.menu-sec a {
+.menu ul li.menu-fst ul li.menu-sec a {
     display:block;
-    line-height:30px; 
+    line-height:26px; 
     color:#82846f;
+    background-color:#FFF;
     outline:none;
     padding-left:20px;
     font-size:14px; 
+    border-radius:3px;
 }
 /*.menu ul li a 
 {
@@ -279,22 +281,30 @@ a {
 {
     background:url(../images/on.png) top right no-repeat;
     background-color:#19c68b;
-    }
+    border-radius:3px;
+}
 
 .menu ul li .inactive 
 {
     background:url(../images/off.png) top right no-repeat;
-    }
-    .menu ul li ul li .active
-    {
-        background:url(../images/on.png) top right no-repeat;
-        /*background-color:#e9ede5;*/
-        background-color:#99cc00;
-        }
-        .menu ul li ul li .inactive
-        {
-            background:url(../images/off.png) top right no-repeat;
-            }
+    border-radius:3px;
+}
+/*.menu ul li ul li .active
+{
+    background:url(../images/on.png) 83px -7px no-repeat;
+    background-color:#19c68b;
+    border-radius:3px;
+}*/
+.menu ul li.menu-fst ul li.menu-sec .active {
+    background:url(../images/on.png) 83px -7px no-repeat;
+    background-color:#19c68b;
+    border-radius:3px;
+}
+.menu ul li ul li .inactive
+{
+   background:url(../images/off.png) 83px -7px no-repeat;
+   border-radius:3px;
+}
 .menu ul li ul 
 {
     display:none;
@@ -315,7 +325,7 @@ a {
     color:#8f9d4c;
     padding-left:30px;
     }
-.menu ul li ul.subNav-second li a 
+/*.menu ul li ul.subNav-second li a 
 {
     display:block;
     height:26px;
@@ -324,4 +334,14 @@ a {
     padding-top:0;
     color:#8f9d4c;
     padding-left:0px;
-     }
+     }*/
+    .menu ul li ul.menu-second li a {
+        display:block;
+        height:26px;
+        background:none;
+        font-size:10px;
+        padding-top:0;
+        color:#8f9d4c;
+        padding-left:0px;
+        margin-bottom:2px;
+    } 

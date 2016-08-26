@@ -88,7 +88,7 @@
                         <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" on-finish-render-filters>
                             <a class="active" href="#">{{BuildingItem.BuildingNo}}</a>
                             <ul>
-                                <li class="menu_sec" ng-cloak ng-repeat="FloorItem in BuildingItem.LstFloor">
+                                <li class="menu-sec" ng-cloak ng-repeat="FloorItem in BuildingItem.LstFloor">
                                     <a href="#">{{FloorItem.Floor}}F</a>
                                     <ul class="menu-second" ng-if="FloorItem.RoomNos.length>0">
                                         <li class="menu-thd" ng-cloak ng-repeat="RoomNo in FloorItem.RoomNos">
