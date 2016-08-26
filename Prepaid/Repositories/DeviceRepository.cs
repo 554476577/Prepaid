@@ -69,5 +69,26 @@ namespace Prepaid.Repositories
             else
                 return result.OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
+
+        public BuildingStatis GetBuildingStatisInfo()
+        {
+            BuildingStatis item = new BuildingStatis();
+            IEnumerable<Device> devices = db.Devices;
+            var result = from p in devices
+                         group p by new
+                         {
+                             BuildingNo = p.Room.BuildingNo
+                         } into g
+                         orderby g.Key.BuildingNo
+                         select new
+                         {
+                             BuildingNo = g.Key.BuildingNo,
+                             SumMoney = g.Sum(p => p.Value - p.PreValue)
+                         };
+            item.BuildingNos = from p in result select p.BuildingNo;
+            item.Values = from p in result select p.SumMoney;
+
+            return item;
+        }
     }
 }
