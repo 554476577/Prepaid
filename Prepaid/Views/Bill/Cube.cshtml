@@ -130,18 +130,19 @@
         margin-bottom:0px;
         border:1px solid #ddd;
     }
-    .user-table {
+    .second-list .user-table {
         text-align: center;
-        line-height:23px;
         background:#fff;
         border:1px solid #ddd;
     }
-    .user-table tr th {
+    .second-list .user-table tr th {
         text-align: center;
+        font-size:13px;
         border: 1px solid #d7d7d7;
     }
-    .user-table tr td {
+    .second-list .user-table tr td {
         border: 1px solid #d7d7d7;
+        font-size:13px;
     }
     .right {
         width:60%;
@@ -156,10 +157,6 @@
     }
     .second > span {
         margin: 0 3px;
-    }
-    .ctrl-table > tr > td {
-        line-height:24px;
-        border:1px solid #ddd;
     }
 </style>
 <div ng-controller="PrepaidBillCtrl" class="content-div">
@@ -223,16 +220,16 @@
                 <table class="user-table table table-condensed" cellpadding="2" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="20%" style="line-height:22px;">设备名称</th>
-                            <th width="20%">单价</th>
-                            <th width="20%">上次抄表读数</th>
-                            <th width="20%">当前抄表读数</th>
-                            <th width="20%">价格</th>
+                            <th width="20%">设备名称</th>
+                            <th width="11%">单价</th>
+                            <th width="29%">上次抄表读数</th>
+                            <th width="29%">当前抄表读数</th>
+                            <th width="11%">价格</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="device in item.PrepaidDeviceBills">
-                            <td style="line-height:22px;">{{device.DeviceName}}</td>
+                            <td style="line-height:13px;">{{device.DeviceName}}</td>
                             <td>{{device.Price}}</td>
                             <td>{{device.PreValue}}</td>
                             <td>{{device.CurValue}}</td>
@@ -240,16 +237,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="ctrl" style="width:100%;height:100%;position:absolute;top:0;left:0;">
-                    <div style="width:20%;height:100%;border-right:1px solid #ddd;border-left:1px solid #ddd;float:left;border-bottom:1px solid #ddd;"></div>
-                    <div style="width:20%;height:100%;float:left;border-bottom:1px solid #ddd;"></div>
-                    <div style="width:20%;height:100%;border-right:1px solid #ddd;border-left:1px solid #ddd;float:left;border-bottom:1px solid #ddd;"></div>
-                    <div style="width:20%;height:100%;float:left;border-bottom:1px solid #ddd;"></div>
-                    <div style="width:20%;height:100%;border-right:1px solid #ddd;border-left:1px solid #ddd;float:left;border-bottom:1px solid #ddd;"></div>
-                </div>
             </div>
         </div>
-        <div class="ctrl-btn" style="position:absolute;bottom:10px;right:10px;">
+        <div class="ctrl-btn" style="position:absolute;bottom:5px;right:10px;">
             <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
                     url="recharge/add?roomNo={{item.RoomNo}}" onclick="popDefaultWnd(this.id, '能耗充值')">
                 充值
