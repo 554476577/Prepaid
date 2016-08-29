@@ -247,7 +247,7 @@
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\Building.cs" />
-    <Compile Include="Models\BuildingStatisItem.cs" />
+    <Compile Include="Models\Statis.cs" />
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\Credit.cs" />
     <Compile Include="Models\Cutout.cs" />

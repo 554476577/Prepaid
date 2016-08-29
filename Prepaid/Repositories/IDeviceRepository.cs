@@ -21,6 +21,8 @@ namespace Prepaid.Repositories
         IEnumerable<Device> GetOriginalPagerItems(string deviceNo, string roomNo, string itemID,
             int pageIndex, int pageSize, Func<Device, string> func, bool isDesc = false);
 
-        BuildingStatis GetBuildingStatisInfo();
+       IEnumerable<Statis> GetBuildingStatisInfo();
+
+       IEnumerable<Statis> GetTypeStatisInfo();
     }
 }

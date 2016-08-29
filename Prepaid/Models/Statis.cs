@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Prepaid.Models
 {
-    public class BuildingStatis
+    public class Statis
     {
-        public IEnumerable<string> BuildingNos;
+        public string xAxis;
 
-        public IEnumerable<double?> Values;
+        public double? yAxis;
     }
 }

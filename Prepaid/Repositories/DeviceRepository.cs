@@ -70,25 +70,32 @@ namespace Prepaid.Repositories
                 return result.OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
 
-        public BuildingStatis GetBuildingStatisInfo()
+        public IEnumerable<Statis> GetBuildingStatisInfo()
         {
-            BuildingStatis item = new BuildingStatis();
-            IEnumerable<Device> devices = db.Devices;
-            var result = from p in devices
-                         group p by new
-                         {
-                             BuildingNo = p.Room.BuildingNo
-                         } into g
+            var result = from p in db.Buildings
+                         group p by new { BuildingNo = p.BuildingNo } into g
                          orderby g.Key.BuildingNo
-                         select new
+                         select new Statis
                          {
-                             BuildingNo = g.Key.BuildingNo,
-                             SumMoney = g.Sum(p => p.Value - p.PreValue)
+                             xAxis = g.Key.BuildingNo,
+                             yAxis = (from q in db.Devices where q.Room.BuildingNo == g.Key.BuildingNo select q).Sum(a => a.Value - a.PreValue)
                          };
-            item.BuildingNos = from p in result select p.BuildingNo;
-            item.Values = from p in result select p.SumMoney;
 
-            return item;
+            return result;
+        }
+
+        public IEnumerable<Statis> GetTypeStatisInfo()
+        {
+            var result = from p in db.DeviceTypes
+                         group p by new { TypeID = p.UUID, TypeName = p.Name } into g
+                         orderby g.Key.TypeName
+                         select new Statis
+                         {
+                             xAxis = g.Key.TypeName,
+                             yAxis = (from q in db.Devices where q.TypeID == g.Key.TypeID select q).Sum(a => a.Value - a.PreValue)
+                         };
+
+            return result;
         }
     }
 }
