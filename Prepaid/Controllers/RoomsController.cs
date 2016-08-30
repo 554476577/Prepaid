@@ -16,11 +16,13 @@ namespace Prepaid.Controllers
 {
     public class RoomsController : ApiController
     {
-        IRoomRespository repository;
+        IRepository<string, Building> buildingRepository;
+        IRoomRespository roomRepository;
 
-        public RoomsController(IRoomRespository repository)
+        public RoomsController(IRepository<string, Building> buildingRepository, IRoomRespository roomRepository)
         {
-            this.repository = repository;
+            this.buildingRepository = buildingRepository;
+            this.roomRepository = roomRepository;
         }
 
         // GET: api/rooms
@@ -42,15 +44,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                rooms = this.repository.GetAll(RealName, BuildingNo, RoomNo, Floor);
+                rooms = this.roomRepository.GetAll(RealName, BuildingNo, RoomNo, Floor);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount(RealName, BuildingNo, RoomNo, Floor));
-                rooms = this.repository.GetPagerItems(RealName, BuildingNo, RoomNo, Floor, pageIndex, pageSize, u => u.RoomNo);
+                pager = new Pager(pageIndex, pageSize, this.roomRepository.GetCount(RealName, BuildingNo, RoomNo, Floor));
+                rooms = this.roomRepository.GetPagerItems(RealName, BuildingNo, RoomNo, Floor, pageIndex, pageSize, u => u.RoomNo);
             }
 
             var items = from item in rooms
@@ -87,7 +89,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Room item = await this.repository.GetByIdAsync(uuid);
+            Room item = await this.roomRepository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
@@ -129,11 +131,12 @@ namespace Prepaid.Controllers
             try
             {
                 room.CreateTime = DateTime.Now;
-                await this.repository.PutAsync(room);
+                await this.roomRepository.PutAsync(room);
+                TextHelper.SetCacheBuilding(this.buildingRepository, this.roomRepository);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.repository.IsExist(uuid))
+                if (!this.roomRepository.IsExist(uuid))
                     return NotFound();
                 else
                     throw;
@@ -153,11 +156,12 @@ namespace Prepaid.Controllers
             try
             {
                 room.CreateTime = DateTime.Now;
-                await this.repository.AddAsync(room);
+                await this.roomRepository.AddAsync(room);
+                TextHelper.SetCacheBuilding(this.buildingRepository, this.roomRepository);
             }
             catch (DbUpdateException)
             {
-                if (this.repository.IsExist(room.RoomNo))
+                if (this.roomRepository.IsExist(room.RoomNo))
                     return Conflict();
                 else
                     throw;
@@ -173,11 +177,12 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Room room = await this.repository.GetByIdAsync(uuid);
+            Room room = await this.roomRepository.GetByIdAsync(uuid);
             if (room == null)
                 return NotFound();
 
-            await this.repository.DeleteAsync(room);
+            await this.roomRepository.DeleteAsync(room);
+            TextHelper.SetCacheBuilding(this.buildingRepository, this.roomRepository);
 
             return Ok();
         }

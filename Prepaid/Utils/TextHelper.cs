@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
@@ -118,6 +120,84 @@ namespace Prepaid.Utils
                 strMoney = strMoney.Insert(strMoney.Length - 2, ".");
                 return strMoney;
             }
+        }
+
+        public class FloorItem
+        {
+            public int Floor { get; set; }
+            public IEnumerable<string> RoomNos { get; set; }
+        }
+
+        public class BuildingItem
+        {
+            public string BuildingNo { get; set; }
+            public string Name { get; set; }
+            public string CommunityID { get; set; }
+            public string CommunityName { get; set; }
+            public string Description { get; set; }
+            public int Floors { get; set; }
+            public List<FloorItem> LstFloor { get; set; }
+            public DateTime? CreateTime { get; set; }
+            public string Remark { get; set; }
+        }
+
+        public static IEnumerable<BuildingItem> SetCacheBuilding(Prepaid.Repositories.IRepository<string, Prepaid.Models.Building> buildingRepository,
+           Prepaid.Repositories.IRoomRespository roomRepository)
+        {
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cachebuildings.txt");
+            IEnumerable<Prepaid.Models.Building> Buildings = buildingRepository.GetAll();
+            var items = from item in Buildings
+                        select new BuildingItem
+                        {
+                            BuildingNo = item.BuildingNo,
+                            Name = item.Name,
+                            CommunityID = item.CommunityID,
+                            CommunityName = item.Community.Name,
+                            Description = item.Description,
+                            Floors = item.Floors,
+                            LstFloor = GetFloors(roomRepository, item.BuildingNo, item.Floors),
+                            CreateTime = item.CreateTime,
+                            Remark = item.Remark
+                        };
+            string text = JsonConvert.SerializeObject(items);
+            using (StreamWriter writer = new StreamWriter(path))
+                writer.Write(text);
+
+            return items;
+        }
+
+        public static IEnumerable<BuildingItem> GetCacheBuildings(Prepaid.Repositories.IRepository<string, Prepaid.Models.Building> buildingRepository,
+            Prepaid.Repositories.IRoomRespository roomRepository)
+        {
+            IEnumerable<BuildingItem> items;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cachebuildings.txt");
+            string text = string.Empty;
+            if (!File.Exists(path))
+            {
+                items = SetCacheBuilding(buildingRepository, roomRepository);
+            }
+            else
+            {
+                using (StreamReader reader = new StreamReader(path))
+                    text = reader.ReadToEnd();
+                items = JsonConvert.DeserializeObject<IEnumerable<BuildingItem>>(text);
+            }
+
+            return items;
+        }
+
+        private static List<FloorItem> GetFloors(Prepaid.Repositories.IRoomRespository roomRepository, string buildingNo, int floorCount)
+        {
+            List<FloorItem> floors = new List<FloorItem>();
+            for (int i = 1; i <= floorCount; i++)
+            {
+                FloorItem floor = new FloorItem();
+                floor.Floor = i;
+                floor.RoomNos = from item in roomRepository.GetAll("", buildingNo, "", i.ToString()) select item.RoomNo;
+                floors.Add(floor);
+            }
+
+            return floors;
         }
     }
 }

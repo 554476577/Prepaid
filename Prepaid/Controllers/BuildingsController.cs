@@ -19,25 +19,6 @@ namespace Prepaid.Controllers
 {
     public class BuildingsController : ApiController
     {
-        private class FloorItem
-        {
-            public int Floor { get; set; }
-            public IEnumerable<string> RoomNos { get; set; }
-        }
-
-        private class BuildingItem
-        {
-            public string BuildingNo { get; set; }
-            public string Name { get; set; }
-            public string CommunityID { get; set; }
-            public string CommunityName { get; set; }
-            public string Description { get; set; }
-            public int Floors { get; set; }
-            public List<FloorItem> LstFloor { get; set; }
-            public DateTime? CreateTime { get; set; }
-            public string Remark { get; set; }
-        }
-
         IRepository<string, Building> buildingRepository;
         IRoomRespository roomRepository;
 
@@ -95,51 +76,8 @@ namespace Prepaid.Controllers
         [Route("api/cachebuildings")]
         public IHttpActionResult GetCacheBuildings()
         {
-            IEnumerable<BuildingItem> items;
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cachebuildings.txt");
-            string text = string.Empty;
-            if (!File.Exists(path))
-            {
-                IEnumerable<Building> Buildings = this.buildingRepository.GetAll();
-                items = from item in Buildings
-                        select new BuildingItem
-                        {
-                            BuildingNo = item.BuildingNo,
-                            Name = item.Name,
-                            CommunityID = item.CommunityID,
-                            CommunityName = item.Community.Name,
-                            Description = item.Description,
-                            Floors = item.Floors,
-                            LstFloor = GetFloors(item.BuildingNo, item.Floors),
-                            CreateTime = item.CreateTime,
-                            Remark = item.Remark
-                        };
-                text = JsonConvert.SerializeObject(items);
-                using (StreamWriter writer = new StreamWriter(path))
-                    writer.Write(text);
-            }
-            else
-            {
-                using (StreamReader reader = new StreamReader(path))
-                    text = reader.ReadToEnd();
-                items = JsonConvert.DeserializeObject<IEnumerable<BuildingItem>>(text);
-            }
-
+            var items = TextHelper.GetCacheBuildings(this.buildingRepository, this.roomRepository);
             return Ok(items);
-        }
-
-        private List<FloorItem> GetFloors(string buildingNo, int floorCount)
-        {
-            List<FloorItem> floors = new List<FloorItem>();
-            for (int i = 1; i <= floorCount; i++)
-            {
-                FloorItem floor = new FloorItem();
-                floor.Floor = i;
-                floor.RoomNos = from item in this.roomRepository.GetAll("", buildingNo, "", i.ToString()) select item.RoomNo;
-                floors.Add(floor);
-            }
-
-            return floors;
         }
 
         // GET: api/buildings/03b96c82ba5747eba2a5d96ef67837c9
@@ -184,6 +122,7 @@ namespace Prepaid.Controllers
             {
                 Building.CreateTime = DateTime.Now;
                 await this.buildingRepository.PutAsync(Building);
+                TextHelper.SetCacheBuilding(this.buildingRepository, this.roomRepository);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -208,6 +147,7 @@ namespace Prepaid.Controllers
             {
                 Building.CreateTime = DateTime.Now;
                 await this.buildingRepository.AddAsync(Building);
+                TextHelper.SetCacheBuilding(this.buildingRepository, this.roomRepository);
             }
             catch (DbUpdateException)
             {
@@ -232,6 +172,7 @@ namespace Prepaid.Controllers
                 return NotFound();
 
             await this.buildingRepository.DeleteAsync(Building);
+            TextHelper.SetCacheBuilding(this.buildingRepository, this.roomRepository);
 
             return Ok();
         }

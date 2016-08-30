@@ -59,7 +59,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            List<string> Timelines = { "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
+            List<string> Timelines = new List<string>{ "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
             IEnumerable<string> BuildingNos = from item in this.buildingRepository.GetAll() select item.BuildingNo;
             IEnumerable<double>[] Valuelines = new List<double>[BuildingNos.Count()];
             for (int i = 0; i < BuildingNos.Count(); i++)

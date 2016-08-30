@@ -57,7 +57,7 @@
                     url: "../api/rooms/" + uuid
                 }).success(function (data, status, headers, config) {
                     ShowTipsModel("房间删除成功！", function () {
-                        getInfos(params, false);
+                        window.location.href = window.location.href;
                     });
                 }).error(function (data, status, headers, config) {
                     ShowErrModal(data, status);
