@@ -69,7 +69,7 @@ namespace Prepaid.Controllers
                             Status = item.Status,
                             Value = item.Value,
                             Rate = item.Rate,
-                            Unit = item.Unit,
+                            Unit = item.DeviceType.Unit,
                             Price1 = TextHelper.ConvertMoney(item.DeviceType.Price1),
                             Price2 = TextHelper.ConvertMoney(item.DeviceType.Price2),
                             Price3 = TextHelper.ConvertMoney(item.DeviceType.Price3),
@@ -114,7 +114,7 @@ namespace Prepaid.Controllers
                 Status = item.Status,
                 Value = item.Value,
                 Rate = item.Rate,
-                Unit = item.Unit,
+                Unit = item.DeviceType.Unit,
                 Price1 = TextHelper.ConvertMoney(item.DeviceType.Price1),
                 Price2 = TextHelper.ConvertMoney(item.DeviceType.Price2),
                 Price3 = TextHelper.ConvertMoney(item.DeviceType.Price3),
@@ -155,7 +155,6 @@ namespace Prepaid.Controllers
                 item.ItemName = device.ItemName;
                 item.ItemDescription = device.ItemDescription;
                 item.Rate = device.Rate;
-                item.Unit = device.Unit;
                 item.IsArchive = device.IsArchive;
                 item.ArchiveInterval = device.ArchiveInterval;
                 await this.repository.PutAsync(item);

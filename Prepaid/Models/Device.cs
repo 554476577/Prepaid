@@ -58,9 +58,6 @@ namespace Prepaid.Models
 
         public double? Rate { get; set; }
 
-        [StringLength(20)]
-        public string Unit { get; set; }
-
         public DateTime? DateTime { get; set; }
 
         public bool? IsArchive { get; set; }

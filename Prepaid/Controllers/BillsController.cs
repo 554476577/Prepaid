@@ -269,6 +269,7 @@ namespace Prepaid.Controllers
             {
                 bill.LotNo = TextHelper.GenerateUUID();
                 bill.DateTime = DateTime.Now;
+                bill.Remark = string.Format("yyyy-MM", bill.DateTime);
                 await this.billRepository.AddAsync(bill);
             }
             catch (DbUpdateException)
@@ -308,6 +309,7 @@ namespace Prepaid.Controllers
                 bill.CurValue = item.CurValue ?? 0.00;
                 bill.Money = item.IntMoney;
                 bill.DateTime = now;
+                bill.Remark = string.Format("yyyy-MM", bill.DateTime);
                 await this.billRepository.AddAsync(bill);
 
                 Device device = await this.deviceRespository.GetByIdAsync(item.DeviceNo);
@@ -348,6 +350,7 @@ namespace Prepaid.Controllers
                     bill.CurValue = item.CurValue ?? 0.00;
                     bill.Money = item.IntMoney;
                     bill.DateTime = now;
+                    bill.Remark = string.Format("yyyy-MM", bill.DateTime);
                     await this.billRepository.AddAsync(bill);
                 }
 

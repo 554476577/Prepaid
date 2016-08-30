@@ -26,6 +26,9 @@ namespace Prepaid.Models
         [StringLength(250)]
         public string Description { get; set; }
 
+        [StringLength(20)]
+        public string Unit { get; set; }
+
         public int? Price1 { get; set; }
 
         public int? Price2 { get; set; }

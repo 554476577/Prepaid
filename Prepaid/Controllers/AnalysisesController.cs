@@ -30,14 +30,20 @@ namespace Prepaid.Controllers
 
         [Route("api/buildingstatis")]
         [HttpGet]
-        [ResponseType(typeof(Statis))]
         public IHttpActionResult GetBuildingStatis()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            return Ok(this.deviceRepository.GetBuildingStatisInfo());
+            var statises = this.deviceRepository.GetBuildingStatisInfo();
+            var items = new
+            {
+                BuildingNos = from item in statises select item.xAxis,
+                Values = from item in statises select item.yAxis == null ? 0.00 : item.yAxis
+            };
+
+            return Ok(items);
         }
 
         [Route("api/typestatis")]
@@ -48,7 +54,14 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            return Ok(this.deviceRepository.GetTypeStatisInfo());
+            var statises = this.deviceRepository.GetTypeStatisInfo();
+            var items = new
+            {
+                DeviceTypes = from item in statises select item.xAxis,
+                Values = from item in statises select item.yAxis == null ? 0.00 : item.yAxis
+            };
+
+            return Ok(items);
         }
 
         [Route("api/billstatis")]
@@ -61,19 +74,20 @@ namespace Prepaid.Controllers
 
             List<string> Timelines = new List<string>{ "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
             IEnumerable<string> BuildingNos = from item in this.buildingRepository.GetAll() select item.BuildingNo;
-            IEnumerable<double>[] Valuelines = new List<double>[BuildingNos.Count()];
+            List<double>[] Valuelines = new List<double>[BuildingNos.Count()];
             for (int i = 0; i < BuildingNos.Count(); i++)
             {
-                string yearMonth = string.Format("{0}-{1}", DateTime.Now.Year, (i + 1).ToString("00"));
+                string buildingNo = BuildingNos.ElementAt(i);
                 var lines = from item in this.billRepository.GetAll()
-                            where item.Remark == yearMonth
+                            where item.Device.Room.BuildingNo == buildingNo && item.DateTime.Value.Year == DateTime.Now.Year
                             group item by new
                             {
-                                BuildingNo = item.Device.Room.BuildingNo
+                                DateTime = item.Remark
                             } into g
-                            orderby g.Key.BuildingNo
-                            select new { Value = g.Sum(p => (p.CurValue - p.PreValue)) };
-                Valuelines[i] = lines as IEnumerable<double>;
+                            orderby g.Key.DateTime
+                            select g.Sum(p => (p.CurValue - p.PreValue));
+                Valuelines[i] = new List<double>();
+                Valuelines[i].AddRange(lines);
             }
 
             var items = new

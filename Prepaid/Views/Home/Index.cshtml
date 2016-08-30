@@ -2,6 +2,68 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .top, .down {
+        width: 100%;
+        height: 50%;
+        color: #763d00;
+    }
+
+        .top > ul, .down > ul {
+            height: 85%;
+        }
+
+            .top > ul > li, .down > ul > li {
+                font-size: 15px;
+                padding: 5px 0;
+                height: 10%;
+                text-align: center;
+            }
+
+                .top > ul > li > a {
+                    color: #339966;
+                }
+
+                .down > ul > li > a {
+                    color: #ff3300;
+                }
+
+        .top > span {
+            display: block;
+            margin: 0;
+            color: #006600;
+            height: 7%;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .down > span {
+            display: block;
+            margin: 0;
+            color: #993300;
+            height: 7%;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .top > a {
+            display: block;
+            width: 100%;
+            height: 8%;
+            font-size: 15px;
+            text-align: center;
+            border-bottom: 1px dashed #336699;
+        }
+
+        .down > a {
+            display: block;
+            width: 100%;
+            height: 8%;
+            font-size: 15px;
+            text-align: center;
+        }
+</style>
+<script src="~/Scripts/echarts.common.min.js"></script>
 <script type="text/javascript">
     app.controller('HomeCtrl', function ($scope, $http) {
         getBetterRooms();
@@ -30,65 +92,227 @@
                 ShowErrModal(data, status);
             });
         }
+
+        // 各建筑能耗对比饼状图
+        var buildingChart = echarts.init(document.getElementById('building'));
+        buildingChart.clear();
+        buildingChart.showLoading({
+            text: '正在努力的读取各建筑能耗数据...',
+        });
+        buildingStatis();
+
+        function buildingStatis() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/buildingstatis"
+            }).success(function (data, status, headers, config) {
+                buildingChart.hideLoading();
+                var option = {
+                    title: {
+                        text: '建筑能耗对比图',
+                        x: 'center'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: data.BuildingNos
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: { show: true },
+                            dataView: { show: true, readOnly: false },
+                            restore: { show: true },
+                            saveAsImage: { show: true }
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name: '楼房能耗',
+                            type: 'pie',
+                            center: ['50%', '55%'],
+                            data: (function () {
+                                var result = [];
+                                for (var index in data.BuildingNos) {
+                                    var buildingNo = data.BuildingNos[index];
+                                    result.push({
+                                        value: data.Values[index],
+                                        name: buildingNo
+                                    });
+                                }
+                                return result;
+                            })(),
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+
+                buildingChart.setOption(option);
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 各设备类型能耗对比图
+        var typeChart = echarts.init(document.getElementById('devicetype'));
+        typeChart.clear();
+        typeChart.showLoading({
+            text: '正在努力的读取各设备类型数据...',
+        });
+        deviceTypeStatis();
+
+        function deviceTypeStatis() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/typestatis"
+            }).success(function (data, status, headers, config) {
+                typeChart.hideLoading();
+                var option = {
+                    title: {
+                        text: '设备类型能耗对比图',
+                        x: 'center'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: data.DeviceTypes
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: { show: true },
+                            dataView: { show: true, readOnly: false },
+                            restore: { show: true },
+                            saveAsImage: { show: true }
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name: '设备类型能耗',
+                            type: 'pie',
+                            center: ['60%', '55%'],
+                            data: (function () {
+                                var result = [];
+                                for (var index in data.DeviceTypes) {
+                                    var type = data.DeviceTypes[index];
+                                    result.push({
+                                        value: data.Values[index],
+                                        name: type
+                                    });
+                                }
+                                return result;
+                            })(),
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+
+                typeChart.setOption(option);
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 建筑历史能耗时间对比图
+        var billChart = echarts.init(document.getElementById('bill'));
+        billChart.clear();
+        billChart.showLoading({
+            text: '正在努力的读取建筑历史能耗时间数据...',
+        });
+        billStatis();
+
+        function billStatis() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/billstatis"
+            }).success(function (data, status, headers, config) {
+                billChart.hideLoading();
+                var option = {
+                    legend: {                                   // 图例配置
+                        data: data.BuildingNos
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: { show: true },
+                            dataView: { show: true, readOnly: false },
+                            magicType: { show: true, type: ['line', 'bar'] },
+                            restore: { show: true },
+                            saveAsImage: { show: true }
+                        }
+                    },
+                    calculable: false,                          // 是否启用拖拽重计算特性，默认关闭
+                    tooltip: {                                  // 气泡提示配置
+                        trigger: 'item',                        // 触发类型，默认数据触发，可选为：'axis','item'
+                    },
+                    xAxis: [                                    // 直角坐标系中横轴数组
+                        {
+                            type: 'category',                   // 坐标轴类型，横轴默认为类目轴，数值轴则参考yAxis说明
+                            data: data.Timelines
+                        }
+                    ],
+                    yAxis: [                                    // 直角坐标系中纵轴数组
+                        {
+                            type: 'value'                       // 坐标轴类型，纵轴默认为数值轴，类目轴则参考xAxis说明
+                        }
+                    ],
+                    series: (function () {
+                        var result = [];
+                        for (var index in data.BuildingNos) {
+                            var buildingNo = data.BuildingNos[index];
+                            result.push({
+                                name: buildingNo,                            // 系列名称
+                                type: 'bar',                             // 图表类型，折线图line、散点图scatter、柱状图bar、饼图pie、雷达图radar
+                                smooth: true,
+                                data: data.Valuelines[index]
+                            });
+                        }
+                        return result;
+                    })()
+                };
+                billChart.setOption(option);
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
     });
 </script>
-<style>
-    .top, .down {
-        width: 100%;
-        height: 50%;
-        color: #763d00;
-    }
-        .top > ul, .down > ul {
-            height:85%;
-        }
-        .top > ul > li, .down > ul > li {
-            font-size: 15px;
-            padding:5px 0;
-            height:10%;
-            text-align:center;
-        }
-            .top > ul > li > a {
-                color:#339966;
-            }
-            .down > ul > li > a {
-                color:#ff3300;
-            }
-        .top > span {
-            display:block;
-            margin:0;
-            color:#006600;
-            height:7%;
-            font-size:15px;
-            font-weight:bold;
-        }
-        .down > span {
-            display:block;
-            margin:0;
-            color:#993300;
-            height:7%;
-            font-size:15px;
-            font-weight:bold;
-        }
-
-        .top > a {
-            display: block;
-            width: 100%;
-            height:8%;
-            font-size: 15px;
-            text-align: center;
-            border-bottom:1px dashed #336699;
-        }
-         .down > a {
-            display: block;
-            width: 100%;
-            height:8%;
-            font-size: 15px;
-            text-align: center;
-        }
-</style>
 <div ng-controller="HomeCtrl" style="width:100%;height:100%;">
     <div style="width:88%;height:100%; background-color:aliceblue;float:left;">
+        <div style="width:100%;height:50%;border:2px solid red;">
+            <div id="building" style="width:50%;height:100%;border-right:2px solid red;float:left;">
 
+            </div>
+            <div id="devicetype" style="width:50%;height:100%;float:left;">
+
+            </div>
+        </div>
+        <div id="bill" style="width:100%;height:50%;border:2px solid red;">
+
+        </div>
     </div>
     <div style="width:12%;height:100%; background-color:#fff9eB;float:left;">
         <div class="top">
