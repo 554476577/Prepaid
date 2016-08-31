@@ -208,7 +208,7 @@ a {
 {
     width:170px;
     border:solid 1px #dfdfdf;
-    padding:5px;
+    /*padding:5px;*/
     background:#ffffff;
     font-size:11px;
     overflow:hidden;
@@ -217,12 +217,12 @@ a {
 {
     padding:5px;
     background:#19268b;
-    border:solid 1px #464646;
+    /*border:solid 1px #464646;*/
     margin:2px;
     }
 .menu ul li.menu-fst {
     display:block;
-    width:160px;
+    width:170px;
     margin-bottom:5px;
     /*background: url(../images/zakladka.png) top left no-repeat;*/
     background:#e7ecea;
@@ -239,6 +239,10 @@ a {
     padding-left:20px;
     font-size:14px; 
 }
+    .menu ul li.menu-fst a:hover {
+       background-color:pink;
+       border-right:transparent; 
+    }
 .menu ul li.menu-fst ul li.menu-sec {
     display:block;
     width:140px;

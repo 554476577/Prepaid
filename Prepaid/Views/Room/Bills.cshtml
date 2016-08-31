@@ -81,7 +81,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceBills.length)" style="position:relative;">
                 <div class="row style-spe">
                     <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.DateTime}}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.DateTime|date:"yyyy-MM-dd"}}</div>
                 </div>
                 <div class="row zindex">
                     <div class="col-lg-6 col-md-6 col-sm-6"></div>

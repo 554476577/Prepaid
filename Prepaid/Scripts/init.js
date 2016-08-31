@@ -173,6 +173,22 @@ app.controller('layoutCtrl', function ($scope, $http) {
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
         });
+    };
+
+    //左侧导航移上显示弹出框
+    $scope.mouseOverThing = function (BuildingItem) {
+        $(".sub_cate_box").css("display", "block");
+        $scope.msg = "区域: " + BuildingItem.BuildingNo;
+    }
+
+    //获取对应的BuildingNO,但还没成功。
+    $scope.clickThing = function (BuildingItem) {
+        $scope.msg = "Clicked: " + BuildingItem.BuildingNo;
+    }
+
+    //左侧导航离开时隐藏弹出框
+    $scope.mouseLeaveThing = function (BuildingItem) {
+        $(".sub_cate_box").css("display", "none");
     }
 
     // 退出系统

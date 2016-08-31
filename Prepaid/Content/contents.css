@@ -29,6 +29,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     overflow:auto;
     min-height:450px;
 }
+/*弹出框的自定义高度样式*/
 .content-second-div {
     padding: 20px 10px 10px 15px;
     font-size: 13px;
@@ -36,6 +37,14 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     overflow:auto;
     min-height:400px;
 }
+.content-third-div {
+    padding: 20px 10px 10px 15px;
+    font-size: 13px;
+    background-color:#e9ede5;
+    overflow:auto;
+    min-height:300px;
+}
+/*弹出框的基础样式*/
 .form-group {
     float:left;
     width:49%;

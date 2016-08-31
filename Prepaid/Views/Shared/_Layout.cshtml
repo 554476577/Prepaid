@@ -54,10 +54,50 @@
                         $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
                     };
                 }
+                $(".accordion").mouseleave(function () {
+                    $(".submenu").slideUp();
+                    $(".submenu").parent().removeClass("open");
+                });
                 var accordion = new Accordion($('#accordion'), false);
             });
         });
     </script>
+    <style>
+        #cate_box {
+            position: relative;
+        }
+        .sub_cate_box {
+            display:none;
+            position: absolute;
+            left: 169px;
+            top: 0;
+            width: 400px;
+            background-color: pink;
+            overflow: visible;
+            /*box-shadow: 0 0 10px #DDD;*/
+            z-index: 100;
+            height: 400px;
+        }
+
+        .sub_cate_items {
+            float: left;
+            height: 400px;
+        }
+        div.close {
+            position: absolute;
+            top: -1px;
+            left: 415px;
+            z-index: 2;
+            width: 26px;
+            height: 26px;
+            background: #555;
+            text-align: center;
+            line-height: 26px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 26px;
+        }
+    </style>
 </head>
 <body ng-app="app" ng-controller="layoutCtrl">
     <div class="content">
@@ -119,18 +159,33 @@
         </div>
         <div class="main">
             <div id="sub-ctrl" style="float:left;">
+                <!--左侧导航菜单-->
                 <div class="menu">
                     <ul>
-                        <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" on-finish-render-filters>
+                        <li class="menu-fst items" ng-cloak ng-repeat="BuildingItem in BuildingItems" ng-click="clickThing(BuildingItem)" ng-mouseover="mouseOverThing(BuildingItem)"
+                            ng-mouseleave="mouseLeaveThing(BuildingItem)" on-finish-render-filters>
                             <a class="active" href="#">{{BuildingItem.BuildingNo}}</a>
+                            <!--通过hover,弹出一级框-->
+                            <div class="sub_cate_box">
+                                <div class="sub_cate_items">
+                                    <div>
+                                        <a href="#">{{msg}}</a>
+                                        <a href="#">书籍</a>
+                                        <a href="#">阶梯</a>
+                                    </div>
+                                    <!--<div class="close">×</div>-->
+                                </div>
+                            </div>
                             <ul>
                                 <li class="menu-sec" ng-cloak ng-repeat="FloorItem in BuildingItem.LstFloor">
                                     <a href="#">{{FloorItem.Floor}}F</a>
+                                    <!--通过hover，弹出二级框-->
                                     <ul class="menu-second" ng-if="FloorItem.RoomNos.length>0">
                                         <li class="menu-thd" ng-cloak ng-repeat="RoomNo in FloorItem.RoomNos">
                                             <a href="~/bill/cube?buildingNo={{BuildingItem.BuildingNo}}&floor={{FloorItem.Floor}}&roomNo={{RoomNo}}">
                                                 {{RoomNo}}
                                             </a>
+                                            <!--通过hover,弹出三级框-->
                                         </li>
                                     </ul>
                                 </li>
