@@ -174,15 +174,18 @@ app.controller('layoutCtrl', function ($scope, $http) {
                 //鼠标移上li和离开时,控制背景色
                 $(".menu-fst").mouseover(function () {
                     $(this).css("background", "pink");
+                    var len = $(".sub_cate_box").length;
+                    $(".sub_cate_box").mouseover(function () {
+                        $(this).siblings("a").css("background", "pink");
+                    });
+                    $(".sub_cate_box").mouseleave(function () {
+                        $(this).siblings("a").css("background", "#e7ecea");
+                    });
                 });
+
                 $(".menu-fst").mouseover(function () {
                     $(this).css("background", "#e7ecea");
-                });
-                var len = $(".sub_cate_box").length;
-                alert(len);
-                $(".sub_cate_box").mouseover(function () {
-                    $(this).siblings("a").css("background","pink");
-                });
+                });           
             });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
