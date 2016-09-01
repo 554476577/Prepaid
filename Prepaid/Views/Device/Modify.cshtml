@@ -83,7 +83,7 @@
 </script>
 <div ng-controller="DeviceCtrl" class="content-div">
     <form role="form" class="form-div">
-        <div class="form-group">
+        <div class="form-group" style="width:25%;">
             <label>设备类型选择</label>
             <div class="input-group">
                 <div class="input-group-btn">
@@ -98,6 +98,9 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        <div class="form-group group-style checkbox" style="width:23%;margin-top:30px;">
+            <label for="IsArchive"><input type="checkbox" id="IsArchive" name="IsArchive">是否归档</label>
         </div>
         <div class="form-group group-style">
             <label for="DeviceNo">设备编号</label>
@@ -132,26 +135,19 @@
             <input type="text" class="form-control input-text" id="ItemName" name="ItemName" value="{{Item.ItemName}}" placeholder="请输入组名称！">
         </div>
         <div class="form-group group-style">
-            <label for="ItemDescription">组描述</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="ItemDescription" name="ItemDescription" placeholder="请输入组描述！">
-                {{Item.ItemDescription}}
-            </textarea>
-        </div>
-        <div class="form-group group-style">
             <label for="Rate">转换倍率</label>
             <input type="text" class="form-control input-text" id="Rate" name="Rate" value="{{Item.Rate}}" placeholder="请输入值的转换倍率！">
-        </div>
-        <div class="form-group group-style">
-            <label for="Unit">单位</label>
-            <input type="text" class="form-control input-text" id="Unit" name="Unit" value="{{Item.Unit}}" placeholder="请输入单位！">
         </div>
         <div class="form-group group-style">
             <label for="ArchiveInterval">归档时间间隔</label>
             <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" value="{{Item.ArchiveInterval}}"
                    placeholder="请输入归档时间间隔！">
         </div>
-        <div class="form-group group-style checkbox">
-            <label for="IsArchive"><input type="checkbox" id="IsArchive" name="IsArchive">是否归档</label>
+        <div class="form-group group-style">
+            <label for="ItemDescription">组描述</label>
+            <textarea cols="30" rows="3" class="form-control textarea-text" id="ItemDescription" name="ItemDescription" placeholder="请输入组描述！">
+                {{Item.ItemDescription}}
+            </textarea>
         </div>
     </form>
     <button class="btn btn-primary btn-style btn-top btn-special" ng-click="modify()">修改</button><br />

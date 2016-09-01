@@ -35,16 +35,12 @@
 </script>
 
 <div ng-controller="AdminCtrl" class="content-div">
-    <div class="top-basic">
-        <strong>登录账号</strong>
-    </div>
-    <div class="container-fluid">
-        <div class="row row-style">
-            <div class="search-div" style="float:right;padding-right:10px;">
-                <button id="btnAdd" title="添加账号" url="admin/add" class="btn btn-success btn-top" onclick="popFirstWnd(this.id, '添加账号','800','400')">
-                    <i class=" fa fa-plus" aria-hidden="true"></i>
-                </button>
-            </div>
+    <div class="top-basic" style="position:relative;height:43px;border-right:transparent;border-left:transparent;">
+        <strong style="line-height:35px;">消息通知</strong>
+        <div class="search-div" style="padding-right:10px;position:absolute;top:-2px;right:0;">
+            <button id="btnAdd" title="添加账号" url="admin/add" class="btn btn-success btn-top" onclick="popFirstWnd(this.id, '添加账号','800','400')">
+                <i class=" fa fa-plus" aria-hidden="true"></i>
+            </button>
         </div>
     </div>
     <div class="content-table">

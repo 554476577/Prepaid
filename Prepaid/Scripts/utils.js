@@ -95,7 +95,7 @@ function ShowConfirmModal(title, callback) {
 
 // 弹出默认大小的窗口
 function popDefaultWnd(id,title) {
-    popWnd(id, title, 800, 450);
+    popWnd(id, title, 800, 455);
 }
 
 //弹出自定义窗口

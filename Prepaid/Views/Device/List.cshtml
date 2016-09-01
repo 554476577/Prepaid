@@ -82,7 +82,7 @@
     </div>
     <div class="container-fluid">
         <div class="row row-style">
-            <div class="col-lg-7 col-md-7 col-sm-7 search-top">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 search-top">
                 <div class="row">
                     <div class="search-txt col-lg-1 col-md-1 col-sm-1">设备编号:</div>
                     <div class="col-lg-3 col-md-3 col-sm-3"><input type="text" id="DeviceNo" class="form-control input-search"></div>
@@ -95,7 +95,7 @@
             </div>
             <div class="input-group search-div">
                 <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','580')" class="btn btn-success btn-top">
+                <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','530')" class="btn btn-success btn-top">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
             </div>
@@ -127,7 +127,7 @@
                     <td>{{item.IsArchive}}</td>
                     <td>{{item.ArchiveInterval}}</td>
                     <td>
-                        <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '修改点位信息','800','580')"
+                        <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '修改点位信息','800','530')"
                                 class="btn btn-warning btn-style">
                             修改
                         </button>

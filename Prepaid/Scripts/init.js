@@ -102,6 +102,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     a.addClass("inactive");
                     a.parent("li").children("ul").slideUp(b.Speed)
                 }
+
             }
             item.unbind('click').click(_item);
         }
@@ -169,27 +170,31 @@ app.controller('layoutCtrl', function ($scope, $http) {
                         }
                     });
                 }
+
+                //鼠标移上li和离开时,控制背景色
+                $(".menu-fst").mouseover(function () {
+                    $(this).css("background", "pink");
+                });
+                $(".menu-fst").mouseover(function () {
+                    $(this).css("background", "#e7ecea");
+                });
+                var len = $(".sub_cate_box").length;
+                alert(len);
+                $(".sub_cate_box").mouseover(function () {
+                    $(this).siblings("a").css("background","pink");
+                });
             });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
         });
     };
 
-    //左侧导航移上显示弹出框
-    $scope.mouseOverThing = function (BuildingItem) {
-        $(".sub_cate_box").css("display", "block");
-        $scope.msg = "区域: " + BuildingItem.BuildingNo;
-    }
-
-    //获取对应的BuildingNO,但还没成功。
-    $scope.clickThing = function (BuildingItem) {
-        $scope.msg = "Clicked: " + BuildingItem.BuildingNo;
-    }
-
-    //左侧导航离开时隐藏弹出框
-    $scope.mouseLeaveThing = function (BuildingItem) {
-        $(".sub_cate_box").css("display", "none");
-    }
+    $scope.setPopStyle = function (index) {
+            return {
+                "top": 40 * index + "px",
+                "left": 169 + "px"
+        }
+    };
 
     // 退出系统
     $scope.logout = function () {
