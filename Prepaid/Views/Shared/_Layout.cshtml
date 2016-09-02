@@ -126,8 +126,7 @@
                 <!--左侧导航菜单-->
                 <div class="menu">
                     <ul>
-                        <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" ng-mouseover="hover = true" ng-mouseleave="hover = false" 
-                            on-finish-render-filters>
+                        <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" ng-mouseover="hover = true" ng-mouseleave="hover = false" on-finish-render-filters>
                             <a class="active" href="#">{{BuildingItem.BuildingNo}}</a>
                             <!--通过hover,弹出一级框-->
                             <div class="sub_cate_box" ng-if="hover" ng-style="setPopStyle({{$index}})">

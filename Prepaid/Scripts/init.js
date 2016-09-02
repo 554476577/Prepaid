@@ -147,7 +147,11 @@ app.controller('layoutCtrl', function ($scope, $http) {
                             function () {
                                 a_building.removeAttr("class");
                                 a_building.addClass("active");
+                                ////点击后去除mouseover带来的背景，改为点击后的背景色
+                                //a_building.css("background-color", "#19c68b");
                             });
+                            ////弹出框消失
+                            //$(".sub_cate_box").css("display","none");
 
                             a_building.parent("li").children("ul").children("li").children("a").each(function () {
                                 var a_floor = $(this);
@@ -171,21 +175,21 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     });
                 }
 
-                //鼠标移上li和离开时,控制背景色
+                //鼠标移上或离开li和a标签时,控制背景色
                 $(".menu-fst").mouseover(function () {
-                    $(this).css("background", "pink");
-                    var len = $(".sub_cate_box").length;
+                    $(".menu-fst>a").mouseover(function () {
+                        $(this).css("background-color", "lightblue");
+                    });
                     $(".sub_cate_box").mouseover(function () {
-                        $(this).siblings("a").css("background", "pink");
+                        $(this).siblings("a").css("background-color", "lightblue");
+                    });
+                    $(".menu-fst>a").mouseleave(function () {
+                        $(this).css("background-color", "#e7ecea")
                     });
                     $(".sub_cate_box").mouseleave(function () {
-                        $(this).siblings("a").css("background", "#e7ecea");
+                        $(this).siblings("a").css("background-color", "#e7ecea");
                     });
                 });
-
-                $(".menu-fst").mouseover(function () {
-                    $(this).css("background", "#e7ecea");
-                });           
             });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
@@ -194,7 +198,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
 
     $scope.setPopStyle = function (index) {
             return {
-                "top": 40 * index + "px",
+                "top": 39 * index + "px",
                 "left": 169 + "px"
         }
     };

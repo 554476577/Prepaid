@@ -37,6 +37,7 @@ body {
 .main {
     width: 100%;
     height: calc(100% - 68px);
+    overflow-y:auto;
     /*height: 100%;*/
     position: relative;
     background:#eeeeee;
@@ -239,7 +240,7 @@ a {
     top:0;
     z-index: 9999999999;
     width: 400px;
-    background-color: pink;
+    background-color: lightblue;
     overflow: visible;
     height: 400px;
 }
@@ -270,7 +271,7 @@ div.close {
     font-size:14px; 
 }
 .menu ul li.menu-fst a:hover {
-    background-color:pink;
+    background-color:lightblue;
     border-right:transparent; 
 }
 .menu ul li.menu-fst ul li.menu-sec {
@@ -310,7 +311,6 @@ div.close {
     background-color:#19c68b;
     border-radius:3px;
 }
-
 .menu ul li .inactive 
 {
     background:url(../images/off.png) top right no-repeat;
