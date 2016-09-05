@@ -147,12 +147,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
                             function () {
                                 a_building.removeAttr("class");
                                 a_building.addClass("active");
-                                ////点击后去除mouseover带来的背景，改为点击后的背景色
-                                //a_building.css("background-color", "#19c68b");
                             });
-                            ////弹出框消失
-                            //$(".sub_cate_box").css("display","none");
-
                             a_building.parent("li").children("ul").children("li").children("a").each(function () {
                                 var a_floor = $(this);
                                 if ($.trim(a_floor.text()) == floor + "F") {
@@ -175,21 +170,70 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     });
                 }
 
-                //鼠标移上或离开li和a标签时,控制背景色
-                $(".menu-fst").mouseover(function () {
-                    $(".menu-fst>a").mouseover(function () {
-                        $(this).css("background-color", "lightblue");
-                    });
+                //鼠标移上或离开a标签时,控制背景色和弹出框  底色"#e7ecea", 转色"#ADD8E6",点击高亮色"#19c68b";
+                $scope.mouseOverThing = function (index) {
+                    if (typeof ($("#building" + index).attr("attrBuildingColor")) == "undefined") {
+                        $("#building" + index).attr("attrBuildingColor", "1");
+                    }
+                    //alert($("#building" + index).attr("attrBuildingColor"));
+                    var attrBuildingColor = $("#building" + index).attr("attrBuildingColor");
+                    var block = $("#popDiv" + index).css("display");
+                    var ulBlock = $("#building" + index).siblings("ul").css("display");
+                    if (attrBuildingColor == "1") {
+                        $("#building" + index).css("background-color", "#ADD8E6").attr("attrBuildingColor", "2");
+                        $("#popDiv" + index).css("display", "block");
+                    }
                     $(".sub_cate_box").mouseover(function () {
-                        $(this).siblings("a").css("background-color", "lightblue");
-                    });
-                    $(".menu-fst>a").mouseleave(function () {
-                        $(this).css("background-color", "#e7ecea")
+                        $(this).css("display", "block");
+                        $(this).siblings(".area").css("background-color", "#ADD8E6").attr("attrBuildingColor", "2");
                     });
                     $(".sub_cate_box").mouseleave(function () {
-                        $(this).siblings("a").css("background-color", "#e7ecea");
+                        $(this).siblings(".area").css("background-color", "#e7ecea").attr("attrBuildingColor", "1");
+                        $(this).css("display", "none");
                     });
-                });
+                    if (attrBuildingColor == "3" && block == "none") {
+                        $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
+                    }
+                    $(document).on("click","#building"+index ,function () {
+                        var attrBuildingColor = $("#building" + index).attr("attrBuildingColor");
+                        var block = $("#building" + index).siblings(".sub_cate_box").css("display");
+                        var ulBlock = $("#building" + index).siblings("ul").css("display");
+                        if (attrBuildingColor == "2" && block == "block") {
+                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
+                            $(this).siblings(".sub_cate_box").css("display", "none");
+                        }
+                       if (attrBuildingColor == "2" && block == "block" && ulBlock == "block") {
+                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
+                        }
+                        if (attrBuildingColor == "3" && block == "none" && ulBlock == "block") {
+                            $(this).css("background-color", "#e7ecea").attr("attrBuildingColor", "1");
+                        }
+                        if (attrBuildingColor == "1" && block == "none" && ulBlock == "block") {
+                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
+                        }
+                        if (attrBuildingColor == "1" && block == "none") {
+                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
+                        }
+                    });
+                    
+                }
+
+                $scope.mouseLeaveThing = function (index) {
+                    var attrBuildingColor = $("#building" + index).attr("attrBuildingColor");
+                    var block = $("#popDiv" + index).css("display");
+                    var ulBlock = $("#building" + index).siblings("ul").css("display");
+                    console.log(attrBuildingColor);
+                    console.log(block);
+                    console.log(ulBlock);
+                    if (attrBuildingColor == "2") {
+                        $("#building" + index).css("background-color", "#e7ecea").attr("attrBuildingColor", "1");
+                        $("#popDiv" + index).css("display", "none");
+                    }
+                    if (attrBuildingColor == "3" && ulBlock == "block") {
+                        $("#building" + index).css("background-color", "#19c68b").attr("attrBuildingColor","3");
+                    }
+                }
+
             });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);

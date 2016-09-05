@@ -234,7 +234,6 @@ a {
 }
 /*弹出框的样式*/
 .sub_cate_box{
-    display:block;
     position: absolute;
     left:169px;
     top:0;
@@ -262,18 +261,16 @@ div.close {
    cursor: pointer;
    font-size: 26px;
 }
-.menu ul li.menu-fst a {
+.menu ul li.menu-fst>a {
     display:block;
     line-height:34px; 
     color:#82846f;
     outline:none;
     padding-left:20px;
     font-size:14px; 
+    background-color:#e7ecea;
 }
-.menu ul li.menu-fst a:hover {
-    background-color:lightblue;
-    border-right:transparent; 
-}
+
 .menu ul li.menu-fst ul li.menu-sec {
     display:block;
     width:140px;
@@ -308,7 +305,7 @@ div.close {
 .menu ul li .active 
 {
     background:url(../images/on.png) top right no-repeat;
-    background-color:#19c68b;
+    /*background-color:#19c68b;*/
     border-radius:3px;
 }
 .menu ul li .inactive 
