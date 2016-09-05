@@ -98,6 +98,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
                         a.addClass("active");
                         a.attr("flag", "2");
                         a.css("background-color", "#19c68b");
+                        a.siblings(".sub_cate_box").css("display", "none");
                     });
                 }
 
@@ -189,13 +190,13 @@ app.controller('layoutCtrl', function ($scope, $http) {
                         a_building.attr("flag", "1");
                         a_building.css("background-color", over_color);
                         popDiv.css("display", "block");
-
-                        popDiv.mouseleave(function () {
-                            a_building.attr("flag", "0");
-                            a_building.css("background-color", origin_color);
-                            $(this).css("display", "none");
-                        });
                     }
+
+                    popDiv.mouseleave(function () {
+                        a_building.attr("flag", "0");
+                        a_building.css("background-color", origin_color);
+                        $(this).css("display", "none");
+                    });
                 }
 
                 $scope.BuildingMouseLeave = function (index) {
