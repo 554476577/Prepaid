@@ -48,7 +48,7 @@ namespace Prepaid.Repositories
             if (!string.IsNullOrEmpty(deviceNo))
                 result = result.Where(u => u.DeviceNo.Contains(deviceNo));
             if (!string.IsNullOrEmpty(roomNo))
-                result = result.Where(u => u.RoomNo != null && u.DeviceName.Contains(roomNo));
+                result = result.Where(u => u.RoomNo != null && u.RoomNo.Contains(roomNo));
             if (!string.IsNullOrEmpty(itemID))
                 result = result.Where(u => u.ItemID.Contains(itemID));
             return result;

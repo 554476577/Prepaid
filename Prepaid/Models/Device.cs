@@ -14,13 +14,13 @@ namespace Prepaid.Models
             Alarms = new HashSet<Alarm>();
             Bills = new HashSet<Bill>();
             Cutouts = new HashSet<Cutout>();
+            DevicePayLinks = new HashSet<DevicePayLink>();
         }
 
         [Key]
         [StringLength(20)]
         public string DeviceNo { get; set; }
 
-        [Required]
         [StringLength(20)]
         public string RoomNo { get; set; }
 
@@ -86,5 +86,7 @@ namespace Prepaid.Models
         public virtual DeviceType DeviceType { get; set; }
 
         public virtual Room Room { get; set; }
+
+        public virtual ICollection<DevicePayLink> DevicePayLinks { get; set; }
     }
 }

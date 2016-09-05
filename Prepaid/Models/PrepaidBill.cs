@@ -53,7 +53,7 @@ namespace Prepaid.Models
         public double? SumValue { get; set; }
 
         /// <summary>
-        /// 用户在当前时刻消耗的总金额(扩大100倍)
+        /// 用户在当前时刻消耗的总金额
         /// </summary>
         public int? IntSumMoney { get; set; }
 
@@ -61,6 +61,16 @@ namespace Prepaid.Models
         /// 用户在当前时刻消耗的总金额(扩大100倍)
         /// </summary>
         public string SumMoney { get; set; }
+
+        /// <summary>
+        /// 平摊费用
+        /// </summary>
+        public int? IntApportMoney { get; set; }
+
+        /// <summary>
+        /// 用户在当前时刻需要平摊的费用(扩大100倍)
+        /// </summary>
+        public string ApportMoney { get; set; }
 
         /// <summary>
         /// 结算后账户余额

@@ -20,11 +20,13 @@ namespace Prepaid.Models
         public virtual DbSet<Credit> Credits { get; set; }
         public virtual DbSet<Cutout> Cutouts { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
+        public virtual DbSet<DevicePayLink> DevicePayLinks { get; set; }
         public virtual DbSet<DeviceType> DeviceTypes { get; set; }
         public virtual DbSet<Ladder> Ladders { get; set; }
         public virtual DbSet<Msg> Msgs { get; set; }
         public virtual DbSet<Recharge> Recharges { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<VDevicePay> VDevicePays { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -87,11 +89,6 @@ namespace Prepaid.Models
             modelBuilder.Entity<Recharge>()
                 .Property(e => e.UUID)
                 .IsFixedLength();
-
-            modelBuilder.Entity<Room>()
-                .HasMany(e => e.Devices)
-                .WithRequired(e => e.Room)
-                .WillCascadeOnDelete(false);
         }
     }
 }

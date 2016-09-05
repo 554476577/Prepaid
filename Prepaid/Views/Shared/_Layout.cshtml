@@ -127,8 +127,8 @@
                 <div class="menu">
                     <ul>
                         <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" on-finish-render-filters>
-                            <a class="active area" href="#" id="building{{$index+1}}"
-                               ng-mouseover="mouseOverThing($index+1)" ng-mouseleave="mouseLeaveThing($index+1)">{{BuildingItem.BuildingNo}}</a>
+                            <a class="active area" href="#" id="building{{$index+1}}" flag="0"
+                               ng-mouseover="BuildingMouseOver($index+1)" ng-mouseleave="BuildingMouseLeave($index+1)">{{BuildingItem.BuildingNo}}</a>
                             <!--通过hover,弹出一级框-->
                             <div class="sub_cate_box" id="popDiv{{$index+1}}" ng-style="setPopStyle($index)" ng-mouseover="divMouseOver('{{$index+1}}')" style="display:none;">
                                 <div class="sub_cate_items">

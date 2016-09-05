@@ -1,4 +1,4 @@
-namespace Prepaid
+namespace Prepaid.Models
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,8 @@ namespace Prepaid
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Alarm")]
-    public partial class Alarm
+    [Table("DevicePayLink")]
+    public partial class DevicePayLink
     {
         public int ID { get; set; }
 
@@ -16,23 +16,16 @@ namespace Prepaid
         public string DeviceNo { get; set; }
 
         [Required]
-        [StringLength(250)]
-        public string Content { get; set; }
-
         [StringLength(20)]
-        public string Type { get; set; }
-
-        public int? Level { get; set; }
-
-        public int? MsgID { get; set; }
+        public string RoomNo { get; set; }
 
         public DateTime? CreateTime { get; set; }
 
-        [StringLength(200)]
+        [StringLength(150)]
         public string Remark { get; set; }
 
         public virtual Device Device { get; set; }
 
-        public virtual Msg Msg { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

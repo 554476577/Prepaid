@@ -86,6 +86,8 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     function () {
                         $(this).parent("li").children("a").removeAttr("class");
                         $(this).parent("li").children("a").attr("class", "inactive");
+                        $(this).parent("li").children("a").css("background-color", "#e7ecea");
+                        $(this).parent("li").children("a").attr("flag", "0");
                     });
                 }
 
@@ -94,13 +96,18 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     function () {
                         a.removeAttr("class");
                         a.addClass("active");
+                        a.attr("flag", "2");
+                        a.css("background-color", "#19c68b");
                     });
                 }
 
                 if (a.attr("class").indexOf("inactive") < 0) {
                     a.removeAttr("class");
                     a.addClass("inactive");
-                    a.parent("li").children("ul").slideUp(b.Speed)
+                    a.parent("li").children("ul").slideUp(b.Speed, function () {
+                        a.attr("flag", "0");
+                        a.css("background-color", "#e7ecea");
+                    });
                 }
 
             }
@@ -170,70 +177,38 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     });
                 }
 
+                var origin_color = "#e7ecea";
+                var over_color = "#ADD8E6";
+                var click_color = "#19c68b";
                 //鼠标移上或离开a标签时,控制背景色和弹出框  底色"#e7ecea", 转色"#ADD8E6",点击高亮色"#19c68b";
-                $scope.mouseOverThing = function (index) {
-                    if (typeof ($("#building" + index).attr("attrBuildingColor")) == "undefined") {
-                        $("#building" + index).attr("attrBuildingColor", "1");
-                    }
-                    //alert($("#building" + index).attr("attrBuildingColor"));
-                    var attrBuildingColor = $("#building" + index).attr("attrBuildingColor");
-                    var block = $("#popDiv" + index).css("display");
-                    var ulBlock = $("#building" + index).siblings("ul").css("display");
-                    if (attrBuildingColor == "1") {
-                        $("#building" + index).css("background-color", "#ADD8E6").attr("attrBuildingColor", "2");
-                        $("#popDiv" + index).css("display", "block");
-                    }
-                    $(".sub_cate_box").mouseover(function () {
-                        $(this).css("display", "block");
-                        $(this).siblings(".area").css("background-color", "#ADD8E6").attr("attrBuildingColor", "2");
-                    });
-                    $(".sub_cate_box").mouseleave(function () {
-                        $(this).siblings(".area").css("background-color", "#e7ecea").attr("attrBuildingColor", "1");
-                        $(this).css("display", "none");
-                    });
-                    if (attrBuildingColor == "3" && block == "none") {
-                        $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
-                    }
-                    $(document).on("click","#building"+index ,function () {
-                        var attrBuildingColor = $("#building" + index).attr("attrBuildingColor");
-                        var block = $("#building" + index).siblings(".sub_cate_box").css("display");
-                        var ulBlock = $("#building" + index).siblings("ul").css("display");
-                        if (attrBuildingColor == "2" && block == "block") {
-                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
-                            $(this).siblings(".sub_cate_box").css("display", "none");
-                        }
-                       if (attrBuildingColor == "2" && block == "block" && ulBlock == "block") {
-                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
-                        }
-                        if (attrBuildingColor == "3" && block == "none" && ulBlock == "block") {
-                            $(this).css("background-color", "#e7ecea").attr("attrBuildingColor", "1");
-                        }
-                        if (attrBuildingColor == "1" && block == "none" && ulBlock == "block") {
-                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
-                        }
-                        if (attrBuildingColor == "1" && block == "none") {
-                            $(this).css("background-color", "#19c68b").attr("attrBuildingColor", "3");
-                        }
-                    });
-                    
-                }
+                $scope.BuildingMouseOver = function (index) {
+                    var a_building = $("#building" + index);
+                    var popDiv = $("#popDiv"+index);
+                    var flag = a_building.attr("flag");
+                    if (flag == "0") {
+                        a_building.attr("flag", "1");
+                        a_building.css("background-color", over_color);
+                        popDiv.css("display", "block");
 
-                $scope.mouseLeaveThing = function (index) {
-                    var attrBuildingColor = $("#building" + index).attr("attrBuildingColor");
-                    var block = $("#popDiv" + index).css("display");
-                    var ulBlock = $("#building" + index).siblings("ul").css("display");
-                    console.log(attrBuildingColor);
-                    console.log(block);
-                    console.log(ulBlock);
-                    if (attrBuildingColor == "2") {
-                        $("#building" + index).css("background-color", "#e7ecea").attr("attrBuildingColor", "1");
-                        $("#popDiv" + index).css("display", "none");
-                    }
-                    if (attrBuildingColor == "3" && ulBlock == "block") {
-                        $("#building" + index).css("background-color", "#19c68b").attr("attrBuildingColor","3");
+                        popDiv.mouseleave(function () {
+                            a_building.attr("flag", "0");
+                            a_building.css("background-color", origin_color);
+                            $(this).css("display", "none");
+                        });
                     }
                 }
 
+                $scope.BuildingMouseLeave = function (index) {
+                    var a_building = $("#building" + index);
+                    var popDiv = $("#popDiv"+index);
+                    var flag = a_building.attr("flag");
+
+                    if (flag == "1") {
+                        a_building.attr("flag", "0");
+                        a_building.css("background-color", origin_color);
+                        popDiv.css("display", "none");
+                    }
+                }
             });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);

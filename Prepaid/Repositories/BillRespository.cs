@@ -136,11 +136,22 @@ namespace Prepaid.Repositories
                 bill.IntAccountBalance = item.AccountBalance;
                 bill.AccountBalance = TextHelper.ConvertMoney(item.AccountBalance);
                 bill.AccountWarnLimit = TextHelper.ConvertMoney(item.AccountWarnLimit);
+                // 该房间对应的分摊仪表
+                IEnumerable<string> apportDeviceNos = from p in db.DevicePayLinks where p.RoomNo == item.RoomNo select p.DeviceNo;
+                int? totalMoney = 0;
+                foreach (string deviceNo in apportDeviceNos)
+                {
+                    double? totolArea = (from p in db.VDevicePays where p.DeviceNo == deviceNo select p.TotolArea).FirstOrDefault();
+                    double? money = (from p in db.Devices where p.DeviceNo == deviceNo select (p.Value - p.PreValue) * p.DeviceType.Price1).FirstOrDefault();
+                    totalMoney += (int)(money * (item.Area / totolArea));
+                }
+                bill.IntApportMoney = totalMoney;
+                bill.ApportMoney = TextHelper.ConvertMoney(bill.IntApportMoney);
                 bill.PrepaidDeviceBills = GetPrepaidDeviceBills(item.RoomNo);
                 bill.SumValue = bill.PrepaidDeviceBills.Sum(o => o.CurValue - o.PreValue);
                 bill.IntSumMoney = bill.PrepaidDeviceBills.Sum(o => o.IntMoney);
                 bill.SumMoney = TextHelper.ConvertMoney(bill.IntSumMoney);
-                bill.IntBilledBalance = item.AccountBalance - bill.IntSumMoney;
+                bill.IntBilledBalance = item.AccountBalance - bill.IntSumMoney - bill.IntApportMoney;
                 bill.BilledBalance = TextHelper.ConvertMoney(bill.IntBilledBalance);
                 bills.Add(bill);
             }

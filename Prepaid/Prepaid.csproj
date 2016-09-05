@@ -244,6 +244,8 @@
     <Compile Include="Controllers\LaddersController.cs" />
     <Compile Include="Controllers\BuildingsController.cs" />
     <Compile Include="Controllers\DeviceTypesController.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DevicePayLink.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="Models\Bill.cs" />
@@ -252,7 +254,6 @@
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\Credit.cs" />
     <Compile Include="Models\Cutout.cs" />
-    <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\Ladder.cs" />
     <Compile Include="Controllers\CommunitiesController.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Utils\ReportHelper.cs" />
     <Compile Include="Utils\TextHelper.cs" />
     <Compile Include="Utils\WebConfigHelper.cs" />
+    <Compile Include="Models\VDevicePay.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
