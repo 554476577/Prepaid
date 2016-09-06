@@ -68,23 +68,6 @@
         <div class="nav-top container-fluid">
             <div class="logo">
                 <a href="~/home/index"><img src="~/images/pre_energy.png" alt="Alternate Text" /></a>
-                @*<div class="row row-style">
-                        <div class="col-lg-4 col-md-4 col-sm-4 search-top">
-                            <div class="row">
-                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">建筑编号:</div>
-                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="BuildingNo" class="form-control input-search"></div>
-                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">房间编号:</div>
-                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RoomNo" class="form-control input-search"></div>
-                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">楼层:</div>
-                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="Floor" class="form-control input-search"></div>
-                                <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
-                                <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-search"></div>
-                            </div>
-                        </div>
-                        <div class="input-group search-div">
-                            <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </div>
-                    </div>*@
             </div>
             <div class="user-identity">
                 <div class="dropdown">
@@ -127,29 +110,27 @@
                 <div class="menu">
                     <ul>
                         <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" on-finish-render-filters>
-                            <a class="active area" href="#" id="building{{$index+1}}" flag="0"
+                            <a href="#" id="building{{$index+1}}" flag="0"
                                ng-mouseover="BuildingMouseOver($index+1)" ng-mouseleave="BuildingMouseLeave($index+1)">{{BuildingItem.BuildingNo}}</a>
                             <!--通过hover,弹出一级框-->
-                            <div class="sub_cate_box" id="popDiv{{$index+1}}" ng-style="setPopStyle($index)" ng-mouseover="divMouseOver('{{$index+1}}')" style="display:none;">
+                            <div class="sub_cate_box" id="popDiv{{$index+1}}" ng-mouseover="divMouseOver('{{$index+1}}')" 
+                                 style="display:none;left:169px;top:auto;margin-top:-34px;">
                                 <div class="sub_cate_items">
                                     <div>
                                         <a href="#">{{BuildingItem.BuildingNo}}</a>
                                         <a href="#">书籍</a>
                                         <a href="#">阶梯</a>
                                     </div>
-                                    <!--<div class="close">×</div>-->
                                 </div>
                             </div>
                             <ul>
                                 <li class="menu-sec" ng-cloak ng-repeat="FloorItem in BuildingItem.LstFloor">
                                     <a href="#">{{FloorItem.Floor}}F</a>
-                                    <!--通过hover，弹出二级框-->
                                     <ul class="menu-second" ng-if="FloorItem.RoomNos.length>0">
                                         <li class="menu-thd" ng-cloak ng-repeat="RoomNo in FloorItem.RoomNos">
                                             <a href="~/bill/cube?buildingNo={{BuildingItem.BuildingNo}}&floor={{FloorItem.Floor}}&roomNo={{RoomNo}}">
                                                 {{RoomNo}}
                                             </a>
-                                            <!--通过hover,弹出三级框-->
                                         </li>
                                     </ul>
                                 </li>

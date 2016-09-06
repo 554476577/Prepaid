@@ -86,8 +86,12 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     function () {
                         $(this).parent("li").children("a").removeAttr("class");
                         $(this).parent("li").children("a").attr("class", "inactive");
-                        $(this).parent("li").children("a").css("background-color", "#e7ecea");
-                        $(this).parent("li").children("a").attr("flag", "0");
+                        $(this).parent("li").children("a").each(function () {
+                            var id = $(this).attr("id");
+                            if (id != undefined && id.indexOf("building") >= 0) {
+                                $(this).attr("flag", "0");
+                            }
+                        });
                     });
                 }
 
@@ -96,9 +100,12 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     function () {
                         a.removeAttr("class");
                         a.addClass("active");
-                        a.attr("flag", "2");
-                        a.css("background-color", "#19c68b");
-                        a.siblings(".sub_cate_box").css("display", "none");
+                        var id = a.attr("id");
+                        if (id != undefined && id.indexOf("building") >= 0) {
+                            a.attr("flag", "2");
+                            a.removeAttr("style");
+                            a.siblings(".sub_cate_box").css("display", "none");
+                        }
                     });
                 }
 
@@ -106,11 +113,12 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     a.removeAttr("class");
                     a.addClass("inactive");
                     a.parent("li").children("ul").slideUp(b.Speed, function () {
-                        a.attr("flag", "0");
-                        a.css("background-color", "#e7ecea");
+                        var id = a.attr("id");
+                        if (id != undefined && id.indexOf("building") >= 0) {
+                            a.attr("flag", "0");
+                        }
                     });
                 }
-
             }
             item.unbind('click').click(_item);
         }
@@ -178,10 +186,10 @@ app.controller('layoutCtrl', function ($scope, $http) {
                     });
                 }
 
+                //鼠标移上或离开a标签时,控制背景色和弹出框  底色"#e7ecea", 转色"#ADD8E6",点击高亮色"#19c68b";
                 var origin_color = "#e7ecea";
                 var over_color = "#ADD8E6";
                 var click_color = "#19c68b";
-                //鼠标移上或离开a标签时,控制背景色和弹出框  底色"#e7ecea", 转色"#ADD8E6",点击高亮色"#19c68b";
                 $scope.BuildingMouseOver = function (index) {
                     var a_building = $("#building" + index);
                     var popDiv = $("#popDiv"+index);
@@ -190,6 +198,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
                         a_building.attr("flag", "1");
                         a_building.css("background-color", over_color);
                         popDiv.css("display", "block");
+                        popDiv.css("top", top);
                     }
 
                     popDiv.mouseleave(function () {
@@ -197,13 +206,18 @@ app.controller('layoutCtrl', function ($scope, $http) {
                         a_building.css("background-color", origin_color);
                         $(this).css("display", "none");
                     });
+
+                    popDiv.mouseover(function () {
+                        a_building.attr("flag", "0");
+                        a_building.css("background-color", over_color);
+                        $(this).css("display", "block");
+                    });
                 }
 
                 $scope.BuildingMouseLeave = function (index) {
                     var a_building = $("#building" + index);
                     var popDiv = $("#popDiv"+index);
                     var flag = a_building.attr("flag");
-
                     if (flag == "1") {
                         a_building.attr("flag", "0");
                         a_building.css("background-color", origin_color);
@@ -214,13 +228,6 @@ app.controller('layoutCtrl', function ($scope, $http) {
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
         });
-    };
-
-    $scope.setPopStyle = function (index) {
-            return {
-                "top": 39 * index + "px",
-                "left": 169 + "px"
-        }
     };
 
     // 退出系统
