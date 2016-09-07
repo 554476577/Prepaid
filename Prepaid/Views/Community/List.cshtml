@@ -57,16 +57,16 @@
 </script>
 <div ng-controller="CommunityCtrl" class="content-div">
     @*小区信息*@
-    <div style="width:100%;height:100%;font-size:14px;background:#fff;border:1px solid #d7d7d7;border-radius:3px;margin-bottom:10px;">
+    <div class="cell-information">
         <div ng-if="!HasItem">
             <button type="button" class="btn btn-success btn-style">
                 添加
             </button>
         </div>
         <div ng-if="HasItem">
-            <div class="top-basic" style="position:relative;height:43px;border-right:transparent;border-left:transparent;">
-                <strong style="line-height:35px;">小区信息</strong>
-                <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+            <div class="top-basic community-head">
+                <strong>小区信息</strong>
+                <div class="community-add">
                     <button title="修改小区信息" type="button" id="btnCommunityModify{{$index+1}}" url="community/modify?uuid={{Item.UUID}}" class="btn btn-primary"
                             style="padding:6px 10px;" onclick="popDefaultWnd(this.id,'修改小区信息')">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -102,10 +102,10 @@
         </div>
     </div>
     @*建筑信息*@
-    <div style="width:100%;height:100%;border:1px solid #d7d7d7;">
-        <div class="top-basic" style="position:relative;height:43px;border-right:transparent;border-left:transparent;">
-            <strong style="line-height:35px;">建筑信息</strong>
-            <div style="padding-right:10px;position:absolute;top:4px;right:0;">
+    <div class="building-information">
+        <div class="top-basic building-head">
+            <strong>建筑信息</strong>
+            <div class="building-add">
                 <button id="btnBuildingAdd" title="添加建筑信息" url="building/add" class="btn btn-success"
                         onclick="popDefaultWnd(this.id,'添加建筑信息')">
                     <i class=" fa fa-plus" aria-hidden="true"></i>

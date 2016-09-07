@@ -29,6 +29,7 @@ namespace Prepaid
             container.RegisterType<IRepository<string, DeviceType>, DevcieTypeRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<string, Ladder>, LadderRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<int, Msg>, MsgRespository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<int, Alarm>, AlarmRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IRechargeRespository, RechargeRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IRoomRespository, RoomRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IBillRespository, BillRespository>(new HierarchicalLifetimeManager());

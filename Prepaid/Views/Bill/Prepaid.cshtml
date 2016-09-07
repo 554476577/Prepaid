@@ -162,7 +162,6 @@
                     <div class="col-md-2 col-sm-2 col-xs-2">当前抄表读数</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">当前用能</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">单价</div>
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2">当前能耗价格</div>-->
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -171,8 +170,6 @@
                     <div class="col-md-2 col-sm-2 col-xs-2">当前结算总价</div>
                     <div style="color:#cc3300;" class="col-md-2 col-sm-2 col-xs-2">账户余额</div>
                     <div style="color:#cc3300;" class="col-md-3 col-sm-3 col-xs-3">结算后账户余额</div>
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2">账户报警金额</div>-->
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2">账户可透支金额</div>-->
                     <div class="col-md-3 col-sm-3 col-xs-3">操作</div>
                 </div>
             </div>
@@ -197,7 +194,6 @@
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.CurrentValue}}</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.IntervalValue}}</div>
                     <div class="col-md-2 col-sm-2 col-xs-2">{{device.Price}}</div>
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2">{{device.StrIntervalMoney}}</div>-->
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6" ng-style="myStyle(item.InstantDeviceEnergies.length)" style="position:relative;">
@@ -206,8 +202,6 @@
                     <div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.StrCurrentSumMoney}}</div>
                     <div style="color:#339900;" class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountBalance}}</div>
                     <div class="col-md-3 col-sm-3 col-xs-3 money-style" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.StrCurrentAccountBalance}}</div>
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.AccountWarnLimit}}</div>-->
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2" rowspan="{{item.InstantDeviceEnergies.length}}">{{item.MaxArrears}}</div>-->
                     <div style="border-right:1px solid transparent;" class="col-md-3 col-sm-3 col-xs-3" rowspan="{{item.InstantDeviceEnergies.length}}">
                         <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
                                 url="recharge/add?userid={{item.UserID}}" onclick="popFirstWnd(this.id, '能耗充值','400','400')">
@@ -228,8 +222,6 @@
                     <div class="col-md-2 col-sm-2 col-xs-2"></div>
                     <div class="col-md-2 col-sm-2 col-xs-2"></div>
                     <div class="col-md-3 col-sm-3 col-xs-3"></div>
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2"></div>-->
-                    <!--<div class="col-md-2 col-sm-2 col-xs-2"></div>-->
                     <div class="col-md-3 col-sm-3 col-xs-3"></div>
                 </div>
             </div>

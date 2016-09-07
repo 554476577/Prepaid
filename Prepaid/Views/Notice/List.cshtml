@@ -2,14 +2,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
+    $(document).ready(function () {
+        $(".btn").click(function () {
+            $(this).addClass("highLight");
+            $(this).siblings().removeClass("highLight");
+
+            var id = $(this).attr("id");
+            var index = id.substring(3);
+            var div = $("#div" + index);
+            div.show();
+            div.siblings(".div").hide();
+        });
+    });
+
     app.controller('NoticeCtrl', function ($scope, $http) {
         $scope.PageSize = 10;
-        var params = {
+        // 获取报警信息
+        var alarmParams = {
             "PageIndex": 1,
             "PageSize": $scope.PageSize
         };
-
-        getAlarmInfos(params, true);
+        getAlarmInfos(alarmParams, true);
+        // 获取切断记录
+        var cutoutParams = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getCutoutsInfos(cutoutParams, true);
+        // 
+        var msgParams = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getMsgsInfos(msgParams, true);
 
         function getAlarmInfos(params, isFirstLoadPager) {
             $http({
@@ -45,50 +70,171 @@
                 ShowErrModal(data, status);
             });
         }
+
+        function getCutoutsInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/cutouts",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.CutoutsItems = data.Items;
+                $scope.CutoutsRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page3").page('destroy');
+                    $("#page3").page({
+                        total: $scope.CutoutsRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getCutoutsInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getCutoutsInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        function getMsgsInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/msgs",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.MsgsItems = data.Items;
+                $scope.MsgsRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page2").page('destroy');
+                    $("#page2").page({
+                        total: $scope.MsgsRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getMsgsInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getMsgsInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
     });
 </script>
-
 <div ng-controller="NoticeCtrl" class="content-div">
-    <div class="top-basic" style="position:relative;height:43px;border-right:transparent;border-left:transparent;">
-        <strong style="line-height:35px;">消息通知</strong>
-        <div class="search-div" style="padding-right:10px;position:absolute;top:-2px;right:0;">
-            <button id="btnAdd" title="添加账号" url="admin/add" class="btn btn-success btn-top" onclick="popFirstWnd(this.id, '添加账号','800','400')">
-                <i class=" fa fa-plus" aria-hidden="true"></i>
-            </button>
+    <div style="margin-bottom:10px;">
+        <input class="highLight btn btn-defalut" id="btn1" type="button" name="name" value="警报信息" />
+        <input class="btn btn-defalut" id="btn2" type="button" name="name" value="投递信息" />
+        <input class="btn btn-defalut" id="btn3" type="button" name="name" value="切断信息" />
+    </div>
+    <div class="div" id="div1" style="display:block;width:100%;">
+        <div class="content-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="8%">ID</th>
+                        <th width="10%">设备编号</th>
+                        <th width="13%">设备名称</th>
+                        <th width="18%">故障内容</th>
+                        <th width="15%">故障类型</th>
+                        <th width="10%">等级</th>
+                        <th width="8%">通知方式</th>
+                        <th width="18%">时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-cloak ng-repeat="item in AlarmItems">
+                        <td style="padding:8px 8px;">{{item.ID}}</td>
+                        <td>{{item.DeviceNo}}</td>
+                        <td>{{item.DeviceName}}</td>
+                        <td>{{item.Content}}</td>
+                        <td>{{item.Type}}</td>
+                        <td>{{item.Level}}</td>
+                        <td>{{item.PostType}}</td>
+                        <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="width center">
+                <div id="page4" class="m-pagination m-center"></div>
+            </div>
         </div>
     </div>
-    <div class="content-table">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="5%">UUID</th>
-                    <th width="10%">用户名</th>
-                    <th width="8%">真实姓名</th>
-                    <th width="15%">手机号码</th>
-                    <th width="15%">是否可控</th>
-                    <th width="25%">时间</th>
-                    <th width="8%">备注</th>
-                    <th width="14%">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-cloak ng-repeat="item in Items">
-                    <td>{{item.UUID}}</td>
-                    <td>{{item.UserName}}</td>
-                    <td>{{item.RealName}}</td>
-                    <td>{{item.Phone}}</td>
-                    <td>{{item.HasControl}}</td>
-                    <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
-                    <td>{{item.Remark}}</td>
-                    <td>
-                        <button type="button" id="btnModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
-                                onclick="popFirstWnd(this.id, '修改账号信息','800','400')">
-                            修改
-                        </button>
-                        <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.UUID)">删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="div" id="div2" style="display:none;width:100%;">
+         <div class="content-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="10%">设备编号</th>
+                        <th width="10%">设备名称</th>
+                        <th width="50%">原因</th>
+                        <th width="20%">时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-cloak ng-repeat="item in CutoutsItems">
+                        <td style="padding:8px 8px;">{{item.ID}}</td>
+                        <td>{{item.DeviceNo}}</td>
+                        <td>{{item.DeviceName}}</td>
+                        <td>{{item.Reason}}</td>
+                        <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="width center">
+                <div id="page3" class="m-pagination m-center"></div>
+            </div>
+        </div>
+    </div>
+    <div class="div" id="div3" style="display:none;width:100%;">
+        <div class="content-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="15%">ID</th>
+                        <th width="15%">房间号</th>
+                        <th width="15%">内容</th>
+                        <th width="15%">通知方式</th>
+                        <th width="15%">是否已通知</th>
+                        <th width="25%">通知时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-cloak ng-repeat="item in MsgsItems">
+                        <td style="padding:8px 8px;">{{item.ID}}</td>
+                        <td>{{item.RoomNo}}</td>
+                        <td>{{item.Content}}</td>
+                        <td>{{item.PostType}}</td>
+                        <td>{{item.Status}}</td>
+                        <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="width center">
+                <div id="page2" class="m-pagination m-center"></div>
+            </div>
+        </div>
     </div>
 </div>

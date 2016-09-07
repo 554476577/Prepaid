@@ -292,16 +292,7 @@ div.close {
     font-size:14px; 
     border-radius:3px;
 }
-/*.menu ul li a 
-{
-    display:block; 
-    margin-top:0px;
-    padding-top:8px;
-    font-size:13px;
-    color:#82846f;
-    outline:none;
-    padding-left:20px;
-    }*/
+
 .menu ul li .active 
 {
     background:url(../images/on.png) top right no-repeat;
@@ -314,12 +305,7 @@ div.close {
     background-color:#fff;
     border-radius:3px;
 }
-/*.menu ul li ul li .active
-{
-    background:url(../images/on.png) 83px -7px no-repeat;
-    background-color:#19c68b;
-    border-radius:3px;
-}*/
+
 .menu ul li.menu-fst ul li.menu-sec .active {
     background:url(../images/on.png) 83px -7px no-repeat;
     background-color:#19c68b;
@@ -341,7 +327,7 @@ div.close {
 {
     margin-bottom:5px;
     margin-top:3px;
-    }
+}
 .menu ul li ul li 
 {
     display:block;
@@ -350,9 +336,9 @@ div.close {
     list-style:circle;
     color:#8f9d4c;
     padding-left:30px;
-    }
-/*.menu ul li ul.subNav-second li a 
-{
+}
+
+.menu ul li ul.menu-second li a {
     display:block;
     height:26px;
     background:none;
@@ -360,14 +346,40 @@ div.close {
     padding-top:0;
     color:#8f9d4c;
     padding-left:0px;
-     }*/
-    .menu ul li ul.menu-second li a {
-        display:block;
-        height:26px;
-        background:none;
-        font-size:10px;
-        padding-top:0;
-        color:#8f9d4c;
-        padding-left:0px;
-        margin-bottom:2px;
-    } 
+    margin-bottom:2px;
+}
+/*index页面的右侧  优秀用户和欠费用户的样式*/
+.user-class {
+    width:12%;
+    height:100%;
+    background-color:#fff9eB;
+    float:left;
+}
+.energy-photo {
+    width:88%;
+    height:100%;
+    background-color:aliceblue;
+    float:left;
+}
+.energy-content {
+    width:100%;
+    height:50%;
+    border:2px solid #6699cc;
+}
+.building-div {
+    width:50%;
+    height:100%;
+    border-right:2px solid #6699cc;
+    float:left;
+}
+.devicetype-div {
+    width:50%;
+    height:100%;
+    float:left;
+}
+.bill-div {
+    width:100%;
+    height:50%;
+    border:2px solid #6699cc;
+    border-top:transparent;
+}

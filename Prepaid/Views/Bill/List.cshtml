@@ -97,7 +97,7 @@
         $scope.energyStyle = function (height) {
             if (height > 1) {
                 return {
-                    "height": 40 * height + "px",
+                    "height": 41 * height + "px",
                     "padding-top": 20 + 40 * (height - 2) / 2 + "px"
                 };
             }
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0 0;">
-                <div class="col-lg-2 col-md-2 col-sm-2 head-second">设备编号</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second" style="border-left:transparent;">设备编号</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">设备名称</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">上次读数</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">当前读数</div>
@@ -167,23 +167,23 @@
                     <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.RoomNo}}</div>
                     <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
                     <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}">{{item.RealName}}</div>
-                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}" style="border-right:1px solid transparent;">{{item.DateTime|date:"yyyy-MM-dd"}}</div>
+                    <div class="col-lg-3 col-md-3 col-sm-3" rowspan="{{item.DeviceBills.length}}" style="border-right:transparent;">{{item.DateTime|date:"yyyy-MM-dd"}}</div>
                 </div>
                 <div class="row zindex">
                     <div class="col-lg-3 col-md-3 col-sm-3"></div>
                     <div class="col-lg-3 col-md-3 col-sm-3"></div>
                     <div class="col-lg-3 col-md-3 col-sm-3"></div>
-                    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3" style="border-right:transparent;"></div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2" style="position:relative;float:right;" ng-style="energyStyle(item.DeviceBills.length)">
                 <div class="row style-spe">
                     <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumValue}}</div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumMoney}}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}" style="border-right:transparent;">{{item.SumMoney}}</div>
                 </div>
                 <div class="row zindex">
                     <div class="col-lg-6 col-md-6 col-sm-6"></div>
-                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="border-right:transparent;"></div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 information-content" ng-cloak ng-repeat="device in item.DeviceBills">

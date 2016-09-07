@@ -59,6 +59,7 @@ namespace Prepaid.Controllers
                             Type = item.Type,
                             Level = item.Level,
                             MsgID = item.MsgID,
+                            PostType = item.Msg == null ? "" : item.Msg.PostType,
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
