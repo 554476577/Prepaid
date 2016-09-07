@@ -2,39 +2,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-    app.controller('AdminCtrl', function ($scope, $http) {
-        getInfos();
+    app.controller('NoticeCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+        var params = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
 
-        function getInfos() {
+        getAlarmInfos(params, true);
+
+        function getAlarmInfos(params, isFirstLoadPager) {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/admins"
+                url: "../api/alarms",
+                params: params
             }).success(function (data, status, headers, config) {
-                $scope.Items = data.Items;
+                $scope.AlarmItems = data.Items;
+                $scope.AlarmRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.AlarmRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getAlarmInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getAlarmInfos(params, false); // 重新绑定数据
+                    });
+                }
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
         }
-
-        $scope.delete = function (id) {
-            ShowConfirmModal("确定要删除该账号吗？", function () {
-                $http({
-                    method: "delete",
-                    withCredentials: true,
-                    url: "../api/admins/" + id
-                }).success(function (data, status, headers, config) {
-                    ShowTipsModel("账号删除成功！");
-                    getInfos();
-                }).error(function (data, status, headers, config) {
-                    ShowErrModal(data, status);
-                });
-            });
-        };
     });
 </script>
 
-<div ng-controller="AdminCtrl" class="content-div">
+<div ng-controller="NoticeCtrl" class="content-div">
     <div class="top-basic" style="position:relative;height:43px;border-right:transparent;border-left:transparent;">
         <strong style="line-height:35px;">消息通知</strong>
         <div class="search-div" style="padding-right:10px;position:absolute;top:-2px;right:0;">

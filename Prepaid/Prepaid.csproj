@@ -310,6 +310,7 @@
     <Compile Include="Utils\TextHelper.cs" />
     <Compile Include="Utils\WebConfigHelper.cs" />
     <Compile Include="Models\VDevicePay.cs" />
+    <Compile Include="Models\VRoomPay.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

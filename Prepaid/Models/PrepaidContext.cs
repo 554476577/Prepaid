@@ -27,6 +27,7 @@ namespace Prepaid.Models
         public virtual DbSet<Recharge> Recharges { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<VDevicePay> VDevicePays { get; set; }
+        public virtual DbSet<VRoomPay> VRoomPays { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

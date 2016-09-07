@@ -119,8 +119,8 @@ namespace Prepaid.Controllers
                 return errResult;
 
             string fileName = "业主能耗缴费历史账单.xls";
-            string[] titles = { "用户UUID", "业主姓名", "结算时间", "设备名称", "设备累计读数", "设备结算能耗", 
-                                  "设备结算价格", "总读数", "结算总能耗","结算总价格" };
+            string[] titles = { "房间编号", "结算批号", "业主姓名","结算时间","设备编号","设备名称", "上次刻度", "结算刻度", 
+                                  "单价", "金额", "总能耗","总价格"};
             IEnumerable<RoomBill> userEnergies = this.billRepository.GetRoomBills();
             ReportHelper.ExportRoomBills(userEnergies, titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
@@ -192,8 +192,8 @@ namespace Prepaid.Controllers
                 return errResult;
 
             string fileName = "业主能耗缴费实时账单.xls";
-            string[] titles = { "业主UUID", "业主姓名", "建筑名称", "房间编号", "设备名称", "上次抄表读数", "当前抄表读数", "当前用能", 
-                                  "当前能耗价格","当前总能耗","当前结算总价","账户余额","结算后账户余额","账户报警金额","账户可透支金额" };
+            string[] titles = { "房间编号", "建筑编号", "业主姓名", "设备编号", "设备名称", "上次抄表读数", "当前抄表读数", "单价", 
+                                  "价格","总能耗","总价","账户余额" };
             IEnumerable<PrepaidBill> prepaidEnergies = this.billRepository.GetPrepaidBills();
             ReportHelper.ExportPrepaidBills(prepaidEnergies, titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
