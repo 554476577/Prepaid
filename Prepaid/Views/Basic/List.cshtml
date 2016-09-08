@@ -142,7 +142,7 @@
                     </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table control-table">
                 <table class="table">
                     <thead>
                         <tr>
@@ -184,38 +184,38 @@
                     </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table control-table">
                 <table class="table">
                     <thead>
                         <tr>
                             <th width="15%">名称</th>
                             <th width="8%">单位</th>
-                            <th width="8%">单价1</th>
-                            <th width="8%">单价2</th>
-                            <th width="8%">单价3</th>
+                            <th width="9%">单价1</th>
+                            <th width="9%">单价2</th>
+                            <th width="9%">单价3</th>
                             <th width="9%">单价4</th>
                             <th width="9%">单价5</th>
-                            <th width="15%">时间</th>
-                            <th width="20%">操作</th>
+                            <th width="14%">时间</th>
+                            <th width="18%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-cloak ng-repeat="item in DeviceTypeItems">
-                        <td>{{item.Name}}</td>
-                        <td>{{item.Unit}}</td>
-                        <td style="color:#009900;">{{item.Price1}}</td>
-                        <td style="color:#009900;">{{item.Price2}}</td>
-                        <td style="color:#009900;">{{item.Price3}}</td>
-                        <td style="color:#009900;">{{item.Price4}}</td>
-                        <td style="color:#009900;">{{item.Price5}}</td>
-                        <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
-                        <td>
-                        <button type="button" id="btnDeviceTypeModify{{$index+1}}" url="devicetype/modify?uuid={{item.UUID}}"
-                        class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id,'修改设备类型')">
-                        修改
-                        </button>
-                        <button type="button" class="btn btn-danger btn-style" ng-click="deleteDeviceType(item.UUID)">删除</button>
-                        </td>
+                            <td>{{item.Name}}</td>
+                            <td>{{item.Unit}}</td>
+                            <td style="color:#009900;">{{item.Price1}}</td>
+                            <td style="color:#009900;">{{item.Price2}}</td>
+                            <td style="color:#009900;">{{item.Price3}}</td>
+                            <td style="color:#009900;">{{item.Price4}}</td>
+                            <td style="color:#009900;">{{item.Price5}}</td>
+                            <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
+                            <td>
+                                <button type="button" id="btnDeviceTypeModify{{$index+1}}" url="devicetype/modify?uuid={{item.UUID}}"
+                                        class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id,'修改设备类型')">
+                                    修改
+                                </button>
+                                <button type="button" class="btn btn-danger btn-style" ng-click="deleteDeviceType(item.UUID)">删除</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -235,7 +235,7 @@
                     </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table control-table">
                 <table class="table">
                     <thead>
                         <tr>
@@ -244,9 +244,9 @@
                             <th width="10%">最小积分</th>
                             <th width="11%">最大积分</th>
                             <th width="12%">可欠费金额</th>
-                            <th width="15%">时间</th>
-                            <th width="10%">缴费信用</th>
-                            <th width="20%">操作</th>
+                            <th width="14%">时间</th>
+                            <th width="13%">缴费信用</th>
+                            <th width="18%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -281,18 +281,18 @@
                     </button>
                 </div>
             </div>
-            <div class="content-table">
+            <div class="content-table control-table">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="10%">设备类型</th>
-                            <th width="10%">梯度类型</th>
+                            <th width="11%">设备类型</th>
+                            <th width="11%">梯度类型</th>
                             <th width="11%">描述</th>
                             <th width="12%">能量值下限</th>
-                            <th width="12%">能量值上限</th>
+                            <th width="13%">能量值上限</th>
                             <th width="10%">单价</th>
-                            <th width="15%">时间</th>
-                            <th width="20%">操作</th>
+                            <th width="14%">时间</th>
+                            <th width="18%">操作</th>
                         </tr>
                     </thead>
                     <tbody>

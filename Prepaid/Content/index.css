@@ -184,11 +184,9 @@ a {
     z-index:10000;
     width:100%;
 }
-
 .submenu li {
     border-bottom: 1px solid #d7d7d7;
 }
-
 .submenu a {
     display: inline-block;
     width:50%;
@@ -199,11 +197,16 @@ a {
     -o-transition: all 0.25s ease;
     transition: all 0.25s ease;
 }
-
+.submenu .submenu-hover {
+    background: #b63b4d;
+    color: #FFF;
+}
 .submenu a:hover {
     background: #b63b4d;
     color: #FFF;
-    }
+    border-right:1px solid #d7d7d7;
+    border-left:1px solid #d7d7d7;
+}
 /*左边伸缩菜单*/
 #sub-ctrl 
 {

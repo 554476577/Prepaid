@@ -108,32 +108,26 @@
     <div class="top-basic">
         <strong>结算记录</strong>
     </div>
-    <div class="container-fluid">
-        <div class="row row-style">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 search-top">
-                <div class="row">
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">房间编号:</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RoomNo" class="form-control input-search"></div>
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">业主姓名:</div>
-                    <div class="col-lg-4 col-md-4 col-sm-4"><input type="text" id="RealName" class="form-control input-search"></div>
-                </div>
+    <div class="top-search">
+        <div class="search-ctrl font-ctrl">房间编号:</div>
+        <div class="search-ctrl"><input type="text" id="RoomNo" class="form-control input-search"></div>
+        <div class="search-ctrl font-ctrl">业主姓名:</div>
+        <div class="search-ctrl"><input type="text" id="RealName" class="form-control input-search"></div>
+        <div class="col-lg-3 col-md-3 col-sm-3 search-lg-div">
+            <div class="input-group date form_datetime search-data" id="startTime">
+                <input class="form-control input-search" ng-model="StartTime" data-date-format="yyyy-mm-dd" placeholder="请输入开始日期">
+                <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 search-lg-div">
-                <div class="input-group date form_datetime search-data" id="startTime">
-                    <input class="form-control input-search" ng-model="StartTime" data-date-format="yyyy-mm-dd" placeholder="请输入开始日期">
-                    <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
-                </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-md-3 search-lg-div">
+            <div class="input-group date form_datetime search-data" id="endTime">
+                <input class=" form-control input-search" ng-model="EndTime" data-date-format="yyyy-mm-dd" placeholder="请输入结束日期">
+                <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
             </div>
-            <div class="col-lg-3 col-md-3 col-md-3 search-lg-div">
-                <div class="input-group date form_datetime search-data" id="endTime">
-                    <input class=" form-control input-search" ng-model="EndTime" data-date-format="yyyy-mm-dd" placeholder="请输入结束日期">
-                    <span class="input-group-addon input_all_btn"><span class="glyphicon glyphicon-th"></span></span>
-                </div>
-            </div>
-            <div class="input-group search-div">
-                <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button class="search-load" title="导出报表" ng-click="exportReport()">导出报表</button>
-            </div>
+        </div>
+        <div class="input-group search-div">
+            <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
+            <button class="search-load" title="导出报表" ng-click="exportReport()">导出报表</button>
         </div>
     </div>
     <div class="container-fluid control-div">

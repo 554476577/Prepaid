@@ -3,12 +3,12 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        $(".btn").click(function () {
+        $(".currency-btn").click(function () {
             $(this).addClass("highLight");
             $(this).siblings().removeClass("highLight");
 
             var id = $(this).attr("id");
-            var index = id.substring(3);
+            var index = id.substring(6);
             var div = $("#div" + index);
             div.show();
             div.siblings(".div").hide();
@@ -144,9 +144,9 @@
 </script>
 <div ng-controller="NoticeCtrl" class="content-div">
     <div style="margin-bottom:10px;">
-        <input class="highLight btn btn-defalut" id="btn1" type="button" name="name" value="警报信息" />
-        <input class="btn btn-defalut" id="btn2" type="button" name="name" value="投递信息" />
-        <input class="btn btn-defalut" id="btn3" type="button" name="name" value="切断信息" />
+        <input class="highLight currency-btn" id="alarms1" type="button" name="name" value="警报信息" />
+        <input class="currency-btn" id="mesges2" type="button" name="name" value="投递信息" />
+        <input class="currency-btn" id="cutout3" type="button" name="name" value="切断信息" />
     </div>
     <div class="div" id="div1" style="display:block;width:100%;">
         <div class="content-table">
@@ -186,21 +186,25 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th width="15%">ID</th>
-                        <th width="15%">房间号</th>
-                        <th width="15%">内容</th>
-                        <th width="15%">通知方式</th>
-                        <th width="15%">是否已通知</th>
-                        <th width="25%">通知时间</th>
+                        <th width="10%">ID</th>
+                        <th width="10%">房间号</th>
+                        <th width="10%">业主姓名</th>
+                        <th width="10%">联系方式</th>
+                        <th width="30%">内容</th>
+                        <th width="10%">通知方式</th>
+                        <th width="10%">是否发送成功</th>
+                        <th width="10%">通知时间</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-cloak ng-repeat="item in MsgsItems">
                         <td style="padding:8px 8px;">{{item.ID}}</td>
                         <td>{{item.RoomNo}}</td>
+                        <td>{{item.RealName}}</td>
+                        <td>{{item.Phone}}</td>
                         <td>{{item.Content}}</td>
                         <td>{{item.PostType}}</td>
-                        <td>{{item.Status}}</td>
+                        <td><input type="checkbox" ng-checked="{{item.Status}}" disabled="disabled" /></td>
                         <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                     </tr>
                 </tbody>

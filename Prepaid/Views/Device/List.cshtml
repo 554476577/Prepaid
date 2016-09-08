@@ -80,25 +80,18 @@
     <div class="top-basic">
         <strong>设备一览</strong>
     </div>
-    <div class="container-fluid">
-        <div class="row row-style">
-            <div class="col-lg-8 col-md-8 col-sm-8 search-top">
-                <div class="row">
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">设备编号:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="DeviceNo" class="form-control input-search"></div>
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">房间编号:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="RoomNo" class="form-control input-search"></div>
-                    <div class="search-txt col-lg-2 col-md-2 col-sm-2">组ID:</div>
-                    <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" id="ItemID" class="form-control input-search"></div>
-
-                </div>
-            </div>
-            <div class="input-group search-div">
-                <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','530')" class="btn btn-success btn-top">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-            </div>
+    <div class="top-search">
+        <div class="search-ctrl font-ctrl">设备编号:</div>
+        <div class="search-ctrl"><input type="text" id="DeviceNo" class="form-control input-search"></div>
+        <div class="search-ctrl font-ctrl">房间编号:</div>
+        <div class="search-ctrl"><input type="text" id="RoomNo" class="form-control input-search"></div>
+        <div class="search-ctrl font-ctrl">组ID:</div>
+        <div class="search-ctrl"><input type="text" id="ItemID" class="form-control input-search"></div>
+        <div class="input-group search-div">
+            <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
+            <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','530')" class="btn btn-success btn-top">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
         </div>
     </div>
     <div class="content-table">
