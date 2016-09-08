@@ -14,7 +14,8 @@ namespace Prepaid.Models
             Alarms = new HashSet<Alarm>();
             Bills = new HashSet<Bill>();
             Cutouts = new HashSet<Cutout>();
-            DevicePayLinks = new HashSet<DevicePayLink>();
+            DeviceApportLinks = new HashSet<DeviceApportLink>();
+            DeviceArchives = new HashSet<DeviceArchive>();
         }
 
         [Key]
@@ -66,8 +67,6 @@ namespace Prepaid.Models
 
         public DateTime? ArchiveTime { get; set; }
 
-        public bool? ArchiveTag { get; set; }
-
         [StringLength(150)]
         public string Remark1 { get; set; }
 
@@ -87,6 +86,8 @@ namespace Prepaid.Models
 
         public virtual Room Room { get; set; }
 
-        public virtual ICollection<DevicePayLink> DevicePayLinks { get; set; }
+        public virtual ICollection<DeviceApportLink> DeviceApportLinks { get; set; }
+
+        public virtual ICollection<DeviceArchive> DeviceArchives { get; set; }
     }
 }

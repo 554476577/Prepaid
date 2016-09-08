@@ -6,8 +6,8 @@ namespace Prepaid.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("DevicePayLink")]
-    public partial class DevicePayLink
+    [Table("DeviceApportLink")]
+    public partial class DeviceApportLink
     {
         public int ID { get; set; }
 

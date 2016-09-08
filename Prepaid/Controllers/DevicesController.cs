@@ -41,15 +41,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                devices = this.repository.GetOriginalAll(DeviceNo, RoomNo, ItemID);
+                devices = this.repository.GetAll(DeviceNo, RoomNo, ItemID);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetOriginalCount(DeviceNo, RoomNo, ItemID));
-                devices = this.repository.GetOriginalPagerItems(DeviceNo, RoomNo, ItemID, pageIndex, pageSize, u => u.DeviceNo);
+                pager = new Pager(pageIndex, pageSize, this.repository.GetCount(DeviceNo, RoomNo, ItemID));
+                devices = this.repository.GetPagerItems(DeviceNo, RoomNo, ItemID, pageIndex, pageSize, u => u.DeviceNo);
             }
 
             var items = from item in devices
@@ -183,7 +183,6 @@ namespace Prepaid.Controllers
                 device.Status = 0;
                 device.DateTime = DateTime.Now;
                 device.ArchiveTime = DateTime.Now;
-                device.ArchiveTag = false;
                 await this.repository.AddAsync(device);
             }
             catch (DbUpdateException)

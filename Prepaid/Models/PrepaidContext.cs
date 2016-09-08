@@ -20,7 +20,8 @@ namespace Prepaid.Models
         public virtual DbSet<Credit> Credits { get; set; }
         public virtual DbSet<Cutout> Cutouts { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
-        public virtual DbSet<DevicePayLink> DevicePayLinks { get; set; }
+        public virtual DbSet<DeviceApportLink> DeviceApportLinks { get; set; }
+        public virtual DbSet<DeviceArchive> DeviceArchives { get; set; }
         public virtual DbSet<DeviceType> DeviceTypes { get; set; }
         public virtual DbSet<Ladder> Ladders { get; set; }
         public virtual DbSet<Msg> Msgs { get; set; }
@@ -82,14 +83,19 @@ namespace Prepaid.Models
                 .Property(e => e.TypeID)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Msg>()
-                .HasMany(e => e.Alarms)
-                .WithOptional(e => e.Msg)
-                .WillCascadeOnDelete();
-
             modelBuilder.Entity<Recharge>()
                 .Property(e => e.UUID)
                 .IsFixedLength();
+
+            modelBuilder.Entity<Room>()
+                .HasMany(e => e.Devices)
+                .WithOptional(e => e.Room)
+                .WillCascadeOnDelete();
+
+            modelBuilder.Entity<Room>()
+                .HasMany(e => e.DeviceApportLinks)
+                .WithRequired(e => e.Room)
+                .WillCascadeOnDelete(false);
         }
     }
 }

@@ -27,24 +27,14 @@ namespace Prepaid.Repositories
         {
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
-                return GetOriginalAll().OrderBy(orderFunc).Skip(recordStart).Take(pageSize);
+                return GetAll().OrderBy(orderFunc).Skip(recordStart).Take(pageSize);
             else
-                return GetOriginalAll().OrderByDescending(orderFunc).Skip(recordStart).Take(pageSize);
+                return GetAll().OrderByDescending(orderFunc).Skip(recordStart).Take(pageSize);
         }
 
-        public IEnumerable<Device> GetOriginalAll()
+        public IEnumerable<Device> GetAll(string deviceNo, string roomNo, string itemID)
         {
-            return GetAll().Where(u => (u.ArchiveTag ?? false) == false);
-        }
-
-        public int GetOriginalCount()
-        {
-            return GetOriginalAll().Count();
-        }
-
-        public IEnumerable<Device> GetOriginalAll(string deviceNo, string roomNo, string itemID)
-        {
-            var result = GetOriginalAll();
+            IEnumerable<Device> result = GetAll();
             if (!string.IsNullOrEmpty(deviceNo))
                 result = result.Where(u => u.DeviceNo.Contains(deviceNo));
             if (!string.IsNullOrEmpty(roomNo))
@@ -54,15 +44,15 @@ namespace Prepaid.Repositories
             return result;
         }
 
-        public int GetOriginalCount(string deviceNo, string roomNo, string itemID)
+        public int GetCount(string deviceNo, string roomNo, string itemID)
         {
-            return GetOriginalAll(deviceNo, roomNo, itemID).Count();
+            return GetAll(deviceNo, roomNo, itemID).Count();
         }
 
-        public IEnumerable<Device> GetOriginalPagerItems(string deviceNo, string roomNo, string itemID,
+        public IEnumerable<Device> GetPagerItems(string deviceNo, string roomNo, string itemID,
             int pageIndex, int pageSize, Func<Device, string> func, bool isDesc = false)
         {
-            var result = GetOriginalAll(deviceNo, roomNo, itemID);
+            var result = GetAll(deviceNo, roomNo, itemID);
             int recordStart = (pageIndex - 1) * pageSize;
             if (!isDesc)
                 return result.OrderBy(func).Skip(recordStart).Take(pageSize);

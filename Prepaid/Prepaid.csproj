@@ -238,24 +238,26 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\Alarm.cs" />
+    <Compile Include="Models\Bill.cs" />
+    <Compile Include="Models\Building.cs" />
+    <Compile Include="Models\Community.cs" />
     <Compile Include="Controllers\AnalysisesController.cs" />
     <Compile Include="Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\CutoutsController.cs" />
     <Compile Include="Controllers\LaddersController.cs" />
     <Compile Include="Controllers\BuildingsController.cs" />
     <Compile Include="Controllers\DeviceTypesController.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\DevicePayLink.cs" />
-    <Compile Include="Models\Admin.cs" />
-    <Compile Include="Models\Alarm.cs" />
-    <Compile Include="Models\Bill.cs" />
-    <Compile Include="Models\Building.cs" />
-    <Compile Include="Models\Statis.cs" />
-    <Compile Include="Models\Community.cs" />
     <Compile Include="Models\Credit.cs" />
     <Compile Include="Models\Cutout.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceApportLink.cs" />
+    <Compile Include="Models\DeviceArchive.cs" />
+    <Compile Include="Models\DeviceBill.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="Models\Ladder.cs" />
+    <Compile Include="Models\Statis.cs" />
     <Compile Include="Controllers\CommunitiesController.cs" />
     <Compile Include="Controllers\MsgsController.cs" />
     <Compile Include="Models\PrepaidContext.cs" />
@@ -268,7 +270,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MyController.cs" />
-    <Compile Include="Models\DeviceBill.cs" />
     <Compile Include="ExceptionHandling\ElmahExceptionLogger.cs" />
     <Compile Include="ExceptionHandling\GenericTextExceptionHandler.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />

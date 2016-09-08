@@ -12,7 +12,7 @@ namespace Prepaid.Models
         public Room()
         {
             Devices = new HashSet<Device>();
-            DevicePayLinks = new HashSet<DevicePayLink>();
+            DeviceApportLinks = new HashSet<DeviceApportLink>();
             Msgs = new HashSet<Msg>();
             Recharges = new HashSet<Recharge>();
         }
@@ -63,7 +63,7 @@ namespace Prepaid.Models
 
         public virtual ICollection<Device> Devices { get; set; }
 
-        public virtual ICollection<DevicePayLink> DevicePayLinks { get; set; }
+        public virtual ICollection<DeviceApportLink> DeviceApportLinks { get; set; }
 
         public virtual ICollection<Msg> Msgs { get; set; }
 
