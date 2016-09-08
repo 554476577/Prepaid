@@ -54,6 +54,8 @@ namespace Prepaid.Controllers
                         {
                             ID = item.ID,
                             RoomNo = item.RoomNo,
+                            RealName=item.Room.RealName,
+                            Phone=item.Room.Phone,
                             Content = item.Content,
                             PostType = item.PostType,
                             Status = item.Status,
