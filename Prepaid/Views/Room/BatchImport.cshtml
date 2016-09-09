@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_Header.cshtml";
+}
+<script type="text/javascript">
+    function submit() {
+        var formData = new FormData(document.getElementById("form"));
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "../api/rooms/upload",
+            xhrFields: {
+                withCredentials: true
+            },
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data, textStatus, jqXHR) {
+                ShowTipsModel("房间数据导入成功！");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                ShowErrModal("房间数据导入失败！", textStatus);
+            }
+        });
+    }
+</script>
+<div class="content-div">
+    <form class="form-horizontal" role="form" id="form">
+        <div class="form-group">
+            <label for="upload" class="col-sm-2 control-label">请选择文件名称</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" id="upload" name="upload">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="IsDelete">批量导入前，是否删除原来的数据
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-primary btn-style btn-top btn-special2" onclick="submit()">提交</button>
+</div>

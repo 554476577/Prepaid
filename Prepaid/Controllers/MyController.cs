@@ -75,6 +75,8 @@ namespace Prepaid.Controllers
         public ActionResult Bills() { return View(); }
 
         public ActionResult Recharges() { return View(); }
+
+        public ActionResult BatchImport() { return View(); }
     }
 
     public class DeviceController : Controller

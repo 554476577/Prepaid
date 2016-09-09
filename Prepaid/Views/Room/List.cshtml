@@ -71,7 +71,7 @@
             params.RoomNo = $("#RoomNo").val();
             params.BuildingNo = $("#BuildingNo").val();
             params.RealName = $("#RealName").val();
-            getInfos(params, false);
+            getInfos(params, true);
         };
     });
 </script>
@@ -93,7 +93,9 @@
             <button title="添加房间" id="btnAdd" url="room/add" onclick="popFirstWnd(this.id, '添加房间','800','600')" class="btn btn-success btn-top">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
-            <button class="search-load" title="批量导入" ng-click="">批量导入</button>
+            <button class="search-load" id="btnBatchImport" title="批量导入" url="room/batchimport" onclick="popFirstWnd(this.id, '批量导入','800','600')">
+                批量导入
+            </button>
         </div>
     </div>
     <div class="content-table">

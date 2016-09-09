@@ -2,7 +2,10 @@
 using Prepaid.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Prepaid.Repositories
@@ -48,6 +51,43 @@ namespace Prepaid.Repositories
                 return result.OrderBy(func).Skip(recordStart).Take(pageSize);
             else
                 return result.OrderByDescending(func).Skip(recordStart).Take(pageSize);
+        }
+
+        public async Task<int> BatchImport(string fullName, bool isDeleteAll)
+        {
+            int rowAffected = 0;
+            if (isDeleteAll)
+            {
+                GetAll().RemoveRange(GetAll());
+                rowAffected += await db.SaveChangesAsync();
+            }
+
+            string text = string.Empty;
+            using (StreamReader reader = new StreamReader(fullName, Encoding.GetEncoding("GB2312")))
+            {
+                reader.ReadLine(); // first line ignored!
+                string line = reader.ReadLine();
+                while (!string.IsNullOrEmpty(line))
+                {
+                    int index = 0;
+                    Room room = new Room();
+                    string[] data = line.Split(',');
+                    room.RoomNo = data[index++];
+                    room.BuildingNo = data[index++];
+                    room.Floor = Convert.ToInt32(data[index++]);
+                    room.Area = Convert.ToDouble(data[index++]);
+                    room.Price = Convert.ToInt32(data[index++]);
+                    room.RealName = data[index++];
+                    room.Phone = data[index++];
+                    room.AccountBalance = Convert.ToInt32(data[index++]);
+                    room.CreditScore = Convert.ToInt32(data[index++]);
+                    GetAll().Add(room);
+                    line = reader.ReadLine();
+                }
+            }
+            rowAffected += await db.SaveChangesAsync();
+
+            return rowAffected;
         }
     }
 }

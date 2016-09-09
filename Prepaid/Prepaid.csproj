@@ -347,6 +347,7 @@
     <Content Include="Views\Bill\Cube.cshtml" />
     <Content Include="Views\Room\Bills.cshtml" />
     <Content Include="Views\Room\Recharges.cshtml" />
+    <Content Include="Views\Room\BatchImport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
