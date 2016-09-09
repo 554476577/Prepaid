@@ -18,10 +18,21 @@
         }
     });
 </script>
+<style>
+    .body > tr > th {
+        background: #91c5d4;
+        border: 1px solid #fff;
+    }
+
+    .body > tr > td {
+        background: #bcd9e1;
+        border: 1px solid #fff;
+    }
+</style>
 <div ng-controller="RoomCtrl" class="content-div">
     <div class="content-table">
         <form role="form">
-            <table class="table">   
+            <table class="table">
                 <thead style="height:0;border-bottom:transparent;">
                     <tr>
                         <th width="25%"></th>
@@ -30,49 +41,49 @@
                         <th width="25%"></th>
                     </tr>
                 </thead>
-                <tbody class="body" style="color:#7c7c7c;">
+                <tbody class="body" style="font: 13px " lucida grande", helvetica, arial, sans-serif;">
                     <tr>
-                        <td>业主姓名</td>
+                        <th>业主姓名</th>
                         <td class="big">{{Item.RealName}}</td>
-                        <td>房间编号</td>
+                        <th>房间编号</th>
                         <td class="big">{{Item.RoomNo}}</td>
-                        
+
                     </tr>
                     <tr class="even">
-                        <td>所处楼层</td>
+                        <th>所处楼层</th>
                         <td class="big">{{Item.Floor}}/{{Item.Floors}}</td>
-                        <td>建筑编号</td>
+                        <th>建筑编号</th>
                         <td class="big">{{Item.BuildingNo}}</td>
-                        
+
                     </tr>
                     <tr>
-                        <td>管理费用(每平米)</td>
+                        <th>管理费用(每平米)</th>
                         <td class="big">{{Item.Price}}</td>
-                        <td>区域面积</td>
+                        <th>区域面积</th>
                         <td class="big">{{Item.Area}}</td>
                     </tr>
                     <tr class="even">
-                        <td>电话号码</td>
+                        <th>电话号码</th>
                         <td class="big">{{Item.Phone}}</td>
-                        <td>用户积分</td>
+                        <th>用户积分</th>
                         <td class="big">{{Item.CreditScore}}</td>
                     </tr>
                     <tr>
-                        <td>账户余额</td>
+                        <th>账户余额</th>
                         <td class="big" style="color:#009900;">{{Item.AccountBalance}}</td>
-                        <td>账户报警余额</td>
+                        <th>账户报警余额</th>
                         <td class="big" style="color:#ff3300;">{{Item.AccountWarnLimit}}</td>
                     </tr>
                     <tr class="even">
-                        <td>微信账号</td>
+                        <th>微信账号</th>
                         <td class="big">{{Item.WechatAccount}}</td>
-                        <td>支付宝账号</td>
+                        <th>支付宝账号</th>
                         <td class="big">{{Item.AlipayAccount}}</td>
                     </tr>
                     <tr>
-                        <td>银行账号</td>
+                        <th>银行账号</th>
                         <td class="big">{{Item.BankAccount}}</td>
-                        <td>备注</td>
+                        <th>备注</th>
                         <td class="big">{{Item.Remark}}</td>
                     </tr>
                 <tbody>

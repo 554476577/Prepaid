@@ -22,6 +22,16 @@
         }
     });
 </script>
+<style>
+    .body > tr > th {
+        background:#91c5d4;
+        border:1px solid #fff;
+    }
+    .body > tr > td {
+        background:#bcd9e1;
+        border:1px solid #fff;
+    }
+</style>
 <div ng-controller="DeviceCtrl" class="content-div">
     <div class="content-table">
         <form role="form">
@@ -34,68 +44,68 @@
                         <th width="40%"></th>
                     </tr>
                 </thead>
-                <tbody class="body">
+                <tbody class="body" style="font: 13px " lucida grande", helvetica, arial, sans-serif;">
                     <tr class="even">
-                        <td>设备编号</td>
+                        <th>设备编号</th>
                         <td class="big">{{Item.DeviceNo}}</td>
-                        <td>房间编号</td>
+                        <th>房间编号</th>
                         <td class="big">{{Item.RoomNo}}</td>
                     </tr>
                     <tr>
-                        <td>设备类型</td>
+                        <th>设备类型</th>
                         <td class="big">{{Item.TypeName}}</td>
-                        <td>归属协议</td>
+                        <th>归属协议</th>
                         <td class="big">{{Item.Protocol}}</td>
                     </tr>
                     <tr>
-                        <td>归属区域</td>
+                        <th>归属区域</th>
                         <td class="big">{{Item.Scope}}</td>
-                        <td>物理地址</td>
+                        <th>物理地址</th>
                         <td class="big">{{Item.PhyAddr}}</td>
                     </tr>
                     <tr class="even">
-                        <td>组ID</td>
+                        <th>组ID</th>
                         <td class="big">{{Item.ItemID}}</td>
-                        <td>组名称</td>
+                        <th>组名称</th>
                         <td class="big">{{Item.ItemName}}</td>
                     </tr>
                     <tr>
-                        <td>组描述</td>
+                        <th>组描述</th>
                         <td class="big">{{Item.ItemDescription}}</td>
-                        <td>设备状态</td>
+                        <th>设备状态</th>
                         <td class="big">{{Item.Status}}</td>
                     </tr>
                     <tr class="even">
-                        <td>转换倍率</td>
+                        <th>转换倍率</th>
                         <td class="big">{{Item.Rate}}</td>
-                        <td>单位</td>
+                        <th>单位</th>
                         <td class="big">{{Item.Unit}}</td>
                     </tr>
                     <tr>
-                        <td>单价1</td>
+                        <th>单价1</th>
                         <td class="big">{{Item.Price1}}</td>
-                        <td>单价2</td>
+                        <th>单价2</th>
                         <td class="big">{{Item.Price2}}</td>
                     </tr>
                     <tr class="even">
-                        <td>单价3</td>
+                        <th>单价3</th>
                         <td class="big">{{Item.Price3}}</td>
-                        <td>单价4</td>
+                        <th>单价4</th>
                         <td class="big">{{Item.Price4}}</td>
                     </tr>
                     <tr>
-                        <td>单价5</td>
+                        <th>单价5</th>
                         <td class="big">{{Item.Price5}}</td>
-                        <td>归档时间间隔</td>
+                        <th>归档时间间隔</th>
                         <td class="big">{{Item.ArchiveInterval}}</td>
                     </tr>
                     <tr class="even">
-                        <td><input type="checkbox" id="IsArchive" name="IsArchive" readonly>是否归档</td>
+                        <th><input type="checkbox" id="IsArchive" name="IsArchive" readonly>是否归档</th>
                         <td></td>
-                        <td></td>
+                        <th></th>
                         <td></td>
                     </tr>
-                <tbody>
+<tbody>
             </table>
         </form>
     </div>

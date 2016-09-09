@@ -89,9 +89,12 @@
         <div class="search-ctrl"><input type="text" id="ItemID" class="form-control input-search"></div>
         <div class="input-group search-div">
             <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
-            <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','530')" class="btn btn-success btn-top">
+        </div>
+        <div class="input-group search-right">
+            <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','527')" class="btn btn-success btn-top">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
+            <button class="search-load" title="批量导入" ng-click="">批量导入</button>
         </div>
     </div>
     <div class="content-table">
@@ -117,14 +120,14 @@
                     <td>{{item.DeviceName}}</td>
                     <td>{{item.PhyAddr}}</td>
                     <td>{{item.ItemID}}</td>
-                    <td>{{item.IsArchive}}</td>
+                    <td><input type="checkbox" ng-checked="{{item.IsArchive}}" disabled="disabled" /></td>
                     <td>{{item.ArchiveInterval}}</td>
                     <td>
-                        <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '修改点位信息','800','530')"
+                        <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '修改点位信息','800','527')"
                                 class="btn btn-warning btn-style">
                             修改
                         </button>
-                        <button id="btnDetails{{$index+1}}" url="device/details?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '详情','800','450')"
+                        <button id="btnDetails{{$index+1}}" url="device/details?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '详情','800','455')"
                                 class="btn btn-info btn-style">
                             详情
                         </button>

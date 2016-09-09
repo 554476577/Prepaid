@@ -159,7 +159,7 @@
                             <td>{{item.UserName}}</td>
                             <td>{{item.RealName}}</td>
                             <td>{{item.Phone}}</td>
-                            <td>{{item.HasControl}}</td>
+                            <td><input type="checkbox" ng-checked="{{item.HasControl}}" disabled="disabled" /></td>
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>
                                 <button type="button" id="btnAdminModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
