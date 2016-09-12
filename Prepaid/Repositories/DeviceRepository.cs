@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -86,6 +88,56 @@ namespace Prepaid.Repositories
                          };
 
             return result;
+        }
+
+        public async Task<int> BatchImport(string fullName, bool isDeleteAll)
+        {
+            if (!File.Exists(fullName))
+                throw new FileNotFoundException();
+
+            int rowAffected = 0;
+            if (isDeleteAll)
+            {
+                GetAll().RemoveRange(GetAll());
+                rowAffected += await db.SaveChangesAsync();
+            }
+
+            string text = string.Empty;
+            using (StreamReader reader = new StreamReader(fullName, Encoding.GetEncoding("GB2312")))
+            {
+                reader.ReadLine(); // first line ignored!
+                string line = reader.ReadLine();
+                while (!string.IsNullOrEmpty(line))
+                {
+                    int index = 0;
+                    Device device = new Device();
+                    string[] data = line.Split(',');
+                    device.DeviceNo = data[index++];
+                    device.RoomNo = data[index++];
+                    device.TypeID = data[index++];
+                    device.Protocol = data[index++];
+                    device.Scope = data[index++];
+                    device.DeviceName = data[index++];
+                    device.PhyAddr = data[index++];
+                    device.ItemID = data[index++];
+                    device.ItemName = data[index++];
+                    device.ItemDescription = data[index++];
+                    device.Rate = Convert.ToDouble(data[index++]);
+                    device.DateTime = DateTime.Now;
+                    device.IsArchive = Convert.ToBoolean(data[index++]);
+                    device.ArchiveInterval = Convert.ToInt32(data[index++]);
+                    device.ArchiveTime = DateTime.Now;
+                    device.Remark1 = data[index++];
+                    device.Remark2 = data[index++];
+                    device.Remark3 = data[index++];
+                    GetAll().Add(device);
+                    line = reader.ReadLine();
+                }
+            }
+            rowAffected += await db.SaveChangesAsync();
+            File.Delete(fullName);
+
+            return rowAffected;
         }
     }
 }

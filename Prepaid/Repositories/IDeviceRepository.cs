@@ -20,5 +20,7 @@ namespace Prepaid.Repositories
        IEnumerable<Statis> GetBuildingStatisInfo();
 
        IEnumerable<Statis> GetTypeStatisInfo();
+
+       Task<int> BatchImport(string fullName, bool isDeleteAll);
     }
 }

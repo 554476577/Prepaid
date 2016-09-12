@@ -211,5 +211,37 @@ namespace Prepaid.Controllers
 
             return Ok();
         }
+
+        [Route("api/devices/upload")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostFormData()
+        {
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
+                return NotFound();
+
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                // Read the form data.
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                bool isDeleteAll = false;
+                string[] values = provider.FormData.GetValues("IsDelete");
+                if (values != null && values.Length > 0)
+                    isDeleteAll = values[0] == "on" ? true : false;
+
+                MultipartFileData file = provider.FileData[0];
+                string fullName = file.LocalFileName;
+                int rowAffected = await this.repository.BatchImport(file.LocalFileName, isDeleteAll);
+
+                return Ok(rowAffected);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

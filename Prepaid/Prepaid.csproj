@@ -348,6 +348,7 @@
     <Content Include="Views\Room\Bills.cshtml" />
     <Content Include="Views\Room\Recharges.cshtml" />
     <Content Include="Views\Room\BatchImport.cshtml" />
+    <Content Include="Views\Device\BatchImport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

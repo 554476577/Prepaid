@@ -55,6 +55,9 @@ namespace Prepaid.Repositories
 
         public async Task<int> BatchImport(string fullName, bool isDeleteAll)
         {
+            if (!File.Exists(fullName))
+                throw new FileNotFoundException();
+
             int rowAffected = 0;
             if (isDeleteAll)
             {
@@ -81,11 +84,13 @@ namespace Prepaid.Repositories
                     room.Phone = data[index++];
                     room.AccountBalance = Convert.ToInt32(data[index++]);
                     room.CreditScore = Convert.ToInt32(data[index++]);
+                    room.CreateTime = DateTime.Now;
                     GetAll().Add(room);
                     line = reader.ReadLine();
                 }
             }
             rowAffected += await db.SaveChangesAsync();
+            File.Delete(fullName);
 
             return rowAffected;
         }
