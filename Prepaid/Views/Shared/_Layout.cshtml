@@ -26,10 +26,15 @@
     <script src="~/Scripts/init.js"></script>
     <script>
         $(document).ready(function ($) {
+            var flag = 0;
             $(".submenu a").each(function () {
                 var curr = $(this).data("curr");
                 if (window.location.href.indexOf(curr) != -1) {
                     $(this).addClass("submenu-hover");
+                    flag++;
+                }
+                if (flag > 1) {
+                    $(".submenu a").removeClass("submenu-hover");
                 }
             });
 
