@@ -359,11 +359,15 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
 }
 .content-table > .table {
     border:1px solid #d7d7d7;
-    height:100%;
+    /*height:100%;*/
     table-layout:fixed
 }
-.content-table > .table > thead > tr, .content-table > .table > tbody > tr {
-    height:9%;        
+.content-table > .table > thead > tr{
+    height:9%;
+}
+.content-table > .table > tbody > tr {
+    height:9%;
+    height:44px;    
 }
 /*table, 里的文本溢出显示省略号*/
 .control-table > .table > thead > tr > th {
