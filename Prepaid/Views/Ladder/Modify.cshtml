@@ -34,6 +34,7 @@
                 url: "../api/ladders/" + getQueryString("uuid")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
+                $scope.DeviceTypeID = $scope.Item.TypeID;
                 $scope.DeviceTypeName = $scope.Item.TypeName;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
