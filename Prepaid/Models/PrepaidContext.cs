@@ -29,6 +29,8 @@ namespace Prepaid.Models
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<VDevicePay> VDevicePays { get; set; }
         public virtual DbSet<VRoomPay> VRoomPays { get; set; }
+        public virtual DbSet<VDevDayEp> VDevDayEps { get; set; }
+        public virtual DbSet<VDevMonthEp> VDevMonthEps { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -96,6 +98,16 @@ namespace Prepaid.Models
                 .HasMany(e => e.DeviceApportLinks)
                 .WithRequired(e => e.Room)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<VDevDayEp>()
+                .Property(e => e.DateTime)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<VDevMonthEp>()
+                .Property(e => e.DateTime)
+                .IsFixedLength()
+                .IsUnicode(false);
         }
     }
 }

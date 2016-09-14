@@ -239,7 +239,7 @@ a {
     /*left:169px;
     top:0;*/
     z-index: 9999999999;
-    width: 400px;
+    width: 600px;
     background-color: lightblue;
     overflow: visible;
     height: 400px;
@@ -382,8 +382,17 @@ div.close {
     float:left;
 }
 .bill-div {
-    width:100%;
+    width:20%;
     height:50%;
     border:2px solid #6699cc;
     border-top:transparent;
+    float:left;
+}
+.montnEp-div {
+    width: 80%;
+    height: 50%;
+    border: 2px solid #6699cc;
+    border-left: transparent;
+    border-top: transparent;
+    float: left;
 }

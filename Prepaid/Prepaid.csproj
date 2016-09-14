@@ -282,6 +282,7 @@
     <Compile Include="Models\PrepaidBill.cs" />
     <Compile Include="Models\RoomBill.cs" />
     <Compile Include="Models\Msg.cs" />
+    <Compile Include="Models\VBuildEp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Recharge.cs" />
     <Compile Include="Repositories\AbstractRespository.cs" />
@@ -312,6 +313,8 @@
     <Compile Include="Utils\WebConfigHelper.cs" />
     <Compile Include="Models\VDevicePay.cs" />
     <Compile Include="Models\VRoomPay.cs" />
+    <Compile Include="Models\VDevDayEp.cs" />
+    <Compile Include="Models\VDevMonthEp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

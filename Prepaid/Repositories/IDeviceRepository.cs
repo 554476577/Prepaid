@@ -17,10 +17,20 @@ namespace Prepaid.Repositories
         IEnumerable<Device> GetPagerItems(string deviceNo, string roomNo, string itemID,
             int pageIndex, int pageSize, Func<Device, string> func, bool isDesc = false);
 
-       IEnumerable<Statis> GetBuildingStatisInfo();
+        IEnumerable<Statis> GetBuildingStatisInfo();
 
-       IEnumerable<Statis> GetTypeStatisInfo();
+        IEnumerable<Statis> GetTypeStatisInfo();
 
-       Task<int> BatchImport(string fullName, bool isDeleteAll);
+        IEnumerable<Statis> GetBuildingTypeStatisInfo(string buildingNo);
+
+        IEnumerable<VBuildEp> GetDayEp();
+
+        IEnumerable<VBuildEp> GetMonthEp();
+
+        IEnumerable<Statis> GetBuildingDayEp(string buildingNo);
+
+        IEnumerable<Statis> GetBuildingMonthEp(string buildingNo);
+
+        Task<int> BatchImport(string fullName, bool isDeleteAll);
     }
 }

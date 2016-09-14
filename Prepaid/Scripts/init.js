@@ -140,6 +140,8 @@ app.controller('layoutCtrl', function ($scope, $http) {
         });
     }
 
+    var buildTypeCharts = new Array();
+    var buildEpCharts = new Array();
     // 获取建筑信息列表
     function getBuildingInfo() {
         $http({
@@ -148,6 +150,12 @@ app.controller('layoutCtrl', function ($scope, $http) {
             url: "../api/cachebuildings"
         }).success(function (data, status, headers, config) {
             $scope.BuildingItems = data;
+            for (var i = 0; i < data.length; i++) {
+                buildTypeCharts[i + 1] = null;
+            }
+            for (var i = 0; i < data.length; i++) {
+                buildEpCharts[i + 1] = null;
+            }
             // angularjs渲染完毕之后执行的回调函数
             $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
                 $(".menu ul li").menu();
@@ -198,7 +206,8 @@ app.controller('layoutCtrl', function ($scope, $http) {
                         a_building.attr("flag", "1");
                         a_building.css("background-color", over_color);
                         popDiv.css("display", "block");
-                        popDiv.css("top", top);
+                        drawBuildingTypeStatis(index);
+                        drawBuildMonthEpStatis(index);
                     }
 
                     popDiv.mouseleave(function () {
@@ -229,6 +238,146 @@ app.controller('layoutCtrl', function ($scope, $http) {
             ShowErrModal(data, status);
         });
     };
+
+    function drawBuildingTypeStatis(index) {
+        var typeChart = buildTypeCharts[index];
+        if (typeChart == null) {
+            // 各设备类型能耗对比图
+            var buildingNo = $("#buildingType" + index).attr("tag");
+            typeChart = echarts.init(document.getElementById('buildingType' + index));
+            typeChart.clear();
+            typeChart.showLoading({
+                text: '正在努力的读取各设备类型数据...',
+            });
+            buildingTypeStatis(typeChart, buildingNo);
+            buildTypeCharts[index] = typeChart;
+        } 
+    }
+
+    function drawBuildMonthEpStatis(index) {
+        var buildEpChart = buildEpCharts[index];
+        if (buildEpChart == null) {
+            // 建筑历史能耗时间对比图
+            var buildingNo = $("#buildingMonthEp" + index).attr("tag");
+            buildEpChart = echarts.init(document.getElementById('buildingMonthEp' + index));
+            buildEpChart.clear();
+            buildEpChart.showLoading({
+                text: '正在努力的读取建筑历史能耗时间数据...',
+            });
+            buildMonthEpStatis(buildEpChart, buildingNo);
+            buildEpCharts[index] = buildEpChart;
+        }
+    }
+
+    function buildingTypeStatis(typeChart,buildingNo) {
+        $http({
+            method: "get",
+            withCredentials: true,
+            url: "../api/buildingtypestatis/" + buildingNo
+        }).success(function (data, status, headers, config) {
+            typeChart.hideLoading();
+            var option = {
+                title: {
+                    text: '设备类型能耗对比图',
+                    x: 'center'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: data.DeviceTypes
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true }
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                series: [
+                    {
+                        name: '设备类型能耗',
+                        type: 'pie',
+                        center: ['60%', '55%'],
+                        data: (function () {
+                            var result = [];
+                            for (var index in data.DeviceTypes) {
+                                var type = data.DeviceTypes[index];
+                                result.push({
+                                    value: data.Values[index],
+                                    name: type
+                                });
+                            }
+                            return result;
+                        })(),
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            typeChart.setOption(option);
+        }).error(function (data, status, headers, config) {
+            ShowErrModal(data, status);
+        });
+    }
+
+    function buildMonthEpStatis(buildEpChart, buildingNo) {
+        $http({
+            method: "get",
+            withCredentials: true,
+            url: "../api/buildmonthstatis/" + buildingNo
+        }).success(function (data, status, headers, config) {
+            buildEpChart.hideLoading();
+            var option = {
+                title: {
+                    text: '历史能耗数据趋势图',
+                    x: 'center'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        magicType: { show: true, type: ['line', 'bar'] }
+                    }
+                },
+                calculable: false,                          // 是否启用拖拽重计算特性，默认关闭
+                tooltip: {                                  // 气泡提示配置
+                    trigger: 'item',                        // 触发类型，默认数据触发，可选为：'axis','item'
+                },
+                xAxis: [                                    // 直角坐标系中横轴数组
+                    {
+                        type: 'category',                   // 坐标轴类型，横轴默认为类目轴，数值轴则参考yAxis说明
+                        data: data.Timelines
+                    }
+                ],
+                yAxis: [                                    // 直角坐标系中纵轴数组
+                    {
+                        type: 'value'                       // 坐标轴类型，纵轴默认为数值轴，类目轴则参考xAxis说明
+                    }
+                ],
+                series: [
+                    {
+                        name: '月度耗能',
+                        type: 'line',
+                        barWidth: '60%',
+                        smooth: true,
+                        data: data.Values
+                    }
+                ]
+            };
+            buildEpChart.setOption(option);
+        }).error(function (data, status, headers, config) {
+            ShowErrModal(data, status);
+        });
+    }
 
     // 退出系统
     $scope.logout = function () {

@@ -40,7 +40,7 @@ namespace Prepaid.Controllers
             var items = new
             {
                 BuildingNos = from item in statises select item.xAxis,
-                Values = from item in statises select item.yAxis == null ? 0.00 : item.yAxis
+                Values = from item in statises select Math.Round(item.yAxis ?? 0.00, 2)
             };
 
             return Ok(items);
@@ -58,7 +58,25 @@ namespace Prepaid.Controllers
             var items = new
             {
                 DeviceTypes = from item in statises select item.xAxis,
-                Values = from item in statises select item.yAxis == null ? 0.00 : item.yAxis
+                Values = from item in statises select Math.Round(item.yAxis ?? 0.00, 2)
+            };
+
+            return Ok(items);
+        }
+
+        [Route("api/buildingtypestatis/{buildingNo}")]
+        [HttpGet]
+        public IHttpActionResult GetBuildingTypeStatis(string buildingNo)
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            var statises = this.deviceRepository.GetBuildingTypeStatisInfo(buildingNo);
+            var items = new
+            {
+                DeviceTypes = from item in statises select item.xAxis,
+                Values = from item in statises select Math.Round(item.yAxis ?? 0.00, 2)
             };
 
             return Ok(items);
@@ -72,7 +90,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            List<string> Timelines = new List<string>{ "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
+            List<string> Timelines = new List<string> { "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
             IEnumerable<string> BuildingNos = from item in this.buildingRepository.GetAll() select item.BuildingNo;
             List<double>[] Valuelines = new List<double>[BuildingNos.Count()];
             for (int i = 0; i < BuildingNos.Count(); i++)
@@ -95,6 +113,57 @@ namespace Prepaid.Controllers
                 Timelines = Timelines,
                 BuildingNos = BuildingNos,
                 Valuelines = Valuelines
+            };
+
+            return Ok(items);
+        }
+
+        [Route("api/monthstatis")]
+        [HttpGet]
+        public IHttpActionResult GetMonthStatis()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            List<string> Timelines = new List<string> { "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
+            IEnumerable<string> BuildingNos = from item in this.buildingRepository.GetAll() select item.BuildingNo;
+            List<double>[] Valuelines = new List<double>[BuildingNos.Count()];
+            IEnumerable<VBuildEp> BuildEps = this.deviceRepository.GetMonthEp();
+            for (int i = 0; i < BuildingNos.Count(); i++)
+            {
+                string buildingNo = BuildingNos.ElementAt(i);
+                var lines = from item in BuildEps
+                            where item.BuildingNo == buildingNo && item.DateTime.Substring(0, 4) == DateTime.Now.Year.ToString()
+                            select item.Value;
+
+                Valuelines[i] = new List<double>();
+                Valuelines[i].AddRange(lines);
+            }
+
+            var items = new
+            {
+                Timelines = Timelines,
+                BuildingNos = BuildingNos,
+                Valuelines = Valuelines
+            };
+
+            return Ok(items);
+        }
+
+        [Route("api/buildmonthstatis/{buildingNo}")]
+        [HttpGet]
+        public IHttpActionResult GetBuildMonthStatis(string buildingNo)
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            var statises = this.deviceRepository.GetBuildingMonthEp(buildingNo);
+            var items = new
+            {
+                Timelines = from item in statises select item.xAxis,
+                Values = from item in statises select Math.Round(item.yAxis ?? 0.00, 2)
             };
 
             return Ok(items);

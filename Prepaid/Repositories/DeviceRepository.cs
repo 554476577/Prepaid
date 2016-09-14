@@ -70,7 +70,7 @@ namespace Prepaid.Repositories
                          select new Statis
                          {
                              xAxis = g.Key.BuildingNo,
-                             yAxis = (from q in db.Devices where q.Room.BuildingNo == g.Key.BuildingNo select q).Sum(a => a.Value - a.PreValue)
+                             yAxis = (from q in db.Devices where q.Room.BuildingNo == g.Key.BuildingNo select q).Sum(a => a.Value - (a.PreValue ?? 0.00))
                          };
 
             return result;
@@ -79,14 +79,63 @@ namespace Prepaid.Repositories
         public IEnumerable<Statis> GetTypeStatisInfo()
         {
             var result = from p in db.DeviceTypes
-                         group p by new { TypeID = p.UUID, TypeName = p.Name } into g
-                         orderby g.Key.TypeName
+                     orderby p.Name
+                     select new Statis
+                     {
+                         xAxis=p.Name,
+                         yAxis = (from q in db.Devices where q.TypeID == p.UUID select q).Sum(a => a.Value - (a.PreValue ?? 0.00))
+                     };
+
+            return result;
+        }
+
+        public IEnumerable<Statis> GetBuildingTypeStatisInfo(string buildingNo)
+        {
+            var result = from p in db.DeviceTypes
+                         orderby p.Name
                          select new Statis
                          {
-                             xAxis = g.Key.TypeName,
-                             yAxis = (from q in db.Devices where q.TypeID == g.Key.TypeID select q).Sum(a => a.Value - a.PreValue)
+                             xAxis = p.Name,
+                             yAxis = (from q in db.Devices where q.TypeID == p.UUID && q.Room.BuildingNo == buildingNo select q)
+                             .Sum(a => a.Value - (a.PreValue ?? 0.00))
                          };
 
+            return result;
+        }
+
+        public IEnumerable<VBuildEp> GetDayEp()
+        {
+            var result = db.Database.SqlQuery<VBuildEp>("SELECT * FROM VBuildDayEp");
+            return result;
+        }
+
+        public IEnumerable<VBuildEp> GetMonthEp()
+        {
+            var result = db.Database.SqlQuery<VBuildEp>("SELECT * FROM VBuildMonthEp");
+            return result;
+        }
+
+        public IEnumerable<Statis> GetBuildingDayEp(string buildingNo)
+        {
+            var result = from p in GetDayEp()
+                         where p.BuildingNo == buildingNo
+                         select new Statis
+                         {
+                             xAxis = p.DateTime,
+                             yAxis = p.Value
+                         };
+            return result;
+        }
+
+        public IEnumerable<Statis> GetBuildingMonthEp(string buildingNo)
+        {
+            var result = from p in GetMonthEp()
+                         where p.BuildingNo == buildingNo
+                         select new Statis
+                         {
+                             xAxis = p.DateTime,
+                             yAxis = p.Value
+                         };
             return result;
         }
 

@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/echarts.common.min.js"></script>
 <script type="text/javascript">
     app.controller('HomeCtrl', function ($scope, $http) {
         getBetterRooms();
@@ -174,22 +173,27 @@
         }
 
         // 建筑历史能耗时间对比图
-        var billChart = echarts.init(document.getElementById('bill'));
+        var billChart = echarts.init(document.getElementById('montnEp'));
         billChart.clear();
         billChart.showLoading({
             text: '正在努力的读取建筑历史能耗时间数据...',
         });
-        billStatis();
+        monthStatis();
 
-        function billStatis() {
+        function monthStatis() {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/billstatis"
+                url: "../api/monthstatis"
             }).success(function (data, status, headers, config) {
                 billChart.hideLoading();
                 var option = {
+                    title: {
+                        text: '历史能耗数据趋势图',
+                        x: 'center'
+                    },
                     legend: {                                   // 图例配置
+                        left: 'left',
                         data: data.BuildingNos
                     },
                     toolbox: {
@@ -249,6 +253,9 @@
             </div>
         </div>
         <div id="bill" class="bill-div">
+
+        </div>
+        <div id="montnEp" class="montnEp-div">
 
         </div>
     </div>
