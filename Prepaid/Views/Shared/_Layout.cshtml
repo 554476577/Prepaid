@@ -117,8 +117,7 @@
                             <a href="#" id="building{{$index+1}}" flag="0"
                                ng-mouseover="BuildingMouseOver($index+1)" ng-mouseleave="BuildingMouseLeave($index+1)">{{BuildingItem.BuildingNo}}</a>
                             <!--通过hover,弹出一级框-->
-                            <div class="sub_cate_box" id="popDiv{{$index+1}}" ng-mouseover="divMouseOver('{{$index+1}}')" 
-                                 style="display:none;left:169px;top:auto;margin-top:-34px;">
+                            <div class="sub_cate_box" id="popDiv{{$index+1}}" ng-mouseover="divMouseOver('{{$index+1}}')">
                                 <div class="sub_cate_items">
                                     <div>
                                         <a href="#">{{BuildingItem.BuildingNo}}</a>

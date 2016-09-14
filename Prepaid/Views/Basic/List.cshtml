@@ -137,7 +137,7 @@
                 <strong>账号管理</strong>
                 <div class="basic-add">
                     <button id="btnAdminAdd" title="添加账号" url="admin/add" class="btn btn-success"
-                            onclick="popFirstWnd(this.id, '添加账号','800','400')">
+                            onclick="popFirstWnd(this.id, '添加账号','800','310')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -163,7 +163,7 @@
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>
                                 <button type="button" id="btnAdminModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
-                                        onclick="popFirstWnd(this.id, '修改账号信息','800','400')">
+                                        onclick="popFirstWnd(this.id, '修改账号信息','800','310')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteAdmin(item.UUID)">删除</button>
@@ -230,7 +230,7 @@
                 <strong>信用等级</strong>
                 <div class="basic-add">
                     <button id="btnCreditAdd" title="添加信用等级" url="credit/add" class="btn btn-success"
-                            onclick="popFirstWnd(this.id, '添加信用等级','800','400')">
+                            onclick="popFirstWnd(this.id, '添加信用等级','800','300')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -260,7 +260,7 @@
                             <td>{{item.Remark}}</td>
                             <td>
                                 <button type="button" id="btnCreditModify{{$index+1}}" url="credit/modify?uuid={{item.UUID}}"
-                                        class="btn btn-warning btn-style" onclick="popFirstWnd(this.id, '修改信用等级','800','400')">
+                                        class="btn btn-warning btn-style" onclick="popFirstWnd(this.id, '修改信用等级','800','300')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteCredit(item.UUID)">删除</button>
@@ -276,7 +276,7 @@
                 <strong>阶梯单价</strong>
                 <div class="basic-add">
                     <button id="btnLadderAdd" title="添加阶梯单价" url="ladder/add" class="btn btn-success"
-                            onclick="popDefaultWnd(this.id, '添加阶梯单价')">
+                            onclick="popFirstWnd(this.id, '添加阶梯单价','800','400')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -306,7 +306,7 @@
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>
                                 <button type="button" id="btnLadderModify{{$index+1}}" url="ladder/modify?uuid={{item.UUID}}"
-                                        class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id, '修改阶梯单价')">
+                                        class="btn btn-warning btn-style" onclick="popFirstWnd(this.id, '修改阶梯单价','800','400')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteLadder(item.UUID)">删除</button>
