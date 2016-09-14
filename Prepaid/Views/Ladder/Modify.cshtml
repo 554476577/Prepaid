@@ -34,6 +34,7 @@
                 url: "../api/ladders/" + getQueryString("uuid")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
+                $scope.DeviceTypeID = $scope.Item.TypeID;
                 $scope.DeviceTypeName = $scope.Item.TypeName;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
@@ -49,7 +50,7 @@
                 "Description": $("#Description").val(),
                 "MinEnergy": $("#MinEnergy").val(),
                 "MaxEnergy": $("#MaxEnergy").val(),
-                "Price": $("#Price").val(),
+                "Price": convertMoney($("#Price").val()),
                 "Remark": $("#Remark").val()
             };
             $http({

@@ -34,7 +34,7 @@
                 "Description": $("#Description").val(),
                 "MinEnergy": $("#MinEnergy").val(),
                 "MaxEnergy": $("#MaxEnergy").val(),
-                "Price": $("#Price").val(),
+                "Price": convertMoney($("#Price").val()),
                 "Remark": $("#Remark").val()
             };
             $http({

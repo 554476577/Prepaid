@@ -59,7 +59,7 @@ namespace Prepaid.Controllers
                             Description = item.Description,
                             MinEnergy = item.MinEnergy,
                             MaxEnergy = item.MaxEnergy,
-                            Price = item.Price,
+                            Price = TextHelper.ConvertMoney(item.Price),
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
@@ -89,7 +89,7 @@ namespace Prepaid.Controllers
                 Description = item.Description,
                 MinEnergy = item.MinEnergy,
                 MaxEnergy = item.MaxEnergy,
-                Price = item.Price,
+                Price = TextHelper.ConvertMoney(item.Price),
                 CreateTime = item.CreateTime,
                 Remark = item.Remark
             };
