@@ -169,5 +169,34 @@ namespace Prepaid.Controllers
 
             return Ok(items);
         }
+
+        [Route("api/realtimefundstatis")]
+        [HttpGet]
+        public IHttpActionResult GetRealtimeFundStatis()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            IEnumerable<string> BuildingNos = from item in this.buildingRepository.GetAll() select item.BuildingNo;
+            var statises = this.deviceRepository.GetRealtimeFunds();
+            var Balance = statises.Sum(p => p.totalBalance);
+            double Expend = 0.00;
+            foreach (var item in statises)
+            {
+                Expend += Math.Round(item.totalExpend ?? 0.00, 2);
+            }
+            var items = new
+            {
+                BuildingNos = BuildingNos,
+                TotalBalances = from item in statises select TextHelper.ConvertMoney(item.totalBalance),
+                TotalExpends = from item in statises select TextHelper.ConvertMoney((int)(item.totalExpend ?? 0)),
+                Balance = TextHelper.ConvertMoney(Balance),
+                Expend = TextHelper.ConvertMoney((int)Expend),
+                Percent = string.Format("{0:P}", Expend / Balance)
+            };
+
+            return Ok(items);
+        }
     }
 }

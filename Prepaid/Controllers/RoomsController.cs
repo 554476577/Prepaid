@@ -52,7 +52,7 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.roomRepository.GetCount(RealName, BuildingNo, RoomNo, Floor));
-                rooms = this.roomRepository.GetPagerItems(RealName, BuildingNo, RoomNo, Floor, pageIndex, pageSize, u => u.RoomNo);
+                rooms = this.roomRepository.GetPagerItems(RealName, BuildingNo, RoomNo, Floor, pageIndex, pageSize, u => u.BuildingNo);
             }
 
             var items = from item in rooms

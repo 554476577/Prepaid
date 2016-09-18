@@ -31,6 +31,8 @@ namespace Prepaid.Repositories
 
         IEnumerable<Statis> GetBuildingMonthEp(string buildingNo);
 
+        IEnumerable<dynamic> GetRealtimeFunds();
+
         Task<int> BatchImport(string fullName, bool isDeleteAll);
     }
 }

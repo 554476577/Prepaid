@@ -173,9 +173,9 @@
         }
 
         // 建筑历史能耗时间对比图
-        var billChart = echarts.init(document.getElementById('montnEp'));
-        billChart.clear();
-        billChart.showLoading({
+        var monthChart = echarts.init(document.getElementById('montnEp'));
+        monthChart.clear();
+        monthChart.showLoading({
             text: '正在努力的读取建筑历史能耗时间数据...',
         });
         monthStatis();
@@ -186,7 +186,7 @@
                 withCredentials: true,
                 url: "../api/monthstatis"
             }).success(function (data, status, headers, config) {
-                billChart.hideLoading();
+                monthChart.hideLoading();
                 var option = {
                     title: {
                         text: '历史能耗数据趋势图',
@@ -235,6 +235,72 @@
                         return result;
                     })()
                 };
+                monthChart.setOption(option);
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 建筑能耗资金支出对比图
+        var billChart = echarts.init(document.getElementById('bill'));
+        billChart.clear();
+        billChart.showLoading({
+            text: '正在努力读取建筑能耗资金支出数据...',
+        });
+        billStatis();
+        function billStatis() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/realtimefundstatis"
+            }).success(function (data, status, headers, config) {
+                $scope.Balance = data.Balance;
+                $scope.Expend = data.Expend;
+                $scope.Percent = data.Percent;
+                billChart.hideLoading();
+                var option = {
+                    title: {
+                        text: '建筑能耗资金支出对比图',
+                        x: 'right'
+                    },
+                    legend: {                                   // 图例配置
+                        left: 'left',
+                        data: ['账号总余额', '实时总支出']
+                    },
+                    calculable: false,                          // 是否启用拖拽重计算特性，默认关闭
+                    tooltip: {                                  // 气泡提示配置
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        boundaryGap: [0, 0.01]
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: data.BuildingNos
+                    },
+                    series: [
+                        {
+                            name: '账号总余额',
+                            type: 'bar',
+                            data: data.TotalBalances
+                        },
+                        {
+                            name: '实时总支出',
+                            type: 'bar',
+                            data: data.TotalExpends
+                        }
+                    ]
+                };
                 billChart.setOption(option);
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
@@ -252,8 +318,15 @@
 
             </div>
         </div>
-        <div id="bill" class="bill-div">
+        <div class="bill-div">
+            <div style="width:100%;height:15%;border-bottom:2px solid #6699cc;">
+                <span>账户总余额:{{Balance}}</span>&nbsp;
+                <span>实时总支出:{{Expend}}</span>&nbsp;
+                <span>支出占用百分比:{{Percent}}</span>
+            </div>
+            <div id="bill" style="width:100%;height:85%;">
 
+            </div>
         </div>
         <div id="montnEp" class="montnEp-div">
 

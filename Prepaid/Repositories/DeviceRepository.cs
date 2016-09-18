@@ -139,6 +139,21 @@ namespace Prepaid.Repositories
             return result;
         }
 
+        public IEnumerable<dynamic> GetRealtimeFunds()
+        {
+            var result = from p in db.Devices
+                         group p by new { BuildingNo = p.Room.BuildingNo } into g
+                         orderby g.Key.BuildingNo
+                         select new
+                         {
+                             xAxis = g.Key.BuildingNo,
+                             totalBalance = g.Sum(q => q.Room.AccountBalance),
+                             totalExpend = g.Sum(q => (q.Value - (q.PreValue ?? 0.00)) * q.DeviceType.Price1)
+                         };
+
+            return result;
+        }
+
         public async Task<int> BatchImport(string fullName, bool isDeleteAll)
         {
             if (!File.Exists(fullName))

@@ -35,6 +35,7 @@
                 url: "../api/devices/" + getQueryString("deviceNo")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
+                $scope.DeviceTypeID = $scope.Item.TypeID;
                 $scope.DeviceTypeName = $scope.Item.TypeName;
                 if ($scope.Item.IsArchive) {
                     $("#IsArchive").attr("checked", "true");

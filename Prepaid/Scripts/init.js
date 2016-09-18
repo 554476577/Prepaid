@@ -1,5 +1,5 @@
-//var rootUrl = "http://localhost:3567/";
-var rootUrl = "http://192.168.0.110/";
+var rootUrl = "http://localhost:3567/";
+//var rootUrl = "http://192.168.0.110/";
 var app = angular.module('app', [], function ($httpProvider) {
     //for (var index in activeIndexs) {
     //    $("#" + activeIndexs[index]).addClass("active");

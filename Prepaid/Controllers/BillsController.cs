@@ -313,7 +313,7 @@ namespace Prepaid.Controllers
                 await this.billRepository.AddAsync(bill);
 
                 Device device = await this.deviceRespository.GetByIdAsync(item.DeviceNo);
-                device.PreValue = item.CurValue ?? 0.00;
+                device.PreValue = item.CurValue;
                 await this.deviceRespository.PutAsync(device);
             }
 
@@ -352,6 +352,10 @@ namespace Prepaid.Controllers
                     bill.DateTime = now;
                     bill.Remark = string.Format("yyyy-MM", bill.DateTime);
                     await this.billRepository.AddAsync(bill);
+
+                    Device device = await this.deviceRespository.GetByIdAsync(item.DeviceNo);
+                    device.PreValue = item.CurValue;
+                    await this.deviceRespository.PutAsync(device);
                 }
 
                 Room room = await this.roomRespository.GetByIdAsync(prepaidBill.RoomNo);
