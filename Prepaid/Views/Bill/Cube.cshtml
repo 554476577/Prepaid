@@ -135,7 +135,7 @@
         };
     });
 </script>
-<div ng-controller="PrepaidBillCtrl" class="content-div">
+<div ng-controller="PrepaidBillCtrl" class="content-div" style="padding-right:0;padding-left:10px;">
     <div ng-cloak ng-repeat="item in Items" class="cube-div">
         <div class="cube-left table-responsive">
             <table class="table table-condensed table-bordered">
@@ -229,9 +229,9 @@
             </button>
         </div>
     </div>
-    <div class="fixed-aside" style="font-size:14px;color:#fff;font-weight:bold;">
-        <div style="position:fixed;right:16px;top:40%;"><button class="currency-btn" type="button" style="background: #d9534f;">批<br>量<br>导<br>出</button></div>
-        <div style="position:fixed;right:16px;top:51%;"><button class="currency-btn" type="button" style="background: #d9534f;">批<br>量<br>结<br>算</button></div>
+    <div class="fixed-aside" style="width:2%;font-size:14px;color:#fff;font-weight:bold;position:fixed;right:13px;top:45%;height:200px;">
+        <button class="currency-btn" type="button" style="background: #d9534f;">批<br>量<br>导<br>出</button>
+        <button class="currency-btn" type="button" style="background: #d9534f;margin-top:20px;">批<br>量<br>结<br>算</button>
     </div>
     <div class="width center">
         <div id="page4" class="m-pagination m-center"></div>
