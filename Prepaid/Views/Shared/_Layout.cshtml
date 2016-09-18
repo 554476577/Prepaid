@@ -94,10 +94,10 @@
                     <div class="row">
                         <div class="col-lg-1 col-md-1 col-sm-1">建筑编号:</div>
                         <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="BuildingNo" class="form-control"></div>
-                        <div class="col-lg-1 col-md-1 col-sm-1">房间编号:</div>
-                        <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="RoomNo" class="form-control"></div>
                         <div class="col-lg-1 col-md-1 col-sm-1">楼层:</div>
                         <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="Floor" class="form-control"></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1">房间编号:</div>
+                        <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="RoomNo" class="form-control"></div>
                         <div class="col-lg-1 col-md-1 col-sm-1">业主姓名:</div>
                         <div class="col-lg-2 col-md-2 col-sm-2"><input type="text" ng-model="RealName" class="form-control"></div>
                     </div>
@@ -119,11 +119,11 @@
                                ng-mouseover="BuildingMouseOver($index+1)" ng-mouseleave="BuildingMouseLeave($index+1)">{{BuildingItem.BuildingNo}}</a>
                             <!--通过hover,弹出一级框-->
                             <div class="sub_cate_box" id="popDiv{{$index+1}}">
-                                <div id="" style="width:100%;height:100px;float:left;border-bottom:2px solid red;">
+                                <div id="" style="width:100%;height:100px;float:left;border-bottom:2px solid #6699cc;">
 
                                 </div>
                                 <div id="buildingType{{$index+1}}" tag="{{BuildingItem.BuildingNo}}" 
-                                     style="width:50%;height:300px;float:left;border-right:2px solid red;">
+                                     style="width:50%;height:300px;float:left;border-right:2px solid #6699cc;">
 
                                 </div>
                                 <div id="buildingMonthEp{{$index+1}}" tag="{{BuildingItem.BuildingNo}}" style="width:50%;height:300px;float:left;">
@@ -146,7 +146,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="content-show">
+            <div class="content-show" style="border-left:1px solid #dfdfdf;overflow:auto;">
                 @RenderBody()
             </div>
         </div>
