@@ -140,6 +140,7 @@ namespace Prepaid.Repositories
                 bill.ApportMoney = TextHelper.ConvertMoney(bill.IntApportMoney);
                 bill.PrepaidDeviceBills = GetPrepaidDeviceBills(item.RoomNo);
                 bill.SumValue = bill.PrepaidDeviceBills.Sum(o => o.CurValue - o.PreValue);
+                bill.SumValue = Math.Round(bill.SumValue ?? 0.00, 2);
                 bill.IntSumMoney = bill.PrepaidDeviceBills.Sum(o => o.IntMoney);
                 bill.SumMoney = TextHelper.ConvertMoney(bill.IntSumMoney);
                 bill.IntBilledBalance = item.AccountBalance - bill.IntSumMoney - bill.IntApportMoney;

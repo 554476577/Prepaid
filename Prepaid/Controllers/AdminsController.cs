@@ -106,6 +106,7 @@ namespace Prepaid.Controllers
 
             try
             {
+                admin.CreateTime = DateTime.Now;
                 await this.repository.PutAsync(admin);
             }
             catch (DbUpdateConcurrencyException)

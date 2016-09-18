@@ -159,10 +159,11 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
+            List<string> Timelines = new List<string> { "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
             var statises = this.deviceRepository.GetBuildingMonthEp(buildingNo);
             var items = new
             {
-                Timelines = from item in statises select item.xAxis,
+                Timelines = Timelines,
                 Values = from item in statises select Math.Round(item.yAxis ?? 0.00, 2)
             };
 
