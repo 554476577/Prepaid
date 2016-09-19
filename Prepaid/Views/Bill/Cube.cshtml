@@ -21,11 +21,23 @@
     //};
 
     app.controller('PrepaidBillCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
         var flag = getQueryString("flag");
-        if (flag == "0" || flag == "1") {
-            getRooms(flag);
+        if (flag == "1") {
+            var params = {
+                "BuildingNo": getQueryString("buildingNo"),
+                "PageIndex": 1,
+                "PageSize": $scope.PageSize
+            };
+            getBetterRooms(params,true);
+        } else if (flag == "0") {
+            var params = {
+                "BuildingNo": getQueryString("buildingNo"),
+                "PageIndex": 1,
+                "PageSize": $scope.PageSize
+            };
+            getWorseRooms(params,true);
         } else {
-            $scope.PageSize = 10;
             var params = {
                 "BuildingNo": getQueryString("buildingNo"),
                 "RoomNo": getQueryString("roomNo"),
@@ -37,13 +49,71 @@
             getInfos(params, true);
         }
 
-        function getRooms(flag) {
+        function getBetterRooms(params, isFirstLoadPager) {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/recommendbills/" + flag
+                url: "../api/bills/recommendrooms",
+                params: params
             }).success(function (data, status, headers, config) {
-                $scope.Items = data;
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getBetterRooms(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getBetterRooms(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        function getWorseRooms(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/bills/arrearsrooms",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.Items = data.Items;
+                $scope.RecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.RecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getWorseRooms(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getWorseRooms(params, false); // 重新绑定数据
+                    });
+                }
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
@@ -109,8 +179,7 @@
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/export/userprepaidbills",
-                params: params
+                url: "../api/export/prepaidbills"
             }).success(function (data, status, headers, config) {
                 ShowTipsModel("业主能耗缴费实时账单导出成功！");
                 location.href = location.origin + '/' + data;
@@ -125,7 +194,7 @@
                 $http({
                     method: "post",
                     withCredentials: true,
-                    url: "../api/batch/userenergybills"
+                    url: "../api/batch/bills"
                 }).success(function (data, status, headers, config) {
                     window.parent.location.href = "../prepaid/list";
                 }).error(function (data, status, headers, config) {
@@ -230,8 +299,8 @@
         </div>
     </div>
     <div class="fixed-aside" style="width:2%;font-size:14px;color:#fff;font-weight:bold;position:fixed;right:13px;top:45%;height:200px;">
-        <button class="currency-btn" type="button" style="background: #d9534f;">批<br>量<br>导<br>出</button>
-        <button class="currency-btn" type="button" style="background: #d9534f;margin-top:20px;">批<br>量<br>结<br>算</button>
+        <button class="currency-btn" type="button" ng-click="exportReport()" style="background: #d9534f;">批<br>量<br>导<br>出</button>
+        <button class="currency-btn" type="button" ng-click="batchSettle()" style="background: #d9534f;margin-top:20px;">批<br>量<br>结<br>算</button>
     </div>
     <div class="width center">
         <div id="page4" class="m-pagination m-center"></div>

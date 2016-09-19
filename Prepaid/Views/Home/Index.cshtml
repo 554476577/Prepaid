@@ -7,24 +7,34 @@
         getWorseRooms();
 
         function getBetterRooms() {
+            var params = {
+                "PageIndex": 1,
+                "PageSize": 10
+            };
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/recommendbills/1"
+                url: "../api/bills/recommendrooms",
+                params: params
             }).success(function (data, status, headers, config) {
-                $scope.BetterItems = data;
+                $scope.BetterItems = data.Items;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
         }
 
         function getWorseRooms() {
+            var params = {
+                "PageIndex": 1,
+                "PageSize": 10
+            };
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/recommendbills/0"
+                url: "../api/bills/arrearsrooms",
+                params: params
             }).success(function (data, status, headers, config) {
-                $scope.WorseItems = data;
+                $scope.WorseItems = data.Items;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });

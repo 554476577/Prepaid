@@ -1,5 +1,6 @@
 ﻿using Prepaid.Models;
 using Prepaid.Repositories;
+using Prepaid.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -70,7 +71,7 @@ namespace Prepaid.Repositories
                          select new Statis
                          {
                              xAxis = g.Key.BuildingNo,
-                             yAxis = (from q in db.Devices where q.Room.BuildingNo == g.Key.BuildingNo select q).Sum(a => a.Value - (a.PreValue ?? 0.00))
+                             yAxis = (from q in db.Devices where q.Room.BuildingNo == g.Key.BuildingNo select q).Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
                          };
 
             return result;
@@ -83,7 +84,7 @@ namespace Prepaid.Repositories
                      select new Statis
                      {
                          xAxis=p.Name,
-                         yAxis = (from q in db.Devices where q.TypeID == p.UUID select q).Sum(a => a.Value - (a.PreValue ?? 0.00))
+                         yAxis = (from q in db.Devices where q.TypeID == p.UUID select q).Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
                      };
 
             return result;
@@ -97,7 +98,7 @@ namespace Prepaid.Repositories
                          {
                              xAxis = p.Name,
                              yAxis = (from q in db.Devices where q.TypeID == p.UUID && q.Room.BuildingNo == buildingNo select q)
-                             .Sum(a => a.Value - (a.PreValue ?? 0.00))
+                             .Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
                          };
 
             return result;
@@ -148,10 +149,22 @@ namespace Prepaid.Repositories
                          {
                              xAxis = g.Key.BuildingNo,
                              totalBalance = g.Sum(q => q.Room.AccountBalance),
-                             totalExpend = g.Sum(q => (q.Value - (q.PreValue ?? 0.00)) * q.DeviceType.Price1)
+                             totalExpend = g.Sum(q => ((q.Value ?? 0.00) - (q.PreValue ?? 0.00)) * q.DeviceType.Price1)
                          };
 
             return result;
+        }
+
+        public dynamic GetBuildingRealtimeFunds(string buildingNo)
+        {
+            var totalBalance = db.Devices.Where(p => p.Room.BuildingNo == buildingNo).Sum(p => p.Room.AccountBalance);
+            var totalExpend = db.Devices.Where(p => p.Room.BuildingNo == buildingNo).Sum(q => ((q.Value ?? 0.00) - (q.PreValue ?? 0.00)) * q.DeviceType.Price1);
+            return new
+            {
+                TotalBalance = TextHelper.ConvertMoney(totalBalance),
+                TotalExpend = TextHelper.ConvertMoney((int)totalExpend),
+                Percent = string.Format("{0:P}", totalExpend / totalBalance)
+            };
         }
 
         public async Task<int> BatchImport(string fullName, bool isDeleteAll)

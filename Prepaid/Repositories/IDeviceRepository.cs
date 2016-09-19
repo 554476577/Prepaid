@@ -33,6 +33,8 @@ namespace Prepaid.Repositories
 
         IEnumerable<dynamic> GetRealtimeFunds();
 
+        dynamic GetBuildingRealtimeFunds(string buildingNo);
+
         Task<int> BatchImport(string fullName, bool isDeleteAll);
     }
 }

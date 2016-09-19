@@ -198,5 +198,17 @@ namespace Prepaid.Controllers
 
             return Ok(items);
         }
+
+        [Route("api/buildrealtimefundstatis/{buildingNo}")]
+        [HttpGet]
+        public IHttpActionResult GetBuildRealtimeFundStatis(string buildingNo)
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            var item = this.deviceRepository.GetBuildingRealtimeFunds(buildingNo);
+            return Ok(item);
+        }
     }
 }
