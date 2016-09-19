@@ -143,6 +143,8 @@ app.controller('layoutCtrl', function ($scope, $http) {
 
     var buildTypeCharts = new Array();
     var buildEpCharts = new Array();
+    var buildFunds = new Array();
+    $scope.buildArrears = new Array();
     // 获取建筑信息列表
     function getBuildingInfo() {
         $http({
@@ -156,6 +158,12 @@ app.controller('layoutCtrl', function ($scope, $http) {
             }
             for (var i = 0; i < data.length; i++) {
                 buildEpCharts[i + 1] = null;
+            }
+            for (var i = 0; i < data.length; i++) {
+                buildFunds[i + 1] = null;
+            }
+            for (var i = 0; i < data.length; i++) {
+                $scope.buildArrears[i + 1] = null;
             }
             // angularjs渲染完毕之后执行的回调函数
             $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
@@ -199,16 +207,18 @@ app.controller('layoutCtrl', function ($scope, $http) {
                 var origin_color = "#e7ecea";
                 var over_color = "#ADD8E6";
                 var click_color = "#19c68b";
-                $scope.BuildingMouseOver = function (index) {
+                $scope.BuildingMouseOver = function (index, buildingNo) {
                     var a_building = $("#building" + index);
-                    var popDiv = $("#popDiv"+index);
+                    var popDiv = $("#popDiv" + index);
                     var flag = a_building.attr("flag");
                     if (flag == "0") {
                         a_building.attr("flag", "1");
                         a_building.css("background-color", over_color);
                         popDiv.css("display", "block");
-                        drawBuildingTypeStatis(index);
-                        drawBuildMonthEpStatis(index);
+                        drawBuildingTypeStatis(index, buildingNo);
+                        drawBuildMonthEpStatis(index, buildingNo);
+                        getBuildingRealtimeFund(index, buildingNo);
+                        getWorseRooms(index, buildingNo);
                     }
 
                     popDiv.mouseleave(function () {
@@ -226,7 +236,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
 
                 $scope.BuildingMouseLeave = function (index) {
                     var a_building = $("#building" + index);
-                    var popDiv = $("#popDiv"+index);
+                    var popDiv = $("#popDiv" + index);
                     var flag = a_building.attr("flag");
                     if (flag == "1") {
                         a_building.attr("flag", "0");
@@ -240,11 +250,10 @@ app.controller('layoutCtrl', function ($scope, $http) {
         });
     };
 
-    function drawBuildingTypeStatis(index) {
+    function drawBuildingTypeStatis(index, buildingNo) {
         var typeChart = buildTypeCharts[index];
         if (typeChart == null) {
             // 各设备类型能耗对比图
-            var buildingNo = $("#buildingType" + index).attr("tag");
             typeChart = echarts.init(document.getElementById('buildingType' + index));
             typeChart.clear();
             typeChart.showLoading({
@@ -252,14 +261,13 @@ app.controller('layoutCtrl', function ($scope, $http) {
             });
             buildingTypeStatis(typeChart, buildingNo);
             buildTypeCharts[index] = typeChart;
-        } 
+        }
     }
 
-    function drawBuildMonthEpStatis(index) {
+    function drawBuildMonthEpStatis(index, buildingNo) {
         var buildEpChart = buildEpCharts[index];
         if (buildEpChart == null) {
             // 建筑历史能耗时间对比图
-            var buildingNo = $("#buildingMonthEp" + index).attr("tag");
             buildEpChart = echarts.init(document.getElementById('buildingMonthEp' + index));
             buildEpChart.clear();
             buildEpChart.showLoading({
@@ -270,7 +278,46 @@ app.controller('layoutCtrl', function ($scope, $http) {
         }
     }
 
-    function buildingTypeStatis(typeChart,buildingNo) {
+    function getBuildingRealtimeFund(index, buildingNo) {
+        var buildFund = buildFunds[index];
+        if (buildFund == null) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/buildrealtimefundstatis/" + buildingNo
+            }).success(function (data, status, headers, config) {
+                buildFunds[index] = data;
+                $("#balance" + index).text(data.TotalBalance);
+                $("#expand" + index).text(data.TotalExpend);
+                $("#percent" + index).text(data.Percent);
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+    }
+
+    function getWorseRooms(index, buildingNo) {
+        var buildArrear = $scope.buildArrears[index];
+        if (buildArrear == null) {
+            var params = {
+                "BuildingNo": buildingNo,
+                "PageIndex": 1,
+                "PageSize": 10
+            };
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/bills/arrearsrooms",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.buildArrears[index] = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+    }
+
+    function buildingTypeStatis(typeChart, buildingNo) {
         $http({
             method: "get",
             withCredentials: true,

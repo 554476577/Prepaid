@@ -25,12 +25,14 @@
         var flag = getQueryString("flag");
         if (flag == "1") {
             var params = {
+                "BuildingNo": getQueryString("buildingNo"),
                 "PageIndex": 1,
                 "PageSize": $scope.PageSize
             };
             getBetterRooms(params,true);
         } else if (flag == "0") {
             var params = {
+                "BuildingNo": getQueryString("buildingNo"),
                 "PageIndex": 1,
                 "PageSize": $scope.PageSize
             };
