@@ -165,22 +165,62 @@ namespace Prepaid.Controllers
             return Ok(pager);
         }
 
-        // GET: api/recommendbills/1
+        // GET: api/bills/recommendrooms
         [HttpGet]
-        [Route("api/recommendbills/{flag}")]
-        public IHttpActionResult GetRecommendBills(int flag)
+        [Route("api/bills/recommendrooms")]
+        public IHttpActionResult GetRecommendRooms()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
                 return errResult;
 
-            IEnumerable<PrepaidBill> bills;
-            if (flag == 0)
-                bills = this.billRepository.GetPrepaidPagerBills(1, 10, u => u.CreditScore);
-            else
-                bills = this.billRepository.GetPrepaidPagerBills(1, 10, u => u.CreditScore, true);
+            Pager pager = new Pager();
+            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills() where item.CreditScore > 5000 orderby item.CreditScore descending select item;
+            string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
+            string strPageSize = HttpContext.Current.Request.Params["PageSize"];
+            string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            if (!string.IsNullOrEmpty(buildingNo))
+                rooms = rooms.Where(u => u.BuildingNo == buildingNo);
+            if (!string.IsNullOrEmpty(strPageIndex) && !string.IsNullOrEmpty(strPageSize))
+            {
+                int PageIndex = Convert.ToInt32(strPageIndex);
+                int PageSize = Convert.ToInt32(strPageSize);
+                int RecordStart = (PageIndex - 1) * PageSize;
+                pager = new Pager(PageIndex, PageSize, rooms.Count());
+                rooms = rooms.Skip(RecordStart).Take(PageSize);
+            }
+            pager.Items = rooms;
 
-            return Ok(bills);
+            return Ok(pager);
+        }
+
+        // GET: api/bills/arrearsrooms
+        [HttpGet]
+        [Route("api/bills/arrearsrooms")]
+        public IHttpActionResult GetArrearsRooms()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            Pager pager = new Pager();
+            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills() where item.IntBilledBalance < 0 orderby item.IntBilledBalance select item;
+            string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
+            string strPageSize = HttpContext.Current.Request.Params["PageSize"];
+            string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            if (!string.IsNullOrEmpty(buildingNo))
+                rooms = rooms.Where(u => u.BuildingNo == buildingNo);
+            if (!string.IsNullOrEmpty(strPageIndex) && !string.IsNullOrEmpty(strPageSize))
+            {
+                int PageIndex = Convert.ToInt32(strPageIndex);
+                int PageSize = Convert.ToInt32(strPageSize);
+                int RecordStart = (PageIndex - 1) * PageSize;
+                pager = new Pager(PageIndex, PageSize, rooms.Count());
+                rooms = rooms.Skip(RecordStart).Take(PageSize);
+            }
+            pager.Items = rooms;
+
+            return Ok(pager);
         }
 
         [HttpGet]
