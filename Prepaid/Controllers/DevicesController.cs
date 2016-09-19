@@ -101,6 +101,9 @@ namespace Prepaid.Controllers
             var result = new
             {
                 DeviceNo = item.DeviceNo,
+                BuildingNo=item.Room.BuildingNo,
+                BuildingName=item.Room.Building.Name,
+                Floor=item.Room.Floor,
                 RoomNo = item.RoomNo,
                 TypeID = item.TypeID,
                 TypeName = item.DeviceType.Name,

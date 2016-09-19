@@ -4,8 +4,12 @@
 <script type="text/javascript">
     app.controller('DeviceCtrl', function ($scope, $http) {
         $scope.DeviceTypeName = "请选择设备类型";
+        $scope.BuildingName = "请选择建筑编号";
+        $scope.RoomNo = "请选择房间编号";
 
         getDeviceTypes();
+        getBuildings();
+        getRooms();
         getInfo();
 
         // 获取设备类型信息列表
@@ -27,8 +31,61 @@
             $scope.DeviceTypeName = typeName;
         }
 
+        //获取建筑信息列表
+        function getBuildings() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/buildings"
+            }).success(function (data, status, headers, config) {
+                $scope.BuildingsItems = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 选择建筑信息类型
+        $scope.selectBuilding = function (buildingNo, name) {
+            $scope.RoomNo = "请选择房间编号";
+            $scope.BuildingNo = buildingNo;
+            $scope.BuildingName = name + "[" + buildingNo + "]";
+            getRooms();
+        }
+
+        //获取房间信息列表
+        function getRooms() {
+            var params = {
+                "BuildingNo": $scope.BuildingNo,
+                "Floor": $scope.Floor
+            };
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/rooms",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.RoomsItems = data.Items;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        $scope.loadData = function () {
+            $scope.RoomNo = "请选择房间编号";
+            getRooms();
+        };
+
+        // 选择房间信息类型
+        $scope.selectRoom = function (roomNo) {
+            $scope.RoomNo = roomNo;
+        }
+
         // 获取设备信息
         function getInfo() {
+            var params = {
+                "BuildingNo": $scope.BuildingNo,
+                "BuildingName": $scope.Name
+            };
             $http({
                 method: "get",
                 withCredentials: true,
@@ -37,6 +94,10 @@
                 $scope.Item = data;
                 $scope.DeviceTypeID = $scope.Item.TypeID;
                 $scope.DeviceTypeName = $scope.Item.TypeName;
+                $scope.RoomNo = $scope.Item.RoomNo;
+                $scope.BuildingNo = $scope.Item.BuildingNo;
+                $scope.BuildingName = $scope.Item.BuildingName + "[" + $scope.BuildingNo + "]";
+                $scope.Floor = $scope.Item.Floor;
                 if ($scope.Item.IsArchive) {
                     $("#IsArchive").attr("checked", "true");
                 }
@@ -49,7 +110,7 @@
         $scope.modify = function () {
             var params = {
                 "DeviceNo": $("#DeviceNo").val(),
-                "RoomNo": $("#RoomNo").val(),
+                "RoomNo": $scope.RoomNo,
                 "TypeID": $scope.DeviceTypeID,
                 "Protocol": $("#Protocol").val(),
                 "Scope": $("#Scope").val(),
@@ -84,7 +145,43 @@
 </script>
 <div ng-controller="DeviceCtrl" class="content-div">
     <form role="form" class="form-div">
-        <div class="form-group" style="width:25%;">
+        <div class="form-group" style="width:18%;">
+            <label>建筑编号选择</label>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;">
+                        {{BuildingName}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-cloak ng-repeat="item in BuildingsItems">
+                            <a href="#" ng-click="selectBuilding(item.BuildingNo,item.Name)">{{item.Name}}[{{item.BuildingNo}}]</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group group-style" style="width:30%;height:55px;">
+            <label for="BuildingFloors">所在楼层</label>
+            <input type="text" class="form-control input-text" id="BuildingFloors" name="BuildingFloors" ng-model="Floor" ng-mouseleave="loadData()" placeholder="请输入所在楼层！">
+        </div>
+        <div class="form-group" style="width:18%;">
+            <label>房间编号选择</label>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;">
+                        {{RoomNo}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-cloak ng-repeat="item in RoomsItems">
+                            <a href="#" ng-click="selectRoom(item.RoomNo)">{{item.RoomNo}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>       
+        <div class="form-group" style="width:18%;">
             <label>设备类型选择</label>
             <div class="input-group">
                 <div class="input-group-btn">
@@ -100,7 +197,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group group-style checkbox" style="width:23%;margin-top:30px;">
+        <div class="form-group group-style checkbox" style="width:10%;margin-top:30px;">
             <label for="IsArchive"><input type="checkbox" id="IsArchive" name="IsArchive">是否归档</label>
         </div>
         <div class="form-group group-style">
@@ -110,10 +207,6 @@
         <div class="form-group group-style">
             <label for="DeviceName">设备名称</label>
             <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" value="{{Item.DeviceName}}" placeholder="请输入设备名称！">
-        </div>
-        <div class="form-group group-style">
-            <label for="RoomNo">房间编号</label>
-            <input type="text" class="form-control input-text" id="RoomNo" name="RoomNo" value="{{Item.RoomNo}}" placeholder="请输入房间编号！">
         </div>
         <div class="form-group group-style">
             <label for="Protocol">归属协议</label>
