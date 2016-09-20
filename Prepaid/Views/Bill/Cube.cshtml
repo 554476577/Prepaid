@@ -2,24 +2,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-    $(document).ready(function () {
-        //var width = $("#page4").children("ul").css("width");
-        //console.log(width);
-        $(window).load(function () {
-            var width = $("#page4").children(".m-pagination-page").width();
-            console.log(width);
-        });
-    });
-
-    //$(window).load(function () {
-    //    var width = $("#page4").children(".m-pagination-page").width();
-    //    console.log(width);
-    //});
-    //window.onload = function () {
-    //    var width = $("#page4").children(".m-pagination-page").width();
-    //    console.log(width);
-    //};
-
     app.controller('PrepaidBillCtrl', function ($scope, $http) {
         $scope.PageSize = 10;
         var flag = getQueryString("flag");
@@ -244,7 +226,7 @@
                     <tr>
                         <td>
                             <button class="btn btn-primary btn-four" id="btnBillRecord{{$index+1}}" url="room/bills?roomNo={{item.RoomNo}}&buildingNo={{item.BuildingNo}}"
-                                    onclick="popDefaultWnd(this.id, '结算记录')">
+                                    onclick="popFirstWnd(this.id, '结算记录','900','455')">
                                 结算记录
                             </button>
                         </td>
