@@ -152,17 +152,19 @@ app.controller('layoutCtrl', function ($scope, $http) {
             withCredentials: true,
             url: "../api/cachebuildings"
         }).success(function (data, status, headers, config) {
-            $scope.BuildingItems = data;
-            for (var i = 0; i < data.length; i++) {
+            $scope.BuildingItems = data.Buildings;
+            var IsTimingSettle = data.IsTimingSettle;
+            var length = $scope.BuildingItems.length;
+            for (var i = 0; i < length; i++) {
                 buildTypeCharts[i + 1] = null;
             }
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < length; i++) {
                 buildEpCharts[i + 1] = null;
             }
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < length; i++) {
                 buildFunds[i + 1] = null;
             }
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < length; i++) {
                 $scope.buildArrears[i + 1] = null;
             }
             // angularjs渲染完毕之后执行的回调函数

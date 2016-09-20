@@ -45,16 +45,34 @@ namespace Prepaid.Repositories
             await db.SaveChangesAsync();
         }
 
+        public virtual void Add(T item)
+        {
+            GetAll().Add(item);
+            db.SaveChanges();
+        }
+
         public async virtual Task PutAsync(T item)
         {
             db.Entry(item).State = EntityState.Modified;
             await db.SaveChangesAsync();
         }
 
+        public virtual void Put(T item)
+        {
+            db.Entry(item).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
         public async virtual Task DeleteAsync(T item)
         {
             GetAll().Remove(item);
             await db.SaveChangesAsync();
+        }
+
+        public virtual void Delete(T item)
+        {
+            GetAll().Remove(item);
+            db.SaveChanges();
         }
 
         public abstract bool IsExist(K uuid);

@@ -44,25 +44,45 @@ namespace Prepaid.Repositories
         T GetByID(K uuid);
 
         /// <summary>
-        /// 添加数据项。
+        /// 异步的方式添加数据项。
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         Task AddAsync(T item);
 
         /// <summary>
-        /// 更新数据项。
+        /// 同步的方式添加数据项。
+        /// </summary>
+        /// <param name="item"></param>
+        void Add(T item);
+
+        /// <summary>
+        /// 异步的方式更新数据项。
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         Task PutAsync(T item);
 
         /// <summary>
-        /// 删除数据项。
+        /// 同步的方式更新数据项。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        void Put(T item);
+
+        /// <summary>
+        /// 异步的方式删除数据项。
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         Task DeleteAsync(T item);
+
+        /// <summary>
+        /// 异步的方式删除数据项。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        void Delete(T item);
 
         /// <summary>
         /// 获取数据总条数。

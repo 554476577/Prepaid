@@ -76,7 +76,14 @@ namespace Prepaid.Controllers
         [Route("api/cachebuildings")]
         public IHttpActionResult GetCacheBuildings()
         {
-            var items = TextHelper.GetCacheBuildings(this.buildingRepository, this.roomRepository);
+            int isTimingSettle = Convert.ToInt32(WebConfigHelper.ReadAppSetting("IsTimingSettle"));
+            var buildings = TextHelper.GetCacheBuildings(this.buildingRepository, this.roomRepository);
+            var items = new
+            {
+                IsTimingSettle = isTimingSettle,
+                Buildings = buildings
+            };
+
             return Ok(items);
         }
 

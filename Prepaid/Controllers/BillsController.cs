@@ -9,6 +9,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Timers;
+using System.Transactions;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -17,6 +19,7 @@ namespace Prepaid.Controllers
 {
     public class BillsController : ApiController
     {
+        Timer timer;
         IBillRespository billRepository;
         IRoomRespository roomRespository;
         IDeviceRepository deviceRespository;
@@ -175,7 +178,10 @@ namespace Prepaid.Controllers
                 return errResult;
 
             Pager pager = new Pager();
-            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills() where item.CreditScore > 5000 orderby item.CreditScore descending select item;
+            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills()
+                                             where item.CreditScore > 5000
+                                             orderby item.CreditScore descending
+                                             select item;
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
             string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
@@ -204,7 +210,10 @@ namespace Prepaid.Controllers
                 return errResult;
 
             Pager pager = new Pager();
-            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills() where item.IntBilledBalance < 0 orderby item.IntBilledBalance select item;
+            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills()
+                                             where item.IntBilledBalance < 0
+                                             orderby item.IntBilledBalance
+                                             select item;
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
             string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
@@ -309,7 +318,7 @@ namespace Prepaid.Controllers
             {
                 bill.LotNo = TextHelper.GenerateUUID();
                 bill.DateTime = DateTime.Now;
-                bill.Remark = string.Format("yyyy-MM", bill.DateTime);
+                //bill.Remark = string.Format("yyyy-MM", bill.DateTime);
                 await this.billRepository.AddAsync(bill);
             }
             catch (DbUpdateException)
@@ -327,7 +336,7 @@ namespace Prepaid.Controllers
         [HttpPost]
         [Route("api/roombills")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PostBills()
+        public IHttpActionResult PostBills()
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -340,48 +349,9 @@ namespace Prepaid.Controllers
             List<PrepaidDeviceBill> bills = JsonConvert.DeserializeObject<List<PrepaidDeviceBill>>(strDeviceBills);
             DateTime now = DateTime.Now;
             string lotNo = TextHelper.GenerateUUID();
-            foreach (PrepaidDeviceBill item in bills)
+            using (TransactionScope ts = new TransactionScope())
             {
-                Bill bill = new Bill();
-                bill.DeviceNo = item.DeviceNo;
-                bill.LotNo = lotNo;
-                bill.PreValue = item.PreValue ?? 0.00;
-                bill.CurValue = item.CurValue ?? 0.00;
-                bill.Money = item.IntMoney;
-                bill.DateTime = now;
-                bill.Remark = string.Format("yyyy-MM", bill.DateTime);
-                await this.billRepository.AddAsync(bill);
-
-                Device device = await this.deviceRespository.GetByIdAsync(item.DeviceNo);
-                device.PreValue = item.CurValue;
-                await this.deviceRespository.PutAsync(device);
-            }
-
-            Room room = await this.roomRespository.GetByIdAsync(RoomNo);
-            room.AccountBalance = Convert.ToInt32(IntBilledBalance);
-            await this.roomRespository.PutAsync(room);
-
-            return Ok();
-        }
-
-        // POST: api/batch/bills
-        [HttpPost]
-        [Route("api/batch/bills")]
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> BatchPostBills()
-        {
-            var errResult = TextHelper.CheckAuthorized(Request);
-            if (errResult != null)
-                return errResult;
-
-            IEnumerable<PrepaidBill> prepaidBills = this.billRepository.GetPrepaidBills();
-            DateTime now = DateTime.Now;
-            string lotNo = TextHelper.GenerateUUID();
-            foreach (var prepaidBill in prepaidBills)
-            {
-                if (prepaidBill.IntAccountBalance < 0) // 如果预算不够，则不结算
-                    continue;
-                foreach (PrepaidDeviceBill item in prepaidBill.PrepaidDeviceBills)
+                foreach (PrepaidDeviceBill item in bills)
                 {
                     Bill bill = new Bill();
                     bill.DeviceNo = item.DeviceNo;
@@ -390,20 +360,114 @@ namespace Prepaid.Controllers
                     bill.CurValue = item.CurValue ?? 0.00;
                     bill.Money = item.IntMoney;
                     bill.DateTime = now;
-                    bill.Remark = string.Format("yyyy-MM", bill.DateTime);
-                    await this.billRepository.AddAsync(bill);
+                    //bill.Remark = string.Format("yyyy-MM", bill.DateTime);
+                    this.billRepository.Add(bill);
 
-                    Device device = await this.deviceRespository.GetByIdAsync(item.DeviceNo);
+                    Device device = this.deviceRespository.GetByID(item.DeviceNo);
                     device.PreValue = item.CurValue;
-                    await this.deviceRespository.PutAsync(device);
+                    this.deviceRespository.Put(device);
                 }
 
-                Room room = await this.roomRespository.GetByIdAsync(prepaidBill.RoomNo);
-                room.AccountBalance = prepaidBill.IntAccountBalance - prepaidBill.IntSumMoney;
-                await this.roomRespository.PutAsync(room);
+                Room room = this.roomRespository.GetByID(RoomNo);
+                room.AccountBalance = Convert.ToInt32(IntBilledBalance);
+                this.roomRespository.Put(room);
+
+                ts.Complete(); // 提交事务
             }
 
             return Ok();
+        }
+
+        // POST: api/batch/bills
+        [HttpPost]
+        [Route("api/batch/bills")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult BatchPostBills()
+        {
+            var errResult = TextHelper.CheckAuthorized(Request);
+            if (errResult != null)
+                return errResult;
+
+            BatchSettle(false); // 批量结算
+
+            return Ok();
+        }
+
+        // POST: api/timing/bills
+        [HttpPost]
+        [Route("api/timing/bills/{0}")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult TimingBills(int flag)
+        {
+            WebConfigHelper.WriteAppSetting("IsTimingSettle", flag.ToString());
+            if (flag == 0 && this.timer != null) // 关闭定时器
+            {
+                this.timer.Stop();
+            }
+            else if (flag == 1)
+            {
+                DateTime now = DateTime.Now;
+                DateTime lastDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1);
+                lastDay = new DateTime(lastDay.Year, lastDay.Month, lastDay.Day, 22, 0, 0); // 设定在本月最后一天结算
+                TimeSpan span = lastDay - now;
+                this.timer = new Timer();
+                this.timer.Interval = span.Milliseconds;
+                this.timer.Elapsed += timer_Elapsed;
+                this.timer.Start();
+            }
+
+            return Ok();
+        }
+
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            DateTime lastDay = now.AddMonths(1).AddDays(1);
+            lastDay = new DateTime(lastDay.Year, lastDay.Month, lastDay.Day, 22, 0, 0); // 设定在本月最后一天结算
+            timer.Interval = (lastDay - now).Milliseconds;
+
+            BatchSettle(true);
+        }
+
+        private void BatchSettle(bool isAuto)
+        {
+            IEnumerable<PrepaidBill> prepaidBills = this.billRepository.GetPrepaidBills();
+            DateTime now = DateTime.Now;
+            string lotNo = TextHelper.GenerateUUID();
+            foreach (var prepaidBill in prepaidBills)
+            {
+                if (prepaidBill.IntAccountBalance < 0) // 如果预算不够，则不结算
+                    continue;
+
+                using (TransactionScope ts = new TransactionScope())
+                {
+                    foreach (PrepaidDeviceBill item in prepaidBill.PrepaidDeviceBills)
+                    {
+                        Bill bill = new Bill();
+                        bill.DeviceNo = item.DeviceNo;
+                        bill.LotNo = lotNo;
+                        bill.PreValue = item.PreValue ?? 0.00;
+                        bill.CurValue = item.CurValue ?? 0.00;
+                        bill.Money = item.IntMoney;
+                        bill.DateTime = now;
+                        //bill.Remark = string.Format("yyyy-MM", bill.DateTime);
+                        this.billRepository.Add(bill);
+
+                        Device device = this.deviceRespository.GetByID(item.DeviceNo);
+                        device.PreValue = item.CurValue;
+                        this.deviceRespository.Put(device);
+                    }
+
+                    Room room = this.roomRespository.GetByID(prepaidBill.RoomNo);
+                    if (!isAuto)
+                        room.AccountBalance = prepaidBill.IntAccountBalance - prepaidBill.IntSumMoney;
+                    else
+                        room.AccountBalance = prepaidBill.IntAccountBalance - prepaidBill.IntSumMoney - prepaidBill.IntManagerFees;
+                    this.roomRespository.Put(room);
+
+                    ts.Complete(); // 提交事务
+                }
+            }
         }
 
         // DELETE: api/bills/1

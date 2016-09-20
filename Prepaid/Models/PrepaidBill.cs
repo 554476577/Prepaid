@@ -33,6 +33,11 @@ namespace Prepaid.Models
         public int? CreditScore { get; set; }
 
         /// <summary>
+        /// 信用等级
+        /// </summary>
+        public string CreditLevel { get; set; }
+
+        /// <summary>
         /// 账户余额
         /// </summary>
         public int? IntAccountBalance { get; set; }
@@ -45,7 +50,17 @@ namespace Prepaid.Models
         /// <summary>
         /// 可欠费金额
         /// </summary>
-        public string AccountWarnLimit { get; set; }
+        public string Arrears { get; set; }
+
+        /// <summary>
+        /// 物业管理费(扩大100倍)
+        /// </summary>
+        public int IntManagerFees { get; set; }
+
+        /// <summary>
+        /// 物业管理费
+        /// </summary>
+        public string ManagerFees { get; set; }
 
         /// <summary>
         /// 用户在当前时刻消耗的能耗总量

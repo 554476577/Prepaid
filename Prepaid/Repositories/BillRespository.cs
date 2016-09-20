@@ -127,15 +127,19 @@ namespace Prepaid.Repositories
             List<PrepaidBill> bills = new List<PrepaidBill>();
             foreach (var item in rooms)
             {
+                var credit = (from p in db.Credits where item.CreditScore > p.MinScore && item.CreditScore <= p.MaxScore select p).FirstOrDefault();
                 PrepaidBill bill = new PrepaidBill();
                 bill.RoomNo = item.RoomNo;
                 bill.BuildingNo = item.BuildingNo;
                 bill.RealName = item.RealName;
                 bill.Phone = item.Phone;
                 bill.CreditScore = item.CreditScore;
+                bill.CreditLevel = credit.Name;
                 bill.IntAccountBalance = item.AccountBalance;
                 bill.AccountBalance = TextHelper.ConvertMoney(item.AccountBalance);
-                bill.AccountWarnLimit = TextHelper.ConvertMoney(item.AccountWarnLimit);
+                bill.Arrears = TextHelper.ConvertMoney(credit.Arrears);
+                bill.ManagerFees = string.Format("{0}㎡*￥{1}={2}",
+                    item.Area, TextHelper.ConvertMoney(item.Price), TextHelper.ConvertMoney((int)item.Area * item.Price));
                 bill.IntApportMoney = GetApportMoney(item.RoomNo);
                 bill.ApportMoney = TextHelper.ConvertMoney(bill.IntApportMoney);
                 bill.PrepaidDeviceBills = GetPrepaidDeviceBills(item.RoomNo);

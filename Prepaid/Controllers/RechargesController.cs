@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -163,14 +164,19 @@ namespace Prepaid.Controllers
 
             try
             {
-                string RoomNo = recharge.RoomNo;
-                Room room = this.roomRepository.GetByID(RoomNo);
-                room.AccountBalance += recharge.Money;
-                await this.roomRepository.PutAsync(room);
+                using (TransactionScope ts = new TransactionScope())
+                {
+                    string RoomNo = recharge.RoomNo;
+                    Room room = this.roomRepository.GetByID(RoomNo);
+                    room.AccountBalance += recharge.Money;
+                    await this.roomRepository.PutAsync(room);
 
-                recharge.UUID = TextHelper.GenerateUUID();
-                recharge.DateTime = DateTime.Now;
-                await this.rechargeRepository.AddAsync(recharge);
+                    recharge.UUID = TextHelper.GenerateUUID();
+                    recharge.DateTime = DateTime.Now;
+                    await this.rechargeRepository.AddAsync(recharge);
+
+                    ts.Complete(); // 提交事务
+                }
             }
             catch (DbUpdateException)
             {
