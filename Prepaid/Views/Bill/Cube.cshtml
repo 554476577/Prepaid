@@ -209,19 +209,19 @@
                     </tr>
                     <tr style="font-size:14px;">
                         <td>信用等级:</td>
-                        <td><b style="color:#0033ff;">&nbsp;高级</b></td>
+                        <td><b style="color:#0033ff;">&nbsp;{{item.CreditLevel}}</b></td>
                     </tr>
                     <tr style="font-size:14px;">
                         <td>账户余额:</td>
                         <td><b style="color:#0033ff;">&nbsp;{{item.AccountBalance}}元</b></td>
                     </tr>
                     <tr style="font-size:14px;">
-                        <td>平摊费用</td>
-                        <td><b style="color:#ff3300;">&nbsp;{{item.ApportMoney}}元</b></td>
+                        <td>物业管理费(每月):</td>
+                        <td><b style="color:#ff3300;">&nbsp;{{item.ManagerFees}}元</b></td>
                     </tr>
                     <tr style="font-size:14px;">
                         <td>可欠费金额:</td>
-                        <td><b style="color:#0033ff;">&nbsp;{{item.AccountWarnLimit}}元</b></td>
+                        <td><b style="color:#0033ff;">&nbsp;{{item.Arrears}}元</b></td>
                     </tr>
                     <tr>
                         <td>
@@ -242,7 +242,7 @@
         </div>
         <div class="cube-right">
             <div class="cube-top">
-                <span>总能耗:<b style="color:#999900;">{{item.SumValue}}</b></span>
+                <span>总能耗:<b style=" color:#999900;">{{item.SumValue}}</b></span>
                 <span>结算总价:<b style="color:#ff3300;">{{item.SumMoney}}元</b></span>
                 <span>结算余额:<b style="color:#ff3300;">{{item.BilledBalance}}元</b></span>
             </div>
