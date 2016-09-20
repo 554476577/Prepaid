@@ -90,7 +90,7 @@
             <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
         </div>
         <div class="input-group search-right">
-            <button title="添加房间" id="btnAdd" url="room/add" onclick="popFirstWnd(this.id, '添加房间','800','600')" class="btn btn-success btn-top">
+            <button title="添加房间" id="btnAdd" url="room/add" onclick="popFirstWnd(this.id, '添加房间','800','590')" class="btn btn-success btn-top">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
             <button class="search-load" id="btnBatchImport" title="批量导入" url="room/batchimport" onclick="popFirstWnd(this.id, '批量导入','450','300')">
@@ -124,7 +124,7 @@
                     <td>{{item.CreditScore}}</td>
                     <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                     <td>
-                        <button id="btnModify{{$index+1}}" url="room/modify?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '修改房间信息','800','600')"
+                        <button id="btnModify{{$index+1}}" url="room/modify?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '修改房间信息','800','590')"
                                 class="btn btn-warning btn-style">
                             修改
                         </button>

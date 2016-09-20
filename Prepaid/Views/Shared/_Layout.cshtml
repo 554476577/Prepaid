@@ -108,6 +108,10 @@
                     </a>
                 </div>
             </div>
+            <div class="col-lg-2 col-md-2 col-sm-2" style="padding:0 0;">
+                <button class="navbar-btn" type="button" style="margin-right:20px;">报警记录</button>
+                <button class="navbar-btn" type="button">定时结算</button>
+            </div>
         </div>
         <div class="main">
             <div id="sub-ctrl" style="float:left;">
@@ -128,19 +132,19 @@
                                     </div>
                                 </div>
                                 <div style="width:30%;height:100%;float:left;">
-                                    <div style="width:100%;height:20%;float:left;border-bottom:2px solid #6699cc;">
-                                        <span>建筑总余额:</span><span id="balance{{$index+1}}"></span><br />
-                                        <span>实时总支出:</span><span id="expand{{$index+1}}"></span><br />
-                                        <span>支出占用百分比:</span><span id="percent{{$index+1}}"></span>
+                                    <div style="width:100%;height:18%;float:left;border-bottom:2px solid #6699cc;font-size:15px;text-align:center;">
+                                        <span>建筑总余额:</span><span id="balance{{$index+1}}" style="color:#0033ff;font-weight:bold;"></span><br />
+                                        <span>实时总支出:</span><span id="expand{{$index+1}}" style="color:#ff3300;font-weight:bold;"></span><br />
+                                        <span>支出占用百分比:</span><span id="percent{{$index+1}}" style="color:#009933;font-weight:bold;"></span>
                                     </div>
-                                    <div style="width:100%;height:80%;float:left;">
-                                        <span>欠费用户</span>
-                                        <div ng-cloak ng-repeat="WorseItem in buildArrears[$index+1]">
+                                    <div style="width:100%;height:82%;float:left;font-size:15px;">
+                                        <span style="color:#ff3300;">欠费用户</span>
+                                        <div ng-cloak ng-repeat="WorseItem in buildArrears[$index+1]" style="text-align: center;">
                                             <a href="~/bill/cube?buildingNo={{WorseItem.BuildingNo}}&roomNo={{WorseItem.RoomNo}}">
                                                 >{{WorseItem.RoomNo}}[{{WorseItem.RealName}}]
                                             </a>
                                         </div>
-                                        <a href="~/bill/cube?flag=0&buildingNo={{BuildingItem.BuildingNo}}">更多&nbsp;>></a>
+                                        <a href="~/bill/cube?flag=0&buildingNo={{BuildingItem.BuildingNo}}" style="float:right;">更多&nbsp;>></a>
                                     </div>
                                 </div>
                             </div>

@@ -23,7 +23,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-top:20px;
 }
 .content-div {
-    padding: 20px 10px 10px 15px;
+    padding: 10px 10px;
     font-size: 13px;
     background-color:#e9ede5;
     overflow:auto;
@@ -76,16 +76,13 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-left:10px;
 }
 .width.center {
-    float:left;
-    width:100%;
-    height:61px;
     position:relative;
-    padding-top:10px;
+    left:50%;
+    float:left;
 }
 .m-pagination.m-center {
-    width:40%;
-    height:41px;
-    margin: auto;
+    position:relative; 
+    left:-50%;
 }
 
 .big{
@@ -397,8 +394,7 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
 .community-head, .building-head {
     position:relative;
     height:43px;
-    border-right:transparent;
-    border-left:transparent;
+    border:none;
 }
 /*小区信息*/
 .cell-information {
