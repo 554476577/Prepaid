@@ -52,7 +52,7 @@
         $scope.energyStyle = function (height) {
             if (height > 1) {
                 return {
-                    "height": 40 * height + "px",
+                    "height": 41 * height + "px",
                     "padding-top": 20 + 40 * (height - 2) / 2 + "px"
                 };
             }
@@ -62,30 +62,40 @@
 <div ng-controller="BillCtrl" class="content-div">
     <div class="container-fluid control-div">
         <div class="row content-basic">
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="row style-sm">
-                    <div class="col-lg-6 col-md-6 col-sm-6">结算批次</div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">结算时间</div>
+                    <div class="col-lg-8 col-md-8 col-sm-8">结算批次</div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">结算时间</div>
                 </div>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8" style="padding:0 0;">
-                <div class="col-lg-2 col-md-2 col-sm-2 head-second">设备编号</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second" style="border-left:transparent;">设备编号</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">设备名称</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">上次读数</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">结算读数</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">单价</div>
-                <div class="col-lg-2 col-md-2 col-sm-2 head-second" style="border-right:1px solid #d7d7d7;">价格</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 head-second">价格</div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1">
+                <div class="row style-sm">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="border-left:1px solid #d7d7d7;">总价格</div>
+                </div>
             </div>
         </div>
-        <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}">
-            <div class="col-lg-4 col-md-4 col-sm-4" ng-style="energyStyle(item.DeviceBills.length)" style="position:relative;">
+        <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}" style="border-top:1px solid #d7d7d7;">
+            <div class="col-lg-3 col-md-3 col-sm-3" ng-style="energyStyle(item.DeviceBills.length)" style="position:relative;">
                 <div class="row style-spe">
-                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.DateTime|date:"yyyy-MM-dd"}}</div>
+                    <div class="col-lg-8 col-md-8 col-sm-8" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
+                    <div class="col-lg-4 col-md-4 col-sm-4" rowspan="{{item.DeviceBills.length}}">{{item.DateTime|date:"yyyy-MM-dd"}}</div>
                 </div>
-                <div class="row zindex">
-                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
-                    <div style="border-right:1px solid transparent;" class="col-lg-6 col-md-6 col-sm-6"></div>
+                <div class="row zindex" style="border-bottom:1px solid #d7d7d7;">
+                    <div class="col-lg-8 col-md-8 col-sm-8"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="border-right:transparent;"></div>
+                </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1" ng-style="energyStyle(item.DeviceBills.length)" style="border-bottom:1px solid #d7d7d7;position:relative;float:right;">
+                <div class="row style-spe">
+                    <div class="col-lg-12 col-md-12 col-sm-12" rowspan="{{item.DeviceBills.length}}">{{item.SumMoney}}</div>
                 </div>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 information-content" ng-cloak ng-repeat="device in item.DeviceBills">
@@ -94,7 +104,7 @@
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.PreValue}}</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.CurValue}}</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.Price}}</div>
-                <div style="border-right:1px solid transparent;" class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.Money}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.Money}}</div>
             </div>
             <div class="width center">
                 <div id="page4" class="m-pagination m-center"></div>

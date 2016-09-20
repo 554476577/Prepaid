@@ -93,7 +93,7 @@
             <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
         </div>
         <div class="input-group search-right">
-            <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','527')" class="btn btn-success btn-top">
+            <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','517')" class="btn btn-success btn-top">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
             <button class="search-load" id="btnBatchImport" title="批量导入" url="device/batchimport" onclick="popFirstWnd(this.id, '批量导入','450','300')">
@@ -127,7 +127,7 @@
                     <td><input type="checkbox" ng-checked="{{item.IsArchive}}" disabled="disabled" /></td>
                     <td>{{item.ArchiveInterval}}</td>
                     <td>
-                        <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '修改点位信息','800','527')"
+                        <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '修改点位信息','800','517')"
                                 class="btn btn-warning btn-style">
                             修改
                         </button>
