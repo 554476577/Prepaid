@@ -243,5 +243,47 @@ namespace Prepaid.Repositories
             else
                 return result.OrderByDescending(func).Skip(recordStart).Take(pageSize);
         }
+
+        public IEnumerable<PrepaidBill> GetRecommendPrepaidBills(string buildingNo)
+        {
+            IEnumerable<PrepaidBill> bills = from item in GetPrepaidBills("", buildingNo, "", "")
+                                             where item.CreditScore > 5000
+                                             orderby item.CreditScore descending
+                                             select item;
+            return bills;
+        }
+
+        public int GetRecommendPrepaidBillsCount(string buildingNo)
+        {
+            return GetRecommendPrepaidBills(buildingNo).Count();
+        }
+
+        public IEnumerable<PrepaidBill> GetRecommendPrepaidPagerBills(string buildingNo, int pageIndex, int pageSize)
+        {
+            var result = GetRecommendPrepaidBills(buildingNo);
+            int recordStart = (pageIndex - 1) * pageSize;
+            return result.Skip(recordStart).Take(pageSize);
+        }
+
+        public IEnumerable<PrepaidBill> GetArrearsPrepaidBills(string buildingNo)
+        {
+            IEnumerable<PrepaidBill> bills = from item in GetPrepaidBills("", buildingNo, "", "")
+                                             where item.IntBilledBalance < 0
+                                             orderby item.IntBilledBalance
+                                             select item;
+            return bills;
+        }
+
+        public int GetArrearsPrepaidBillsCount(string buildingNo)
+        {
+            return GetArrearsPrepaidBills(buildingNo).Count();
+        }
+
+        public IEnumerable<PrepaidBill> GetArrearsPrepaidPagerBills(string buildingNo, int pageIndex, int pageSize)
+        {
+            var result = GetArrearsPrepaidBills(buildingNo);
+            int recordStart = (pageIndex - 1) * pageSize;
+            return result.Skip(recordStart).Take(pageSize);
+        }
     }
 }

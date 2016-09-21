@@ -30,5 +30,17 @@ namespace Prepaid.Repositories
 
         IEnumerable<PrepaidBill> GetPrepaidPagerBills<T>(string roomNo, string floor, string buildingNo, string realName,
             int pageIndex, int pageSize, Func<PrepaidBill, T> func, bool isDesc = false);
+
+        IEnumerable<PrepaidBill> GetRecommendPrepaidBills(string buildingNo);
+
+        int GetRecommendPrepaidBillsCount(string buildingNo);
+
+        IEnumerable<PrepaidBill> GetRecommendPrepaidPagerBills(string buildingNo, int pageIndex, int pageSize);
+
+        IEnumerable<PrepaidBill> GetArrearsPrepaidBills(string buildingNo);
+
+        int GetArrearsPrepaidBillsCount(string buildingNo);
+
+        IEnumerable<PrepaidBill> GetArrearsPrepaidPagerBills(string buildingNo, int pageIndex, int pageSize);
     }
 }
