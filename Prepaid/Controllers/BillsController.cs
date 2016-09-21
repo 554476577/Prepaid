@@ -391,9 +391,9 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // POST: api/timing/bills
+        // POST: api/timingbills/1
         [HttpPost]
-        [Route("api/timing/bills/{0}")]
+        [Route("api/timingbills/{flag}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult TimingBills(int flag)
         {

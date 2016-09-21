@@ -153,7 +153,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
             url: "../api/cachebuildings"
         }).success(function (data, status, headers, config) {
             $scope.BuildingItems = data.Buildings;
-            var IsTimingSettle = data.IsTimingSettle;
+            $scope.IsTimingSettle = data.IsTimingSettle;
             var length = $scope.BuildingItems.length;
             for (var i = 0; i < length; i++) {
                 buildTypeCharts[i + 1] = null;
@@ -428,6 +428,27 @@ app.controller('layoutCtrl', function ($scope, $http) {
             ShowErrModal(data, status);
         });
     }
+
+    // 定时结算(月)
+    $scope.TimingSettle = function (flag) {
+        var msg = null;
+        if (flag == 1) {
+            msg = "确定要开启定时结算吗?";
+        } else {
+            msg = "确定要关闭定时结算吗?";
+        }
+        ShowConfirmModal(msg, function () {
+            $http({
+                method: "post",
+                withCredentials: true,
+                url: "../api/timingbills/" + flag
+            }).success(function (data, status, headers, config) {
+                window.location.href = window.location.href;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        });
+    };
 
     // 退出系统
     $scope.logout = function () {

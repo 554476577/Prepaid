@@ -110,7 +110,8 @@
             </div>
             <div class="" style="padding:0 0;">
                 <button class="navbar-btn" type="button" style="margin-right:20px;">报警记录</button>
-                <button class="navbar-btn" type="button">定时结算</button>
+                <button ng-if="IsTimingSettle==0" ng-click="TimingSettle(1)" class="navbar-btn">开启定时结算(月)</button>
+                <button ng-if="IsTimingSettle==1" ng-click="TimingSettle(0)" class="navbar-btn">关闭定时结算(月)</button>
             </div>
         </div>
         <div class="main">
