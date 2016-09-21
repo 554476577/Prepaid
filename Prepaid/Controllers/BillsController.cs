@@ -24,7 +24,7 @@ namespace Prepaid.Controllers
         IRoomRespository roomRespository;
         IDeviceRepository deviceRespository;
 
-        public BillsController(IBillRespository billRepository, IRoomRespository roomRespository, IDeviceRepository deviceRespository)
+        public BillsController(IBillRespository billRepository, IRoomRespository roomRespository,IDeviceRepository deviceRespository)
         {
             this.billRepository = billRepository;
             this.roomRespository = roomRespository;
@@ -343,21 +343,19 @@ namespace Prepaid.Controllers
                 return errResult;
 
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
-            string IntBilledBalance = HttpContext.Current.Request.Params["IntBilledBalance"];
-            string strDeviceBills = HttpContext.Current.Request.Params["DeviceBills"];
-            strDeviceBills = string.Format("[{0}]", strDeviceBills); // 格式化为json数组
-            List<PrepaidDeviceBill> bills = JsonConvert.DeserializeObject<List<PrepaidDeviceBill>>(strDeviceBills);
+            PrepaidBill prepaidBill = this.billRepository.GetPrepaidBills(RoomNo, "", "", "").FirstOrDefault();
             DateTime now = DateTime.Now;
             string lotNo = TextHelper.GenerateUUID();
             using (TransactionScope ts = new TransactionScope())
             {
-                foreach (PrepaidDeviceBill item in bills)
+                foreach (PrepaidDeviceBill item in prepaidBill.PrepaidDeviceBills)
                 {
                     Bill bill = new Bill();
                     bill.DeviceNo = item.DeviceNo;
                     bill.LotNo = lotNo;
                     bill.PreValue = item.PreValue ?? 0.00;
                     bill.CurValue = item.CurValue ?? 0.00;
+                    bill.AccountBalance = prepaidBill.IntAccountBalance;
                     bill.Money = item.IntMoney;
                     bill.DateTime = now;
                     //bill.Remark = string.Format("yyyy-MM", bill.DateTime);
@@ -369,7 +367,7 @@ namespace Prepaid.Controllers
                 }
 
                 Room room = this.roomRespository.GetByID(RoomNo);
-                room.AccountBalance = Convert.ToInt32(IntBilledBalance);
+                room.AccountBalance = prepaidBill.IntBilledBalance;
                 this.roomRespository.Put(room);
 
                 ts.Complete(); // 提交事务
@@ -436,7 +434,7 @@ namespace Prepaid.Controllers
             string lotNo = TextHelper.GenerateUUID();
             foreach (var prepaidBill in prepaidBills)
             {
-                if (prepaidBill.IntAccountBalance < 0) // 如果预算不够，则不结算
+                if (prepaidBill.IntBilledBalance < 0) // 如果余额不够，则不结算
                     continue;
 
                 using (TransactionScope ts = new TransactionScope())
@@ -448,6 +446,7 @@ namespace Prepaid.Controllers
                         bill.LotNo = lotNo;
                         bill.PreValue = item.PreValue ?? 0.00;
                         bill.CurValue = item.CurValue ?? 0.00;
+                        bill.AccountBalance = prepaidBill.IntAccountBalance;
                         bill.Money = item.IntMoney;
                         bill.DateTime = now;
                         //bill.Remark = string.Format("yyyy-MM", bill.DateTime);

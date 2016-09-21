@@ -312,8 +312,6 @@
     <Compile Include="Utils\ReportHelper.cs" />
     <Compile Include="Utils\TextHelper.cs" />
     <Compile Include="Utils\WebConfigHelper.cs" />
-    <Compile Include="Models\VDevicePay.cs" />
-    <Compile Include="Models\VRoomPay.cs" />
     <Compile Include="Models\VDevDayEp.cs" />
     <Compile Include="Models\VDevMonthEp.cs" />
   </ItemGroup>

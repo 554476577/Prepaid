@@ -26,18 +26,20 @@ namespace Prepaid.Repositories
                          group p by new
                          {
                              RoomNo = p.Device.RoomNo,
-                             LotNo = p.LotNo,
                              RealName = p.Device.Room.RealName,
-                             DateTime = p.DateTime
+                             LotNo = p.LotNo,
+                             AccountBalance = p.AccountBalance,
+                             DateTime = p.DateTime,
                          } into g
-                         orderby g.Key.RoomNo, g.Key.LotNo
+                         orderby g.Key.RoomNo, g.Key.DateTime descending
                          select new
                          {
                              RoomNo = g.Key.RoomNo,
-                             LotNo = g.Key.LotNo,
                              RealName = g.Key.RealName,
+                             LotNo = g.Key.LotNo,
+                             AccountBalance = g.Key.AccountBalance,
                              DateTime = g.Key.DateTime,
-                             SumValue = g.Sum(p => p.CurValue - p.PreValue),
+                             //SumValue = g.Sum(p => p.CurValue - p.PreValue),
                              SumMoney = g.Sum(p => p.Money)
                          };
             foreach (var item in result)
@@ -47,8 +49,10 @@ namespace Prepaid.Repositories
                 bill.LotNo = item.LotNo;
                 bill.RealName = item.RealName;
                 bill.DateTime = item.DateTime;
-                bill.SumValue = item.SumValue;
+                bill.AccountBalance = TextHelper.ConvertMoney(item.AccountBalance);
+                //bill.SumValue = item.SumValue;
                 bill.SumMoney = TextHelper.ConvertMoney(item.SumMoney);
+                bill.BilledAccountBalance = TextHelper.ConvertMoney(item.AccountBalance - item.SumMoney);
                 bill.DeviceBills = (from p in GetAll()
                                     where p.Device.RoomNo == item.RoomNo && p.LotNo == item.LotNo
                                     select p).AsEnumerable().Select(q => new DeviceBill
@@ -140,14 +144,15 @@ namespace Prepaid.Repositories
                 bill.Arrears = TextHelper.ConvertMoney(credit.Arrears);
                 bill.ManagerFees = string.Format("{0}㎡*￥{1}={2}",
                     item.Area, TextHelper.ConvertMoney(item.Price), TextHelper.ConvertMoney((int)item.Area * item.Price));
-                bill.IntApportMoney = GetApportMoney(item.RoomNo);
-                bill.ApportMoney = TextHelper.ConvertMoney(bill.IntApportMoney);
+                //bill.IntApportMoney = GetApportMoney(item.RoomNo);
+                //bill.ApportMoney = TextHelper.ConvertMoney(bill.IntApportMoney);
                 bill.PrepaidDeviceBills = GetPrepaidDeviceBills(item.RoomNo);
-                bill.SumValue = bill.PrepaidDeviceBills.Sum(o => o.CurValue - o.PreValue);
-                bill.SumValue = Math.Round(bill.SumValue ?? 0.00, 2);
+                //bill.SumValue = bill.PrepaidDeviceBills.Sum(o => o.CurValue - o.PreValue);
+                //bill.SumValue = Math.Round(bill.SumValue ?? 0.00, 2);
                 bill.IntSumMoney = bill.PrepaidDeviceBills.Sum(o => o.IntMoney);
                 bill.SumMoney = TextHelper.ConvertMoney(bill.IntSumMoney);
-                bill.IntBilledBalance = item.AccountBalance - bill.IntSumMoney - bill.IntApportMoney;
+                //bill.IntBilledBalance = item.AccountBalance - bill.IntSumMoney - bill.IntApportMoney;
+                bill.IntBilledBalance = item.AccountBalance - bill.IntSumMoney;
                 bill.BilledBalance = TextHelper.ConvertMoney(bill.IntBilledBalance);
                 bills.Add(bill);
             }
@@ -155,24 +160,24 @@ namespace Prepaid.Repositories
             return bills;
         }
 
-        /// <summary>
-        /// 获取指定房间需要分摊的费用
-        /// </summary>
-        /// <param name="roomNo"></param>
-        /// <returns></returns>
-        private int? GetApportMoney(string roomNo)
-        {
-            int? totalMoney = 0;
-            IEnumerable<VRoomPay> roomPays = from p in db.VRoomPays where p.RoomNo == roomNo select p;
-            foreach (VRoomPay item in roomPays)
-            {
-                double? money = (item.Value - item.PreValue) * item.Price1;
-                money = (item.Area / item.TotolArea) * money;
-                totalMoney += (int)money;
-            }
+        ///// <summary>
+        ///// 获取指定房间需要分摊的费用
+        ///// </summary>
+        ///// <param name="roomNo"></param>
+        ///// <returns></returns>
+        //private int? GetApportMoney(string roomNo)
+        //{
+        //    int? totalMoney = 0;
+        //    IEnumerable<VRoomPay> roomPays = from p in db.VRoomPays where p.RoomNo == roomNo select p;
+        //    foreach (VRoomPay item in roomPays)
+        //    {
+        //        double? money = (item.Value - item.PreValue) * item.Price1;
+        //        money = (item.Area / item.TotolArea) * money;
+        //        totalMoney += (int)money;
+        //    }
 
-            return totalMoney;
-        }
+        //    return totalMoney;
+        //}
 
         public IEnumerable<PrepaidBill> GetPrepaidBills()
         {

@@ -23,6 +23,8 @@ namespace Prepaid.Models
 
         public double CurValue { get; set; }
 
+        public int? AccountBalance { get; set; }
+
         public int Money { get; set; }
 
         public DateTime? DateTime { get; set; }

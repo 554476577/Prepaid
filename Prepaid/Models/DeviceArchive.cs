@@ -9,7 +9,6 @@ namespace Prepaid.Models
     [Table("DeviceArchive")]
     public partial class DeviceArchive
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         [Required]

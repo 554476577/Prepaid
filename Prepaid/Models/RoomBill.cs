@@ -38,6 +38,16 @@ namespace Prepaid.Models
         public string SumMoney { get; set; }
 
         /// <summary>
+        /// 该房间所有设备结算之前的账户余额
+        /// </summary>
+        public string AccountBalance { get; set; }
+
+        /// <summary>
+        /// 该房间所有设备结算之后的账户余额
+        /// </summary>
+        public string BilledAccountBalance { get; set; }
+
+        /// <summary>
         /// 该房间内部所有设备的能耗详情
         /// </summary>
         public IEnumerable<DeviceBill> DeviceBills { get; set; }

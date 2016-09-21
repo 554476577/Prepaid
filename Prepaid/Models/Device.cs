@@ -14,7 +14,6 @@ namespace Prepaid.Models
             Alarms = new HashSet<Alarm>();
             Bills = new HashSet<Bill>();
             Cutouts = new HashSet<Cutout>();
-            DeviceApportLinks = new HashSet<DeviceApportLink>();
             DeviceArchives = new HashSet<DeviceArchive>();
         }
 
@@ -85,8 +84,6 @@ namespace Prepaid.Models
         public virtual DeviceType DeviceType { get; set; }
 
         public virtual Room Room { get; set; }
-
-        public virtual ICollection<DeviceApportLink> DeviceApportLinks { get; set; }
 
         public virtual ICollection<DeviceArchive> DeviceArchives { get; set; }
     }

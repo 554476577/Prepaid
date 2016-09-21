@@ -20,15 +20,12 @@ namespace Prepaid.Models
         public virtual DbSet<Credit> Credits { get; set; }
         public virtual DbSet<Cutout> Cutouts { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
-        public virtual DbSet<DeviceApportLink> DeviceApportLinks { get; set; }
         public virtual DbSet<DeviceArchive> DeviceArchives { get; set; }
         public virtual DbSet<DeviceType> DeviceTypes { get; set; }
         public virtual DbSet<Ladder> Ladders { get; set; }
         public virtual DbSet<Msg> Msgs { get; set; }
         public virtual DbSet<Recharge> Recharges { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
-        public virtual DbSet<VDevicePay> VDevicePays { get; set; }
-        public virtual DbSet<VRoomPay> VRoomPays { get; set; }
         public virtual DbSet<VDevDayEp> VDevDayEps { get; set; }
         public virtual DbSet<VDevMonthEp> VDevMonthEps { get; set; }
 
@@ -93,11 +90,6 @@ namespace Prepaid.Models
                 .HasMany(e => e.Devices)
                 .WithOptional(e => e.Room)
                 .WillCascadeOnDelete();
-
-            modelBuilder.Entity<Room>()
-                .HasMany(e => e.DeviceApportLinks)
-                .WithRequired(e => e.Room)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<VDevDayEp>()
                 .Property(e => e.DateTime)
