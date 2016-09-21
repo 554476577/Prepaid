@@ -222,7 +222,7 @@
                     <tr>
                         <td>
                             <button class="btn btn-primary btn-four" id="btnBillRecord{{$index+1}}" url="room/bills?roomNo={{item.RoomNo}}&buildingNo={{item.BuildingNo}}"
-                                    onclick="popFirstWnd(this.id, '结算记录','900','455')">
+                                    onclick="popFirstWnd(this.id, '结算记录','1000','455')">
                                 结算记录
                             </button>
                         </td>
@@ -238,7 +238,6 @@
         </div>
         <div class="cube-right">
             <div class="cube-top">
-                <span>总能耗:<b style=" color:#999900;">{{item.SumValue}}</b></span>
                 <span>结算总价:<b style="color:#ff3300;">{{item.SumMoney}}元</b></span>
                 <span>结算余额:<b style="color:#ff3300;">{{item.BilledBalance}}元</b></span>
             </div>
