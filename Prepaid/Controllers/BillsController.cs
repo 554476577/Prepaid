@@ -398,7 +398,20 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            BatchSettle(false); // 批量结算
+            string flag = HttpContext.Current.Request.Params["Flag"];
+            string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            string roomNo = HttpContext.Current.Request.Params["RoomNo"];
+            string floor = HttpContext.Current.Request.Params["Floor"];
+            string realName = HttpContext.Current.Request.Params["RealName"];
+            IEnumerable<PrepaidBill> bills;
+            if (flag == "0") // 获取所有欠费用户
+                bills = this.billRepository.GetArrearsPrepaidBills(buildingNo);
+            else if (flag == "1") // 获取所有优质用户
+                bills = this.billRepository.GetRecommendPrepaidBills(buildingNo);
+            else
+                bills = this.billRepository.GetPrepaidBills(roomNo, buildingNo, floor, realName);
+
+            BatchSettle(bills, false); // 批量结算
 
             return Ok();
         }
@@ -435,13 +448,12 @@ namespace Prepaid.Controllers
             DateTime lastDay = now.AddMonths(1).AddDays(1);
             lastDay = new DateTime(lastDay.Year, lastDay.Month, lastDay.Day, 22, 0, 0); // 设定在本月最后一天结算
             timer.Interval = (lastDay - now).Milliseconds;
-
-            BatchSettle(true);
+            IEnumerable<PrepaidBill> prepaidBills = this.billRepository.GetPrepaidBills();
+            BatchSettle(prepaidBills, true);
         }
 
-        private void BatchSettle(bool isAuto)
+        private void BatchSettle(IEnumerable<PrepaidBill> prepaidBills, bool isAuto)
         {
-            IEnumerable<PrepaidBill> prepaidBills = this.billRepository.GetPrepaidBills();
             DateTime now = DateTime.Now;
             string lotNo = TextHelper.GenerateUUID();
             foreach (var prepaidBill in prepaidBills)

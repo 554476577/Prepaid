@@ -429,6 +429,26 @@ app.controller('layoutCtrl', function ($scope, $http) {
         });
     }
 
+    // 导出报表
+    $scope.exportBuildReport = function (buildingNo) {
+        var params = {
+            "Flag": 0,
+            "BuildingNo": buildingNo
+        };
+        ShowConfirmModal("确定要导出能耗缴费实时账单吗?", function () {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/export/prepaidbills",
+                params: params
+            }).success(function (data, status, headers, config) {
+                location.href = location.origin + '/' + data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        });
+    };
+
     // 定时结算(月)
     $scope.TimingSettle = function (flag) {
         var msg = null;

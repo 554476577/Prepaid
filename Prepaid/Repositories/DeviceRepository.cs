@@ -199,6 +199,7 @@ namespace Prepaid.Repositories
                     device.ItemID = data[index++];
                     device.ItemName = data[index++];
                     device.ItemDescription = data[index++];
+                    device.PreValue = Convert.ToDouble(data[index++]);
                     device.Rate = Convert.ToDouble(data[index++]);
                     device.DateTime = DateTime.Now;
                     device.IsArchive = Convert.ToBoolean(data[index++]);

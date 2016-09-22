@@ -177,11 +177,19 @@
 
         // 批量结算
         $scope.batchSettle = function () {
+            var params = {
+                "Flag": getQueryString("flag"),
+                "BuildingNo": getQueryString("buildingNo"),
+                "RoomNo": getQueryString("roomNo"),
+                "Floor": getQueryString("floor"),
+                "RealName": getQueryString("realName")
+            };
             ShowConfirmModal("确定要在当前时刻批量结算业主能耗费用吗?", function () {
                 $http({
                     method: "post",
                     withCredentials: true,
-                    url: "../api/batch/bills"
+                    url: "../api/batch/bills",
+                    params: params
                 }).success(function (data, status, headers, config) {
                     window.location.href = window.location.href;
                 }).error(function (data, status, headers, config) {
