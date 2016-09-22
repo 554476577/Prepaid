@@ -40,11 +40,11 @@ namespace Prepaid.Utils
                 // 结账时间
                 CreateCommonCell(sheet, row, 3, bill.DateTime.ToString());
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 3, 3));
-                // 总能耗
-                CreateCommonCell(sheet, row, 10, bill.SumValue.ToString());
+                // 总费用
+                CreateCommonCell(sheet, row, 10, bill.SumMoney.ToString());
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 10, 10));
-                // 总价格
-                CreateCommonCell(sheet, row, 11, bill.SumMoney.ToString());
+                // 账户余额
+                CreateCommonCell(sheet, row, 11, bill.BilledAccountBalance);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 11, 11));
                 for (int j = 0; j < deviceCount; j++)
                 {
@@ -85,14 +85,14 @@ namespace Prepaid.Utils
                 // 业主姓名
                 CreateCommonCell(sheet, row, 2, bill.RealName);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 2, 2));
-                // 总能耗
-                CreateCommonCell(sheet, row, 9, bill.SumValue.ToString());
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 9, 9));
                 // 总价格
-                CreateCommonCell(sheet, row, 10, bill.SumMoney);
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 10, 10));
+                CreateCommonCell(sheet, row, 9, bill.SumMoney);
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 9, 9));
                 // 账户余额
-                CreateCommonCell(sheet, row, 11, bill.AccountBalance);
+                CreateCommonCell(sheet, row, 10, bill.AccountBalance);
+                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 10, 10));
+                // 结算余额
+                CreateCommonCell(sheet, row, 11, bill.BilledBalance);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + deviceCount - 1, 11, 11));
                 for (int j = 0; j < deviceCount; j++)
                 {

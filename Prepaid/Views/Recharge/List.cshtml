@@ -59,16 +59,17 @@
 
         // 导出报表
         $scope.exportReport = function () {
-            $http({
-                method: "get",
-                withCredentials: true,
-                url: "../api/export/recharges",
-                params: params
-            }).success(function (data, status, headers, config) {
-                ShowTipsModel("业主缴费记录导出成功！");
-                location.href = location.origin + '/' + data;
-            }).error(function (data, status, headers, config) {
-                ShowErrModal(data, status);
+            ShowConfirmModal("确定要导出所有能耗账单报表吗?", function () {
+                $http({
+                    method: "get",
+                    withCredentials: true,
+                    url: "../api/export/recharges",
+                    params: params
+                }).success(function (data, status, headers, config) {
+                    location.href = location.origin + '/' + data;
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
             });
         };
     });

@@ -85,7 +85,10 @@ namespace Prepaid.Controllers
             dict.Add("充值金额", "Money");
             dict.Add("时间", "DateTime");
             dict.Add("备注", "Remark");
-            IEnumerable<Recharge> recharges = this.rechargeRepository.GetAll();
+
+            string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
+            string RealName = HttpContext.Current.Request.Params["RealName"];
+            IEnumerable<Recharge> recharges = this.rechargeRepository.GetAll(RoomNo, RealName);
             var items = from item in recharges
                         select new
                         {

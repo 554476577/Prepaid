@@ -121,11 +121,17 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            string fileName = "业主能耗缴费历史账单.xls";
+            string fileName = string.Format("业主能耗缴费历史账单{0}.xls",DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
             string[] titles = { "房间编号", "结算批号", "业主姓名","结算时间","设备编号","设备名称", "上次刻度", "结算刻度", 
-                                  "单价", "金额", "总能耗","总价格"};
-            IEnumerable<RoomBill> userEnergies = this.billRepository.GetRoomBills();
-            ReportHelper.ExportRoomBills(userEnergies, titles, fileName);
+                                  "单价", "价格", "总费用","账户余额"};
+            string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
+            string BuildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            string Floor = HttpContext.Current.Request.Params["Floor"];
+            string RealName = HttpContext.Current.Request.Params["RealName"];
+            string StartTime = HttpContext.Current.Request.Params["StartTime"];
+            string EndTime = HttpContext.Current.Request.Params["EndTime"];
+            IEnumerable<RoomBill> bills = this.billRepository.GetRoomBills(RoomNo, BuildingNo, Floor, RealName, StartTime, EndTime);
+            ReportHelper.ExportRoomBills(bills, titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
             HttpContext.Current.Response.Write(fileName);
 
@@ -255,7 +261,7 @@ namespace Prepaid.Controllers
 
             string fileName = string.Format("业主能耗缴费实时账单({0}).xls",DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
             string[] titles = { "房间编号", "建筑编号", "业主姓名", "设备编号", "设备名称", "上次抄表读数", "当前抄表读数", "单价", 
-                                  "价格","总能耗","总价","账户余额" };
+                                  "价格","总价","账户余额","结算余额" };
             ReportHelper.ExportPrepaidBills(bills, titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
             HttpContext.Current.Response.Write(fileName);
