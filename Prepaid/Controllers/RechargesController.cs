@@ -77,7 +77,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            string fileName = "业主充值记录.xls";
+            string fileName = string.Format("业主充值记录{0}.xls", DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("UUID", "UUID");
             dict.Add("房间编号", "RoomNo");
