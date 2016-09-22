@@ -32,17 +32,15 @@
 <div class="content-third-div">
     <div style="padding-left:80px;">
         <form class="form-horizontal" role="form" id="form">
-            <div class="form-group" style="width:100%;padding-left:10px;">
+            <div class="form-group" style="width:100%;padding-left:10px;margin-bottom:0;">
                 <label for="upload" class="control-label" style="font-size:14px;margin-bottom:20px;">请选择文件名称</label>
-                <input style="width:80%;margin-bottom:10px;" type="file" class="form-control" id="upload" name="upload">
+                <input style="width:80%;" type="file" class="form-control" id="upload" name="upload">
             </div>
-            <div class="checkbox">
-                <label style="font-size:14px;margin-bottom:20px;">
-                    <input type="checkbox" name="IsDelete">批量导入前，是否删除原来的数据
-                </label>
+            <div class="form-group group-style checkbox" style="height:40px;width:100%;">
+                <label style="font-size:14px;margin-bottom:20px;"><input type="checkbox" name="IsDelete">批量导入前，是否删除原来的数据</label>
             </div>
         </form>
-        <div>
+        <div style="height:40px;width:100%;">
             <button class="btn btn-primary" onclick="submit()">提交</button>
         </div>
     </div>
