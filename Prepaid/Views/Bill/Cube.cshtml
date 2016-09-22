@@ -11,14 +11,14 @@
                 "PageIndex": 1,
                 "PageSize": $scope.PageSize
             };
-            getBetterRooms(params,true);
+            getBetterRooms(params, true);
         } else if (flag == "0") {
             var params = {
                 "BuildingNo": getQueryString("buildingNo"),
                 "PageIndex": 1,
                 "PageSize": $scope.PageSize
             };
-            getWorseRooms(params,true);
+            getWorseRooms(params, true);
         } else {
             var params = {
                 "BuildingNo": getQueryString("buildingNo"),
@@ -100,7 +100,7 @@
                 ShowErrModal(data, status);
             });
         }
-        
+
         function getInfos(params, isFirstLoadPager) {
             $http({
                 method: "get",
@@ -155,7 +155,7 @@
         // 导出报表
         $scope.exportReport = function () {
             var params = {
-                "Flag":getQueryString("flag"),
+                "Flag": getQueryString("flag"),
                 "BuildingNo": getQueryString("buildingNo"),
                 "RoomNo": getQueryString("roomNo"),
                 "Floor": getQueryString("floor"),
@@ -199,7 +199,18 @@
         };
     });
 </script>
-<div ng-controller="PrepaidBillCtrl" class="content-div" style="padding-right:0;padding-left:10px;">
+<style>
+    .cube-width {
+        padding-right:0px;padding-left:10px;width:100%;
+    }
+    .fixed-aside-true {
+        width:2%;font-size:14px;color:#fff;font-weight:bold;position:fixed;top:45%;right:13px;height:200px;
+    }
+    .fixed-aside-false {
+        width:2%;font-size:14px;color:#fff;font-weight:bold;position:fixed;top:45%;left:98.2%;height:200px;
+    }
+</style>
+<div ng-controller="PrepaidBillCtrl" class="content-div cube-width">
     <div ng-cloak ng-repeat="item in Items" class="cube-div">
         <div class="cube-left table-responsive">
             <table class="table table-condensed table-bordered">
@@ -292,8 +303,8 @@
             </button>
         </div>
     </div>
-    <div class="fixed-aside" style="width:2%;font-size:14px;color:#fff;font-weight:bold;position:fixed;right:13px;top:45%;height:200px;">
-        <button class="currency-btn" type="button" ng-click="exportReport()" style="background: #d9534f;">批<br>量<br>导<br>出</button>
+    <div class="fixed-aside-true" id="fixed-ctrl">
+        <button class="currency-btn" type="button" ng-click="exportReport()" style="background: #d9534f;">批<br>量<br>导<br>出</button><br>
         <button class="currency-btn" type="button" ng-click="batchSettle()" style="background: #d9534f;margin-top:20px;">批<br>量<br>结<br>算</button>
     </div>
     <div class="width center">
