@@ -65,26 +65,44 @@ namespace Prepaid.Repositories
 
         public IEnumerable<Statis> GetBuildingStatisInfo()
         {
-            var result = from p in db.Buildings
-                         group p by new { BuildingNo = p.BuildingNo } into g
-                         orderby g.Key.BuildingNo
-                         select new Statis
-                         {
-                             xAxis = g.Key.BuildingNo,
-                             yAxis = (from q in db.Devices where q.Room.BuildingNo == g.Key.BuildingNo select q).Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
-                         };
+            //var result = from p in db.Buildings
+            //             group p by new { BuildingNo = p.BuildingNo } into g
+            //             orderby g.Key.BuildingNo
+            //             select new Statis
+            //             {
+            //                 xAxis = g.Key.BuildingNo,
+            //                 yAxis = (from q in db.Devices where q.Room.BuildingNo == g.Key.BuildingNo select q).Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
+            //             };
+
+            var result = from p in db.Devices
+                     group p by new { BuildingNo = p.Room.BuildingNo } into g
+                     orderby g.Key.BuildingNo
+                     select new Statis
+                     {
+                         xAxis = g.Key.BuildingNo,
+                         yAxis = g.Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
+                     };
 
             return result;
         }
 
         public IEnumerable<Statis> GetTypeStatisInfo()
         {
-            var result = from p in db.DeviceTypes
-                     orderby p.Name
+            //var result = from p in db.DeviceTypes
+            //         orderby p.Name
+            //         select new Statis
+            //         {
+            //             xAxis=p.Name,
+            //             yAxis = (from q in db.Devices where q.TypeID == p.UUID select q).Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
+            //         };
+
+            var result = from p in db.Devices
+                     group p by new { TypeID = p.DeviceType.UUID, TypeName = p.DeviceType.Name } into g
+                     orderby g.Key.TypeName
                      select new Statis
                      {
-                         xAxis=p.Name,
-                         yAxis = (from q in db.Devices where q.TypeID == p.UUID select q).Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
+                         xAxis = g.Key.TypeName,
+                         yAxis = g.Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
                      };
 
             return result;
@@ -92,13 +110,23 @@ namespace Prepaid.Repositories
 
         public IEnumerable<Statis> GetBuildingTypeStatisInfo(string buildingNo)
         {
-            var result = from p in db.DeviceTypes
-                         orderby p.Name
+            //var result = from p in db.DeviceTypes
+            //             orderby p.Name
+            //             select new Statis
+            //             {
+            //                 xAxis = p.Name,
+            //                 yAxis = (from q in db.Devices where q.TypeID == p.UUID && q.Room.BuildingNo == buildingNo select q)
+            //                 .Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
+            //             };
+
+            var result = from p in db.Devices
+                         where p.Room.BuildingNo == buildingNo
+                         group p by new { TypeID = p.DeviceType.UUID, TypeName = p.DeviceType.Name } into g
+                         orderby g.Key.TypeName
                          select new Statis
                          {
-                             xAxis = p.Name,
-                             yAxis = (from q in db.Devices where q.TypeID == p.UUID && q.Room.BuildingNo == buildingNo select q)
-                             .Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
+                             xAxis = g.Key.TypeName,
+                             yAxis = g.Sum(a => (a.Value ?? 0.00) - (a.PreValue ?? 0.00))
                          };
 
             return result;

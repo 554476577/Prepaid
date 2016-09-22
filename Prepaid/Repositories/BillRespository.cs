@@ -246,10 +246,10 @@ namespace Prepaid.Repositories
 
         public IEnumerable<PrepaidBill> GetRecommendPrepaidBills(string buildingNo)
         {
-            IEnumerable<PrepaidBill> bills = from item in GetPrepaidBills("", buildingNo, "", "")
-                                             where item.CreditScore > 5000
-                                             orderby item.CreditScore descending
-                                             select item;
+            IEnumerable<Room> rooms = from item in db.Rooms where item.CreditScore > 5000 orderby item.CreditScore descending select item;
+            if (!string.IsNullOrEmpty(buildingNo))
+                rooms = rooms.Where(u => u.BuildingNo != null && u.BuildingNo.Contains(buildingNo));
+            IEnumerable<PrepaidBill> bills = GetPrepaidBills(rooms);
             return bills;
         }
 
