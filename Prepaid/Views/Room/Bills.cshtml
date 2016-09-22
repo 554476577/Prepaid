@@ -3,7 +3,7 @@
 }
 <script type="text/javascript">
     app.controller('BillCtrl', function ($scope, $http) {
-        $scope.PageSize = 10;
+        $scope.PageSize = 3;
 
         var params = {
             "RoomNo": getQueryString("roomNo"),
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}" style="border-top:1px solid #d7d7d7;">
+        <div class="row information" ng-cloak ng-repeat="item in Items" ng-class="{'item-last':$last}">
             <div class="col-lg-3 col-md-3 col-sm-3" ng-style="energyStyle(item.DeviceBills.length)" style="position:relative;">
                 <div class="row style-spe">
                     <div class="col-lg-8 col-md-8 col-sm-8" rowspan="{{item.DeviceBills.length}}">{{item.LotNo}}</div>
@@ -99,6 +99,10 @@
                     <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumMoney}}</div>
                     <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.BilledAccountBalance}}</div>
                 </div>
+                <div class="row zindex">
+                    <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="border-right:transparent;"></div>
+                </div>
             </div>
             <div class="col-lg-7 col-md-7 col-sm-7 information-content" ng-cloak ng-repeat="device in item.DeviceBills">
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.DeviceNo}}</div>
@@ -108,9 +112,9 @@
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.Price}}</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.Money}}</div>
             </div>
-            <div class="width center">
-                <div id="page4" class="m-pagination m-center"></div>
-            </div>
+        </div>
+        <div class="width center">
+            <div id="page4" class="m-pagination m-center"></div>
         </div>
     </div>
 </div>
