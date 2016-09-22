@@ -183,7 +183,7 @@
                     withCredentials: true,
                     url: "../api/batch/bills"
                 }).success(function (data, status, headers, config) {
-                    window.parent.location.href = "../prepaid/list";
+                    window.location.href = window.location.href;
                 }).error(function (data, status, headers, config) {
                     ShowErrModal(data, status);
                 });

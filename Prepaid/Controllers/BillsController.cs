@@ -446,7 +446,7 @@ namespace Prepaid.Controllers
             string lotNo = TextHelper.GenerateUUID();
             foreach (var prepaidBill in prepaidBills)
             {
-                if (prepaidBill.IntBilledBalance < 0) // 如果余额不够，则不结算
+                if (prepaidBill.IntBilledBalance < 0 || prepaidBill.IntSumMoney==0) // 如果余额不够或者没有消耗能源，则不结算
                     continue;
 
                 using (TransactionScope ts = new TransactionScope())
