@@ -246,21 +246,6 @@ app.controller('layoutCtrl', function ($scope, $http) {
                         popDiv.css("display", "none");
                     }
                 }
-
-                //判断cube 页面的高度是否溢出，出现滚动条
-                $(function () {
-                    var a = $(".cube-width").height();
-                    var b = $(".content-show").height();
-                    if (a > b) {
-                        $("#fixed-ctrl").removeClass("fixed-aside-false");
-                        $("#fixed-ctrl").addClass("fixed-aside-true");
-                    }
-                    if(a < b){
-                        $("#fixed-ctrl").removeClass("fixed-aside-true");
-                        $("#fixed-ctrl").addClass("fixed-aside-false");
-                    }
-                });
-
             });
         }).error(function (data, status, headers, config) {
             ShowErrModal(data, status);
