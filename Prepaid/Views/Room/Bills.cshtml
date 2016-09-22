@@ -68,7 +68,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-4">结算时间</div>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-8 col-sm-8" style="padding:0 0;">
+            <div class="col-lg-7 col-md-7 col-sm-7" style="padding:0 0;">
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second" style="border-left:transparent;">设备编号</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">设备名称</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">上次读数</div>
@@ -76,9 +76,10 @@
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">单价</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 head-second">价格</div>
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1">
+            <div class="col-lg-2 col-md-2 col-sm-2" style="border-left:1px solid #d7d7d7;">
                 <div class="row style-sm">
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="border-left:1px solid #d7d7d7;">总价格</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">总价格</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">账户余额</div>
                 </div>
             </div>
         </div>
@@ -93,12 +94,13 @@
                     <div class="col-lg-4 col-md-4 col-sm-4" style="border-right:transparent;"></div>
                 </div>
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1" ng-style="energyStyle(item.DeviceBills.length)" style="border-bottom:1px solid #d7d7d7;position:relative;float:right;">
+            <div class="col-lg-2 col-md-2 col-sm-2" ng-style="energyStyle(item.DeviceBills.length)" style="border-bottom:1px solid #d7d7d7;position:relative;float:right;">
                 <div class="row style-spe">
-                    <div class="col-lg-12 col-md-12 col-sm-12" rowspan="{{item.DeviceBills.length}}">{{item.SumMoney}}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.SumMoney}}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" rowspan="{{item.DeviceBills.length}}">{{item.BilledAccountBalance}}</div>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-8 col-sm-8 information-content" ng-cloak ng-repeat="device in item.DeviceBills">
+            <div class="col-lg-7 col-md-7 col-sm-7 information-content" ng-cloak ng-repeat="device in item.DeviceBills">
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.DeviceNo}}</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.DeviceName}}</div>
                 <div class="col-lg-2 col-md-2 col-sm-2 information-second">{{device.PreValue}}</div>

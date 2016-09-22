@@ -230,6 +230,7 @@
     <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Scripts\utils.js" />
+    <None Include="Views\Notice\Alarm.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Index.cshtml" />

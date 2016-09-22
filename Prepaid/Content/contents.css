@@ -31,14 +31,14 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
 }
 /*弹出框的自定义高度样式*/
 .content-second-div {
-    padding: 20px 10px 10px 15px;
+    padding:10px 10px;
     font-size: 13px;
     background-color:#e9ede5;
     overflow:auto;
     min-height:400px;
 }
 .content-third-div {
-    padding: 20px 10px 10px 15px;
+    padding:10px 10px;
     font-size: 13px;
     background-color:#e9ede5;
     overflow:auto;
@@ -76,6 +76,7 @@ tbody, .from-control.text-size, .textarea-text, .input-text, .btn-size,.dropdown
     margin-left:10px;
 }
 .width.center {
+    clear:both;
     position:relative;
     left:50%;
     float:left;
@@ -142,7 +143,7 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     padding:0 0 ;
     height:35px;
 }
-.container-fluid .row > div,.containner-fluid .row.style-sm > div, .container-fluid .row .head-second,.container-fluid .row.style-spe>div,.container-fluid .row .information-second {
+.container-fluid .row > div,.container-fluid .row.style-sm > div, .container-fluid .row .head-second,.container-fluid .row.style-spe>div,.container-fluid .row .information-second {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow:hidden;
@@ -172,7 +173,7 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     color:#7c7c7c;
 }
 .item-last {
-    border-bottom:1px solid #d7d7d7;
+    /*border-bottom:1px solid #d7d7d7;*/
 }
 /*能耗管理的样式*/
 .container-fluid .row{

@@ -154,7 +154,7 @@ a {
 /*导航栏两个按钮*/
 .navbar-btn {
     position:relative;
-    left:250px;
+    left:245px;
     top:12px;
     float:left;
     outline:none; 
@@ -164,7 +164,7 @@ a {
     padding: 0 6px;
     color:#fff;
     border-radius:4px;
-    background:#d9534f;
+    background:#d01810;
     height:30px;
 }
 /*右上角的搜索框*/
@@ -404,14 +404,14 @@ a {
     float:left;
 }
 .bill-div {
-    width:30%;
+    width:45%;
     height:50%;
     border:2px solid #6699cc;
     border-top:transparent;
     float:left;
 }
 .montnEp-div {
-    width: 70%;
+    width: 55%;
     height: 50%;
     border: 2px solid #6699cc;
     border-left: transparent;

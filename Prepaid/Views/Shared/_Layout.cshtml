@@ -109,7 +109,9 @@
                 </div>
             </div>
             <div class="" style="padding:0 0;">
-                <button class="navbar-btn" type="button" style="margin-right:20px;">报警记录</button>
+                <button class="navbar-btn" type="button" style="margin-right:10px;" title="报警记录"
+                         id="btnAlarmAdd" url="notice/alarm" onclick="popFirstWnd(this.id, '报警记录','1000','455')">报警记录
+                </button>
                 <button ng-if="IsTimingSettle==0" ng-click="TimingSettle(1)" class="navbar-btn">开启定时结算(月)</button>
                 <button ng-if="IsTimingSettle==1" ng-click="TimingSettle(0)" class="navbar-btn">关闭定时结算(月)</button>
             </div>
@@ -139,13 +141,16 @@
                                         <span>支出占用百分比:</span><span id="percent{{$index+1}}" style="color:#009933;font-weight:bold;"></span>
                                     </div>
                                     <div style="width:100%;height:82%;float:left;font-size:15px;">
-                                        <span style="color:#ff3300;">欠费用户</span>
-                                        <div ng-cloak ng-repeat="WorseItem in buildArrears[$index+1]" style="text-align: center;">
+                                        <span style="color:#ff3300;font-weight:bold;margin-left:10px;">欠费用户</span>
+                                        <button title="导出报表" type="button" class="btn btn-success btn-special" style="padding:6px 10px;float:right;margin-top:5px;">
+                                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                        </button>
+                                        <div ng-cloak ng-repeat="WorseItem in buildArrears[$index+1]" style="text-align: center;margin-top:5px;">
                                             <a href="~/bill/cube?buildingNo={{WorseItem.BuildingNo}}&roomNo={{WorseItem.RoomNo}}">
                                                 >{{WorseItem.RoomNo}}[{{WorseItem.RealName}}]
                                             </a>
                                         </div>
-                                        <a href="~/bill/cube?flag=0&buildingNo={{BuildingItem.BuildingNo}}" style="float:right;">更多&nbsp;>></a>
+                                        <a href="~/bill/cube?flag=0&buildingNo={{BuildingItem.BuildingNo}}" style="float:right;margin-right:10px;">更多&nbsp;>></a>
                                     </div>
                                 </div>
                             </div>

@@ -111,5 +111,7 @@ namespace Prepaid.Controllers
     public class NoticeController : Controller
     {
         public ActionResult List() { return View(); }
+
+        public ActionResult Alarm() { return View(); }
     }
 }
