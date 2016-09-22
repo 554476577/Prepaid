@@ -250,9 +250,7 @@ app.controller('layoutCtrl', function ($scope, $http) {
                 //判断cube 页面的高度是否溢出，出现滚动条
                 $(function () {
                     var a = $(".cube-width").height();
-                    console.log(a);
                     var b = $(".content-show").height();
-                    console.log(b);
                     if (a > b) {
                         $("#fixed-ctrl").removeClass("fixed-aside-false");
                         $("#fixed-ctrl").addClass("fixed-aside-true");
