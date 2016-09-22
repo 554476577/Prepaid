@@ -24,7 +24,7 @@
                 "BuildingNo": getQueryString("buildingNo"),
                 "RoomNo": getQueryString("roomNo"),
                 "Floor": getQueryString("floor"),
-                "RealName": "",
+                "RealName": getQueryString("realName"),
                 "PageIndex": 1,
                 "PageSize": $scope.PageSize
             };
@@ -154,15 +154,24 @@
 
         // 导出报表
         $scope.exportReport = function () {
-            $http({
-                method: "get",
-                withCredentials: true,
-                url: "../api/export/prepaidbills"
-            }).success(function (data, status, headers, config) {
-                ShowTipsModel("业主能耗缴费实时账单导出成功！");
-                location.href = location.origin + '/' + data;
-            }).error(function (data, status, headers, config) {
-                ShowErrModal(data, status);
+            var params = {
+                "Flag":getQueryString("flag"),
+                "BuildingNo": getQueryString("buildingNo"),
+                "RoomNo": getQueryString("roomNo"),
+                "Floor": getQueryString("floor"),
+                "RealName": getQueryString("realName")
+            };
+            ShowConfirmModal("确定要导出能耗缴费实时账单吗?", function () {
+                $http({
+                    method: "get",
+                    withCredentials: true,
+                    url: "../api/export/prepaidbills",
+                    params: params
+                }).success(function (data, status, headers, config) {
+                    location.href = location.origin + '/' + data;
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
             });
         };
 
@@ -174,7 +183,7 @@
                     withCredentials: true,
                     url: "../api/batch/bills"
                 }).success(function (data, status, headers, config) {
-                    window.parent.location.href = "../prepaid/list";
+                    window.location.href = window.location.href;
                 }).error(function (data, status, headers, config) {
                     ShowErrModal(data, status);
                 });

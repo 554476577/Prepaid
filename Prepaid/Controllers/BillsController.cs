@@ -177,25 +177,25 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Pager pager = new Pager();
-            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills()
-                                             where item.CreditScore > 5000
-                                             orderby item.CreditScore descending
-                                             select item;
+            Pager pager = null;
+            IEnumerable<PrepaidBill> bills;
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
             string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
-            if (!string.IsNullOrEmpty(buildingNo))
-                rooms = rooms.Where(u => u.BuildingNo == buildingNo);
-            if (!string.IsNullOrEmpty(strPageIndex) && !string.IsNullOrEmpty(strPageSize))
+            if (strPageIndex == null || strPageSize == null)
             {
-                int PageIndex = Convert.ToInt32(strPageIndex);
-                int PageSize = Convert.ToInt32(strPageSize);
-                int RecordStart = (PageIndex - 1) * PageSize;
-                pager = new Pager(PageIndex, PageSize, rooms.Count());
-                rooms = rooms.Skip(RecordStart).Take(PageSize);
+                pager = new Pager();
+                bills = this.billRepository.GetRecommendPrepaidBills(buildingNo);
             }
-            pager.Items = rooms;
+            else
+            {
+                // 获取分页数据
+                int pageIndex = Convert.ToInt32(strPageIndex);
+                int pageSize = Convert.ToInt32(strPageSize);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetRecommendPrepaidBillsCount(buildingNo));
+                bills = this.billRepository.GetRecommendPrepaidPagerBills(buildingNo, pageIndex, pageSize);
+            }
+            pager.Items = bills;
 
             return Ok(pager);
         }
@@ -209,25 +209,25 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Pager pager = new Pager();
-            IEnumerable<PrepaidBill> rooms = from item in this.billRepository.GetPrepaidBills()
-                                             where item.IntBilledBalance < 0
-                                             orderby item.IntBilledBalance
-                                             select item;
+            Pager pager = null;
+            IEnumerable<PrepaidBill> bills;
             string strPageIndex = HttpContext.Current.Request.Params["PageIndex"];
             string strPageSize = HttpContext.Current.Request.Params["PageSize"];
             string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
-            if (!string.IsNullOrEmpty(buildingNo))
-                rooms = rooms.Where(u => u.BuildingNo == buildingNo);
-            if (!string.IsNullOrEmpty(strPageIndex) && !string.IsNullOrEmpty(strPageSize))
+            if (strPageIndex == null || strPageSize == null)
             {
-                int PageIndex = Convert.ToInt32(strPageIndex);
-                int PageSize = Convert.ToInt32(strPageSize);
-                int RecordStart = (PageIndex - 1) * PageSize;
-                pager = new Pager(PageIndex, PageSize, rooms.Count());
-                rooms = rooms.Skip(RecordStart).Take(PageSize);
+                pager = new Pager();
+                bills = this.billRepository.GetArrearsPrepaidBills(buildingNo);
             }
-            pager.Items = rooms;
+            else
+            {
+                // 获取分页数据
+                int pageIndex = Convert.ToInt32(strPageIndex);
+                int pageSize = Convert.ToInt32(strPageSize);
+                pager = new Pager(pageIndex, pageSize, this.billRepository.GetArrearsPrepaidBillsCount(buildingNo));
+                bills = this.billRepository.GetArrearsPrepaidPagerBills(buildingNo, pageIndex, pageSize);
+            }
+            pager.Items = bills;
 
             return Ok(pager);
         }
@@ -240,11 +240,23 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            string fileName = "业主能耗缴费实时账单.xls";
+            string flag = HttpContext.Current.Request.Params["Flag"];
+            string buildingNo = HttpContext.Current.Request.Params["BuildingNo"];
+            string roomNo = HttpContext.Current.Request.Params["RoomNo"];
+            string floor = HttpContext.Current.Request.Params["Floor"];
+            string realName = HttpContext.Current.Request.Params["RealName"];
+            IEnumerable<PrepaidBill> bills;
+            if (flag == "0") // 获取所有欠费用户
+                bills = this.billRepository.GetArrearsPrepaidBills(buildingNo);
+            else if (flag == "1") // 获取所有优质用户
+                bills = this.billRepository.GetRecommendPrepaidBills(buildingNo);
+            else
+                bills = this.billRepository.GetPrepaidBills(roomNo, buildingNo, floor, realName);
+
+            string fileName = string.Format("业主能耗缴费实时账单({0}).xls",DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
             string[] titles = { "房间编号", "建筑编号", "业主姓名", "设备编号", "设备名称", "上次抄表读数", "当前抄表读数", "单价", 
                                   "价格","总能耗","总价","账户余额" };
-            IEnumerable<PrepaidBill> prepaidEnergies = this.billRepository.GetPrepaidBills();
-            ReportHelper.ExportPrepaidBills(prepaidEnergies, titles, fileName);
+            ReportHelper.ExportPrepaidBills(bills, titles, fileName);
             HttpContext.Current.Response.ContentType = "text/plain";
             HttpContext.Current.Response.Write(fileName);
 
@@ -434,7 +446,7 @@ namespace Prepaid.Controllers
             string lotNo = TextHelper.GenerateUUID();
             foreach (var prepaidBill in prepaidBills)
             {
-                if (prepaidBill.IntBilledBalance < 0) // 如果余额不够，则不结算
+                if (prepaidBill.IntBilledBalance < 0 || prepaidBill.IntSumMoney==0) // 如果余额不够或者没有消耗能源，则不结算
                     continue;
 
                 using (TransactionScope ts = new TransactionScope())
