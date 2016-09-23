@@ -56,11 +56,11 @@ namespace Prepaid.Controllers
                             Name = item.Name,
                             Description = item.Description,
                             Unit = item.Unit,
-                            Price1 = item.Price1,
-                            Price2 = item.Price2,
-                            Price3 = item.Price3,
-                            Price4 = item.Price4,
-                            Price5 = item.Price5,
+                            Price1 = TextHelper.ConvertMoney(item.Price1),
+                            Price2 = TextHelper.ConvertMoney(item.Price2),
+                            Price3 = TextHelper.ConvertMoney(item.Price3),
+                            Price4 = TextHelper.ConvertMoney(item.Price4),
+                            Price5 = TextHelper.ConvertMoney(item.Price5),
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
@@ -87,11 +87,11 @@ namespace Prepaid.Controllers
                 Name = item.Name,
                 Description = item.Description,
                 Unit = item.Unit,
-                Price1 = item.Price1,
-                Price2 = item.Price2,
-                Price3 = item.Price3,
-                Price4 = item.Price4,
-                Price5 = item.Price5,
+                Price1 = TextHelper.ConvertMoney(item.Price1),
+                Price2 = TextHelper.ConvertMoney(item.Price2),
+                Price3 = TextHelper.ConvertMoney(item.Price3),
+                Price4 = TextHelper.ConvertMoney(item.Price4),
+                Price5 = TextHelper.ConvertMoney(item.Price5),
                 CreateTime = item.CreateTime,
                 Remark = item.Remark
             };

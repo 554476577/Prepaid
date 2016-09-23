@@ -159,7 +159,7 @@ namespace Prepaid.Controllers
 
         // POST: api/recharges
         [ResponseType(typeof(Recharge))]
-        public async Task<IHttpActionResult> PostRecharge([FromUri]Recharge recharge)
+        public IHttpActionResult PostRecharge([FromUri]Recharge recharge)
         {
             var errResult = TextHelper.CheckAuthorized(Request);
             if (errResult != null)
@@ -172,11 +172,11 @@ namespace Prepaid.Controllers
                     string RoomNo = recharge.RoomNo;
                     Room room = this.roomRepository.GetByID(RoomNo);
                     room.AccountBalance += recharge.Money;
-                    await this.roomRepository.PutAsync(room);
+                    this.roomRepository.Put(room);
 
                     recharge.UUID = TextHelper.GenerateUUID();
                     recharge.DateTime = DateTime.Now;
-                    await this.rechargeRepository.AddAsync(recharge);
+                    this.rechargeRepository.Add(recharge);
 
                     ts.Complete(); // 提交事务
                 }
