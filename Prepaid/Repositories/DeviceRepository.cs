@@ -190,8 +190,8 @@ namespace Prepaid.Repositories
             return new
             {
                 TotalBalance = TextHelper.ConvertMoney(totalBalance),
-                TotalExpend = TextHelper.ConvertMoney((int)totalExpend),
-                Percent = string.Format("{0:P}", totalExpend / totalBalance)
+                TotalExpend = TextHelper.ConvertMoney(totalExpend == null ? 0 : (int)totalExpend),
+                Percent = totalExpend == null || totalBalance == null ? "无意义" : string.Format("{0:P}", totalExpend / totalBalance)
             };
         }
 

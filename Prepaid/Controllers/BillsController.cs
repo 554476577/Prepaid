@@ -106,7 +106,7 @@ namespace Prepaid.Controllers
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
                 pager = new Pager(pageIndex, pageSize, this.billRepository.GetRoomBillsCount(RoomNo, BuildingNo, Floor, RealName, StartTime, EndTime));
-                bills = this.billRepository.GetRoomPagerBills(RoomNo, BuildingNo, Floor, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.RoomNo, true);
+                bills = this.billRepository.GetRoomPagerBills(RoomNo, BuildingNo, Floor, RealName, StartTime, EndTime, pageIndex, pageSize, u => u.DateTime, true);
             }
             pager.Items = bills;
 

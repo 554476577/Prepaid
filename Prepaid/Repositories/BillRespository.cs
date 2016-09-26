@@ -138,10 +138,10 @@ namespace Prepaid.Repositories
                 bill.RealName = item.RealName;
                 bill.Phone = item.Phone;
                 bill.CreditScore = item.CreditScore;
-                bill.CreditLevel = credit.Name;
+                bill.CreditLevel = credit == null ? "" : credit.Name;
                 bill.IntAccountBalance = item.AccountBalance;
                 bill.AccountBalance = TextHelper.ConvertMoney(item.AccountBalance);
-                bill.Arrears = TextHelper.ConvertMoney(credit.Arrears);
+                bill.Arrears = TextHelper.ConvertMoney(credit == null ? 0 : credit.Arrears);
                 bill.ManagerFees = string.Format("{0}㎡*￥{1}={2}",
                     item.Area, TextHelper.ConvertMoney(item.Price), TextHelper.ConvertMoney((int)item.Area * item.Price));
                 //bill.IntApportMoney = GetApportMoney(item.RoomNo);
