@@ -105,9 +105,9 @@
                 ShowErrModal(data, status);
             });
         }
-
-        // 修改设备信息
-        $scope.modify = function () {
+        
+        //修改设备信息
+        $('form').on('submit', function (event) {
             var params = {
                 "DeviceNo": $("#DeviceNo").val(),
                 "RoomNo": $scope.RoomNo,
@@ -140,7 +140,7 @@
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
-        };
+        });
     });
 </script>
 <div ng-controller="DeviceCtrl" class="content-div">
@@ -222,7 +222,7 @@
         </div>
         <div class="form-group group-style">
             <label for="ItemID">组ID</label>
-            <input type="text" class="form-control input-text" id="ItemID" name="ItemID" value="{{Item.ItemID}}" placeholder="请输入组ID！">
+            <input type="text" class="form-control input-text" id="ItemID" name="ItemID" value="{{Item.ItemID}}" placeholder="请输入组ID！" required>
         </div>
         <div class="form-group group-style">
             <label for="ItemName">组名称</label>
@@ -239,10 +239,10 @@
         </div>
         <div class="form-group group-style">
             <label for="ItemDescription">组描述</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="ItemDescription" name="ItemDescription" placeholder="请输入组描述！">
+            <textarea cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="ItemDescription" name="ItemDescription" placeholder="请输入组描述！">
                 {{Item.ItemDescription}}
             </textarea>
         </div>
+        <button class="btn btn-primary btn-style btn-top btn-special" type="submit">修改</button><br />
     </form>
-    <button class="btn btn-primary btn-style btn-top btn-special" ng-click="modify()">修改</button><br />
 </div>

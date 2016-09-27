@@ -3,14 +3,14 @@
 }
 <script type="text/javascript">
     app.controller('CommunityCtrl', function ($scope, $http) {
-        $scope.add = function () {
+        $('form').on('submit', function (event) {
             var params = {
                 "Name": $("#Name").val(),
                 "Description": $("#Description").val(),
                 "Address": $("#Address").val(),
                 "Area": $("#Area").val(),
                 "Capacity": $("#Capacity").val(),
-                "CheckInTime" :$("#CheckInTime").val(),
+                "CheckInTime": $("#CheckInTime").val(),
                 "Remark": $("#Remark").val()
             };
             $http({
@@ -23,30 +23,30 @@
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
-        };
+        });
     });
 </script>
 <div ng-controller="CommunityCtrl" class="content-div">
     <form role="form">
         <div class="form-group">
             <label for="Name">小区名称</label>
-            <input type="text" class="form-control input-text" id="Name" name="Name" placeholder="请输入小区名称！">
+            <input type="text" class="form-control input-text" id="Name" name="Name" placeholder="请输入小区名称！" required>
         </div>
         <div class="form-group">
             <label for="Description">小区描述</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Description" name="Description" placeholder="请输入小区描述！"></textarea>
+            <textarea cols="30" rows="3" maxlength="250" class="form-control textarea-text" id="Description" name="Description" placeholder="请输入小区描述！"></textarea>
         </div>
         <div class="form-group">
             <label for="Address">小区地址</label>
             <input type="text" class="form-control input-text" min="0" id="Address" name="Address" placeholder="请输入小区地址！">
         </div>
         <div class="form-group">
-            <label for="Area">小区区域</label>
-            <input type="text" class="form-control input-text" min="0" id="Area" name="Area" placeholder="请输入小区区域！">
+            <label for="Area">小区面积</label>
+            <input type="number" min="0.00" step="0.01" class="form-control input-text" id="Area" name="Area" placeholder="请输入小区面积！">
         </div>
         <div class="form-group">
             <label for="Capacity">小区总住户</label>
-            <input type="text" class="form-control input-text" id="Capacity" name="Capacity" placeholder="请输入小区总住户！">
+            <input type="number" min="0" step="1" class="form-control input-text" id="Capacity" name="Capacity" placeholder="请输入小区总住户！">
         </div>
         <div class="form-group">
             <label for="CheckInTime">小区入住时间</label>
@@ -54,8 +54,8 @@
         </div>
         <div class="form-group">
             <label for="Remark">备注</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
+            <textarea cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
         </div>
+        <button class="btn btn-primary btn-style btn-top" type="submit">添加</button><br />
     </form>
-    <button class="btn btn-primary btn-style btn-top" ng-click="add()">添加</button><br />
 </div>

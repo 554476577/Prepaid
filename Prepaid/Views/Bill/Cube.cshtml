@@ -282,6 +282,10 @@
             <div class="cube-top">
                 <span>结算总价:<b style="color:#ff3300;">{{item.SumMoney}}元</b></span>
                 <span>结算余额:<b style="color:#ff3300;">{{item.BilledBalance}}元</b></span>
+                <button title="添加设备" id="simpleAdd" url="device/SimpleAdd?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '添加设备','800','517')"
+                        class="search-load" style="float:right;margin:0 2px 2px 0;font-size:13px;background-color:#337ab7;">
+                    添加设备
+                </button>
             </div>
             <div class="cube-middle">
                 <table class="user-table table table-condensed" cellpadding="2" cellspacing="0">

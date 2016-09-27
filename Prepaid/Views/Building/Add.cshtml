@@ -26,8 +26,7 @@
             $scope.CommunityTypeName = typeName;
         }
 
-        //添加建筑信息
-        $scope.add = function () {
+        $('form').on('submit', function (event) {
             var params = {
                 "BuildingNo": $("#BuildingNo").val(),
                 "Name": $("#Name").val(),
@@ -52,7 +51,7 @@
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
-        };
+        });
     });
 </script>
 <div ng-controller="BuildingCtrl" class="content-third-div">  
@@ -79,21 +78,21 @@
         </div>
         <div class="form-group group-style">
             <label for="Name">建筑名称</label>
-            <input type="text" class="form-control input-text" id="Name" name="Name" placeholder="请输入建筑名称！">
-        </div>
-        <div class="form-group group-style">
-            <label for="Description">建筑描述</label>
-            <input type="text" class="form-control input-text" id="Description" name="Description" placeholder="请输入建筑描述！">
+            <input type="text" class="form-control input-text" id="Name" name="Name" placeholder="请输入建筑名称！" required>
         </div>
         <div class="form-group group-style">
             <label for="Floors">楼层总数</label>
-            <input type="text" class="form-control input-text" id="Floors" name="Floors" placeholder="请输入楼层总数！">
+            <input type="number" min="1" step="1" class="form-control input-text" id="Floors" name="Floors" placeholder="请输入楼层总数！">
+        </div>
+        <div class="form-group group-style">
+            <label for="Description">建筑描述</label>
+            <textarea cols="30" rows="3" maxlength="250" class="form-control textarea-text" id="Description" name="Description" placeholder="请输入类型描述！"></textarea>
         </div>
         <div class="form-group group-style">
             <label for="Remark">备注</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
+            <textarea cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！"></textarea>
         </div>
+        <button class="btn btn-primary btn-style btn-top btn-special" type="submit">添加</button><br />
     </form>
-    <button class="btn btn-primary btn-style btn-top btn-special" ng-click="add()">添加</button><br />
 </div>
     

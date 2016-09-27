@@ -39,8 +39,7 @@
             $scope.BuildingNo = buildingNo;
         }
 
-        // 更新房间信息
-        $scope.modify = function () {
+        $('form').on('submit', function (event) {
             var params = {
                 "RoomNo": $("#RoomNo").val(),
                 "BuildingNo": $scope.BuildingNo,
@@ -73,7 +72,7 @@
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
-        };
+        });
     });
 </script>
 <div ng-controller="RoomCtrl" class="content-div">
@@ -100,37 +99,37 @@
         </div>
         <div class="form-group group-style">
             <label for="Floor">楼层</label>
-            <input type="text" class="form-control input-text" id="Floor" name="Floor" value="{{Item.Floor}}" placeholder="请输入楼层！">
+            <input type="number" min="1" step="1" max="{{Item.Floor}}" class="form-control input-text" id="Floor" name="Floor" value="{{Item.Floor}}" placeholder="请输入楼层！">
         </div>
         <div class="form-group group-style">
             <label for="Area">面积</label>
-            <input type="text" class="form-control input-text" id="Area" name="Area" value="{{Item.Area}}" placeholder="请输入房间面积！">
+            <input type="number" min="0.00" step="0.01" class="form-control input-text" id="Area" name="Area" value="{{Item.Area}}" placeholder="请输入房间面积！">
         </div>
         <div class="form-group group-style">
             <label for="Price">管理费单价</label>
-            <input type="text" class="form-control input-text" id="Price" name="Price" value="{{Item.Price}}" placeholder="请输入物业管理费单价！">
+            <input type="number" min="0.00" step="0.01" class="form-control input-text" id="Price" name="Price" value="{{Item.Price}}" placeholder="请输入物业管理费单价！">
         </div>
         <div class="form-group group-style">
             <label for="RealName">业主姓名</label>
-            <input type="text" class="form-control input-text" id="RealName" name="RealName" value="{{Item.RealName}}" placeholder="请输入业主姓名！">
+            <input type="text" class="form-control input-text" id="RealName" name="RealName" value="{{Item.RealName}}" placeholder="请输入业主姓名！" required>
         </div>
         <div class="form-group group-style">
             <label for="Phone">电话号码</label>
-            <input type="text" class="form-control input-text" id="Phone" name="Phone" value="{{Item.Phone}}" placeholder="请输入电话号码！">
+            <input type="tel" class="form-control input-text" id="Phone" name="Phone" value="{{Item.Phone}}" placeholder="请输入电话号码！" required>
         </div>
         <div class="form-group group-style">
             <label for="AccountBalance">账户余额</label>
-            <input type="text" class="form-control input-text" id="AccountBalance" name="AccountBalance" value="{{Item.AccountBalance}}" 
+            <input type="number" min="0.00" step="0.01" class="form-control input-text" id="AccountBalance" name="AccountBalance" value="{{Item.AccountBalance}}"
                    placeholder="请输入账户余额！">
         </div>
         <div class="form-group group-style">
             <label for="AccountWarnLimit">账户报警余额</label>
-            <input type="text" class="form-control input-text" id="AccountWarnLimit" name="AccountWarnLimit" value="{{Item.AccountWarnLimit}}" 
+            <input type="number" min="0.00" step="0.01" class="form-control input-text" id="AccountWarnLimit" name="AccountWarnLimit" value="{{Item.AccountWarnLimit}}"
                    placeholder="请输入账户报警余额！">
         </div>
         <div class="form-group group-style">
             <label for="CreditScore">用户积分</label>
-            <input type="text" class="form-control input-text" id="CreditScore" name="CreditScore" value="{{Item.CreditScore}}" 
+            <input type="number" min="0" step="1" class="form-control input-text" id="CreditScore" name="CreditScore" value="{{Item.CreditScore}}"
                    placeholder="请输入用户积分！">
         </div>
         <div class="form-group group-style">
@@ -150,10 +149,10 @@
         </div>
         <div class="form-group group-style">
             <label for="Remark">备注</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！">
+            <textarea cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！">
                 {{Item.Remark}}
             </textarea>
         </div>
+        <button class="btn btn-primary btn-style btn-top btn-special" type="submit">修改</button><br />
     </form>
-    <button class="btn btn-primary btn-style btn-top btn-special" ng-click="modify()">修改</button><br />
 </div>

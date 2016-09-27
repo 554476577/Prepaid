@@ -17,13 +17,13 @@
             });
         }
 
-        $scope.modify = function () {
+        $('form').on('submit', function (event) {
             var params = {
                 "UUID": $scope.Item.UUID,
                 "Name": $("#Name").val(),
-                "Description":$("#Description").val(),
-                "Address" : $("#Address").val(),
-                "Area" : $("#Area").val(),
+                "Description": $("#Description").val(),
+                "Address": $("#Address").val(),
+                "Area": $("#Area").val(),
                 "Capacity": $("#Capacity").val(),
                 "CheckInTime": $("#CheckInTime").val(),
                 "Remark": $("#Remark").val()
@@ -44,18 +44,18 @@
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
-        };
+        });
     });
 </script>
 <div ng-controller="CommunityCtrl" class="content-div">
     <form role="form">
         <div class="form-group">
             <label for="Name">小区名称</label>
-            <input type="text" class="form-control input-text" id="Name" name="Name" value="{{Item.Name}}" placeholder="请输入小区名称！">
+            <input type="text" class="form-control input-text" id="Name" name="Name" value="{{Item.Name}}" placeholder="请输入小区名称！" required>
         </div>
         <div class="form-group">
             <label for="Description">小区描述</label>
-            <textarea cols="30" rows="3" class="form-control textarea-text" id="Description" 
+            <textarea cols="30" rows="3" maxlength="250" class="form-control textarea-text" id="Description" 
                       name="Description" placeholder="请输入小区描述！">{{Item.Description}}</textarea>
         </div>
         <div class="form-group">
@@ -63,12 +63,12 @@
             <input type="text" class="form-control input-text" min="0" id="Address" name="Address" value="{{Item.Address}}" placeholder="请输入小区地址！">
         </div>
         <div class="form-group">
-            <label for="Area">小区区域</label>
-            <input type="text" class="form-control input-text" min="0" id="Area" name="Area" value="{{Item.Area}}" placeholder="请输入小区区域！">
+            <label for="Area">小区面积</label>
+            <input type="number" min="0.00" step="0.01" class="form-control input-text" id="Area" name="Area" value="{{Item.Area}}" placeholder="请输入小区面积！">
         </div>
         <div class="form-group">
             <label for="Capacity">小区总住户</label>
-            <input type="text" class="form-control input-text" id="Capacity" name="Capacity" value="{{Item.Capacity}}" placeholder="请输入小区总住户！">
+            <input type="number" min="0" step="1" class="form-control input-text" id="Capacity" name="Capacity" value="{{Item.Capacity}}" placeholder="请输入小区总住户！">
         </div>
         <div class="form-group">
             <label for="CheckInTime">小区入住时间</label>
@@ -76,8 +76,8 @@
         </div>
         <div class="form-group" style="float:right;width:100%;">
             <label for="Remark">备注</label>
-            <textarea style="width:49%;" cols="30" rows="3" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" placeholder="请输入备注！"></textarea>
+            <textarea style="width:49%;" cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" placeholder="请输入备注！"></textarea>
         </div>
+        <button class="btn btn-primary btn-style btn-top btn-special" type="submit">修改</button><br />
     </form>
-    <button class="btn btn-primary btn-style btn-top btn-special" ng-click="modify()">修改</button><br />
 </div>

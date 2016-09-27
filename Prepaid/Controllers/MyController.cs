@@ -90,6 +90,8 @@ namespace Prepaid.Controllers
         public ActionResult Details() { return View(); }
 
         public ActionResult BatchImport() { return View(); }
+
+        public ActionResult SimpleAdd() { return View(); }
     }
 
     public class BillController : Controller

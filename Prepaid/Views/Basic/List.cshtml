@@ -3,19 +3,66 @@
 }
 <script type="text/javascript">
     app.controller('BasicCtrl', function ($scope, $http) {
-        getAdminInfos();
-        getDeviceTypes();
-        getCredits();
-        getLadders();
+        $scope.PageSize = 9;
+
+        //admin
+        var adminParams = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getAdminInfos(adminParams, true);
+
+        //device
+        var deviceParams = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getDeviceTypes(deviceParams, true);
+
+        //credit
+        var creditParam = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getCredits(creditParam, true);
+
+        //ladder
+        var ladderParam = {
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getLadders(ladderParam, true);
 
         // 获取管理员信息列表
-        function getAdminInfos() {
+        function getAdminInfos(params, isFirstLoadPager) {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/admins"
+                url: "../api/admins",
+                params: params
             }).success(function (data, status, headers, config) {
                 $scope.AdminItems = data.Items;
+                $scope.AdminRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    $("#page1").page('destroy');
+                    $("#page1").page({
+                        total: $scope.AdminRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getAdminInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getAdminInfos(params, false); // 重新绑定数据
+                    });
+                }
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
@@ -39,13 +86,35 @@
         };
 
         // 获取设备类型信息
-        function getDeviceTypes() {
+        function getDeviceTypes(params, isFirstLoadPager) {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/devicetypes"
+                url: "../api/devicetypes",
+                params: params
             }).success(function (data, status, headers, config) {
                 $scope.DeviceTypeItems = data.Items;
+                $scope.DeviceRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    $("#page2").page('destroy');
+                    $("#page2").page({
+                        total: $scope.DeviceRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getDeviceTypes(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getDeviceTypes(params, false); // 重新绑定数据
+                    });
+                }
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
@@ -69,13 +138,35 @@
         };
 
         // 获取信用等级信息列表
-        function getCredits() {
+        function getCredits(params, isFirstLoadPager) {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/credits"
+                url: "../api/credits",
+                params: params
             }).success(function (data, status, headers, config) {
                 $scope.CreditItems = data.Items;
+                $scope.CreditRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    $("#page3").page('destroy');
+                    $("#page3").page({
+                        total: $scope.CreditRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getCredits(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getCredits(params, false); // 重新绑定数据
+                    });
+                }
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
@@ -99,13 +190,35 @@
         };
 
         // 获取阶梯单价信息列表
-        function getLadders() {
+        function getLadders(params, isFirstLoadPager) {
             $http({
                 method: "get",
                 withCredentials: true,
-                url: "../api/ladders"
+                url: "../api/ladders",
+                params: params
             }).success(function (data, status, headers, config) {
                 $scope.LadderItems = data.Items;
+                $scope.LadderRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.LadderRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getLadders(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getLadders(params, false); // 重新绑定数据
+                    });
+                }
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
@@ -143,7 +256,7 @@
                 </div>
             </div>
             <div class="content-table control-table">
-                <table class="table">
+                <table class="table" style="margin-bottom:0;">
                     <thead>
                         <tr>
                             <th width="15%">用户名</th>
@@ -171,6 +284,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="width center" style="width:100%;">
+                    <div id="page1" class="m-pagination m-center" style="margin-bottom:0;position:relative;left:-25%;"></div>
+                </div>
             </div>
         </div>
         @*设备类型*@
@@ -185,7 +301,7 @@
                 </div>
             </div>
             <div class="content-table control-table">
-                <table class="table">
+                <table class="table" style="margin-bottom:0;">
                     <thead>
                         <tr>
                             <th width="15%">名称</th>
@@ -219,6 +335,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="width center" style="width:72%;position:relative;left:0;">
+                    <div id="page2" class="m-pagination m-center" style="margin-bottom:0;position:relative;left:35%;"></div>
+                </div>
             </div>
         </div>
         <div style="clear:both;height:0;font-size: 1px;line-height: 0px;"></div>
@@ -236,7 +355,7 @@
                 </div>
             </div>
             <div class="content-table control-table">
-                <table class="table">
+                <table class="table" style="margin-bottom:0;">
                     <thead>
                         <tr>
                             <th width="8%">名称</th>
@@ -268,6 +387,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="width center" style="width:100%;">
+                    <div id="page3" class="m-pagination m-center" style="margin-bottom:0;position:relative;left:-25%;"></div>
+                </div>
             </div>
         </div>
         @*阶梯单价*@
@@ -282,7 +404,7 @@
                 </div>
             </div>
             <div class="content-table control-table">
-                <table class="table">
+                <table class="table" style="margin-bottom:0;">
                     <thead>
                         <tr>
                             <th width="11%">设备类型</th>
@@ -314,6 +436,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="width center" style="width:72%;position:relative;left:0;">
+                    <div id="page4" class="m-pagination m-center" style="margin-bottom:0;position:relative;left:35%;"></div>
+                </div>
             </div>
         </div>
     </div>
