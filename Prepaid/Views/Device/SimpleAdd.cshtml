@@ -26,8 +26,7 @@
             $scope.DeviceTypeName = typeName;
         }
 
-        // 添加点位
-        $scope.add = function () {
+        $('form').on('submit', function (event) {
             var params = {
                 "RoomNo": $scope.RoomNo,
                 "DeviceNo": $("#DeviceNo").val(),
@@ -60,7 +59,7 @@
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
-        };
+        });
     });
 </script>
 <div ng-controller="DeviceCtrl" class="content-div">
@@ -90,12 +89,12 @@
         </div>
         <div class="form-group group-style">
             <label for="DeviceNo">设备编号</label>
-            <input type="text" class="form-control input-text" id="DeviceNo" name="DeviceNo" placeholder="请输入设备编号！">
+            <input type="text" class="form-control input-text" id="DeviceNo" name="DeviceNo" placeholder="请输入设备编号！" required>
         </div>
 
         <div class="form-group group-style">
             <label for="DeviceName">设备名称</label>
-            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" placeholder="请输入设备名称！">
+            <input type="text" class="form-control input-text" id="DeviceName" name="DeviceName" placeholder="请输入设备名称！" required>
         </div>
         <div class="form-group group-style">
             <label for="Protocol">归属协议</label>
@@ -119,17 +118,17 @@
         </div>
         <div class="form-group group-style">
             <label for="Rate">转换倍率</label>
-            <input type="text" class="form-control input-text" id="Rate" name="Rate" placeholder="请输入值的转换倍率！">
+            <input type="number" class="form-control input-text" id="Rate" name="Rate" placeholder="请输入值的转换倍率！" required>
         </div>
         <div class="form-group group-style">
             <label for="ArchiveInterval">归档时间间隔</label>
-            <input type="text" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" placeholder="请输入归档时间间隔！">
+            <input type="number" min="1" step="1" class="form-control input-text" id="ArchiveInterval" name="ArchiveInterval" placeholder="请输入归档时间间隔！">
         </div>
         <div class="form-group group-style">
             <label for="ItemDescription">组描述</label>
             <textarea cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="ItemDescription" name="ItemDescription"
                       placeholder="请输入组描述！"></textarea>
         </div>
+        <button class="btn btn-primary btn-style btn-top btn-special" type="submit">添加</button><br />
     </form>
-    <button class="btn btn-primary btn-style btn-top btn-special" ng-click="add()">添加</button><br />
 </div>
