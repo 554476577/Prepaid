@@ -116,4 +116,9 @@ namespace Prepaid.Controllers
 
         public ActionResult Alarm() { return View(); }
     }
+
+    public class LogController : Controller
+    {
+        public ActionResult List() { return View(); }
+    }
 }
