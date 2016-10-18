@@ -17,13 +17,15 @@ namespace Prepaid.Controllers
 {
     public class RechargesController : ApiController
     {
-        IRechargeRespository rechargeRepository;
-        IRoomRespository roomRepository;
+        IRechargeRespository rechargeRespository;
+        IRoomRespository roomRespository;
+        ILogRepository logRespository;
 
-        public RechargesController(IRechargeRespository rechargeRepository, IRoomRespository userRepository)
+        public RechargesController(IRechargeRespository rechargeRespository, IRoomRespository userRespository, ILogRepository logRespository)
         {
-            this.rechargeRepository = rechargeRepository;
-            this.roomRepository = userRepository;
+            this.rechargeRespository = rechargeRespository;
+            this.roomRespository = userRespository;
+            this.logRespository = logRespository;
         }
 
         // GET: api/recharges
@@ -43,15 +45,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                recharges = this.rechargeRepository.GetAll(RoomNo, RealName);
+                recharges = this.rechargeRespository.GetAll(RoomNo, RealName);
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.rechargeRepository.GetCount(RoomNo, RealName));
-                recharges = this.rechargeRepository.GetPagerItems(RoomNo, RealName, pageIndex, pageSize, u => u.DateTime, true);
+                pager = new Pager(pageIndex, pageSize, this.rechargeRespository.GetCount(RoomNo, RealName));
+                recharges = this.rechargeRespository.GetPagerItems(RoomNo, RealName, pageIndex, pageSize, u => u.DateTime, true);
             }
 
             var items = from item in recharges
@@ -88,7 +90,7 @@ namespace Prepaid.Controllers
 
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             string RealName = HttpContext.Current.Request.Params["RealName"];
-            IEnumerable<Recharge> recharges = this.rechargeRepository.GetAll(RoomNo, RealName);
+            IEnumerable<Recharge> recharges = this.rechargeRespository.GetAll(RoomNo, RealName);
             var items = from item in recharges
                         select new
                         {
@@ -114,7 +116,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Recharge item = await this.rechargeRepository.GetByIdAsync(uuid);
+            Recharge item = await this.rechargeRespository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
@@ -144,11 +146,11 @@ namespace Prepaid.Controllers
 
             try
             {
-                await this.rechargeRepository.PutAsync(recharge);
+                await this.rechargeRespository.PutAsync(recharge);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.rechargeRepository.IsExist(uuid))
+                if (!this.rechargeRespository.IsExist(uuid))
                     return NotFound();
                 else
                     throw;
@@ -165,29 +167,38 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
+            AdminSession admin = HttpContext.Current.Session["mySession"] as AdminSession;
+            Log log = new Log();
+            log.UserID = admin.UUID;
+            log.Type = 2; // 1:登录日志 2:操作日志
+            log.ClientAddr = TextHelper.GetHostAddress();
+            log.Remark = "";
+            log.DateTime = DateTime.Now;
+
             try
             {
                 using (TransactionScope ts = new TransactionScope())
                 {
-                    string RoomNo = recharge.RoomNo;
-                    Room room = this.roomRepository.GetByID(RoomNo);
+                    Room room = this.roomRespository.GetByID(recharge.RoomNo);
                     room.AccountBalance += recharge.Money;
-                    this.roomRepository.Put(room);
+                    this.roomRespository.Put(room);
 
                     recharge.UUID = TextHelper.GenerateUUID();
                     recharge.DateTime = DateTime.Now;
-                    this.rechargeRepository.Add(recharge);
+                    this.rechargeRespository.Add(recharge);
 
+                    log.Content = string.Format("管理员:{0}对房间:{1}成功充值￥{2}元!", admin.UserName, recharge.RoomNo, TextHelper.ConvertMoney(recharge.Money));
                     ts.Complete(); // 提交事务
                 }
             }
             catch (DbUpdateException)
             {
-                if (this.rechargeRepository.IsExist(recharge.UUID))
+                if (this.rechargeRespository.IsExist(recharge.UUID))
                     return Conflict();
                 else
-                    throw;
+                    log.Content = string.Format("管理员:{0}对房间:{1}充值金额￥{2}元失败!", admin.UserName, recharge.RoomNo, TextHelper.ConvertMoney(recharge.Money));
             }
+            this.logRespository.Add(log);
 
             return Ok();
         }
@@ -199,11 +210,11 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Recharge recharge = await this.rechargeRepository.GetByIdAsync(uuid);
+            Recharge recharge = await this.rechargeRespository.GetByIdAsync(uuid);
             if (recharge == null)
                 return NotFound();
 
-            await this.rechargeRepository.DeleteAsync(recharge);
+            await this.rechargeRespository.DeleteAsync(recharge);
 
             return Ok();
         }

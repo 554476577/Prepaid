@@ -152,7 +152,7 @@ namespace Prepaid.Utils
                             BuildingNo = item.BuildingNo,
                             Name = item.Name,
                             CommunityID = item.CommunityID,
-                            CommunityName = item.Community.Name,
+                            //CommunityName = item.Community.Name,
                             Description = item.Description,
                             Floors = item.Floors,
                             LstFloor = GetFloors(roomRepository, item.BuildingNo, item.Floors),

@@ -83,7 +83,8 @@
                                 <li><a data-curr="basic" href="~/basic/list">基础信息</a><a data-curr="community" href="~/community/list">社区管理</a></li>
                                 <li><a data-curr="room" href="~/room/list">房间信息</a><a data-curr="device" href="~/device/list">设备一览</a></li>
                                 <li><a data-curr="bill" href="~/bill/list">结算记录</a><a data-curr="recharge" href="~/recharge/list">充值记录</a></li>
-                                <li><a data-curr="notice" href="~/notice/list">消息通知</a><a href="#" ng-click="logout()">退出系统</a></li>
+                                <li><a data-curr="bill" href="~/log/list">日志信息</a><a data-curr="notice" href="~/notice/list">消息通知</a></li>
+                                <li><a data-curr="recharge" href="#">系统设置</a><a href="#" ng-click="logout()">退出系统</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -110,7 +111,7 @@
             </div>
             <div class="" style="padding:0 0;">
                 <button class="navbar-btn" type="button" style="margin-right:10px;" title="报警记录"
-                         id="btnAlarmAdd" url="notice/alarm" onclick="popFirstWnd(this.id, '报警记录','1000','455')">报警记录
+                         id="btnAlarmAdd" url="~/notice/alarm" onclick="popFirstWnd(this.id, '报警记录','1000','455')">报警记录
                 </button>
                 <button ng-if="IsTimingSettle==0" ng-click="TimingSettle(1)" class="navbar-btn">开启定时结算(月)</button>
                 <button ng-if="IsTimingSettle==1" ng-click="TimingSettle(0)" class="navbar-btn">关闭定时结算(月)</button>
@@ -123,7 +124,9 @@
                     <ul>
                         <li class="menu-fst" ng-cloak ng-repeat="BuildingItem in BuildingItems" on-finish-render-filters>
                             <a href="#" id="building{{$index+1}}" flag="0"
-                               ng-mouseover="BuildingMouseOver($index+1,BuildingItem.BuildingNo)" ng-mouseleave="BuildingMouseLeave($index+1)">{{BuildingItem.BuildingNo}}</a>
+                               ng-mouseover="BuildingMouseOver($index+1,BuildingItem.BuildingNo)" ng-mouseleave="BuildingMouseLeave($index+1)">
+                              {{BuildingItem.Name}}[{{BuildingItem.BuildingNo}}]
+                            </a>
                             <!--通过hover,弹出一级框-->
                             <div class="sub_cate_box" id="popDiv{{$index+1}}">
                                 <div style="width:70%;height:100%;float:left;border-right:2px solid #6699cc;">

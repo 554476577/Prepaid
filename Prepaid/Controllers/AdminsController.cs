@@ -16,11 +16,13 @@ namespace Prepaid.Controllers
 {
     public class AdminsController : ApiController
     {
-        IAdminRepository repository;
+        IAdminRepository adminRepository;
+        ILogRepository logRepository;
 
-        public AdminsController(IAdminRepository repository)
+        public AdminsController(IAdminRepository adminRepository, ILogRepository logRepository)
         {
-            this.repository = repository;
+            this.adminRepository = adminRepository;
+            this.logRepository = logRepository;
         }
 
         // GET: api/admins
@@ -38,15 +40,15 @@ namespace Prepaid.Controllers
             if (strPageIndex == null || strPageSize == null)
             {
                 pager = new Pager();
-                admins = this.repository.GetAll();
+                admins = this.adminRepository.GetAll();
             }
             else
             {
                 // 获取分页数据
                 int pageIndex = Convert.ToInt32(strPageIndex);
                 int pageSize = Convert.ToInt32(strPageSize);
-                pager = new Pager(pageIndex, pageSize, this.repository.GetCount());
-                admins = this.repository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
+                pager = new Pager(pageIndex, pageSize, this.adminRepository.GetCount());
+                admins = this.adminRepository.GetPagerItems(pageIndex, pageSize, u => u.UUID);
             }
 
             var items = from item in admins
@@ -74,7 +76,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Admin item = await this.repository.GetByIdAsync(uuid);
+            Admin item = await this.adminRepository.GetByIdAsync(uuid);
             if (item == null)
                 return NotFound();
 
@@ -107,11 +109,11 @@ namespace Prepaid.Controllers
             try
             {
                 admin.CreateTime = DateTime.Now;
-                await this.repository.PutAsync(admin);
+                await this.adminRepository.PutAsync(admin);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.repository.IsExist(uuid))
+                if (!this.adminRepository.IsExist(uuid))
                     return NotFound();
                 else
                     throw;
@@ -133,11 +135,11 @@ namespace Prepaid.Controllers
                 admin.UUID = Prepaid.Utils.TextHelper.GenerateUUID();
                 admin.Password = TextHelper.MD5Encrypt(admin.Password);
                 admin.CreateTime = DateTime.Now;
-                await this.repository.AddAsync(admin);
+                await this.adminRepository.AddAsync(admin);
             }
             catch (DbUpdateException)
             {
-                if (this.repository.IsExist(admin.UUID))
+                if (this.adminRepository.IsExist(admin.UUID))
                     return Conflict();
                 else
                     throw;
@@ -153,11 +155,11 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            Admin admin = await this.repository.GetByIdAsync(uuid);
+            Admin admin = await this.adminRepository.GetByIdAsync(uuid);
             if (admin == null)
                 return NotFound();
 
-            await this.repository.DeleteAsync(admin);
+            await this.adminRepository.DeleteAsync(admin);
 
             return Ok();
         }
@@ -179,9 +181,18 @@ namespace Prepaid.Controllers
         [HttpGet]
         public IHttpActionResult Login(string userName, string password)
         {
-            Admin admin = this.repository.FindByUserNameAndPassword(userName, password);
+            Admin admin = this.adminRepository.FindByUserNameAndPassword(userName, password);
             if (admin == null)
                 return NotFound();
+
+            Log log = new Log();
+            log.UserID = admin.UUID;
+            log.Type = 1; // 1:登录日志 2:操作日志
+            log.ClientAddr = TextHelper.GetHostAddress();
+            log.Content = string.Format("管理员:{0}登录成功!", admin.UserName);
+            log.DateTime = DateTime.Now;
+            log.Remark = "";
+            this.logRepository.Add(log);
 
             AdminSession session = new AdminSession();
             session.UUID = admin.UUID;

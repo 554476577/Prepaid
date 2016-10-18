@@ -9,6 +9,11 @@ namespace Prepaid.Models
     [Table("Admin")]
     public partial class Admin
     {
+        public Admin()
+        {
+            Logs = new HashSet<Log>();
+        }
+
         [Key]
         [StringLength(32)]
         public string UUID { get; set; }
@@ -33,5 +38,7 @@ namespace Prepaid.Models
 
         [StringLength(200)]
         public string Remark { get; set; }
+
+        public virtual ICollection<Log> Logs { get; set; }
     }
 }

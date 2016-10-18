@@ -13,6 +13,7 @@ namespace Prepaid.Models
         }
 
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<Alarm> Alarms { get; set; }
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Building> Buildings { get; set; }
@@ -33,6 +34,15 @@ namespace Prepaid.Models
         {
             modelBuilder.Entity<Admin>()
                 .Property(e => e.UUID)
+                .IsFixedLength();
+
+            modelBuilder.Entity<Admin>()
+                .HasMany(e => e.Logs)
+                .WithRequired(e => e.Admin)
+                .HasForeignKey(e => e.UserID);
+
+            modelBuilder.Entity<Log>()
+                .Property(e => e.UserID)
                 .IsFixedLength();
 
             modelBuilder.Entity<Bill>()

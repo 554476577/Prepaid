@@ -23,12 +23,18 @@ namespace Prepaid.Controllers
         IBillRespository billRepository;
         IRoomRespository roomRespository;
         IDeviceRepository deviceRespository;
+        ILogRepository logRespository;
 
-        public BillsController(IBillRespository billRepository, IRoomRespository roomRespository,IDeviceRepository deviceRespository)
+        public BillsController(
+            IBillRespository billRepository, 
+            IRoomRespository roomRespository,
+            IDeviceRepository deviceRespository,
+            ILogRepository logRespository)
         {
             this.billRepository = billRepository;
             this.roomRespository = roomRespository;
             this.deviceRespository = deviceRespository;
+            this.logRespository = logRespository;
         }
 
         // GET: api/bills
@@ -360,36 +366,53 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
+            AdminSession admin = HttpContext.Current.Session["mySession"] as AdminSession;
+            Log log = new Log();
+            log.UserID = admin.UUID;
+            log.Type = 2; // 1:登录日志 2:操作日志
+            log.ClientAddr = TextHelper.GetHostAddress();
+            log.Remark = "";
+            log.DateTime = DateTime.Now;
+
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             PrepaidBill prepaidBill = this.billRepository.GetPrepaidBills(RoomNo, "", "", "").FirstOrDefault();
             DateTime now = DateTime.Now;
             string lotNo = TextHelper.GenerateUUID();
-            using (TransactionScope ts = new TransactionScope())
+            try
             {
-                foreach (PrepaidDeviceBill item in prepaidBill.PrepaidDeviceBills)
+                using (TransactionScope ts = new TransactionScope())
                 {
-                    Bill bill = new Bill();
-                    bill.DeviceNo = item.DeviceNo;
-                    bill.LotNo = lotNo;
-                    bill.PreValue = item.PreValue ?? 0.00;
-                    bill.CurValue = item.CurValue ?? 0.00;
-                    bill.AccountBalance = prepaidBill.IntAccountBalance;
-                    bill.Money = item.IntMoney;
-                    bill.DateTime = now;
-                    //bill.Remark = string.Format("yyyy-MM", bill.DateTime);
-                    this.billRepository.Add(bill);
+                    foreach (PrepaidDeviceBill item in prepaidBill.PrepaidDeviceBills)
+                    {
+                        Bill bill = new Bill();
+                        bill.DeviceNo = item.DeviceNo;
+                        bill.LotNo = lotNo;
+                        bill.PreValue = item.PreValue ?? 0.00;
+                        bill.CurValue = item.CurValue ?? 0.00;
+                        bill.AccountBalance = prepaidBill.IntAccountBalance;
+                        bill.Money = item.IntMoney;
+                        bill.DateTime = now;
+                        //bill.Remark = string.Format("yyyy-MM", bill.DateTime);
+                        this.billRepository.Add(bill);
 
-                    Device device = this.deviceRespository.GetByID(item.DeviceNo);
-                    device.PreValue = item.CurValue;
-                    this.deviceRespository.Put(device);
+                        Device device = this.deviceRespository.GetByID(item.DeviceNo);
+                        device.PreValue = item.CurValue;
+                        this.deviceRespository.Put(device);
+                    }
+
+                    Room room = this.roomRespository.GetByID(RoomNo);
+                    room.AccountBalance = prepaidBill.IntBilledBalance;
+                    this.roomRespository.Put(room);
+
+                    log.Content = string.Format("管理员:{0}对房间:{1}结算成功!", admin.UserName, RoomNo);
+                    ts.Complete(); // 提交事务
                 }
-
-                Room room = this.roomRespository.GetByID(RoomNo);
-                room.AccountBalance = prepaidBill.IntBilledBalance;
-                this.roomRespository.Put(room);
-
-                ts.Complete(); // 提交事务
             }
+            catch (DbUpdateException)
+            {
+                log.Content = string.Format("管理员:{0}对房间:{1}结算失败!", admin.UserName, RoomNo);
+            }
+            this.logRespository.Add(log);
 
             return Ok();
         }
@@ -417,7 +440,23 @@ namespace Prepaid.Controllers
             else
                 bills = this.billRepository.GetPrepaidBills(roomNo, buildingNo, floor, realName);
 
-            BatchSettle(bills, false); // 批量结算
+            AdminSession admin = HttpContext.Current.Session["mySession"] as AdminSession;
+            Log log = new Log();
+            log.UserID = admin.UUID;
+            log.Type = 2; // 1:登录日志 2:操作日志
+            log.ClientAddr = TextHelper.GetHostAddress();
+            log.Remark = "";
+            log.DateTime = DateTime.Now;
+            try
+            {
+                BatchSettle(bills, false); // 批量结算
+                log.Content = string.Format("操作员:{0}批量结算成功!", admin.UserName);
+            }
+            catch (Exception)
+            {
+                log.Content = string.Format("操作员:{0}批量结算失败!", admin.UserName);
+            }
+            this.logRespository.Add(log);
 
             return Ok();
         }
