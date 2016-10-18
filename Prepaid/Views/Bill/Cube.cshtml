@@ -283,7 +283,7 @@
                 <span>结算总价:<b style="color:#ff3300;">{{item.SumMoney}}元</b></span>
                 <span>结算余额:<b style="color:#ff3300;">{{item.BilledBalance}}元</b></span>
                 <button title="添加设备" id="simpleAdd" url="device/SimpleAdd?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '添加设备','800','517')"
-                        class="search-load" style="float:right;margin:0 2px 2px 0;font-size:13px;background-color:#337ab7;">
+                        class="search-load" style="position:absolute;top:2px;right:0;float:right;font-size:13px;background-color:#337ab7;">
                     添加设备
                 </button>
             </div>
@@ -291,11 +291,11 @@
                 <table class="user-table table table-condensed" cellpadding="2" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="20%">设备名称</th>
-                            <th width="11%">单价</th>
-                            <th width="29%">上次抄表读数</th>
-                            <th width="29%">当前抄表读数</th>
-                            <th width="11%">价格</th>
+                            <th width="16%">设备名称</th>
+                            <th width="15%">单价</th>
+                            <th width="27%">上次抄表读数</th>
+                            <th width="27%">当前抄表读数</th>
+                            <th width="15%">价格</th>
                         </tr>
                     </thead>
                     <tbody>

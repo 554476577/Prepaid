@@ -443,9 +443,13 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     border:1px solid #ddd;
 }
 .cube-middle .user-table tr th {
+    padding:5px 0 ;
     text-align: center;
     font-size:13px;
     border: 1px solid #d7d7d7;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .cube-middle .user-table tr td {
     border: 1px solid #d7d7d7;
@@ -460,6 +464,7 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder {
     height:32px;
     margin-bottom:5px;
     font-size:14px;
+    position:relative;
 }
 .cube-middle {
     width:100%;
