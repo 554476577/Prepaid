@@ -2,6 +2,20 @@
     Layout = "~/Views/Shared/_Header.cshtml";
 }
 <script type="text/javascript">
+    $(function () {
+        $(".form_datetime").datetimepicker({
+            format: "yyyy-mm-dd",
+            language: 'zh-CN',/*加载日历语言包，可自定义*/
+            weekStart: 1,
+            todayBtn: 1,
+            todayHighlight: 1,
+            pickerPosition: "bottom-left",
+            startView: 2,
+            minView: 2,
+            maxView: 4,
+            forceParse: 0
+        });
+    });
     app.controller('CommunityCtrl', function ($scope, $http) {
         getInfo();
 
@@ -54,11 +68,6 @@
             <input type="text" class="form-control input-text" id="Name" name="Name" value="{{Item.Name}}" placeholder="请输入小区名称！" required>
         </div>
         <div class="form-group">
-            <label for="Description">小区描述</label>
-            <textarea cols="30" rows="3" maxlength="250" class="form-control textarea-text" id="Description" 
-                      name="Description" placeholder="请输入小区描述！">{{Item.Description}}</textarea>
-        </div>
-        <div class="form-group">
             <label for="Address">小区地址</label>
             <input type="text" class="form-control input-text" min="0" id="Address" name="Address" value="{{Item.Address}}" placeholder="请输入小区地址！">
         </div>
@@ -66,17 +75,25 @@
             <label for="Area">小区面积</label>
             <input type="number" min="0.00" step="0.01" class="form-control input-text" id="Area" name="Area" value="{{Item.Area}}" placeholder="请输入小区面积！">
         </div>
+        <div class="form-group" style="width:49%;">
+            <label for="CheckInTime">小区入住时间</label>
+            <div class="input-group date form_datetime" style="width:90%;">
+                <input style="width:75%;display:inline-block;" type="text" class="form-control input-text" id="CheckInTime" name="CheckInTime" value="{{Item.CheckInTime|date:'yyyy-MM-dd'}}" placeholder="请输入入住时间！">
+                <span class="input-group-addon input_all_btn" style="display:inline-block;width:10%;height:34px;"><span class="glyphicon glyphicon-th"></span></span>
+            </div>
+        </div>
         <div class="form-group">
             <label for="Capacity">小区总住户</label>
             <input type="number" min="0" step="1" class="form-control input-text" id="Capacity" name="Capacity" value="{{Item.Capacity}}" placeholder="请输入小区总住户！">
         </div>
         <div class="form-group">
-            <label for="CheckInTime">小区入住时间</label>
-            <input type="text" class="form-control input-text" id="CheckInTime" name="CheckInTime" value="{{Item.CheckInTime|date:'yyyy-MM-dd'}}" placeholder="请输入入住时间！">
+            <label for="Description">小区描述</label>
+            <textarea cols="30" rows="3" maxlength="250" class="form-control textarea-text" id="Description"
+                      name="Description" placeholder="请输入小区描述！">{{Item.Description}}</textarea>
         </div>
         <div class="form-group" style="float:right;width:100%;">
             <label for="Remark">备注</label>
-            <textarea style="width:49%;" cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" placeholder="请输入备注！"></textarea>
+            <textarea style="width:49%;" cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" placeholder="请输入备注！">{{Item.Remark}}</textarea>
         </div>
         <button class="btn btn-primary btn-style btn-top btn-special" type="submit">修改</button><br />
     </form>
