@@ -38,6 +38,10 @@ namespace Prepaid.Models
         [StringLength(50)]
         public string Phone { get; set; }
 
+        [Required]
+        [StringLength(100)]
+        public string Email { get; set; }
+
         public int? AccountBalance { get; set; }
 
         public int? AccountWarnLimit { get; set; }
