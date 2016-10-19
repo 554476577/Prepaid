@@ -282,8 +282,9 @@
             <div class="cube-top">
                 <span>结算总价:<b style="color:#ff3300;">{{item.SumMoney}}元</b></span>
                 <span>结算余额:<b style="color:#ff3300;">{{item.BilledBalance}}元</b></span>
-                <button title="添加设备" id="simpleAdd" url="device/SimpleAdd?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '添加设备','800','517')"
-                        class="search-load" style="position:absolute;top:2px;right:0;float:right;font-size:13px;background-color:#337ab7;">
+                <button ng-if="UserSession.RoleID>1" title="添加设备" id="simpleAdd" url="device/SimpleAdd?roomNo={{item.RoomNo}}" 
+                        onclick="popFirstWnd(this.id, '添加设备','800','517')" class="search-load" 
+                        style="position:absolute;top:2px;right:0;float:right;font-size:13px;background-color:#337ab7;">
                     添加设备
                 </button>
             </div>
@@ -311,12 +312,12 @@
             </div>
         </div>
         <div class="ctrl-btn">
-            <button type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
+            <button ng-if="UserSession.RoleID==3" type="button" id="btnRecharge{{$index+1}}" class="btn btn-success btn-style"
                     url="recharge/add?roomNo={{item.RoomNo}}" onclick="popFirstWnd(this.id, '能耗充值','400','300')">
                 充值
             </button>
-            <button type="button" ng-if="item.IntBilledBalance >= 0 && item.IntSumMoney>0" class="btn btn-danger btn-style"
-                    ng-click="settleBill(item.RoomNo)">
+            <button type="button" ng-if="item.IntBilledBalance >= 0 && item.IntSumMoney>0 && UserSession.RoleID==3" 
+                    class="btn btn-danger btn-style" ng-click="settleBill(item.RoomNo)">
                 结算
             </button>
         </div>

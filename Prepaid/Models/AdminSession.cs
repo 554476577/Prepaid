@@ -9,6 +9,8 @@ namespace Prepaid.Models
     {
         public string UUID { get; set; }
 
+        public int RoleID { get; set; }
+
         public string UserName { get; set; }
 
         public string RealName { get; set; }

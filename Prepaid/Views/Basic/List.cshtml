@@ -248,7 +248,7 @@
         <div class="account-manage">
             <div class="top-basic add-position">
                 <strong>账号管理</strong>
-                <div class="basic-add">
+                <div class="basic-add" ng-if="UserSession.RoleID==3">
                     <button id="btnAdminAdd" title="添加账号" url="admin/add" class="btn btn-success"
                             onclick="popFirstWnd(this.id, '添加账号','800','350')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
@@ -274,13 +274,14 @@
                             <td>{{item.Phone}}</td>
                             <td>{{item.RoleName}}</td>
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
-                            <td>
+                            <td ng-if="UserSession.RoleID==3">
                                 <button type="button" id="btnAdminModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
                                         onclick="popFirstWnd(this.id, '修改账号信息','800','350')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteAdmin(item.UUID)">删除</button>
                             </td>
+                            <td ng-if="UserSession.RoleID!=3"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -293,7 +294,7 @@
         <div class="equipment-type">
             <div class="top-basic add-position">
                 <strong>设备类型</strong>
-                <div class="basic-add">
+                <div class="basic-add" ng-if="UserSession.RoleID>1">
                     <button id="btnDeviceTypeAdd" title="添加设备类型" url="devicetype/add" class="btn btn-success"
                             onclick="popDefaultWnd(this.id, '添加设备类型')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
@@ -325,13 +326,14 @@
                             <td style="color:#009900;">{{item.Price4}}</td>
                             <td style="color:#009900;">{{item.Price5}}</td>
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
-                            <td>
+                            <td ng-if="UserSession.RoleID>1">
                                 <button type="button" id="btnDeviceTypeModify{{$index+1}}" url="devicetype/modify?uuid={{item.UUID}}"
                                         class="btn btn-warning btn-style" onclick="popDefaultWnd(this.id,'修改设备类型')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteDeviceType(item.UUID)">删除</button>
                             </td>
+                            <td ng-if="UserSession.RoleID==1"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -347,7 +349,7 @@
         <div class="credit-grade">
             <div class="top-basic add-position">
                 <strong>信用等级</strong>
-                <div class="basic-add">
+                <div class="basic-add" ng-if="UserSession.RoleID>1">
                     <button id="btnCreditAdd" title="添加信用等级" url="credit/add" class="btn btn-success"
                             onclick="popFirstWnd(this.id, '添加信用等级','800','300')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
@@ -377,13 +379,14 @@
                             <td style="color:#0066ff;">{{item.Arrears}}</td>
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>{{item.Remark}}</td>
-                            <td>
+                            <td ng-if="UserSession.RoleID>1">
                                 <button type="button" id="btnCreditModify{{$index+1}}" url="credit/modify?uuid={{item.UUID}}"
                                         class="btn btn-warning btn-style" onclick="popFirstWnd(this.id, '修改信用等级','800','300')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteCredit(item.UUID)">删除</button>
                             </td>
+                            <td ng-if="UserSession.RoleID==1"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -396,7 +399,7 @@
         <div class="ladder-price">
             <div class="top-basic add-position">
                 <strong>阶梯单价</strong>
-                <div class="basic-add">
+                <div class="basic-add" ng-if="UserSession.RoleID>1">
                     <button id="btnLadderAdd" title="添加阶梯单价" url="ladder/add" class="btn btn-success"
                             onclick="popFirstWnd(this.id, '添加阶梯单价','800','400')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
@@ -426,13 +429,14 @@
                             <td>{{item.MaxEnergy}}</td>
                             <td style="color:#009900;">{{item.Price}}</td>
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
-                            <td>
+                            <td ng-if="UserSession.RoleID>1">
                                 <button type="button" id="btnLadderModify{{$index+1}}" url="ladder/modify?uuid={{item.UUID}}"
                                         class="btn btn-warning btn-style" onclick="popFirstWnd(this.id, '修改阶梯单价','800','400')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteLadder(item.UUID)">删除</button>
                             </td>
+                            <td ng-if="UserSession.RoleID==1"></td>
                         </tr>
                     </tbody>
                 </table>

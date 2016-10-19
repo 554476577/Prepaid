@@ -199,6 +199,7 @@ namespace Prepaid.Controllers
 
             AdminSession session = new AdminSession();
             session.UUID = admin.UUID;
+            session.RoleID = admin.RoleID;
             session.UserName = admin.UserName;
             session.RealName = admin.RealName;
             session.Phone = admin.Phone;

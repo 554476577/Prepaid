@@ -92,7 +92,7 @@
         <div class="input-group search-div">
             <button class="search-btn" title="搜索" ng-click="search()"><i class="fa fa-search" aria-hidden="true"></i></button>
         </div>
-        <div class="input-group search-right">
+        <div class="input-group search-right" ng-if="UserSession.RoleID>1">
             <button title="添加设备" id="btnAdd" url="device/add" onclick="popFirstWnd(this.id, '添加设备','800','517')" class="btn btn-success btn-top">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
@@ -126,7 +126,7 @@
                     <td>{{item.ItemID}}</td>
                     <td><input type="checkbox" ng-checked="{{item.IsArchive}}" disabled="disabled" /></td>
                     <td>{{item.ArchiveInterval}}</td>
-                    <td>
+                    <td ng-if="UserSession.RoleID>1">
                         <button id="btnModify{{$index+1}}" url="device/modify?deviceNo={{item.DeviceNo}}" onclick="popFirstWnd(this.id, '修改点位信息','800','517')"
                                 class="btn btn-warning btn-style">
                             修改
@@ -137,6 +137,7 @@
                         </button>
                         <button type="button" class="btn btn-danger btn-style" ng-click="delete(item.DeviceNo)">删除</button>
                     </td>
+                    <td ng-if="UserSession.RoleID==1"></td>
                 </tr>
             </tbody>
         </table>
