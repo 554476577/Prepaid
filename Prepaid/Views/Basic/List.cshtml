@@ -250,7 +250,7 @@
                 <strong>账号管理</strong>
                 <div class="basic-add">
                     <button id="btnAdminAdd" title="添加账号" url="admin/add" class="btn btn-success"
-                            onclick="popFirstWnd(this.id, '添加账号','800','300')">
+                            onclick="popFirstWnd(this.id, '添加账号','800','350')">
                         <i class=" fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -262,7 +262,7 @@
                             <th width="15%">用户名</th>
                             <th width="15%">真实姓名</th>
                             <th width="20%">手机号码</th>
-                            <th width="15%">是否可控</th>
+                            <th width="15%">角色名称</th>
                             <th width="15%">时间</th>
                             <th width="20%">操作</th>
                         </tr>
@@ -272,11 +272,11 @@
                             <td>{{item.UserName}}</td>
                             <td>{{item.RealName}}</td>
                             <td>{{item.Phone}}</td>
-                            <td><input type="checkbox" ng-checked="{{item.HasControl}}" disabled="disabled" /></td>
+                            <td>{{item.RoleName}}</td>
                             <td>{{item.CreateTime|date:"yyyy-MM-dd"}}</td>
                             <td>
                                 <button type="button" id="btnAdminModify{{$index+1}}" url="admin/modify?uuid={{item.UUID}}" class="btn btn-warning btn-style"
-                                        onclick="popFirstWnd(this.id, '修改账号信息','800','300')">
+                                        onclick="popFirstWnd(this.id, '修改账号信息','800','350')">
                                     修改
                                 </button>
                                 <button type="button" class="btn btn-danger btn-style" ng-click="deleteAdmin(item.UUID)">删除</button>

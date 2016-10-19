@@ -55,11 +55,12 @@ namespace Prepaid.Controllers
                         select new
                         {
                             UUID = item.UUID,
+                            RoleID = item.RoleID,
+                            RoleName = item.Role.Name,
                             UserName = item.UserName,
                             Password = item.Password,
                             RealName = item.RealName,
                             Phone = item.Phone,
-                            HasControl = item.HasControl,
                             CreateTime = item.CreateTime,
                             Remark = item.Remark
                         };
@@ -83,11 +84,12 @@ namespace Prepaid.Controllers
             var result = new
             {
                 UUID = item.UUID,
+                RoleID = item.RoleID,
+                RoleName = item.Role.Name,
                 UserName = item.UserName,
                 Password = item.Password,
                 RealName = item.RealName,
                 Phone = item.Phone,
-                HasControl = item.HasControl,
                 CreateTime = item.CreateTime,
                 Remark = item.Remark
             };
@@ -108,6 +110,7 @@ namespace Prepaid.Controllers
 
             try
             {
+                admin.Password = TextHelper.MD5Encrypt(admin.Password);
                 admin.CreateTime = DateTime.Now;
                 await this.adminRepository.PutAsync(admin);
             }

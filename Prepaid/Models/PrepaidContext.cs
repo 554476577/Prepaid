@@ -14,6 +14,7 @@ namespace Prepaid.Models
 
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Alarm> Alarms { get; set; }
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Building> Buildings { get; set; }

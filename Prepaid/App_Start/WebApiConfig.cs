@@ -34,6 +34,7 @@ namespace Prepaid
             container.RegisterType<IRoomRespository, RoomRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<IBillRespository, BillRespository>(new HierarchicalLifetimeManager());
             container.RegisterType<ILogRepository, LogRespository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRoleRepository, RoleRespository>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             // Web API 路由

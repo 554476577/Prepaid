@@ -3,7 +3,22 @@
 }
 <script type="text/javascript">
     app.controller('AdminCtrl', function ($scope, $http) {
+        $scope.RoleName = "请选择角色名称";
+        getRoleInfo();
         getInfo();
+
+        // 获取所有角色信息
+        function getRoleInfo() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/roles"
+            }).success(function (data, status, headers, config) {
+                $scope.RoleItems = data;
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
         
         function getInfo() {
             $http({
@@ -12,19 +27,26 @@
                 url: "../api/admins/" + getQueryString("uuid")
             }).success(function (data, status, headers, config) {
                 $scope.Item = data;
-                $("#HasControl").attr("checked", $scope.Item.HasControl);
+                $scope.RoleID = data.RoleID;
+                $scope.RoleName = data.RoleName;
             }).error(function (data, status, headers, config) {
                 ShowErrModal(data, status);
             });
         }
 
+        // 选择角色
+        $scope.selectRole = function (id, name) {
+            $scope.RoleID = id;
+            $scope.RoleName = name;
+        }
+
         $('form').on('submit', function (event) {
             var params = {
+                "RoleID": $scope.RoleID,
                 "UserName": $("#UserName").val(),
                 "Password": $("#Password").val(),
                 "RealName": $("#RealName").val(),
                 "Phone": $("#Phone").val(),
-                "HasControl": $("#HasControl").is(":checked"),
                 "Remark": $("#Remark").val()
             };
             $http({
@@ -46,7 +68,7 @@
         });
     });
 </script>
-<div ng-controller="AdminCtrl" class="content-third-div">
+<div ng-controller="AdminCtrl" class="content-third-div" style="min-height:350px;">
     <form role="form">
         <div class="form-group">
             <label for="UserName">账号名称</label>
@@ -65,11 +87,25 @@
             <input type="tel" class="form-control input-text" id="Phone" name="Phone" value="{{Item.Phone}}" pl placeholder="请输入电话号码！">
         </div>
         <div class="checkbox form-group">
-            <label><input type="checkbox" id="HasControl"> 是否具有充值权限</label>
+            <label>角色选择</label>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-size" data-toggle="dropdown" style="border-radius:3px;">
+                        {{RoleName}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-cloak ng-repeat="item in RoleItems">
+                            <a href="#" ng-click="selectRole(item.ID,item.Name)">{{item.Name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="Remark">备注</label>
-            <textarea cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" value="{{Item.Remark}}" p placeholder="请输入备注！"></textarea>
+            <textarea cols="30" rows="3" maxlength="200" class="form-control textarea-text" id="Remark" name="Remark" 
+                      placeholder="请输入备注！">{{Item.Remark}}</textarea>
         </div>
         <button class="btn btn-primary btn-style btn-top btn-special" type="submit">修改</button><br />
     </form>

@@ -19,6 +19,9 @@ namespace Prepaid.Models
         public string UUID { get; set; }
 
         [Required]
+        public int RoleID { get; set; }
+
+        [Required]
         [StringLength(100)]
         public string UserName { get; set; }
 
@@ -32,12 +35,12 @@ namespace Prepaid.Models
         [StringLength(20)]
         public string Phone { get; set; }
 
-        public bool? HasControl { get; set; }
-
         public DateTime? CreateTime { get; set; }
 
         [StringLength(200)]
         public string Remark { get; set; }
+
+        public virtual Role Role { get; set; }
 
         public virtual ICollection<Log> Logs { get; set; }
     }
