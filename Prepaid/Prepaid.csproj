@@ -230,8 +230,10 @@
     <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Scripts\utils.js" />
+    <Content Include="setting.xml" />
     <Content Include="Views\Device\SimpleAdd.cshtml" />
     <Content Include="Views\Log\List.cshtml" />
+    <Content Include="Views\Basic\Setting.cshtml" />
     <None Include="Views\Notice\Alarm.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
@@ -242,6 +244,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Controllers\LogsController.cs" />
@@ -290,6 +293,7 @@
     <Compile Include="Models\Recharge.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\RoomBill.cs" />
+    <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\Statis.cs" />
     <Compile Include="Models\VBuildEp.cs" />
     <Compile Include="Models\VDevDayEp.cs" />
@@ -325,6 +329,7 @@
     <Compile Include="Utils\ReportHelper.cs" />
     <Compile Include="Utils\TextHelper.cs" />
     <Compile Include="Utils\WebConfigHelper.cs" />
+    <Compile Include="Utils\XmlSerializeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

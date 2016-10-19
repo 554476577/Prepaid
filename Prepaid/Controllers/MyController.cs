@@ -14,6 +14,8 @@ namespace Prepaid.Controllers
     public class BasicController : Controller
     {
         public ActionResult List() { return View(); }
+
+        public ActionResult Setting() { return View(); }
     }
 
     public class AdminController : Controller

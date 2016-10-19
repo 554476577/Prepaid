@@ -199,5 +199,23 @@ namespace Prepaid.Utils
 
             return floors;
         }
+
+        public static void SetSystemConfig(Prepaid.Models.Setting setting)
+        {
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "setting.json");
+            string text = JsonConvert.SerializeObject(setting);
+            using (StreamWriter writer = new StreamWriter(path))
+                writer.Write(text);
+        }
+
+        public static Prepaid.Models.Setting GetSystemConfig()
+        {
+            string text = string.Empty;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "setting.json");
+            using (StreamReader reader = new StreamReader(path))
+                text = reader.ReadToEnd();
+            var item = JsonConvert.DeserializeObject<Prepaid.Models.Setting>(text);
+            return item;
+        }
     }
 }
