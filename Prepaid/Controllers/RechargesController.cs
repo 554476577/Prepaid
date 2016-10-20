@@ -167,8 +167,10 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            AdminSession admin = HttpContext.Current.Session["mySession"] as AdminSession;
+            Room room = null;
             Log log = new Log();
+            AdminSession admin = HttpContext.Current.Session["mySession"] as AdminSession;
+            string money = TextHelper.ConvertMoney(recharge.Money);
             log.UserID = admin.UUID;
             log.Type = 2; // 1:登录日志 2:操作日志
             log.ClientAddr = TextHelper.GetHostAddress();
@@ -179,7 +181,7 @@ namespace Prepaid.Controllers
             {
                 using (TransactionScope ts = new TransactionScope())
                 {
-                    Room room = this.roomRespository.GetByID(recharge.RoomNo);
+                    room = this.roomRespository.GetByID(recharge.RoomNo);
                     room.AccountBalance += recharge.Money;
                     this.roomRespository.Put(room);
 
@@ -187,7 +189,7 @@ namespace Prepaid.Controllers
                     recharge.DateTime = DateTime.Now;
                     this.rechargeRespository.Add(recharge);
 
-                    log.Content = string.Format("管理员:{0}对房间:{1}成功充值￥{2}元!", admin.UserName, recharge.RoomNo, TextHelper.ConvertMoney(recharge.Money));
+                    log.Content = string.Format("管理员:{0}对房间:{1}成功充值￥{2}元!", admin.UserName, recharge.RoomNo, money);
                     ts.Complete(); // 提交事务
                 }
             }
@@ -196,9 +198,25 @@ namespace Prepaid.Controllers
                 if (this.rechargeRespository.IsExist(recharge.UUID))
                     return Conflict();
                 else
-                    log.Content = string.Format("管理员:{0}对房间:{1}充值金额￥{2}元失败!", admin.UserName, recharge.RoomNo, TextHelper.ConvertMoney(recharge.Money));
+                    log.Content = string.Format("管理员:{0}对房间:{1}充值金额￥{2}元失败!", admin.UserName, recharge.RoomNo, money);
             }
             this.logRespository.Add(log);
+
+            // 发送邮件测试
+            if (!string.IsNullOrEmpty(room.Email))
+            {
+                string subject = string.Format("房间:{0}预付费充值邮件提箱", room.RoomNo);
+                EmailHelper email = new EmailHelper(room.Email, subject, log.Content);
+                email.Send();
+            }
+
+            // 发送短信测试
+            if (!string.IsNullOrEmpty(room.Phone))
+            {
+                string data = string.Format("roomNo:'{0}',realName:'{1}',money:'{2}'", room.RoomNo, room.RealName, money);
+                data = "{" + data + "}";
+                SmsHelper.Send(room.Phone, data);
+            }
 
             return Ok();
         }

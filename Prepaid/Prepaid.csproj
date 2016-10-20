@@ -131,6 +131,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="TopSdk, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\TopSdk.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -232,8 +236,8 @@
     <Content Include="Scripts\utils.js" />
     <Content Include="setting.xml" />
     <Content Include="Views\Device\SimpleAdd.cshtml" />
-    <Content Include="Views\Log\List.cshtml" />
     <Content Include="Views\Basic\Setting.cshtml" />
+    <Content Include="Views\Log\List.cshtml" />
     <None Include="Views\Notice\Alarm.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
@@ -326,7 +330,9 @@
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Results\InternalServerErrorTextPlainResult.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Utils\EmailHelper.cs" />
     <Compile Include="Utils\ReportHelper.cs" />
+    <Compile Include="Utils\SmsHelper.cs" />
     <Compile Include="Utils\TextHelper.cs" />
     <Compile Include="Utils\WebConfigHelper.cs" />
     <Compile Include="Utils\XmlSerializeHelper.cs" />
