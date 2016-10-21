@@ -235,10 +235,6 @@
     <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Scripts\utils.js" />
     <Content Include="setting.xml" />
-    <Content Include="Views\Device\SimpleAdd.cshtml" />
-    <Content Include="Views\Basic\Setting.cshtml" />
-    <Content Include="Views\Log\List.cshtml" />
-    <None Include="Views\Notice\Alarm.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -250,7 +246,6 @@
   <ItemGroup>
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
-    <Compile Include="Models\Admin.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\AnalysisesController.cs" />
     <Compile Include="Controllers\AlarmsController.cs" />
@@ -275,6 +270,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\AdminSession.cs" />
     <Compile Include="Models\Alarm.cs" />
@@ -298,6 +294,7 @@
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\RoomBill.cs" />
     <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Statis.cs" />
     <Compile Include="Models\VBuildEp.cs" />
     <Compile Include="Models\VDevDayEp.cs" />
@@ -329,7 +326,6 @@
     <Compile Include="Repositories\DeviceRepository.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Results\InternalServerErrorTextPlainResult.cs" />
-    <Compile Include="Models\Role.cs" />
     <Compile Include="Utils\EmailHelper.cs" />
     <Compile Include="Utils\ReportHelper.cs" />
     <Compile Include="Utils\SmsHelper.cs" />
@@ -343,36 +339,40 @@
     <Content Include="Views\Admin\Add.cshtml" />
     <Content Include="Views\Admin\Modify.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Basic\List.cshtml" />
+    <Content Include="Views\Basic\Setting.cshtml" />
     <Content Include="Views\Device\Add.cshtml" />
     <Content Include="Views\Device\Details.cshtml" />
     <Content Include="Views\Device\List.cshtml" />
     <Content Include="Views\Device\Modify.cshtml" />
+    <Content Include="Views\Device\BatchImport.cshtml" />
+    <Content Include="Views\Device\SimpleAdd.cshtml" />
     <Content Include="Views\Credit\Add.cshtml" />
     <Content Include="Views\Credit\Modify.cshtml" />
     <Content Include="Views\Recharge\List.cshtml" />
+    <Content Include="Views\Recharge\Add.cshtml" />
     <Content Include="Views\Room\Add.cshtml" />
     <Content Include="Views\Room\Details.cshtml" />
     <Content Include="Views\Room\List.cshtml" />
     <Content Include="Views\Room\Modify.cshtml" />
+    <Content Include="Views\Room\Bills.cshtml" />
+    <Content Include="Views\Room\Recharges.cshtml" />
+    <Content Include="Views\Room\BatchImport.cshtml" />
     <Content Include="Views\Bill\List.cshtml" />
     <Content Include="Views\Bill\Prepaid.cshtml" />
-    <Content Include="Views\Recharge\Add.cshtml" />
+    <Content Include="Views\Bill\Cube.cshtml" />
     <Content Include="Views\Community\Add.cshtml" />
     <Content Include="Views\Community\Modify.cshtml" />
     <Content Include="Views\Community\List.cshtml" />
     <Content Include="Views\Notice\List.cshtml" />
+    <Content Include="Views\Notice\Alarm.cshtml" />
     <Content Include="Views\Building\Add.cshtml" />
     <Content Include="Views\Building\Modify.cshtml" />
     <Content Include="Views\DeviceType\Add.cshtml" />
     <Content Include="Views\DeviceType\Modify.cshtml" />
     <Content Include="Views\Ladder\Add.cshtml" />
-    <Content Include="Views\Basic\List.cshtml" />
     <Content Include="Views\Ladder\Modify.cshtml" />
-    <Content Include="Views\Bill\Cube.cshtml" />
-    <Content Include="Views\Room\Bills.cshtml" />
-    <Content Include="Views\Room\Recharges.cshtml" />
-    <Content Include="Views\Room\BatchImport.cshtml" />
-    <Content Include="Views\Device\BatchImport.cshtml" />
+    <Content Include="Views\Log\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
