@@ -6,6 +6,108 @@
         
     });
 </script>
-<div ng-controller="BasicCtrl" class="content-div" style="padding-top:10px;">
-    
+<style>
+    .setting {
+        width:100%;
+        height:155px;
+        background-color:#fff;
+        margin-top:28px;
+        border:1px solid #d7d7d7;
+        border-radius:5px;
+        padding-top:5px;
+    }
+    .type-list {
+        display:block;
+        font-size:18px;
+        width:150px;
+        height:30px;
+        line-height:30px;
+        background-color:#33cc99;
+        color:#fff;
+        font-weight:bold;
+        border-radius:3px;
+        padding-left:10px;
+    }
+    .checkbox {
+        font-size:18px;
+        width:230px;
+        height:30px;
+        color:#333;
+        position:relative;
+        left:300px;
+        top:-25px;
+        margin-top:0;
+    }
+    .select {
+        width:auto;
+        height:50px;
+        background-color:#fff;
+        font-size:16px;
+        margin-top:15px;
+        color:#333;
+    }
+    .select > input {
+        margin-left:50px;            
+    }
+    .save {
+        width:70%;
+        margin-top:25px;
+        
+    }
+    .save > input {
+        outline:none; 
+        border:0; 
+        -webkit-appearance: none;
+        width:50px;
+        height:30px;
+        border-radius:5px;
+        margin:0 15px;
+        color:#fff;
+        font-size:18px;
+    }
+    .input-save {
+        background-color:#449d44;
+    }
+    .input-delete {
+        background-color:#c9302c;
+    }
+</style>
+<div ng-controller="BasicCtrl" class="content-div" style="padding-top:0;">
+    <div class="setting">
+        <span class="type-list">消息通知方式设定</span>
+        <div class="select" style="margin-top:45px;">
+            <input type="checkbox" name="name" value=" " />&nbsp;短信
+            <input type="checkbox" name="name" value=" " />&nbsp;邮件
+            <input type="checkbox" name="name" value=" " />&nbsp;微信
+            <input type="checkbox" name="name" value=" " />&nbsp;电话
+        </div>
+    </div>
+    <div class="setting">
+        <span class="type-list">定时结算频率设定</span>
+        <div class="checkbox">
+            <input type="checkbox" ng-model="mySelect1" ng-init="mySelect1 = false" name="name" value="" />&nbsp;是否开启定时结算设定
+        </div>
+        <div class="select">
+            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;一天
+            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;一周
+            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;半个月
+            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;一个月
+        </div>
+    </div>
+    <div class="setting">
+        <span class="type-list">充值频率设定</span>
+        <div class="checkbox">
+            <input type="checkbox" ng-model="mySelect2" ng-init="mySelect2 = false" name="name" value=" " />&nbsp;是否开启有效充值时间设定
+        </div>
+        <div class="select">
+            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;1分钟
+            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;3分钟
+            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;5分钟
+            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;10分钟
+        </div>
+    </div>
+    <div class="save">
+        <input class="input-save" type="button" name="name" value="保存" />
+        <input class="input-delete" type="button" name="name" value="取消" />
+    </div>
 </div>
