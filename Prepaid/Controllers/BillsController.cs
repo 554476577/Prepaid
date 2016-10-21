@@ -461,18 +461,18 @@ namespace Prepaid.Controllers
             return Ok();
         }
 
-        // POST: api/timingbills/1
+        // POST: api/timingbills
         [HttpPost]
-        [Route("api/timingbills/{flag}")]
+        [Route("api/timingbills")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult TimingBills(int flag)
+        public IHttpActionResult TimingBills()
         {
-            WebConfigHelper.WriteAppSetting("IsTimingSettle", flag.ToString());
-            if (flag == 0 && this.timer != null) // 关闭定时器
+            Setting setting = TextHelper.GetSystemConfig();
+            if (!setting.IsTimingSettle && this.timer != null) // 关闭定时器
             {
                 this.timer.Stop();
             }
-            else if (flag == 1)
+            else if (setting.IsTimingSettle)
             {
                 DateTime now = DateTime.Now;
                 DateTime lastDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1);

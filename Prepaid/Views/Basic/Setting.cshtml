@@ -3,7 +3,69 @@
 }
 <script type="text/javascript">
     app.controller('BasicCtrl', function ($scope, $http) {
-        
+        getInfo();
+
+        // 初始化配置信息
+        function getInfo() {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/setting"
+            }).success(function (data, status, headers, config) {
+                if (data != null) {
+                    var notify = data.Notify;
+                    if (notify != undefined && notify != null && notify != "") {
+                        var notifies = notify.split(",");
+                        for (var index in notifies) {
+                            var value = notifies[index];
+                            $("input:checkbox[name='notify'][value='" + value + "']").prop("checked", true);
+                        }
+                    }
+
+                    $scope.IsTimingSettle = data.IsTimingSettle;
+                    $("input:radio[name='IsTimingSettle'][value='" + data.SettleInterval + "']").prop("checked", true);
+                    $scope.IsRechargeSettle = data.IsRechargeSettle
+                    $("input:radio[name='IsRechargeSettle'][value='" + data.RechargeLimitInterval + "']").prop("checked", true);
+                } else {
+                    $scope.IsTimingSettle = true;
+                    $scope.IsRechargeSettle = true;
+                }    
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        // 保存配置信息
+        $scope.save = function () {
+            var notify = "";
+            $("input:checkbox[name='notify']:checked").each(function () {
+                var value = $(this).attr("value");
+                notify += value + ",";
+            });
+            if (notify != "") {
+                notify = notify.substring(0, notify.length - 1);
+            }
+
+            ShowConfirmModal("确定要保存该配置信息吗?", function () {
+                var params = {
+                    "Notify": notify,
+                    "IsTimingSettle": $scope.IsTimingSettle,
+                    "SettleInterval": $("input:radio[name='IsTimingSettle']:checked").attr("value"),
+                    "IsRechargeSettle": $scope.IsRechargeSettle,
+                    "RechargeLimitInterval": $("input:radio[name='IsRechargeSettle']:checked").attr("value")
+                };
+                $http({
+                    method: "post",
+                    withCredentials: true,
+                    url: "../api/setting",
+                    params: params
+                }).success(function (data, status, headers, config) {
+                    ShowTipsModel("配置信息保存成功！");
+                }).error(function (data, status, headers, config) {
+                    ShowErrModal(data, status);
+                });
+            });
+        };
     });
 </script>
 <style>
@@ -19,6 +81,7 @@
     .type-list {
         display:block;
         font-size:18px;
+        margin-left:5px;
         width:150px;
         height:30px;
         line-height:30px;
@@ -61,7 +124,7 @@
         width:50px;
         height:30px;
         border-radius:5px;
-        margin:0 15px;
+        margin-left:5px;
         color:#fff;
         font-size:18px;
     }
@@ -76,38 +139,37 @@
     <div class="setting">
         <span class="type-list">消息通知方式设定</span>
         <div class="select" style="margin-top:45px;">
-            <input type="checkbox" name="name" value=" " />&nbsp;短信
-            <input type="checkbox" name="name" value=" " />&nbsp;邮件
-            <input type="checkbox" name="name" value=" " />&nbsp;微信
-            <input type="checkbox" name="name" value=" " />&nbsp;电话
+            <input type="checkbox" value="0" name="notify"/>&nbsp;短信
+            <input type="checkbox" checked value="1" name="notify" />&nbsp;邮件
+            <input type="checkbox" value="2" name="notify" />&nbsp;微信
+            <input type="checkbox" value="3" name="notify" />&nbsp;电话
         </div>
     </div>
     <div class="setting">
         <span class="type-list">定时结算频率设定</span>
         <div class="checkbox">
-            <input type="checkbox" ng-model="mySelect1" ng-init="mySelect1 = false" name="name" value="" />&nbsp;是否开启定时结算设定
+            <input type="checkbox" ng-model="IsTimingSettle" />&nbsp;是否开启定时结算设定
         </div>
         <div class="select">
-            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;一天
-            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;一周
-            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;半个月
-            <input ng-disabled="!mySelect1" ng-checked="mySelect1" type="radio" name="name1" value=" " />&nbsp;一个月
+            <input ng-disabled="!IsTimingSettle" type="radio" name="IsTimingSettle" value="0" />&nbsp;一天
+            <input ng-disabled="!IsTimingSettle" type="radio" name="IsTimingSettle" value="1" />&nbsp;一周
+            <input ng-disabled="!IsTimingSettle" type="radio" name="IsTimingSettle" value="2" />&nbsp;半个月
+            <input ng-disabled="!IsTimingSettle" type="radio" name="IsTimingSettle" value="3" checked />&nbsp;一个月
         </div>
     </div>
     <div class="setting">
         <span class="type-list">充值频率设定</span>
         <div class="checkbox">
-            <input type="checkbox" ng-model="mySelect2" ng-init="mySelect2 = false" name="name" value=" " />&nbsp;是否开启有效充值时间设定
+            <input type="checkbox" ng-model="IsRechargeSettle"/>&nbsp;是否开启有效充值时间设定
         </div>
         <div class="select">
-            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;1分钟
-            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;3分钟
-            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;5分钟
-            <input ng-disabled="!mySelect2" ng-checked="mySelect2" type="radio" name="name2" value=" " />&nbsp;10分钟
+            <input ng-disabled="!IsRechargeSettle" type="radio" name="IsRechargeSettle" value="1"/>&nbsp;1分钟
+            <input ng-disabled="!IsRechargeSettle" type="radio" name="IsRechargeSettle" value="3"/>&nbsp;3分钟
+            <input ng-disabled="!IsRechargeSettle" type="radio" name="IsRechargeSettle" value="5" checked/>&nbsp;5分钟
+            <input ng-disabled="!IsRechargeSettle" type="radio" name="IsRechargeSettle" value="10"/>&nbsp;10分钟
         </div>
     </div>
     <div class="save">
-        <input class="input-save" type="button" name="name" value="保存" />
-        <input class="input-delete" type="button" name="name" value="取消" />
+        <input class="input-save" type="button" value="保存" ng-click="save()"/>
     </div>
 </div>

@@ -485,4 +485,19 @@ app.controller('layoutCtrl', function ($scope, $http) {
             });
         });
     };
+
+    // 定时结算程序入口
+    function TimingSettle() {
+        $http({
+            method: "post",
+            withCredentials: true,
+            url: "../api/timingbills"
+        }).success(function (data, status, headers, config) {
+            
+        }).error(function (data, status, headers, config) {
+            ShowErrModal(data, status);
+        });
+    }
+
+    TimingSettle();
 });

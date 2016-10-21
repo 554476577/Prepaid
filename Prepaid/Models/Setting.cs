@@ -21,7 +21,11 @@ namespace Prepaid.Models
         /// <summary>
         /// 微信
         /// </summary>
-        Wechat
+        Wechat,
+        /// <summary>
+        /// 电话
+        /// </summary>
+        Phone
     }
 
     /// <summary>
@@ -49,19 +53,16 @@ namespace Prepaid.Models
 
     public class Setting
     {
-        private NotifyMode notifyMode = NotifyMode.Wechat;
+        //private NotifyMode notifyMode = NotifyMode.Wechat;
         private bool isTimingSettle = false;
         private TimingSettleMode settleInterval = TimingSettleMode.Month;
+        private bool isRechargeSettle = false;
         private int rechargeLimitInterval = 5;
 
         /// <summary>
-        /// 通知方式
+        /// 通知方式 0:短信 1:邮件 2:微信 3:电话
         /// </summary>
-        public NotifyMode Notify
-        {
-            get { return notifyMode; }
-            set { notifyMode = value; }
-        }
+        public string Notify { get; set; }
 
         /// <summary>
         /// 是否开启定时结算
@@ -79,6 +80,15 @@ namespace Prepaid.Models
         {
             get { return settleInterval; }
             set { settleInterval = value; }
+        }
+
+        /// <summary>
+        /// 是否开启有效充值时间设定
+        /// </summary>
+        public bool IsRechargeSettle
+        {
+            get { return isRechargeSettle; }
+            set { isRechargeSettle = value; }
         }
 
         /// <summary>

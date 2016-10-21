@@ -212,10 +212,49 @@ namespace Prepaid.Utils
         {
             string text = string.Empty;
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "setting.json");
+            if (!File.Exists(path))
+                return null;
             using (StreamReader reader = new StreamReader(path))
                 text = reader.ReadToEnd();
             var item = JsonConvert.DeserializeObject<Prepaid.Models.Setting>(text);
             return item;
+        }
+
+        /// <summary>
+        /// 消息处理
+        /// </summary>
+        /// <param name="notify"></param>
+        /// <param name="room"></param>
+        /// <param name="money"></param>
+        public static void NotifyProcess(string notify, Prepaid.Models.Room room, string money, string content)
+        {
+            if (string.IsNullOrEmpty(notify))
+                return;
+
+            if (notify.Contains("0"))
+            { // 短信通知
+                if (!string.IsNullOrEmpty(room.Phone))
+                {
+                    string data = string.Format("roomNo:'{0}',realName:'{1}',money:'{2}'", room.RoomNo, room.RealName, money);
+                    data = "{" + data + "}";
+                    SmsHelper.Send(room.Phone, data);
+                }
+            }
+            else if (notify.Contains("1"))
+            { // 邮件通知
+                if (!string.IsNullOrEmpty(room.Email))
+                {
+                    string subject = string.Format("房间:{0}预付费充值邮件提箱", room.RoomNo);
+                    EmailHelper email = new EmailHelper(room.Email, subject, content);
+                    email.Send();
+                }
+            }
+            else if (notify.Contains("2"))
+            {  // 微信通知
+            }
+            else if (notify.Contains("3"))
+            { // 电话通知
+            }
         }
     }
 }

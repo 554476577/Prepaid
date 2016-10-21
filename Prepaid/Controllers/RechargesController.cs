@@ -167,6 +167,20 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
+            // 检测两次充值时间间隔是否过于频繁，防止误充
+            Setting setting = TextHelper.GetSystemConfig();
+            if (setting.IsRechargeSettle)
+            {
+                bool isValid = ChkValidPeriod(recharge.RoomNo, setting.RechargeLimitInterval);
+                if (!isValid)
+                {
+                    string msg = string.Format("两次充值时间间隔不到{0}分钟，请稍后重试!", setting.RechargeLimitInterval);
+                    var errorResult = new Prepaid.Results.InternalServerErrorTextPlainResult(msg, Request);
+                    errorResult.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    return errorResult;
+                }
+            }
+
             Room room = null;
             Log log = new Log();
             AdminSession admin = HttpContext.Current.Session["mySession"] as AdminSession;
@@ -202,23 +216,28 @@ namespace Prepaid.Controllers
             }
             this.logRespository.Add(log);
 
-            // 发送邮件测试
-            if (!string.IsNullOrEmpty(room.Email))
-            {
-                string subject = string.Format("房间:{0}预付费充值邮件提箱", room.RoomNo);
-                EmailHelper email = new EmailHelper(room.Email, subject, log.Content);
-                email.Send();
-            }
-
-            // 发送短信测试
-            if (!string.IsNullOrEmpty(room.Phone))
-            {
-                string data = string.Format("roomNo:'{0}',realName:'{1}',money:'{2}'", room.RoomNo, room.RealName, money);
-                data = "{" + data + "}";
-                SmsHelper.Send(room.Phone, data);
-            }
+            // 消息通知处理
+            TextHelper.NotifyProcess(setting.Notify, room, money, log.Content);
 
             return Ok();
+        }
+
+        /// <summary>
+        /// 检测连续两次充值的时间间隔。
+        /// </summary>
+        /// <param name="roomNo"></param>
+        /// <param name="timeLimit"></param>
+        /// <returns></returns>
+        private bool ChkValidPeriod(string roomNo, int timeLimit)
+        {
+            var result = from item in this.rechargeRespository.GetAll(roomNo, "") orderby item.DateTime descending select item.DateTime;
+            if (result.Count() == 0)
+                return true;
+            DateTime previous = result.First() ?? DateTime.MinValue;
+            TimeSpan span = DateTime.Now - previous;
+            if (span.TotalMinutes < timeLimit)
+                return false;
+            return true;
         }
 
         // DELETE: api/recharges/03b96c82ba5747eba2a5d96ef67837c9

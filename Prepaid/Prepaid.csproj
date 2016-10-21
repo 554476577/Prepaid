@@ -234,7 +234,6 @@
     <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Scripts\utils.js" />
-    <Content Include="setting.xml" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -372,7 +371,7 @@
     <Content Include="Views\DeviceType\Modify.cshtml" />
     <Content Include="Views\Ladder\Add.cshtml" />
     <Content Include="Views\Ladder\Modify.cshtml" />
-    <Content Include="Views\Log\List.cshtml" />
+    <Content Include="Views\Logger\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
