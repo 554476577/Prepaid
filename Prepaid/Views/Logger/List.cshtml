@@ -1,0 +1,179 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".currency-btn").click(function () {
+            $(this).addClass("highLight");
+            $(this).siblings().removeClass("highLight");
+
+            var id = $(this).attr("id");
+            var index = id.substring(6);
+            var div = $("#div" + index);
+            div.show();
+            div.siblings(".div").hide();
+        });
+    });
+
+    app.controller('LogCtrl', function ($scope, $http) {
+        $scope.PageSize = 10;
+     
+        // 获取登录记录
+        var logsParams = {
+            "Type":1,
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getLogsInfos(logsParams, true);
+        //
+        var operationsParams = {
+            "Type":2,
+            "PageIndex": 1,
+            "PageSize": $scope.PageSize
+        };
+        getOperationsInfos(operationsParams, true);
+
+        function getLogsInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/logs",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.LogsItems = data.Items;
+                $scope.LogsRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page3").page('destroy');
+                    $("#page3").page({
+                        total: $scope.LogsRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getLogsInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getLogsInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+
+        function getOperationsInfos(params, isFirstLoadPager) {
+            $http({
+                method: "get",
+                withCredentials: true,
+                url: "../api/logs",
+                params: params
+            }).success(function (data, status, headers, config) {
+                $scope.OperationsItems = data.Items;
+                $scope.OperationsRecordCount = data.RecordCount;
+                if (isFirstLoadPager) {
+                    // 分页数据绑定
+                    $("#page4").page('destroy');
+                    $("#page4").page({
+                        total: $scope.OperationsRecordCount,
+                        pageSize: $scope.PageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: false,
+                        showJump: true,
+                        jumpBtnText: '跳转'
+                    }).on("pageClicked", function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getOperationsInfos(params, false); // 重新绑定数据
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        params.PageIndex = pageIndex + 1;
+                        getOperationsInfos(params, false); // 重新绑定数据
+                    });
+                }
+            }).error(function (data, status, headers, config) {
+                ShowErrModal(data, status);
+            });
+        }
+    });
+</script>
+<div ng-controller="LogCtrl" class="content-div">
+    <div style="margin-bottom:10px;">
+        <input class="highLight currency-btn" id="mesges2" type="button" name="name" value="登录日志" />
+        <input class="currency-btn" id="cutout3" type="button" name="name" value="操作日志" />
+        <div class="input-group search-right">
+            <button class="btn btn-primary btn-top" title="导出报表" ng-click="">
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="div" id="div2" style="display:block;width:100%;">
+        <div class="content-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="10%">用户名</th>
+                        <th width="10%">联系方式</th>
+                        <th width="10%">访问地址</th>
+                        <th width="40%">内容</th>
+                        <th width="10%">通知时间</th>
+                        <th width="10%">备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-cloak ng-repeat="item in LogsItems">
+                        <td style="padding:8px 8px;">{{item.ID}}</td>
+                        <td>{{item.UserName}}</td>
+                        <td>{{item.Phone}}</td>
+                        <td>{{item.ClientAddr}}</td>
+                        <td>{{item.Content}}</td>
+                        <td>{{item.DateTime|date:"yyyy-MM-dd"}}</td>
+                        <td>{{item.Remark}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="width center">
+                <div id="page3" class="m-pagination m-center"></div>
+            </div>
+        </div>
+    </div>
+    <div class="div" id="div3" style="display:none;width:100%;">
+        <div class="content-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="10%">用户名</th>
+                        <th width="10%">联系方式</th>
+                        <th width="10%">访问地址</th>
+                        <th width="40%">内容</th>
+                        <th width="10%">通知时间</th>
+                        <th width="10%">备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-cloak ng-repeat="item in OperationsItems">
+                        <td style="padding:8px 8px;">{{item.ID}}</td>
+                        <td>{{item.UserName}}</td>
+                        <td>{{item.Phone}}</td>
+                        <td>{{item.ClientAddr}}</td>
+                        <td>{{item.Content}}</td>
+                        <td>{{item.DateTime|date:"yyyy-MM-dd"}}</td>
+                        <td>{{item.Remark}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="width center">
+                <div id="page4" class="m-pagination m-center"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -119,7 +119,7 @@ namespace Prepaid.Controllers
         public ActionResult Alarm() { return View(); }
     }
 
-    public class LogController : Controller
+    public class LoggerController : Controller
     {
         public ActionResult List() { return View(); }
     }
