@@ -1,1 +1,1 @@
-{"Notify":"1","IsTimingSettle":true,"SettleInterval":3,"IsRechargeSettle":true,"RechargeLimitInterval":5}
+{"Notify":"0,1","IsTimingSettle":true,"SettleInterval":3,"IsRechargeSettle":true,"RechargeLimitInterval":5}

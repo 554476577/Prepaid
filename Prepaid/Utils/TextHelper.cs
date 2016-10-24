@@ -244,7 +244,7 @@ namespace Prepaid.Utils
             { // 邮件通知
                 if (!string.IsNullOrEmpty(room.Email))
                 {
-                    string subject = string.Format("房间:{0}预付费充值邮件提箱", room.RoomNo);
+                    string subject = string.Format("房间:{0}预付费邮件提箱", room.RoomNo);
                     EmailHelper email = new EmailHelper(room.Email, subject, content);
                     email.Send();
                 }

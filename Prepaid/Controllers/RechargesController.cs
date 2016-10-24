@@ -217,7 +217,8 @@ namespace Prepaid.Controllers
             this.logRespository.Add(log);
 
             // 消息通知处理
-            TextHelper.NotifyProcess(setting.Notify, room, money, log.Content);
+            if (room != null)
+                TextHelper.NotifyProcess(setting.Notify, room, money, log.Content);
 
             return Ok();
         }

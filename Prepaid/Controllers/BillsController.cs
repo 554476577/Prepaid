@@ -26,7 +26,7 @@ namespace Prepaid.Controllers
         ILogRepository logRespository;
 
         public BillsController(
-            IBillRespository billRepository, 
+            IBillRespository billRepository,
             IRoomRespository roomRespository,
             IDeviceRepository deviceRespository,
             ILogRepository logRespository)
@@ -127,7 +127,7 @@ namespace Prepaid.Controllers
             if (errResult != null)
                 return errResult;
 
-            string fileName = string.Format("业主能耗缴费历史账单{0}.xls",DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
+            string fileName = string.Format("业主能耗缴费历史账单{0}.xls", DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
             string[] titles = { "房间编号", "结算批号", "业主姓名","结算时间","设备编号","设备名称", "上次刻度", "结算刻度", 
                                   "单价", "价格", "总费用","账户余额"};
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
@@ -265,7 +265,7 @@ namespace Prepaid.Controllers
             else
                 bills = this.billRepository.GetPrepaidBills(roomNo, buildingNo, floor, realName);
 
-            string fileName = string.Format("业主能耗缴费实时账单({0}).xls",DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
+            string fileName = string.Format("业主能耗缴费实时账单({0}).xls", DateTime.Now.ToString("yyyy-MM-dd[hh-mm-ss]"));
             string[] titles = { "房间编号", "建筑编号", "业主姓名", "设备编号", "设备名称", "上次抄表读数", "当前抄表读数", "单价", 
                                   "价格","总价","账户余额","结算余额" };
             ReportHelper.ExportPrepaidBills(bills, titles, fileName);
@@ -374,6 +374,7 @@ namespace Prepaid.Controllers
             log.Remark = "";
             log.DateTime = DateTime.Now;
 
+            Room room = null;
             string RoomNo = HttpContext.Current.Request.Params["RoomNo"];
             PrepaidBill prepaidBill = this.billRepository.GetPrepaidBills(RoomNo, "", "", "").FirstOrDefault();
             DateTime now = DateTime.Now;
@@ -400,7 +401,7 @@ namespace Prepaid.Controllers
                         this.deviceRespository.Put(device);
                     }
 
-                    Room room = this.roomRespository.GetByID(RoomNo);
+                    room = this.roomRespository.GetByID(RoomNo);
                     room.AccountBalance = prepaidBill.IntBilledBalance;
                     this.roomRespository.Put(room);
 
@@ -413,6 +414,14 @@ namespace Prepaid.Controllers
                 log.Content = string.Format("管理员:{0}对房间:{1}结算失败!", admin.UserName, RoomNo);
             }
             this.logRespository.Add(log);
+
+            // 消息通知
+            if (room != null)
+            {
+                string money = TextHelper.ConvertMoney(prepaidBill.IntSumMoney);
+                Setting setting = TextHelper.GetSystemConfig();
+                TextHelper.NotifyProcess(setting.Notify, room, money, log.Content);
+            }
 
             return Ok();
         }
@@ -503,9 +512,10 @@ namespace Prepaid.Controllers
             string lotNo = TextHelper.GenerateUUID();
             foreach (var prepaidBill in prepaidBills)
             {
-                if (prepaidBill.IntBilledBalance < 0 || prepaidBill.IntSumMoney==0) // 如果余额不够或者没有消耗能源，则不结算
+                if (prepaidBill.IntBilledBalance < 0 || prepaidBill.IntSumMoney == 0) // 如果余额不够或者没有消耗能源，则不结算
                     continue;
 
+                Room room = null;
                 using (TransactionScope ts = new TransactionScope())
                 {
                     foreach (PrepaidDeviceBill item in prepaidBill.PrepaidDeviceBills)
@@ -526,7 +536,7 @@ namespace Prepaid.Controllers
                         this.deviceRespository.Put(device);
                     }
 
-                    Room room = this.roomRespository.GetByID(prepaidBill.RoomNo);
+                    room = this.roomRespository.GetByID(prepaidBill.RoomNo);
                     if (!isAuto)
                         room.AccountBalance = prepaidBill.IntAccountBalance - prepaidBill.IntSumMoney;
                     else
@@ -534,6 +544,19 @@ namespace Prepaid.Controllers
                     this.roomRespository.Put(room);
 
                     ts.Complete(); // 提交事务
+                }
+
+                // 消息通知
+                if (room != null)
+                {
+                    string money = null;
+                    if (!isAuto)
+                        money = TextHelper.ConvertMoney(prepaidBill.IntSumMoney);
+                    else
+                        money = TextHelper.ConvertMoney(prepaidBill.IntSumMoney + prepaidBill.IntManagerFees);
+                    string content = string.Format("对房间:{0}业主姓名:{1}成功结算￥{{2}}元.", room.RoomNo, room.RealName, money);
+                    Setting setting = TextHelper.GetSystemConfig();
+                    TextHelper.NotifyProcess(setting.Notify, room, money, content);
                 }
             }
         }
